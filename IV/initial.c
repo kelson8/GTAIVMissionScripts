@@ -1855,24 +1855,42 @@ void sub_33971()
     return;
 }
 
+// Objects, here are a list of some of them:
+// https://www.se7ensins.com/forums/threads/gtaiv-hash-code-list-object-hash-list.1204310/
 void sub_38346()
 {
     g_U9130[0]._fU0 = 0;
+    // F_Y_PMANHAT_01
     g_U9130[0]._fU4 = 1670568326;
+    // Unknown
     g_U9130[0]._fU8 = -1523915823;
     g_U9130[1]._fU0 = 0;
+    // F_Y_STREET_34
     g_U9130[1]._fU4 = 1872110126;
+    // Unknown
     g_U9130[1]._fU8 = -952185135;
+
     g_U9130[2]._fU0 = 0;
+    // Unknown
     g_U9130[2]._fU4 = -1523915823;
     g_U9130[2]._fU8 = -1780385799;
+    
     g_U9130[3]._fU0 = 0;
+    // F_Y_STREET_34
     g_U9130[3]._fU4 = 1872110126;
+    // F_Y_PMANHAT_01
     g_U9130[3]._fU8 = 1670568326;
+    
     g_U9130[4]._fU0 = 0;
+    
+    // Unknown
     g_U9130[4]._fU4 = -952185135;
+    // F_Y_PMANHAT_01
     g_U9130[4]._fU8 = 1670568326;
+    
     g_U9130[5]._fU0 = 0;
+    
+
     g_U9130[5]._fU4 = -1780385799;
     g_U9130[5]._fU8 = -1523915823;
     return;

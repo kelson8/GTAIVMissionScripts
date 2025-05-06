@@ -2466,6 +2466,7 @@ void sub_28380()
 
 void sub_28447()
 {
+    // This seems to be where all of the game scripts are loaded in at.
     sub_28480( 0, 0, 2, 51, "M_1", 1, 1, 0, "Roman1" );
     sub_28480( 0, 30, 5, 50, "F1BLIPS", 0, 0, 1, "RomanBLIPS" );
     sub_28480( 0, 1, 0, 1, "M_2", 2, 1, 1, "Roman2" );
@@ -2677,6 +2678,7 @@ void sub_28447()
     return;
 }
 
+//-
 // TODO Figure out what this is doing.
 void sub_28480(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8)
 {
@@ -2983,6 +2985,8 @@ void sub_38330()
 
 void sub_38465()
 {
+    // This looks like safe house locations. 
+    // TODO Can I load into these in GTA Connected?
     sub_38527( 0, 898.76680000, -504.96840000, 13.98010000, 892.43790000, -499.80470000, 18.40230000, 187.95490000, "shitholerm", 0, 29 );
     sub_38527( 1, 594.86690000, 1400.90400000, 9.95780000, 601.44580000, 1409.83600000, 16.53330000, 220.32190000, "bronxsaveroom01", 1, 29 );
     sub_38527( 2, 112.72460000, 847.03180000, 13.71100000, 99.21670000, 851.68190000, 44.04590000, 89.84290000, "loftrm1", 2, 29 );
@@ -3058,6 +3062,7 @@ void sub_39330()
     return;
 }
 
+// TODO What are these, possibly stunt jumps?
 void sub_39511()
 {
     sub_39541( 0, 1190.67200000, 379.45310000, 23.00740000, 8, 11, 22, 2, 0 );
@@ -3299,6 +3304,7 @@ int sub_42313(unknown uParam0)
     return 0;
 }
 
+// Change the clothes store blips
 void sub_42579(unknown uParam0)
 {
     if (DOES_BLIP_EXIST( g_U10324[uParam0]._fU32 ))
@@ -3424,6 +3430,7 @@ void sub_42808()
     return;
 }
 
+// Toggle blip as short range
 void sub_42853(unknown uParam0, boolean bParam1)
 {
     if (bParam1)
