@@ -22,11 +22,20 @@ List of keybinds: https://gtamods.com/wiki/Key_Codes_(GTA_IV)
 <details>
 <summary> Animation natives: </summary>
 
+https://gtamods.com/wiki/TASK_PLAY_ANIM
+
+
 I need to figure out what these are accepting, the number values anyways
 
-1. HAVE_ANIMS_LOADED
-2. TASK_PLAY_ANIM( 0, "idle_lookaround_b", "missemergencycall", 8.00000000, 0, 0, 0, 0, -2 ) - Taken from sub_15140() in emergencycall.c {int unknown, string animation, string animationGroup, float possiblyTime?, int unknown, int unknown, int unknown, int unknown, int unknown}
-3. TASK_PLAY_ANIM_SECONDARY_UPPER_BODY
+
+1. REQUEST_ANIMS(char animName) - Example: REQUEST_ANIMS("amb@park_taichi_a"), request the animation
+2. HAVE_ANIMS_LOADED(char animName) - Example: "amb@park_taichi_a", Check if the animation has loaded, use in a loop like this: "while(!(HAVE_ANIMS_LOADED(char animName))) WAIT (0);"
+3. TASK_PLAY_ANIM(int charHandle, char animationID, char animationSet, float speed, bool loop, float x, float y, float z, int miliseconds)
+Example: TASK_PLAY_ANIM( 0, "idle_lookaround_b", "missemergencycall", 8.00000000, 0, 0, 0, 0, -2 ) - Taken from sub_15140() in emergencycall.c 
+4. TASK_PLAY_ANIM_WITH_FLAGS(int playerChar, char animgroup?, char animName, float unknown1, int unknown2, int unknown3)
+Example: TASK_PLAY_ANIM_WITH_FLAGS(pPlayer,"taichi01","amb@park_taichi_a",8.0,99999,1);
+
+7. TASK_PLAY_ANIM_SECONDARY_UPPER_BODY
 
 </details>
 
@@ -88,9 +97,74 @@ I found most of these in ambbeggar.c under sub_2220
 <details>
 <summary> Char natives: </summary>
 
-1. CREATE_CHAR
-2. SET_CHAR_PROOFS(bool ...)
-3. SET_PLAYER_MOOD_PISSED_OFF(int playerId, int unknown) - Seems to make Niko angry, the unknown int is usually 150 in the scripts.
+Some of these below need labeled, I copied most natives that had a description from the native website.
+
+CREATE_CHAR ped types: https://gtamods.com/wiki/Ped_type
+CREATE_CHAR model hashes: https://gtamods.com/wiki/List_of_models_hashes#Peds
+
+
+1. CREATE_CHAR(int pedType, int pedHash, posX, posY, posZ, int &pedHandle, int unknown {always set to 1}) - Create a char with the specified ped type, ped hash, and coords, store to pedHandle.
+2. SET_CHAR_PROOFS(int charHandle, int bulletProof, int fireProof, int explosionProof, int collisionProof, int meleeProof) - Enable/Disable char proofs, 1 for enabled, 0 for disabled.
+3. DOES_CHAR_EXIST(int charHandle) - Check if a character exists
+4. SET_CHAR_ACCURACY(int charHandle, int charAccuracy) - Set the chars accuracy
+5. SET_CHAR_AMMO(int charHandle, int weaponHandle, int ammoAmount) - Set the amount of ammo for the char.
+6. SET_CHAR_AS_ENEMY(int charHandle, int toggle) - Set the specified player as an enemy, use 1 for enabled, 0 for disabled.
+7. SET_CHAR_AS_MISSION_CHAR(int charHandle) - Make the char a mission char, they shouldn't despawn, pretty much the opposite of MARK_CHAR_AS_NO_LONGER_NEEDED.
+8. SET_CHAR_BLEEDING(int pedHandle, int toggle) - Toggle the char bleeding, use 1 for enabled, 0 for disabled.
+9. SET_CHAR_CAN_BE_KNOCKED_OFF_BIKE(int charHandle, int toggle) - Toggle the char being able to fall off the bike, 1 is enabled (won't fall off bike), 0 is disabled (will fall off bike).
+10. SET_CHAR_CAN_BE_SHOT_IN_VEHICLE(int charHandle, int toggle) - Toggle the char being able to be shot in a vehicle, 1 is enabled, 0 is disabled.
+11. SET_CHAR_CANT_BE_DRAGGED_OUT(int charHandle. int toggle) - This function sets if the character can be dragged out of a vehicle, 1 is enabled, 0 is disabled. 
+12. SET_CHAR_COLLISION
+13. SET_CHAR_COMPONENT_VARIATION
+14. SET_CHAR_COORDINATES
+15. SET_CHAR_COORDINATES_DONT_WARP_GANG
+16. SET_CHAR_COORDINATES_NO_OFFSET
+17. SET_CHAR_DIES_INSTANTLY_IN_WATER
+18. SET_CHAR_DROPS_WEAPONS_WHEN_DEAD
+19. SET_CHAR_DROWNS_IN_SINKING_VEHICLE
+20. SET_CHAR_DROWNS_IN_WATER
+21. SET_CHAR_DRUGGED_UP
+22. SET_CHAR_DUCKING
+23. SET_CHAR_FIRE_DAMAGE_MULTIPLIER
+24. SET_CHAR_GRAVITY
+25. SET_CHAR_HAS_BEEN_CREATED_IN_INTERIOR
+26. SET_CHAR_HEADING
+27. SET_CHAR_HEALTH
+28. SET_CHAR_INVINCIBLE
+29. SET_CHAR_IS_TARGET_PRIORITY
+30. SET_CHAR_KEEP_TASK
+31. SET_CHAR_MAX_HEALTH
+32. SET_CHAR_MONEY
+33. SET_CHAR_MOVE_ANIM_SPEED_MULTIPLIER
+34. SET_CHAR_NAME_DEBUG
+35. SET_CHAR_NEVER_LEAVES_GROUP
+36. SET_CHAR_PROOFS
+37. SET_CHAR_PROP_INDEX
+38. SET_CHAR_PROVIDE_COVERING_FIRE
+39. SET_CHAR_RANDOM_COMPONENT_VARIATION
+40. SET_CHAR_READY_TO_BE_EXECUTED
+
+</details>
+
+<details>
+<summary> Char natives 2: </summary>
+
+Most of these below need labeled, I copied most natives that had a description from the native website.
+
+1. SET_CHAR_RELATIONSHIP_GROUP
+2. SET_CHAR_SHOOT_RATE
+3. SET_CHAR_SIGNAL_AFTER_KILL
+4. SET_CHAR_SPHERE_DEFENSIVE_AREA
+5. SET_CHAR_SUFFERS_CRITICAL_HITS
+6. SET_CHAR_VELOCITY
+7. SET_CHAR_VISIBLE
+8. SET_CHAR_WANTED_BY_POLICE
+9. SET_CHAR_WEAPON_SKILL
+10. SET_CHAR_WILL_DO_DRIVEBYS
+11. SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN
+12. SET_CHAR_WILL_LEAVE_CAR_IN_COMBAT
+13. SET_CHAR_WILL_MOVE_WHEN_INJURED
+14. SET_CHAR_WILL_ONLY_FIRE_WITH_CLEAR_LOS
 
 </details>
 
@@ -99,7 +173,7 @@ I found most of these in ambbeggar.c under sub_2220
 
 1. HAS_DEATHARREST_EXECUTED - If the player has been wasted/busted
 2. SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN (int playerChar, int toggle) - Set the playerChar to fly through the windshield, set to 1 for enabled, set to 0 for disabled.
-3. SET_PLAYER_MOOD_PISSED_OFF
+3. SET_PLAYER_MOOD_PISSED_OFF(int playerId, int unknown) - Seems to make Niko angry, the unknown int is usually 150 in the scripts.
 
 </details>
 
@@ -152,6 +226,8 @@ Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mea
 12. SET_CAR_ONLY_DAMAGED_BY_PLAYER(int vehicleHandle, int toggle) - Toggle the vehicle to only be damaged by the player, 1 is on 0 is off.
 13. SET_CAR_COORDINATES(int vehicleHandle, float vehicleX, float vehicleY, float vehicleZ) - Set the cars coordinates
 14. SET_CAR_HEADING(int vehicleHandle, float heading) - Set the cars heading.
+15. DELETE_CAR(int &vehicleHandle) - Delete the specified vehicle
+16. MARK_CAR_AS_NO_LONGER_NEEDED(int &vehicleHandle) - Mark the specified vehicle as no longer needed, cleanup for game.
 
 </details>
 
@@ -162,6 +238,20 @@ Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mea
 2. LOCATE_CAR_3D(int vehicleHandle, float locationX1, float locationY1, float locationZ1, float locationX2, float locationY2, float locationZ3, int unknown {seems to always be 0})
 
 </details>
+
+<details>
+<summary> Player vehicle natives: </summary>
+
+Store the players car, store the vehicle in the variable like this, making a blank variable: int vehicleHandle;
+* GET_CAR_CHAR_IS_USING(int playerHandle, int &vehicleHandle)
+
+Check if char is in any car
+* IS_CHAR_IN_ANY_CAR(int playerChar)
+
+
+
+</details>
+
 
 <details>
 <summary> In game internet natives: </summary>
