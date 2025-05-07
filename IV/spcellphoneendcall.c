@@ -84,7 +84,7 @@ int sub_262(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
 {
     int I;
 
-    if (g_U91._fU540)
+    if (cellphone3Dstructure._fU540)
     {
         return 0;
     }
@@ -123,55 +123,55 @@ int sub_262(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         {
             return 0;
         }
-        g_U91._fU60 = uParam0;
-        g_U91._fU48 = 1;
-        g_U15946[g_U91._fU60]._fU132._fU24 = 0;
+        cellphone3Dstructure._fU60 = uParam0;
+        cellphone3Dstructure._fU48 = 1;
+        g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
         case 1:
-        if (g_U91._fU368)
+        if (cellphone3Dstructure._fU368)
         {
-            if ((NOT bParam8) || (g_U91._fU372))
+            if ((NOT bParam8) || (cellphone3Dstructure._fU372))
             {
                 sub_332( "\n cellphone3Dstructure.missionAnsweredPhone OR (NOT missionCall)" );
                 return 0;
             }
         }
-        if (g_U91._fU60 != -1)
+        if (cellphone3Dstructure._fU60 != -1)
         {
-            if ((g_U15946[g_U91._fU60]._fU132._fU24 != 4) AND (g_U15946[g_U91._fU60]._fU132._fU24 != 5))
+            if ((g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 != 4) AND (g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 != 5))
             {
-                g_U15946[g_U91._fU60]._fU132._fU24 = 0;
+                g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
             }
         }
-        g_U91._fU368 = 1;
-        g_U91._fU372 = bParam8;
-        uParam0 = g_U91._fU60;
+        cellphone3Dstructure._fU368 = 1;
+        cellphone3Dstructure._fU372 = bParam8;
+        uParam0 = cellphone3Dstructure._fU60;
         break;
         case 2:
         if ((NOT bParam11) AND (NOT sub_851()))
         {
             return 0;
         }
-        g_U91._fU60 = uParam0;
-        g_U91._fU52 = 1;
-        g_U91._fU56 = 1;
-        g_U91._fU372 = 1;
-        g_U91._fU368 = 1;
-        g_U15946[g_U91._fU60]._fU132._fU24 = 0;
+        cellphone3Dstructure._fU60 = uParam0;
+        cellphone3Dstructure._fU52 = 1;
+        cellphone3Dstructure._fU56 = 1;
+        cellphone3Dstructure._fU372 = 1;
+        cellphone3Dstructure._fU368 = 1;
+        g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
     }
     if (IS_SCRIPTED_CONVERSATION_ONGOING())
     {
         ABORT_SCRIPTED_CONVERSATION( 0 );
     }
-    sub_2223( uParam0, ref g_U91._fU176 );
-    sub_3604( ref g_U91._fU160 );
-    g_U91._fU380 = uParam10;
-    g_U91._fU376 = bParam11;
-    g_U91._fU420 = uParam12;
-    g_U91._fU424 = -1;
-    g_U91._fU364 = uParam3;
-    StrCopy( ref g_U91._fU144, uParam2, 16 );
+    sub_2223( uParam0, ref cellphone3Dstructure._fU176 );
+    sub_3604( ref cellphone3Dstructure._fU160 );
+    cellphone3Dstructure._fU380 = uParam10;
+    cellphone3Dstructure._fU376 = bParam11;
+    cellphone3Dstructure._fU420 = uParam12;
+    cellphone3Dstructure._fU424 = -1;
+    cellphone3Dstructure._fU364 = uParam3;
+    StrCopy( ref cellphone3Dstructure._fU144, uParam2, 16 );
     for ( I = 0; I <= (g_U8499 - 1); I++ )
     {
         StrCopy( ref g_U8499[I], "END", 16 );
@@ -181,32 +181,32 @@ int sub_262(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         g_U8499[I] = {(uParam1^)[I]};
         sub_3844( "\n Telling phone we want to play these labels ", ref (uParam1^)[I] );
     }
-    for ( I = 0; I <= (g_U91._fU260 - 1); I++ )
+    for ( I = 0; I <= (cellphone3Dstructure._fU260 - 1); I++ )
     {
         if (I < (uParam4^))
         {
-            g_U91._fU260[I] = {(uParam4^)[I]};
+            cellphone3Dstructure._fU260[I] = {(uParam4^)[I]};
         }
         else
         {
-            StrCopy( ref g_U91._fU260[I], "", 16 );
+            StrCopy( ref cellphone3Dstructure._fU260[I], "", 16 );
         }
     }
-    for ( I = 0; I <= (g_U91._fU312 - 1); I++ )
+    for ( I = 0; I <= (cellphone3Dstructure._fU312 - 1); I++ )
     {
         if (I < (uParam5^))
         {
-            g_U91._fU312[I] = {(uParam5^)[I]};
+            cellphone3Dstructure._fU312[I] = {(uParam5^)[I]};
         }
         else
         {
-            StrCopy( ref g_U91._fU312[I], "", 16 );
+            StrCopy( ref cellphone3Dstructure._fU312[I], "", 16 );
         }
     }
-    StrCopy( ref g_U91._fU208, uParam6, 16 );
-    g_U91._fU80 = uParam7;
-    g_U91._fU384 = 0;
-    g_U91._fU532 = uParam13;
+    StrCopy( ref cellphone3Dstructure._fU208, uParam6, 16 );
+    cellphone3Dstructure._fU80 = uParam7;
+    cellphone3Dstructure._fU384 = 0;
+    cellphone3Dstructure._fU532 = uParam13;
     g_U8394 = 4;
     return 1;
 }
@@ -231,11 +231,11 @@ void sub_519()
 
 int sub_851()
 {
-    if ((g_U91._fU52) || (g_U91._fU48))
+    if ((cellphone3Dstructure._fU52) || (cellphone3Dstructure._fU48))
     {
         return 0;
     }
-    if (g_U91._fU40 == 0)
+    if (cellphone3Dstructure._fU40 == 0)
     {
         return 0;
     }
@@ -266,12 +266,12 @@ int sub_908()
         sub_332( "\n PHONE SCREEN CHECK - player has been summoned into another session." );
         return 0;
     }
-    if (g_U91._fU376)
+    if (cellphone3Dstructure._fU376)
     {
         sub_332( "\n PHONE CHECK - .cellphone3Dstructure.overrideCellphoneChecks is returning TRUE" );
         return 1;
     }
-    if ((g_U91._fU104) || (g_U91._fU100))
+    if ((cellphone3Dstructure._fU104) || (cellphone3Dstructure._fU100))
     {
         sub_332( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
@@ -487,9 +487,9 @@ int sub_4186(boolean bParam0)
 {
     unknown uVar3;
 
-    if (g_U91._fU60 != -1)
+    if (cellphone3Dstructure._fU60 != -1)
     {
-        switch (g_U15946[g_U91._fU60]._fU132._fU24)
+        switch (g_U15946[cellphone3Dstructure._fU60]._fU132._fU24)
         {
             case 0:
             case 3:
@@ -498,7 +498,7 @@ int sub_4186(boolean bParam0)
             return 0;
             break;
             default:
-            if (g_U91._fU0 != 1000)
+            if (cellphone3Dstructure._fU0 != 1000)
             {
                 return 0;
             }
