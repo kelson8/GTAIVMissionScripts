@@ -77,11 +77,23 @@ This one is incomplete, I will need to figure out how to use the C# tool for deb
 2. DO_SCREEN_FADE_OUT(int time) - Set the screen to fade out, the time is in miliseconds.
 
 ### Vehicle natives:
-1. CREATE_CAR
-2. SET_CAR_PROOFS 
+Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mean to find it in there but it'll work on IV also.
+
+1. CREATE_CAR(Hash carModelHash, float vehicleX, float vehicleY, float vehicleZ, int carHandle, int unknown {usually 1}) - Create a vehicle with the model hash at the specific coordinates.
+2. SET_CAR_PROOFS(int carHandle, bool bulletProof, bool fireProof, bool explosionProof, bool collisionProof, bool meleeProof) - Can set the car to invincible with all enabled, or turn it off.
 3. SET_VEH_HAS_STRONG_AXLES (vehicle veh, int toggle) - Set the vehicle to have strong axles, 1 for enabled, 0 for disabled.
 4. SET_CAR_AS_MISSION_CAR (vehicle CarToSet) - Set a vehicle as a mission car
 5. SWITCH_CAR_SIREN(Vehicle vehicleToSwitch, int toggle) - This can turn the car sirens on/off, use 1 for enabled, 0 for disabled.
+6. FORCE_CAR_LIGHTS(Vehicle emergencyVehicle, int value) - This seems to turn on/off the vehicle lights, possible values are 0, 1, and 2, I think 0 is off, 1 is low beams, and 2 is high beams, I could be wrong though.
+7. LOCK_CAR_DOORS(Vehicle vehicleToLock, int toggle) - This can lock the vehicle doors, 1 is enabled and doors are locked, 0 is disabled and doors are unlocked.
+8. CHANGE_CAR_COLOUR(int vehicleHandle, int color1, int color2) - Change the vehicles colors.
+9. SET_EXTRA_CAR_COLOURS(int vehicleHandle, int color1, int color2) - Change the vehicles extra colors.
+10. TURN_OFF_VEHICLE_EXTRA
+11. SET_CAR_ON_GROUND_PROPERLY(int vehicleHandle) - Set the vehicle to be on the ground.
+12. SET_CAR_ONLY_DAMAGED_BY_PLAYER(int vehicleHandle, int toggle) - Toggle the vehicle to only be damaged by the player, 1 is on 0 is off.
+13. SET_CAR_COORDINATES(int vehicleHandle, float vehicleX, float vehicleY, float vehicleZ) - Set the cars coordinates
+14. SET_CAR_HEADING(int vehicleHandle, float heading) - Set the cars heading.
+
 
 # World natives:
 
@@ -92,6 +104,6 @@ Some of these were taken from "void sub_8827()" in vlad4.c
 3. OVERRIDE_NUMBER_OF_PARKED_CARS(int toggle) -- Toggle parked cars on/off, 0 is off, 1 is on.
 4. SWITCH_GARBAGE_TRUCKS(int toggle) -- Toggle garbage trucks on/off, 0 is off, 1 is on.
 5. ALLOW_EMERGENCY_SERVICES(int toggle) -- Toggle emergency service vehicles on/off, 0 is off, 1 is on.
-6. SET_CAR_DENSITY_MULTIPLIER(float value) - Set the car density
+6. SET_CAR_DENSITY_MULTIPLIER(float value) - Set the car density, from 0.0 to 1.0 being the max
 
 7. SET_PED_DENSITY_MULTIPLIER(float value) - Set the ped density, from 0.0 to 1.0 being the max
