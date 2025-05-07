@@ -1,3 +1,25 @@
+// kelson8 -
+// I have renamed some variables in here and guessed what some of these functions do.
+// Now it has IvanPed, and IvanCar variables
+// These names are not original, just something that I came up with and guessed
+
+// Original values (decompiled and renamed):
+// Variables
+// l_U2482 = IvanCar
+// l_U2250 = IvanPed
+// l_U2176 = MissionSwitch
+// l_U2484 = RomanGarageBlip
+// l_U2228 = IvanHealth
+
+// Functions:
+// sub_7813 = SetIvanCarInvincible
+
+// TODO Figure out what this value is: l_U2180
+// Usage: 
+//  l_U2180[MissionSwitch] == 0 - To check
+//  l_U2180[MissionSwitch] = 1 - To set
+//  l_U2180[MissionSwitch]++ - To increment
+
 void main()
 {
     l_U4 = 0;
@@ -165,7 +187,8 @@ void main()
     while (l_U2179)
     {
         // Switch for what part of the mission is going on.
-        switch (l_U2176)
+        // l_U2176 = MissionSwitch
+        switch (MissionSwitch)
         {
             case 0:
             // Start the cutscenes and setup some of the mission.
@@ -176,6 +199,7 @@ void main()
             sub_6797();
             break;
             case 2:
+            // Happens after Niko goes to Roman's garage, setup chase sequence
             sub_21735();
             break;
             case 3:
@@ -789,7 +813,7 @@ void sub_4651()
 {
     int I;
 
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
         if (g_U9893._fU24)
         {
@@ -913,9 +937,9 @@ void sub_4651()
         
         // Fade the screen in
         DO_SCREEN_FADE_IN( 500 );
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
-    l_U2176++;
+    MissionSwitch++;
     return;
 }
 
@@ -1052,13 +1076,14 @@ void sub_6797()
     unknown uVar2;
     unknown uVar3;
 
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
-        ADD_BLIP_FOR_COORD( 820.19050000, -264.48110000, 15.33780000, ref l_U2484 );
-        SET_ROUTE( l_U2484, 1 );
+        // l_U2484 = RomanGarageBlip
+        ADD_BLIP_FOR_COORD( 820.19050000, -264.48110000, 15.33780000, ref RomanGarageBlip );
+        SET_ROUTE( RomanGarageBlip, 1 );
         // Go to Roman's garage
         PRINT_NOW( "VLA4A_01", 7500, 1 );
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
     if ((l_U2091[0] == 0) AND (LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 820.19050000, -264.48110000, 165.00000000, 165.50000000, 0 )))
     {
@@ -1095,6 +1120,7 @@ void sub_6797()
         l_U2091[0] = 1;
     }
 
+    // TODO Figure out what this part is doing.
     if ((l_U2091[3] == 0) AND (LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 836.96340000, -403.96730000, 40.00000000, 180.50000000, 0 )))
     {
         GET_RANDOM_CAR_MODEL_IN_MEMORY( 1, ref uVar3, ref uVar2 );
@@ -1130,13 +1156,14 @@ void sub_6797()
         SET_VEH_HAS_STRONG_AXLES( l_U2234, 1 );
     }
     SWITCH_ROADS_OFF( 804.11170000, -381.11840000, 1.00000000, 824.11170000, -301.11840000, 21.00000000 );
-    sub_7813();
+    SetIvanCarInvincible();
+
     if ((NOT (IS_CAR_DEAD( IvanCar ))) AND (l_U2091[0] == 1))
     {
         if ((HAS_CAR_BEEN_DAMAGED_BY_CHAR( IvanCar, PlayerChar )) || (((sub_8216( PlayerChar, IvanPed, 1 )) < 8.00000000) || ((LOCATE_CHAR_ANY_MEANS_3D( PlayerChar, 817.44650000, -294.02660000, 15.49630000, 2.50000000, 2.40000000, 1.50000000, 0 )) || (LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 834.11170000, -340.11840000, 11.00000000, 20.00000000, 0 )))))
         {
             l_U2221 = 0;
-            REMOVE_BLIP( l_U2484 );
+            REMOVE_BLIP( RomanGarageBlip );
             if ((NOT (IS_CAR_DEAD( IvanCar ))) AND (NOT (IS_CHAR_DEAD( IvanPed ))))
             {
                 ADD_BLIP_FOR_CHAR( IvanPed, ref l_U2485 );
@@ -1152,15 +1179,16 @@ void sub_6797()
                 START_PLAYBACK_RECORDED_CAR( IvanCar, 708 );
             }
             CurrentPositionInRecording = 900.00000000;
-            l_U2176++;
+            MissionSwitch++;
             sub_17418();
         }
+
         if (l_U2091[0] == 1)
         {
             if (((sub_17753( PlayerChar, 814.03540000, -269.81020000, 15.34270000 )) < 8.00000000) || ((LOCATE_CHAR_ANY_MEANS_3D( PlayerChar, 823.32060000, -274.76620000, 15.34690000, 1.50000000, 3.00000000, 3.00000000, 0 )) || ((LOCATE_CHAR_ANY_MEANS_3D( PlayerChar, 814.99680000, -244.41490000, 15.18060000, 3.50000000, 12.00000000, 6.00000000, 0 )) || ((LOCATE_CHAR_ANY_MEANS_3D( PlayerChar, 871.51570000, -287.71920000, 17.05500000, 23.00000000, 31.00000000, 20.00000000, 0 )) || ((LOCATE_CHAR_ANY_MEANS_3D( PlayerChar, 850.26240000, -244.51680000, 15.79550000, 4.00000000, 12.00000000, 3.00000000, 0 )) || ((LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 811.08870000, -258.63010000, 3.50000000, 3.50000000, 0 )) || (LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 820.64900000, -245.94270000, 3.00000000, 11.00000000, 0 ))))))))
             {
                 l_U2221 = 1;
-                REMOVE_BLIP( l_U2484 );
+                REMOVE_BLIP( RomanGarageBlip );
                 if ((NOT (IS_CAR_DEAD( IvanCar ))) AND (NOT (IS_CHAR_DEAD( IvanPed ))))
                 {
                     ADD_BLIP_FOR_CHAR( IvanPed, ref l_U2485 );
@@ -1184,7 +1212,7 @@ void sub_6797()
                     MARK_CAR_AS_NO_LONGER_NEEDED( ref l_U2235 );
                     START_PLAYBACK_RECORDED_CAR( IvanCar, 709 );
                 }
-                l_U2176++;
+                MissionSwitch++;
                 sub_17418();
             }
         }
@@ -1195,7 +1223,8 @@ void sub_6797()
 // Possibly get the health for Ivan's car
 // Looks like it always repairs the car if it gets below 400 health.
 // Also sets the engine health to 400, and the car proofs to all enabled.
-void sub_7813()
+// sub_7813 = SetIvanCarInvincible
+void SetIvanCarInvincible()
 {
     int iVar2;
     unknown uVar3;
@@ -1267,6 +1296,7 @@ void sub_8216(unknown uParam0, unknown uParam1, int iParam2)
 // I think this is the full chase coordinates list.
 void sub_8475()
 {
+    // l_U1488, l_U1699, and l_U1820 seems to be the chase coordinate list
     sub_8486( 0, 1 );
     l_U1488[0] = {893.37080000, -246.94610000, 18.44130000};
 
@@ -2318,7 +2348,7 @@ void sub_17933()
 // Happens after Niko goes to Roman's garage, setup chase sequence
 void sub_21735()
 {
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
         STOP_PED_SPEAKING( PlayerChar, 0 );
         // Ivan is already making an escape. Chase him
@@ -2331,7 +2361,7 @@ void sub_21735()
         GET_GAME_TIMER( ref l_U2242 );
         
         SETTIMERA( 0 );
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
     if ((l_U2091[1] == 0) AND ((TIMERA() > 7500) AND (NOT IS_MESSAGE_BEING_DISPLAYED())))
     {
@@ -2372,7 +2402,7 @@ void sub_21735()
         }
         GET_GAME_TIMER( ref l_U2242 );
     }
-    sub_7813();
+    SetIvanCarInvincible();
     if (NOT (IS_CAR_DEAD( IvanCar )))
     {
         if (l_U2199 < 310.00000000)
@@ -2462,7 +2492,7 @@ void sub_21735()
                     sub_3086();
                     SET_CAR_PROOFS( IvanCar, 0, 0, 0, 0, 0 );
                     SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( PlayerChar, 1 );
-                    l_U2176++;
+                    MissionSwitch++;
                 }
             }
         }
@@ -2470,6 +2500,13 @@ void sub_21735()
     return;
 }
 
+// uParam0 seems to be some type of chase sequence or something
+// Values: V4_DEPOT, V4_INCAR, V4_CHASE3, V4_ONFOOT, V4_CHASE2
+// V4_FIND, V4_CHASE, V4_CORNER, V4_HOLD, V4_HELP, V4_PUSH, 
+// V4_FALLS, V4_LIVE
+// uParam1 seems to be unknown for now
+// uParam2 seem to mostly be 8 in the scripts, unknown usage
+// uParam3 seem to mostly be 1 in the scripts, unknown usage
 void sub_21901(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
 {
     return sub_21924( uParam0, ref l_U181.x, uParam1, uParam2, uParam3 );
@@ -2594,6 +2631,8 @@ int sub_22000(int iParam0)
     return 1;
 }
 
+// Looks like it's some left over debug function in use within the scripts
+// Does nothing here though.
 void sub_22077(unknown uParam0)
 {
     return;
@@ -5662,7 +5701,7 @@ void sub_45143(boolean bParam0)
 
 void sub_45509()
 {
-    l_U2176++;
+    MissionSwitch++;
     return;
 }
 
@@ -5675,7 +5714,7 @@ void sub_45543()
     int iVar6;
     unknown uVar7;
 
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
         ALLOW_EMERGENCY_SERVICES( 0 );
         if (DOES_VEHICLE_EXIST( l_U1984[1] ))
@@ -5738,7 +5777,7 @@ void sub_45543()
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1165.75800000, -362.27010000, 39.02080000, 4, 5000, 0.50000000 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1169.11800000, -374.56990000, 39.02080000, 4, 9000, 0.50000000 );
         CLOSE_SEQUENCE_TASK( l_U2495 );
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
     if ((l_U2204 == 0) AND (LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 1175.13900000, -379.40640000, 48.00000000, 48.00000000, 0 )))
     {
@@ -5976,7 +6015,7 @@ void sub_45543()
             TASK_PERFORM_SEQUENCE( IvanPed, l_U2497 );
             UNLOCK_RAGDOLL( IvanPed, 0 );
             SET_CHAR_PROOFS( IvanPed, 0, 0, 0, 0, 0 );
-            l_U2176++;
+            MissionSwitch++;
         }
     }
     return;
@@ -8490,7 +8529,7 @@ void sub_65512()
 
 void sub_66132()
 {
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
         sub_44288( ref l_U2170, 0 );
         sub_66170();
@@ -8512,9 +8551,9 @@ void sub_66132()
         {
             SET_COMBAT_DECISION_MAKER( IvanPed, l_U2490 );
         }
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
-    if ((l_U2180[l_U2176] == 1) AND (sub_66744()))
+    if ((l_U2180[MissionSwitch] == 1) AND (sub_66744()))
     {
         l_U2249 = 1;
     }
@@ -8835,13 +8874,14 @@ void sub_66132()
             FREEZE_CHAR_POSITION( IvanPed, 1 );
             CHANGE_BLIP_DISPLAY( l_U2485, 4 );
             SAY_AMBIENT_SPEECH( IvanPed, "PANIC", 0, 0, 0 );
-            l_U2176++;
+            MissionSwitch++;
             l_U2091[6] = 1;
         }
     }
     return;
 }
 
+// Some type of camera setup
 void sub_66170()
 {
     if (NOT (DOES_CAM_EXIST( l_U2149 )))
@@ -8925,28 +8965,31 @@ void sub_70752()
     unknown uVar6;
     unknown uVar7;
 
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
         PRINT_HELP_FOREVER( "VLAFLASH" );
         SETTIMERA( 0 );
         if (NOT (IS_CHAR_DEAD( IvanPed )))
         {
-            GET_CHAR_HEALTH( IvanPed, ref l_U2228 );
+            // l_U2228 = IvanHealth
+            GET_CHAR_HEALTH( IvanPed, ref IvanHealth );
             SET_CHAR_NEVER_TARGETTED( IvanPed, 1 );
         }
         sub_17418();
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
     if (NOT (IS_CHAR_DEAD( IvanPed )))
     {
         GET_CHAR_HEALTH( IvanPed, ref l_U2506 );
     }
+    // Seems to be getting the blip and game timer, not sure for what though.
     if (sub_70913( ref l_U2485, ref l_U2229 ))
     {
         if (TIMERA() < 12500)
         {
             if (l_U2213 == 0)
             {
+                // Choose Ivan's fate.
                 PRINT_NOW( "VLA4D_05", 500, 1 );
                 l_U2213 = 1;
             }
@@ -9009,7 +9052,7 @@ void sub_70752()
                 }
                 WAIT( 0 );
             }
-            l_U2176++;
+            MissionSwitch++;
             l_U2091[1] = 1;
         }
         if ((NOT (IS_CHAR_IN_AIR( PlayerChar ))) AND ((l_U2091[2] == 0) AND (IS_CONTROL_PRESSED( 0, 62 ))))
@@ -9081,7 +9124,7 @@ void sub_70752()
             }
             sub_50156( 45 );
             sub_21901( "V4_FALLS", ref l_U2170, 8, 1 );
-            l_U2176 = 8;
+            MissionSwitch = 8;
             SETTIMERA( 0 );
             while ((TIMERA() < 10000) AND ((sub_47981( IvanPed )) > 18.00000000))
             {
@@ -9129,7 +9172,7 @@ void sub_70752()
     }
     if (DOES_CHAR_EXIST( IvanPed ))
     {
-        if ((IS_CHAR_ON_FIRE( IvanPed )) || (l_U2506 < l_U2228))
+        if ((IS_CHAR_ON_FIRE( IvanPed )) || (l_U2506 < IvanHealth))
         {
             PRINTSTRING( "you shot ivan!" );
             PRINTNL();
@@ -9175,7 +9218,7 @@ void sub_70752()
             }
             sub_50156( 45 );
             sub_21901( "V4_FALLS", ref l_U2170, 8, 1 );
-            l_U2176 = 8;
+            MissionSwitch = 8;
             SETTIMERA( 0 );
             while ((TIMERA() < 10000) AND ((sub_47981( IvanPed )) > 18.00000000))
             {
@@ -9219,12 +9262,15 @@ void sub_70752()
             l_U2091[2] = 1;
             sub_21901( "V4_FALLS", ref l_U2170, 8, 1 );
             sub_50156( 45 );
-            l_U2176 = 8;
+            MissionSwitch = 8;
         }
     }
     return;
 }
 
+// Seems to be getting the blip and game timer, not sure for what though.
+// uParam0 = MissionBlip
+// uParam1 = GameTimer
 int sub_70913(unknown uParam0, unknown uParam1)
 {
     int iVar4;
@@ -9266,7 +9312,7 @@ void sub_73234(unknown uParam0)
 
 void sub_74819()
 {
-    if (l_U2180[l_U2176] == 0)
+    if (l_U2180[MissionSwitch] == 0)
     {
         sub_17418();
         CLEAR_HELP();
@@ -9307,7 +9353,7 @@ void sub_74819()
         sub_66520( 1 );
         SETTIMERA( 0 );
         DO_SCREEN_FADE_IN( 500 );
-        l_U2180[l_U2176] = 1;
+        l_U2180[MissionSwitch] = 1;
     }
     if (l_U2091[0] == 0)
     {
@@ -9381,7 +9427,7 @@ void sub_74819()
         SET_CHAR_COORDINATES( PlayerChar, 1175.13200000, -491.08990000, 33.20360000 );
         SET_CHAR_HEADING( PlayerChar, 72.00740000 );
         SET_GAME_CAM_HEADING( 0.00000000 );
-        l_U2176++;
+        MissionSwitch++;
         sub_66463( ref l_U2154, 0 );
         sub_66463( ref l_U2152, 0 );
         sub_66520( 0 );

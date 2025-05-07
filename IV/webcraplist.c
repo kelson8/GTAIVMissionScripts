@@ -50,6 +50,9 @@ void main()
     return;
 }
 
+// uParam0 seems to be CREATE_HTML_SCRIPT_OBJECT( "alexLink" ) in this file
+// uParam1 = Possible the section for the html, such as CRAP_ALEX_2, oh this is a GXT entry in gxt.c
+// uParam2 = Seems to be the html website name in game, such as www.craplist.net/womenseekingmen13.html
 void sub_216(unknown uParam0, unknown uParam1, unknown uParam2)
 {
     ADD_TO_HTML_SCRIPT_OBJECT( (uParam0^), "<a href="" );

@@ -8,19 +8,17 @@ List of keybinds: https://gtamods.com/wiki/Key_Codes_(GTA_IV)
 ### Controller natives:
 
 1. SHAKE_PAD (Controller Index, Unknown Intensity, unknown_duration_ms) {https://gtamods.com/wiki/SHAKE_PAD}
-2. 
-3.
 
 ### Sound natives:
 1. SET_VARIABLE_ON_SOUND (unk uVar4, unk String, unk float)
 2. PLAY_SOUND_FRONTEND (unk int, Filename String, Soundset String)
 
 ### Animation natives:
+I need to figure out what these are accepting, the number values anyways
+
 1. HAVE_ANIMS_LOADED
-2. TASK_PLAY_ANIM
+2. TASK_PLAY_ANIM( 0, "idle_lookaround_b", "missemergencycall", 8.00000000, 0, 0, 0, 0, -2 ) - Taken from sub_15140() in emergencycall.c {int unknown, string animation, string animationGroup, float possiblyTime?, int unknown, int unknown, int unknown, int unknown, int unknown}
 3. TASK_PLAY_ANIM_SECONDARY_UPPER_BODY
-4.
-5.
 
 ### Misc task natives:
 I found most of these in ambbeggar.c under sub_2220
@@ -47,24 +45,25 @@ I found most of these in ambbeggar.c under sub_2220
 
 ### Phone natives:
 1. SCRIPT_IS_MOVING_MOBILE_PHONE_OFFSCREEN (unk1? int)
-2. 
 
 ### Language natives:
 1. IS_JAPANESE_VERSION {https://gtamods.com/wiki/Native_function_returning_false}
-2.
-3.
-4.
-5.
 
 ### String natives:
 1. PRINTSTRING (char string) - Print a string to the screen, colors can be used in this. {https://gtamods.com/wiki/GXT#Symbols_and_colors}
 
+### Char natives
+1. CREATE_CHAR
+2. SET_CHAR_PROOFS(bool ...)
+3. SET_PLAYER_MOOD_PISSED_OFF(int playerId, int unknown) - Seems to make Niko angry, the unknown int is usually 150 in the scripts.
+
 ### Player natives
 1. HAS_DEATHARREST_EXECUTED - If the player has been wasted/busted
 2. SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN (int playerChar, int toggle) - Set the playerChar to fly through the windshield, set to 1 for enabled, set to 0 for disabled.
+3. SET_PLAYER_MOOD_PISSED_OFF
 
-Debug natives (Useful if I can get the debug tool with C# working):
-1. 
+### Debug natives:
+This one is incomplete, I will need to figure out how to use the C# tool for debug items
 
 ### Stat natives:
 1. INCREMENT_INT_STAT_NO_MESSAGE (int stat, int valueToIncrement) - Add the specified value to the stat.
@@ -79,7 +78,20 @@ Debug natives (Useful if I can get the debug tool with C# working):
 
 ### Vehicle natives:
 1. CREATE_CAR
-2. SET_CAR_PROOFS
-3. 
-4. SET_VEH_HAS_STRONG_AXLES (vehicle veh, int toggle) - Set the vehicle to have strong axles, 1 for enabled, 0 for disabled.
-5. SET_CAR_AS_MISSION_CAR (vehicle CarToSet) - Set a vehicle as a mission car
+2. SET_CAR_PROOFS 
+3. SET_VEH_HAS_STRONG_AXLES (vehicle veh, int toggle) - Set the vehicle to have strong axles, 1 for enabled, 0 for disabled.
+4. SET_CAR_AS_MISSION_CAR (vehicle CarToSet) - Set a vehicle as a mission car
+5. SWITCH_CAR_SIREN(Vehicle vehicleToSwitch, int toggle) - This can turn the car sirens on/off, use 1 for enabled, 0 for disabled.
+
+# World natives:
+
+Some of these were taken from "void sub_8827()" in vlad4.c
+
+1. ADD_SCENARIO_BLOCKING_AREA( -9999.90000000, -9999.90000000, -9999.90000000, 9999.90000000, 9999.90000000, 9999.90000000 ) - Unsure what this does
+2. SET_CAR_GENERATORS_ACTIVE_IN_AREA( -9999.90000000, -9999.90000000, -9999.90000000, 9999.90000000, 9999.90000000, 9999.90000000, 0 ) - Seems to disable all car generators on the map
+3. OVERRIDE_NUMBER_OF_PARKED_CARS(int toggle) -- Toggle parked cars on/off, 0 is off, 1 is on.
+4. SWITCH_GARBAGE_TRUCKS(int toggle) -- Toggle garbage trucks on/off, 0 is off, 1 is on.
+5. ALLOW_EMERGENCY_SERVICES(int toggle) -- Toggle emergency service vehicles on/off, 0 is off, 1 is on.
+6. SET_CAR_DENSITY_MULTIPLIER(float value) - Set the car density
+
+7. SET_PED_DENSITY_MULTIPLIER(float value) - Set the ped density, from 0.0 to 1.0 being the max

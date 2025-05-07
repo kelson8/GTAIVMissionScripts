@@ -1,3 +1,27 @@
+// kelson8 -
+// I have renamed some variables in here and guessed what some of these functions do.
+
+// This one came from one of the debug lines here: sub_900( "\n cellphone3Dstructure.missionAnsweredPhone OR (NOT missionCall)" );
+
+// g_U91 = cellphone3Dstructure
+
+// Local variables
+// l_U278 = emergencyPed, possibly incorrect
+// This one didn't seem right, I renamed it back.
+// l_U102 = EmergencyCallSwitch, possibly incorrect
+
+// l_U284 = EmergencyPedGroup
+
+// These two are possibly incorrect, but they are timers, unsure of which one is which.
+// l_U133 = CurrentGameTimer
+// l_U134 = NewGameTimer
+
+// _f variables, obtained from some debug strings:
+    // _fU104 = hideCellphone
+    // _fU100 = disableCellphone
+    // _fU376 = overrideCellphoneChecks
+//
+
 void main()
 {
     l_U0 = 0;
@@ -41,6 +65,7 @@ void main()
         WAIT( 0 );
         if (IS_PLAYER_PLAYING( sub_328() ))
         {
+            // l_U102 = l_U102
             switch (l_U102)
             {
                 case 0:
@@ -243,11 +268,11 @@ int sub_490(unknown uParam0)
     {
         return 0;
     }
-    if ((g_U91._fU508 >= 4) AND (g_U91._fU0 == 1005))
+    if ((cellphone3Dstructure._fU508 >= 4) AND (cellphone3Dstructure._fU0 == 1005))
     {
-        if (g_U91._fU60 == 56)
+        if (cellphone3Dstructure._fU60 == 56)
         {
-            return COMPARE_STRING( ref g_U91._fU128, uParam0 );
+            return COMPARE_STRING( ref cellphone3Dstructure._fU128, uParam0 );
         }
     }
     return 0;
@@ -255,9 +280,9 @@ int sub_490(unknown uParam0)
 
 void sub_673(unknown uParam0, unknown uParam1, unknown uParam2)
 {
-    StrCopy( ref g_U91._fU432[0], uParam0, 16 );
-    StrCopy( ref g_U91._fU432[1], uParam1, 16 );
-    StrCopy( ref g_U91._fU432[2], uParam2, 16 );
+    StrCopy( ref cellphone3Dstructure._fU432[0], uParam0, 16 );
+    StrCopy( ref cellphone3Dstructure._fU432[1], uParam1, 16 );
+    StrCopy( ref cellphone3Dstructure._fU432[2], uParam2, 16 );
     return;
 }
 
@@ -283,17 +308,17 @@ int sub_751(unknown uParam0, unknown uParam1, boolean bParam2)
     StrCopy( ref cVar5[0], uParam0, 16 );
     StrCopy( ref cVar5[1], "END", 16 );
     array(ref uVar14, 2);
-    uVar23 = g_U91._fU60;
+    uVar23 = cellphone3Dstructure._fU60;
     if (bParam2)
     {
         return sub_830( uVar23, ref cVar5, uParam1, 0, ref uVar14, ref uVar14, "", 0, bParam2, 1, 1, 0, 1, 0 );
     }
-    if (NOT g_U91._fU368)
+    if (NOT cellphone3Dstructure._fU368)
     {
-        StrCopy( ref g_U91._fU224[0], uParam1, 16 );
-        StrCopy( ref g_U91._fU224[1], uParam0, 16 );
-        sub_2765( uVar23, ref g_U91._fU176 );
-        g_U91._fU368 = 1;
+        StrCopy( ref cellphone3Dstructure._fU224[0], uParam1, 16 );
+        StrCopy( ref cellphone3Dstructure._fU224[1], uParam0, 16 );
+        sub_2765( uVar23, ref cellphone3Dstructure._fU176 );
+        cellphone3Dstructure._fU368 = 1;
         return 1;
     }
     return 0;
@@ -303,7 +328,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
 {
     int I;
 
-    if (g_U91._fU540)
+    if (cellphone3Dstructure._fU540)
     {
         return 0;
     }
@@ -342,55 +367,56 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         {
             return 0;
         }
-        g_U91._fU60 = uParam0;
-        g_U91._fU48 = 1;
-        g_U15946[g_U91._fU60]._fU132._fU24 = 0;
+        cellphone3Dstructure._fU60 = uParam0;
+        cellphone3Dstructure._fU48 = 1;
+        g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
         case 1:
-        if (g_U91._fU368)
+        // g_U91 = cellphone3Dstructure
+        if (cellphone3Dstructure._fU368)
         {
-            if ((NOT bParam8) || (g_U91._fU372))
+            if ((NOT bParam8) || (cellphone3Dstructure._fU372))
             {
                 sub_900( "\n cellphone3Dstructure.missionAnsweredPhone OR (NOT missionCall)" );
                 return 0;
             }
         }
-        if (g_U91._fU60 != -1)
+        if (cellphone3Dstructure._fU60 != -1)
         {
-            if ((g_U15946[g_U91._fU60]._fU132._fU24 != 4) AND (g_U15946[g_U91._fU60]._fU132._fU24 != 5))
+            if ((g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 != 4) AND (g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 != 5))
             {
-                g_U15946[g_U91._fU60]._fU132._fU24 = 0;
+                g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
             }
         }
-        g_U91._fU368 = 1;
-        g_U91._fU372 = bParam8;
-        uParam0 = g_U91._fU60;
+        cellphone3Dstructure._fU368 = 1;
+        cellphone3Dstructure._fU372 = bParam8;
+        uParam0 = cellphone3Dstructure._fU60;
         break;
         case 2:
         if ((NOT bParam11) AND (NOT sub_1393()))
         {
             return 0;
         }
-        g_U91._fU60 = uParam0;
-        g_U91._fU52 = 1;
-        g_U91._fU56 = 1;
-        g_U91._fU372 = 1;
-        g_U91._fU368 = 1;
-        g_U15946[g_U91._fU60]._fU132._fU24 = 0;
+        cellphone3Dstructure._fU60 = uParam0;
+        cellphone3Dstructure._fU52 = 1;
+        cellphone3Dstructure._fU56 = 1;
+        cellphone3Dstructure._fU372 = 1;
+        cellphone3Dstructure._fU368 = 1;
+        g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
     }
     if (IS_SCRIPTED_CONVERSATION_ONGOING())
     {
         ABORT_SCRIPTED_CONVERSATION( 0 );
     }
-    sub_2765( uParam0, ref g_U91._fU176 );
-    sub_4146( ref g_U91._fU160 );
-    g_U91._fU380 = uParam10;
-    g_U91._fU376 = bParam11;
-    g_U91._fU420 = uParam12;
-    g_U91._fU424 = -1;
-    g_U91._fU364 = uParam3;
-    StrCopy( ref g_U91._fU144, uParam2, 16 );
+    sub_2765( uParam0, ref cellphone3Dstructure._fU176 );
+    sub_4146( ref cellphone3Dstructure._fU160 );
+    cellphone3Dstructure._fU380 = uParam10;
+    cellphone3Dstructure._fU376 = bParam11;
+    cellphone3Dstructure._fU420 = uParam12;
+    cellphone3Dstructure._fU424 = -1;
+    cellphone3Dstructure._fU364 = uParam3;
+    StrCopy( ref cellphone3Dstructure._fU144, uParam2, 16 );
     for ( I = 0; I <= (g_U8499 - 1); I++ )
     {
         StrCopy( ref g_U8499[I], "END", 16 );
@@ -400,32 +426,32 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         g_U8499[I] = {(uParam1^)[I]};
         sub_4386( "\n Telling phone we want to play these labels ", ref (uParam1^)[I] );
     }
-    for ( I = 0; I <= (g_U91._fU260 - 1); I++ )
+    for ( I = 0; I <= (cellphone3Dstructure._fU260 - 1); I++ )
     {
         if (I < (uParam4^))
         {
-            g_U91._fU260[I] = {(uParam4^)[I]};
+            cellphone3Dstructure._fU260[I] = {(uParam4^)[I]};
         }
         else
         {
-            StrCopy( ref g_U91._fU260[I], "", 16 );
+            StrCopy( ref cellphone3Dstructure._fU260[I], "", 16 );
         }
     }
-    for ( I = 0; I <= (g_U91._fU312 - 1); I++ )
+    for ( I = 0; I <= (cellphone3Dstructure._fU312 - 1); I++ )
     {
         if (I < (uParam5^))
         {
-            g_U91._fU312[I] = {(uParam5^)[I]};
+            cellphone3Dstructure._fU312[I] = {(uParam5^)[I]};
         }
         else
         {
-            StrCopy( ref g_U91._fU312[I], "", 16 );
+            StrCopy( ref cellphone3Dstructure._fU312[I], "", 16 );
         }
     }
-    StrCopy( ref g_U91._fU208, uParam6, 16 );
-    g_U91._fU80 = uParam7;
-    g_U91._fU384 = 0;
-    g_U91._fU532 = uParam13;
+    StrCopy( ref cellphone3Dstructure._fU208, uParam6, 16 );
+    cellphone3Dstructure._fU80 = uParam7;
+    cellphone3Dstructure._fU384 = 0;
+    cellphone3Dstructure._fU532 = uParam13;
     g_U8394 = 4;
     return 1;
 }
@@ -445,11 +471,11 @@ void sub_1061()
 
 int sub_1393()
 {
-    if ((g_U91._fU52) || (g_U91._fU48))
+    if ((cellphone3Dstructure._fU52) || (cellphone3Dstructure._fU48))
     {
         return 0;
     }
-    if (g_U91._fU40 == 0)
+    if (cellphone3Dstructure._fU40 == 0)
     {
         return 0;
     }
@@ -480,12 +506,15 @@ int sub_1450()
         sub_900( "\n PHONE SCREEN CHECK - player has been summoned into another session." );
         return 0;
     }
-    if (g_U91._fU376)
+    // _fU376 = overrideCellphoneChecks
+    if (cellphone3Dstructure.overrideCellphoneChecks)
     {
         sub_900( "\n PHONE CHECK - .cellphone3Dstructure.overrideCellphoneChecks is returning TRUE" );
         return 1;
     }
-    if ((g_U91._fU104) || (g_U91._fU100))
+    // _fU104 = hideCellphone
+    // _fU100 = disableCellphone
+    if ((cellphone3Dstructure.hideCellphone) || (cellphone3Dstructure.disableCellphone))
     {
         sub_900( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
@@ -719,19 +748,19 @@ int sub_4777(unknown uParam0, unknown uParam1, boolean bParam2)
     StrCopy( ref cVar5[0], uParam0, 16 );
     StrCopy( ref cVar5[1], "END", 16 );
     array(ref uVar14, 2);
-    uVar23 = g_U91._fU60;
+    uVar23 = cellphone3Dstructure._fU60;
     if (NOT (COMPARE_STRING( uParam0, "PLACEHOLDER" )))
     {
         if (bParam2)
         {
             return sub_830( uVar23, ref cVar5, uParam1, 0, ref uVar14, ref uVar14, "", 0, bParam2, 1, 1, 0, 0, 0 );
         }
-        if ((NOT g_U91._fU368) == 1)
+        if ((NOT cellphone3Dstructure._fU368) == 1)
         {
-            StrCopy( ref g_U91._fU224[0], uParam1, 16 );
-            StrCopy( ref g_U91._fU224[1], uParam0, 16 );
-            sub_2765( uVar23, ref g_U91._fU176 );
-            g_U91._fU368 = 1;
+            StrCopy( ref cellphone3Dstructure._fU224[0], uParam1, 16 );
+            StrCopy( ref cellphone3Dstructure._fU224[1], uParam0, 16 );
+            sub_2765( uVar23, ref cellphone3Dstructure._fU176 );
+            cellphone3Dstructure._fU368 = 1;
             return 1;
         }
     }
@@ -754,22 +783,22 @@ void sub_5000(unknown uParam0, unknown uParam1, unknown uParam2)
 
 void sub_5146(unknown uParam0)
 {
-    StrCopy( ref g_U91._fU176, uParam0, 32 );
+    StrCopy( ref cellphone3Dstructure._fU176, uParam0, 32 );
     return;
 }
 
 int sub_5237()
 {
-    if (g_U91._fU60 != -1)
+    if (cellphone3Dstructure._fU60 != -1)
     {
-        return g_U15946[g_U91._fU60]._fU132._fU24;
+        return g_U15946[cellphone3Dstructure._fU60]._fU132._fU24;
     }
     return 6;
 }
 
 void sub_5334()
 {
-    return g_U91._fU424;
+    return cellphone3Dstructure._fU424;
 }
 
 string sub_5668()
@@ -1108,17 +1137,17 @@ int sub_9307(unknown uParam0, unknown uParam1, boolean bParam2)
     unknown uVar14;
 
     array(ref uVar5, 2);
-    uVar14 = g_U91._fU60;
+    uVar14 = cellphone3Dstructure._fU60;
     if (bParam2)
     {
         return sub_830( uVar14, uParam0, uParam1, 0, ref uVar5, ref uVar5, "", 0, bParam2, 1, 1, 0, 0, 0 );
     }
-    if (NOT g_U91._fU368)
+    if (NOT cellphone3Dstructure._fU368)
     {
-        StrCopy( ref g_U91._fU224[0], uParam1, 16 );
-        g_U91._fU224[1] = {(uParam0^)[0]};
-        sub_2765( uVar14, ref g_U91._fU176 );
-        g_U91._fU368 = 1;
+        StrCopy( ref cellphone3Dstructure._fU224[0], uParam1, 16 );
+        cellphone3Dstructure._fU224[1] = {(uParam0^)[0]};
+        sub_2765( uVar14, ref cellphone3Dstructure._fU176 );
+        cellphone3Dstructure._fU368 = 1;
         return 1;
     }
     return 0;
@@ -1126,7 +1155,7 @@ int sub_9307(unknown uParam0, unknown uParam1, boolean bParam2)
 
 int sub_9523()
 {
-    if ((g_U91._fU0 == 1008) || (g_U91._fU0 == 1007))
+    if ((cellphone3Dstructure._fU0 == 1008) || (cellphone3Dstructure._fU0 == 1007))
     {
         return 1;
     }
@@ -1150,6 +1179,8 @@ void sub_9639()
     return;
 }
 
+// Seems to set the l_U105 variable
+// l_U105 seems to increment depending on what part of this switch statement is running.
 void sub_9660()
 {
     GET_CHAR_COORDINATES( sub_1061(), ref l_U115._fU0, ref l_U115._fU4, ref l_U115._fU8 );
@@ -1187,6 +1218,8 @@ void sub_9660()
     return;
 }
 
+// Seems to set the l_U105 variable
+// l_U105 seems to increment depending on what part of this switch statement is running.
 void sub_10011()
 {
     GET_CHAR_COORDINATES( sub_1061(), ref l_U115._fU0, ref l_U115._fU4, ref l_U115._fU8 );
@@ -1194,10 +1227,10 @@ void sub_10011()
     switch (l_U105)
     {
         case 0:
-        if (g_U9149 == 0)
+        if (cellphone3Dstructure49 == 0)
         {
             PRINT_HELP( "EmergenHelp" );
-            g_U9149 = 1;
+            cellphone3Dstructure49 = 1;
         }
         REQUEST_MODEL( l_U263 );
         REQUEST_ANIMS( "missemergencycall" );
@@ -1229,6 +1262,8 @@ void sub_10011()
     return;
 }
 
+// Seems to set the l_U105 variable
+// l_U105 seems to increment depending on what part of this switch statement is running.
 void sub_10403()
 {
     GET_CHAR_COORDINATES( sub_1061(), ref l_U115._fU0, ref l_U115._fU4, ref l_U115._fU8 );
@@ -1322,31 +1357,33 @@ void sub_10752()
             l_U102 = 6;
         }
     }
-    if (DOES_CHAR_EXIST( l_U278 ))
+    // l_U278 = emergencyPed
+    if (DOES_CHAR_EXIST( emergencyPed ))
     {
-        if (NOT (IS_CHAR_DEAD( l_U278 )))
+        // l_U102 here seems to be set when the char is shooting, injured, or they are dead.
+        if (NOT (IS_CHAR_DEAD( emergencyPed )))
         {
-            if (LOCATE_CHAR_ANY_MEANS_CHAR_2D( l_U278, sub_1061(), 30.00000000, 30.00000000, 0 ))
+            if (LOCATE_CHAR_ANY_MEANS_CHAR_2D( emergencyPed, sub_1061(), 30.00000000, 30.00000000, 0 ))
             {
                 if (IS_CHAR_SHOOTING( sub_1061() ))
                 {
                     l_U102 = 6;
                 }
             }
-            if (IS_CHAR_INJURED( l_U278 ))
+            if (IS_CHAR_INJURED( emergencyPed ))
             {
                 l_U102 = 6;
             }
-            if (NOT (IS_CHAR_INJURED( l_U278 )))
+            if (NOT (IS_CHAR_INJURED( emergencyPed )))
             {
-                if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_2D( sub_1061(), l_U278, 150.00000000, 150.00000000, 0 )))
+                if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_2D( sub_1061(), emergencyPed, 150.00000000, 150.00000000, 0 )))
                 {
                     if (l_U102 == 4)
                     {
                         l_U102 = 6;
                     }
                 }
-                if (IS_CHAR_IN_MELEE_COMBAT( l_U278 ))
+                if (IS_CHAR_IN_MELEE_COMBAT( emergencyPed ))
                 {
                     l_U102 = 6;
                 }
@@ -1464,9 +1501,9 @@ void sub_11827()
     {
         DELETE_CHAR( ref l_U277 );
     }
-    if (NOT (IS_CHAR_INJURED( l_U278 )))
+    if (NOT (IS_CHAR_INJURED( emergencyPed )))
     {
-        DELETE_CHAR( ref l_U278 );
+        DELETE_CHAR( ref emergencyPed );
     }
     if (NOT (IS_CHAR_INJURED( l_U279 )))
     {
@@ -1488,9 +1525,9 @@ void sub_11827()
     {
         DELETE_CAR( ref l_U275 );
     }
-    if (DOES_GROUP_EXIST( l_U284 ))
+    if (DOES_GROUP_EXIST( EmergencyPedGroup ))
     {
-        REMOVE_GROUP( l_U284 );
+        REMOVE_GROUP( EmergencyPedGroup );
     }
     return;
 }
@@ -1589,7 +1626,8 @@ void sub_12461()
                     SET_INFORM_RESPECTED_FRIENDS( l_U277, 999, 999 );
                 }
             }
-            GET_GAME_TIMER( ref l_U133 );
+            // l_U133 = CurrentGameTimer
+            GET_GAME_TIMER( ref CurrentGameTimer );
             l_U102 = 3;
         }
         else
@@ -1600,7 +1638,8 @@ void sub_12461()
     }
     else if (l_U103 == 2)
     {
-        if (CREATE_EMERGENCY_SERVICES_CAR_RETURN_DRIVER( l_U263, l_U118._fU0, l_U118._fU4, l_U118._fU8, ref l_U274, ref l_U280, ref l_U278 ))
+        // This might be useful to look at later.
+        if (CREATE_EMERGENCY_SERVICES_CAR_RETURN_DRIVER( l_U263, l_U118._fU0, l_U118._fU4, l_U118._fU8, ref l_U274, ref l_U280, ref emergencyPed ))
         {
             if (IS_VEH_DRIVEABLE( l_U274 ))
             {
@@ -1615,13 +1654,13 @@ void sub_12461()
                     LOCK_CAR_DOORS( l_U274, 1 );
                     sub_12865();
                 }
-                if (NOT (IS_CHAR_INJURED( l_U278 )))
+                if (NOT (IS_CHAR_INJURED( emergencyPed )))
                 {
-                    SET_CHAR_AS_MISSION_CHAR( l_U278 );
-                    SET_LOAD_COLLISION_FOR_CHAR_FLAG( l_U278, 0 );
+                    SET_CHAR_AS_MISSION_CHAR( emergencyPed );
+                    SET_LOAD_COLLISION_FOR_CHAR_FLAG( emergencyPed, 0 );
                 }
             }
-            GET_GAME_TIMER( ref l_U133 );
+            GET_GAME_TIMER( ref CurrentGameTimer );
             l_U102 = 4;
         }
         else
@@ -1653,7 +1692,7 @@ void sub_12461()
                     SET_LOAD_COLLISION_FOR_CHAR_FLAG( l_U279, 0 );
                 }
             }
-            GET_GAME_TIMER( ref l_U133 );
+            GET_GAME_TIMER( ref CurrentGameTimer );
             l_U102 = 5;
         }
         else
@@ -1669,13 +1708,13 @@ void sub_12865()
 {
     if (NOT (IS_CHAR_INJURED( l_U280 )))
     {
-        if (DOES_GROUP_EXIST( l_U284 ))
+        if (DOES_GROUP_EXIST( EmergencyPedGroup ))
         {
-            REMOVE_GROUP( l_U284 );
+            REMOVE_GROUP( EmergencyPedGroup );
         }
-        CREATE_GROUP( 0, ref l_U284, 1 );
-        SET_GROUP_LEADER( l_U284, l_U280 );
-        SET_GROUP_FOLLOW_STATUS( l_U284, 1 );
+        CREATE_GROUP( 0, ref EmergencyPedGroup, 1 );
+        SET_GROUP_LEADER( EmergencyPedGroup, l_U280 );
+        SET_GROUP_FOLLOW_STATUS( EmergencyPedGroup, 1 );
     }
     return;
 }
@@ -1692,9 +1731,10 @@ void sub_13750()
                 {
                     switch (l_U104)
                     {
+                        // l_U134 = NewGameTimer
                         case 0:
-                        GET_GAME_TIMER( ref l_U134 );
-                        l_U135 = l_U134 - l_U133;
+                        GET_GAME_TIMER( ref NewGameTimer );
+                        l_U135 = NewGameTimer - CurrentGameTimer;
                         if (l_U135 > 100000)
                         {
                             sub_13941();
@@ -1747,7 +1787,7 @@ void sub_13750()
                             SWITCH_CAR_SIREN( l_U273, 0 );
                             SET_NEXT_DESIRED_MOVE_STATE( 2 );
                             TASK_ENTER_CAR_AS_PASSENGER( l_U277, l_U273, -2, 0 );
-                            GET_GAME_TIMER( ref l_U133 );
+                            GET_GAME_TIMER( ref CurrentGameTimer );
                             l_U104 = 6;
                         }
                         break;
@@ -1762,13 +1802,13 @@ void sub_13750()
                         }
                         else
                         {
-                            GET_GAME_TIMER( ref l_U134 );
-                            l_U135 = l_U134 - l_U133;
+                            GET_GAME_TIMER( ref NewGameTimer );
+                            l_U135 = NewGameTimer - CurrentGameTimer;
                             if (l_U135 > 50000)
                             {
-                                if (NOT (IS_GROUP_MEMBER( l_U277, l_U284 )))
+                                if (NOT (IS_GROUP_MEMBER( l_U277, EmergencyPedGroup )))
                                 {
-                                    SET_GROUP_MEMBER( l_U284, l_U277 );
+                                    SET_GROUP_MEMBER( EmergencyPedGroup, l_U277 );
                                 }
                                 l_U102 = 6;
                             }
@@ -1790,10 +1830,10 @@ void sub_13941()
         MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U277 );
         l_U277 = nil;
     }
-    if (NOT (IS_CHAR_DEAD( l_U278 )))
+    if (NOT (IS_CHAR_DEAD( emergencyPed )))
     {
-        MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U278 );
-        l_U278 = nil;
+        MARK_CHAR_AS_NO_LONGER_NEEDED( ref emergencyPed );
+        emergencyPed = nil;
     }
     if (NOT (IS_CHAR_DEAD( l_U279 )))
     {
@@ -1829,7 +1869,7 @@ void sub_13941()
 
 void sub_15140()
 {
-    if (NOT (IS_CHAR_INJURED( l_U278 )))
+    if (NOT (IS_CHAR_INJURED( emergencyPed )))
     {
         if (NOT (IS_CHAR_INJURED( l_U280 )))
         {
@@ -1841,8 +1881,8 @@ void sub_15140()
                     switch (l_U104)
                     {
                         case 0:
-                        GET_GAME_TIMER( ref l_U134 );
-                        l_U135 = l_U134 - l_U133;
+                        GET_GAME_TIMER( ref NewGameTimer );
+                        l_U135 = NewGameTimer - CurrentGameTimer;
                         if (l_U135 > 100000)
                         {
                             sub_13941();
@@ -1858,34 +1898,34 @@ void sub_15140()
                         if (l_U128 < 2)
                         {
                             GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U274, 0.00000000, 4.00000000, 0.00000000, ref l_U124._fU0, ref l_U124._fU4, ref l_U124._fU8 );
-                            TASK_LEAVE_CAR( l_U278, l_U274 );
+                            TASK_LEAVE_CAR( emergencyPed, l_U274 );
                             GENERATE_RANDOM_INT_IN_RANGE( 0, 3, ref l_U130 );
                             l_U104 = 2;
                         }
                         break;
                         case 2:
-                        if (NOT (IS_CHAR_IN_CAR( l_U278, l_U274 )))
+                        if (NOT (IS_CHAR_IN_CAR( emergencyPed, l_U274 )))
                         {
                             if (l_U130 == 0)
                             {
-                                SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_ARRIVE_AT_SCENE", "M_Y_PMEDIC_CHINESE", 1, 1, 2 );
+                                SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_ARRIVE_AT_SCENE", "M_Y_PMEDIC_CHINESE", 1, 1, 2 );
                             }
                             else
                             {
-                                SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_ARRIVE_AT_SCENE", "M_Y_PMEDIC_BLACK", 1, 1, 2 );
+                                SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_ARRIVE_AT_SCENE", "M_Y_PMEDIC_BLACK", 1, 1, 2 );
                             }
                             OPEN_SEQUENCE_TASK( ref l_U285 );
                             TASK_FOLLOW_NAV_MESH_TO_COORD( 0, l_U124._fU0, l_U124._fU4, l_U124._fU8, 2, -2, 2.00000000 );
                             TASK_PLAY_ANIM( 0, "idle_lookaround_b", "missemergencycall", 8.00000000, 0, 0, 0, 0, -2 );
                             TASK_PLAY_ANIM( 0, "idle_adjust_hat", "missemergencycall", 8.00000000, 0, 0, 0, 0, -2 );
                             CLOSE_SEQUENCE_TASK( l_U285 );
-                            TASK_PERFORM_SEQUENCE( l_U278, l_U285 );
+                            TASK_PERFORM_SEQUENCE( emergencyPed, l_U285 );
                             CLEAR_SEQUENCE_TASK( l_U285 );
                             l_U104 = 3;
                         }
                         break;
                         case 3:
-                        GET_SCRIPT_TASK_STATUS( l_U278, 29, ref l_U271 );
+                        GET_SCRIPT_TASK_STATUS( emergencyPed, 29, ref l_U271 );
                         if (l_U271 == 7)
                         {
                             l_U104 = 4;
@@ -1894,11 +1934,11 @@ void sub_15140()
                         case 4:
                         if (l_U130 == 0)
                         {
-                            SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_PRANK_CALL", "M_Y_PMEDIC_CHINESE", 1, 1, 0 );
+                            SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_PRANK_CALL", "M_Y_PMEDIC_CHINESE", 1, 1, 0 );
                         }
                         else
                         {
-                            SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_PRANK_CALL", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
+                            SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_PRANK_CALL", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
                         }
                         l_U271 = 0;
                         l_U104 = 5;
@@ -1906,28 +1946,28 @@ void sub_15140()
                         case 5:
                         SWITCH_CAR_SIREN( l_U274, 0 );
                         SET_NEXT_DESIRED_MOVE_STATE( 2 );
-                        TASK_ENTER_CAR_AS_PASSENGER( l_U278, l_U274, -2, 0 );
-                        GET_GAME_TIMER( ref l_U133 );
+                        TASK_ENTER_CAR_AS_PASSENGER( emergencyPed, l_U274, -2, 0 );
+                        GET_GAME_TIMER( ref CurrentGameTimer );
                         l_U104 = 6;
                         break;
                         case 6:
-                        if (IS_CHAR_IN_CAR( l_U278, l_U274 ))
+                        if (IS_CHAR_IN_CAR( emergencyPed, l_U274 ))
                         {
-                            SET_CHAR_KEEP_TASK( l_U278, 1 );
-                            TASK_STAND_STILL( l_U278, -2 );
+                            SET_CHAR_KEEP_TASK( emergencyPed, 1 );
+                            TASK_STAND_STILL( emergencyPed, -2 );
                             SET_CHAR_KEEP_TASK( l_U280, 1 );
                             TASK_CAR_DRIVE_WANDER( l_U280, l_U274, 10, 6 );
                             l_U102 = 6;
                         }
                         else
                         {
-                            GET_GAME_TIMER( ref l_U134 );
-                            l_U135 = l_U134 - l_U133;
+                            GET_GAME_TIMER( ref NewGameTimer );
+                            l_U135 = NewGameTimer - CurrentGameTimer;
                             if (l_U135 > 50000)
                             {
-                                if (NOT (IS_GROUP_MEMBER( l_U278, l_U284 )))
+                                if (NOT (IS_GROUP_MEMBER( emergencyPed, EmergencyPedGroup )))
                                 {
-                                    SET_GROUP_MEMBER( l_U284, l_U278 );
+                                    SET_GROUP_MEMBER( EmergencyPedGroup, emergencyPed );
                                 }
                                 l_U102 = 6;
                             }
@@ -1948,13 +1988,13 @@ void sub_15221(int iParam0)
     {
         if (IS_VEH_DRIVEABLE( l_U274 ))
         {
-            if (NOT (IS_CHAR_INJURED( l_U278 )))
+            if (NOT (IS_CHAR_INJURED( emergencyPed )))
             {
                 if (l_U106 > 0)
                 {
                     if (IS_CHAR_IN_ANY_CAR( sub_1061() ))
                     {
-                        CLEAR_CHAR_TASKS( l_U278 );
+                        CLEAR_CHAR_TASKS( emergencyPed );
                         l_U106 = 6;
                     }
                 }
@@ -1963,7 +2003,7 @@ void sub_15221(int iParam0)
                     case 0:
                     if (sub_15397())
                     {
-                        CLEAR_CHAR_TASKS( l_U278 );
+                        CLEAR_CHAR_TASKS( emergencyPed );
                         PRINT_HELP_WITH_NUMBER( "emerg_cost", sub_15510() );
                         GENERATE_RANDOM_INT_IN_RANGE( 0, 3, ref l_U130 );
                         l_U104 = 7;
@@ -1971,18 +2011,18 @@ void sub_15221(int iParam0)
                     }
                     break;
                     case 1:
-                    if (NOT (IS_GROUP_MEMBER( l_U278, sub_15659() )))
+                    if (NOT (IS_GROUP_MEMBER( emergencyPed, sub_15659() )))
                     {
                         if (l_U130 == 0)
                         {
-                            SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_MEDIC_SEES_P", "M_Y_PMEDIC_CHINESE", 1, 1, 0 );
+                            SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_MEDIC_SEES_P", "M_Y_PMEDIC_CHINESE", 1, 1, 0 );
                         }
                         else
                         {
-                            SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_MEDIC_SEES_P", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
+                            SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_MEDIC_SEES_P", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
                         }
                         SET_GROUP_SEPARATION_RANGE( sub_15659(), 30.00000000 );
-                        SET_GROUP_MEMBER( sub_15659(), l_U278 );
+                        SET_GROUP_MEMBER( sub_15659(), emergencyPed );
                         SET_GROUP_FORMATION( sub_15659(), 1 );
                         SET_GROUP_FORMATION_SPACING( sub_15659(), 0.50000000 );
                         GET_GAME_TIMER( ref l_U112 );
@@ -1994,7 +2034,7 @@ void sub_15221(int iParam0)
                     l_U114 = l_U113 - l_U112;
                     if (sub_15955() == 0)
                     {
-                        if (LOCATE_CHAR_ON_FOOT_CHAR_3D( l_U278, sub_1061(), 1.50000000, 1.50000000, 10.00000000, 0 ))
+                        if (LOCATE_CHAR_ON_FOOT_CHAR_3D( emergencyPed, sub_1061(), 1.50000000, 1.50000000, 10.00000000, 0 ))
                         {
                             if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_328() ))
                             {
@@ -2002,38 +2042,38 @@ void sub_15221(int iParam0)
                                 {
                                     if (l_U130 == 0)
                                     {
-                                        SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_MEDIC_HEALS_P", "M_Y_PMEDIC_CHINESE", 1, 1, 0 );
+                                        SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_MEDIC_HEALS_P", "M_Y_PMEDIC_CHINESE", 1, 1, 0 );
                                     }
                                     else
                                     {
-                                        SAY_AMBIENT_SPEECH_WITH_VOICE( l_U278, "EMERG_MEDIC_HEALS_P", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
+                                        SAY_AMBIENT_SPEECH_WITH_VOICE( emergencyPed, "EMERG_MEDIC_HEALS_P", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
                                     }
                                     SET_PLAYER_CONTROL( sub_328(), 0 );
                                     l_U106 = 3;
                                 }
-                                else if (NOT (IS_GROUP_MEMBER( l_U278, sub_15659() )))
+                                else if (NOT (IS_GROUP_MEMBER( emergencyPed, sub_15659() )))
                                 {
                                     l_U106 = 6;
                                 }
                                 if (l_U114 > 50000)
                                 {
-                                    if (IS_GROUP_MEMBER( l_U278, sub_15659() ))
+                                    if (IS_GROUP_MEMBER( emergencyPed, sub_15659() ))
                                     {
-                                        REMOVE_CHAR_FROM_GROUP( l_U278 );
+                                        REMOVE_CHAR_FROM_GROUP( emergencyPed );
                                     }
                                     l_U106 = 6;
                                 }
                             }
                         }
-                        else if (NOT (IS_GROUP_MEMBER( l_U278, sub_15659() )))
+                        else if (NOT (IS_GROUP_MEMBER( emergencyPed, sub_15659() )))
                         {
                             l_U106 = 6;
                         }
                         if (l_U114 > 50000)
                         {
-                            if (IS_GROUP_MEMBER( l_U278, sub_15659() ))
+                            if (IS_GROUP_MEMBER( emergencyPed, sub_15659() ))
                             {
-                                REMOVE_CHAR_FROM_GROUP( l_U278 );
+                                REMOVE_CHAR_FROM_GROUP( emergencyPed );
                             }
                             l_U106 = 6;
                         }
@@ -2042,16 +2082,16 @@ void sub_15221(int iParam0)
                     {
                         CLEAR_HELP();
                         PRINT_HELP( "emerg_spook" );
-                        if (IS_GROUP_MEMBER( l_U278, sub_15659() ))
+                        if (IS_GROUP_MEMBER( emergencyPed, sub_15659() ))
                         {
-                            REMOVE_CHAR_FROM_GROUP( l_U278 );
+                            REMOVE_CHAR_FROM_GROUP( emergencyPed );
                         }
                         l_U106 = 6;
                     }
                     break;
                     case 3:
-                    TASK_TURN_CHAR_TO_FACE_CHAR( sub_1061(), l_U278 );
-                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U278, sub_1061() );
+                    TASK_TURN_CHAR_TO_FACE_CHAR( sub_1061(), emergencyPed );
+                    TASK_TURN_CHAR_TO_FACE_CHAR( emergencyPed, sub_1061() );
                     l_U106 = 4;
                     break;
                     case 4:
@@ -2064,20 +2104,20 @@ void sub_15221(int iParam0)
                     case 5:
                     ADD_SCORE( sub_328(), -sub_15510() );
                     INCREMENT_INT_STAT( 102, sub_15510() );
-                    SET_CHAR_MONEY( l_U278, sub_15510() );
+                    SET_CHAR_MONEY( emergencyPed, sub_15510() );
                     SET_CHAR_HEALTH( sub_1061(), sub_16719() );
                     sub_16781();
-                    TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( l_U278, "Medic_health_inject", "Missemergencycall", 8.00000000, 0, 1, 1, 0, -2 );
+                    TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( emergencyPed, "Medic_health_inject", "Missemergencycall", 8.00000000, 0, 1, 1, 0, -2 );
                     TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( sub_1061(), "player_health_recieve", "Missemergencycall", 8.00000000, 0, 1, 1, 0, -2 );
                     l_U106 = 6;
                     break;
                     case 6:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( l_U278, "Missemergencycall", "Medic_health_inject" )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( emergencyPed, "Missemergencycall", "Medic_health_inject" )))
                     {
                         SET_PLAYER_CONTROL( sub_328(), 1 );
-                        if (IS_GROUP_MEMBER( l_U278, sub_15659() ))
+                        if (IS_GROUP_MEMBER( emergencyPed, sub_15659() ))
                         {
-                            REMOVE_CHAR_FROM_GROUP( l_U278 );
+                            REMOVE_CHAR_FROM_GROUP( emergencyPed );
                         }
                         l_U104 = 5;
                         l_U106 = 7;
@@ -2093,12 +2133,12 @@ void sub_15221(int iParam0)
 
 int sub_15397()
 {
-    if (NOT (IS_CHAR_INJURED( l_U278 )))
+    if (NOT (IS_CHAR_INJURED( emergencyPed )))
     {
         if (NOT (IS_CHAR_IN_ANY_CAR( sub_1061() )))
         {
             GET_CHAR_HEALTH( sub_1061(), ref l_U111 );
-            if (LOCATE_CHAR_ON_FOOT_CHAR_3D( l_U278, sub_1061(), 40.00000000, 40.00000000, 40.00000000, 0 ))
+            if (LOCATE_CHAR_ON_FOOT_CHAR_3D( emergencyPed, sub_1061(), 40.00000000, 40.00000000, 40.00000000, 0 ))
             {
                 if ((IS_SCORE_GREATER( sub_328(), sub_15510() )) AND (l_U111 < 175))
                 {
@@ -2128,13 +2168,13 @@ void sub_15659()
 
 int sub_15955()
 {
-    if (NOT (IS_CHAR_INJURED( l_U278 )))
+    if (NOT (IS_CHAR_INJURED( emergencyPed )))
     {
-        if (IS_PLAYER_FREE_AIMING_AT_CHAR( sub_328(), l_U278 ))
+        if (IS_PLAYER_FREE_AIMING_AT_CHAR( sub_328(), emergencyPed ))
         {
             return 1;
         }
-        if (IS_PLAYER_TARGETTING_CHAR( sub_328(), l_U278 ))
+        if (IS_PLAYER_TARGETTING_CHAR( sub_328(), emergencyPed ))
         {
             return 1;
         }
@@ -2184,8 +2224,8 @@ void sub_18254()
                     switch (l_U104)
                     {
                         case 0:
-                        GET_GAME_TIMER( ref l_U134 );
-                        l_U135 = l_U134 - l_U133;
+                        GET_GAME_TIMER( ref NewGameTimer );
+                        l_U135 = NewGameTimer - CurrentGameTimer;
                         if (l_U135 > 100000)
                         {
                             sub_13941();
@@ -2250,7 +2290,7 @@ void sub_18254()
                         SWITCH_CAR_SIREN( l_U275, 0 );
                         SET_NEXT_DESIRED_MOVE_STATE( 2 );
                         TASK_ENTER_CAR_AS_PASSENGER( l_U279, l_U275, -2, 0 );
-                        GET_GAME_TIMER( ref l_U133 );
+                        GET_GAME_TIMER( ref CurrentGameTimer );
                         l_U104 = 6;
                         break;
                         case 6:
@@ -2264,13 +2304,13 @@ void sub_18254()
                         }
                         else
                         {
-                            GET_GAME_TIMER( ref l_U134 );
-                            l_U135 = l_U134 - l_U133;
+                            GET_GAME_TIMER( ref NewGameTimer );
+                            l_U135 = NewGameTimer - CurrentGameTimer;
                             if (l_U135 > 50000)
                             {
-                                if (NOT (IS_GROUP_MEMBER( l_U279, l_U284 )))
+                                if (NOT (IS_GROUP_MEMBER( l_U279, EmergencyPedGroup )))
                                 {
-                                    SET_GROUP_MEMBER( l_U284, l_U279 );
+                                    SET_GROUP_MEMBER( EmergencyPedGroup, l_U279 );
                                 }
                                 l_U102 = 6;
                             }
@@ -2298,21 +2338,21 @@ void sub_19456()
         MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U277 );
         l_U277 = nil;
     }
-    if (NOT (IS_CHAR_INJURED( l_U278 )))
+    if (NOT (IS_CHAR_INJURED( emergencyPed )))
     {
-        if (NOT (IS_CHAR_IN_ANY_CAR( l_U278 )))
+        if (NOT (IS_CHAR_IN_ANY_CAR( emergencyPed )))
         {
-            if (IS_GROUP_MEMBER( l_U278, sub_15659() ))
+            if (IS_GROUP_MEMBER( emergencyPed, sub_15659() ))
             {
-                REMOVE_CHAR_FROM_GROUP( l_U278 );
+                REMOVE_CHAR_FROM_GROUP( emergencyPed );
             }
             if (NOT (IS_CAR_DEAD( l_U274 )))
             {
                 FORCE_CAR_LIGHTS( l_U274, 1 );
             }
         }
-        MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U278 );
-        l_U278 = nil;
+        MARK_CHAR_AS_NO_LONGER_NEEDED( ref emergencyPed );
+        emergencyPed = nil;
     }
     if (NOT (IS_CHAR_INJURED( l_U279 )))
     {
@@ -2396,9 +2436,9 @@ void sub_19456()
     {
         MARK_MODEL_AS_NO_LONGER_NEEDED( l_U264 );
     }
-    if (DOES_GROUP_EXIST( l_U284 ))
+    if (DOES_GROUP_EXIST( EmergencyPedGroup ))
     {
-        REMOVE_GROUP( l_U284 );
+        REMOVE_GROUP( EmergencyPedGroup );
     }
     return;
 }
