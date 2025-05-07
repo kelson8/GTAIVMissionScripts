@@ -33,7 +33,6 @@ I need to figure out what these are accepting, the number values anyways
 <details>
 <summary> Misc task natives: </summary>
 
-### Misc task natives:
 I found most of these in ambbeggar.c under sub_2220
 
 1. OPEN_SEQUENCE_TASK(unk string?) - Unknown usage, possibly give it a name?
@@ -61,7 +60,6 @@ I found most of these in ambbeggar.c under sub_2220
 <details>
 <summary> Timer natives: </summary>
 
-### Timer natives:
 1. GET_GAME_TIMER
 
 </details>
@@ -114,7 +112,7 @@ This one is incomplete, I will need to figure out how to use the C# tool for deb
 
 <details>
 <summary> Stat natives: </summary>
-### Stat natives:
+
 1. INCREMENT_INT_STAT_NO_MESSAGE (int stat, int valueToIncrement) - Add the specified value to the stat.
 2. DECREMENT_INT_STAT (int stat, int valueToDecrement) - Remove the specified value from the stat.
 
@@ -122,14 +120,14 @@ This one is incomplete, I will need to figure out how to use the C# tool for deb
 
 <details>
 <summary> Mission natives: </summary>
-### Mission natives:
+
 1. SET_MISSION_FLAG (int value) - Set the mission enabled flag, use 1 for enabled, 0 for disabled, for use when making missions.
 
 </details>
 
 <details>
 <summary> Fade natives: </summary>
-### Fade natives:
+
 1. DO_SCREEN_FADE_IN(int time) - Set the screen to fade in, the time is in miliseconds.
 2. DO_SCREEN_FADE_OUT(int time) - Set the screen to fade out, the time is in miliseconds.
 
@@ -137,7 +135,7 @@ This one is incomplete, I will need to figure out how to use the C# tool for deb
 
 <details>
 <summary> Vehicle natives: </summary>
-### Vehicle natives:
+
 Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mean to find it in there but it'll work on IV also.
 
 1. CREATE_CAR(Hash carModelHash, float vehicleX, float vehicleY, float vehicleZ, int carHandle, int unknown {usually 1}) - Create a vehicle with the model hash at the specific coordinates.
@@ -159,7 +157,7 @@ Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mea
 
 <details>
 <summary> Locate vehicle natives: </summary>
-### Locate vehicle natives
+
 1. LOCATE_CAR_2D(int vehicleHandle, float locationX1, float locationY1, float locationX2, float locationY2, int unknown {seems to always be 0})
 2. LOCATE_CAR_3D(int vehicleHandle, float locationX1, float locationY1, float locationZ1, float locationX2, float locationY2, float locationZ3, int unknown {seems to always be 0})
 
