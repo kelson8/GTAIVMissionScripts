@@ -1,3 +1,10 @@
+// List of texts for this:
+/*
+	FONORG1 = When you have an appointment or a date it will be added to the organizer on your phone.
+	FONORG2 = To view the organizer press ~INPUT_PHONE_ACCEPT~ to access the phone menu, scroll down and press ~INPUT_PHONE_ACCEPT~ to select the organizer option.
+	FONORG3 = Any day with an appointment will have a bell icon next to it. Select a day and press ~INPUT_PHONE_ACCEPT~ to view the appointment.
+*/
+
 void main()
 {
     boolean bVar2;

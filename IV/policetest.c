@@ -166,13 +166,14 @@ void main()
     l_U480 = 0;
     l_U481 = 1;
     l_U482 = 3;
-    l_U488 = 0;
+    camCommands1 = 0;
     l_U496 = 1;
     l_U497 = 0;
     l_U672 = 0;
     l_U723 = 38;
     l_U730 = 1.01100000;
     l_U731 = 1.00900000;
+
     if (SECUROM_SPOT_CHECK4())
     {
         if (HAS_DEATHARREST_EXECUTED())
@@ -194,7 +195,7 @@ void main()
             SetPlayerCannotBeDraggedOutVehicle();
             TERMINATE_THIS_SCRIPT();
         }
-        if (IS_PLAYER_PLAYING( sub_1820() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
             if ((g_U33837) || ((IS_CHAR_SHOOTING( CurrentPlayerChar() )) || ((g_U555 == 1) || (IS_MOBILE_PHONE_CALL_ONGOING()))))
             {
@@ -206,10 +207,10 @@ void main()
                 TERMINATE_THIS_SCRIPT();
             }
         }
-        if (IS_PLAYER_PLAYING( sub_1820() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            SET_PLAYER_CONTROL( sub_1820(), 0 );
-            SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 0 );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+            SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 0 );
             SET_CHAR_CANT_BE_DRAGGED_OUT( CurrentPlayerChar(), 1 );
         }
         l_U673 = {-0.00400000, 0.20300000, 0.00500000};
@@ -238,7 +239,7 @@ void main()
         ADD_WIDGET_SLIDER( "Police Comp Renderer Debug", ref l_U484, 0, 12, 1 );
         if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U486 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerVehicle );
             SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( CurrentPlayerChar(), 0 );
         }
         while (true)
@@ -249,7 +250,7 @@ void main()
             HIDE_HUD_AND_RADAR_THIS_FRAME();
             sub_19391();
             SET_CINEMATIC_BUTTON_ENABLED( 0 );
-            SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 0 );
+            SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 0 );
             sub_19733();
             sub_20892();
             sub_32321();
@@ -293,41 +294,45 @@ void sub_1662()
     DISPLAY_HUD( 1 );
     DISPLAY_RADAR( 1 );
     LockPlayerVehicle();
-    if (IS_PLAYER_PLAYING( sub_1820() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (HAS_CUTSCENE_FINISHED())
         {
-            if (NOT (IS_PLAYER_CONTROL_ON( sub_1820() )))
+            if (NOT (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
             {
                 if (NOT l_U720)
                 {
                     l_U720 = 1;
-                    SET_PLAYER_CONTROL( sub_1820(), 1 );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
                 }
             }
         }
     }
+
     if (l_U672)
     {
-        BEGIN_CAM_COMMANDS( ref l_U488 );
+        BEGIN_CAM_COMMANDS( ref camCommands1);
         CLEAR_TIMECYCLE_MODIFIER();
-        SET_CAM_ACTIVE( l_U485, 0 );
-        SET_CAM_PROPAGATE( l_U485, 0 );
+        SET_CAM_ACTIVE( playerCamera, 0 );
+        SET_CAM_PROPAGATE( playerCamera, 0 );
         ACTIVATE_SCRIPTED_CAMS( 0, 0 );
         SET_GLOBAL_RENDER_FLAGS( 1, 1, 1, 1 );
         DESTROY_ALL_CAMS();
-        END_CAM_COMMANDS( ref l_U488 );
+        END_CAM_COMMANDS( ref camCommands1);
     }
-    if (IS_VEH_DRIVEABLE( l_U486 ))
+
+    if (IS_VEH_DRIVEABLE( currentPlayerVehicle ))
     {
-        FREEZE_CAR_POSITION( l_U486, 0 );
-        SET_CAR_PROOFS( l_U486, 0, 0, 0, 0, 0 );
-        SET_CAR_CAN_BE_DAMAGED( l_U486, 1 );
+        FREEZE_CAR_POSITION( currentPlayerVehicle, 0 );
+        SET_CAR_PROOFS( currentPlayerVehicle, 0, 0, 0, 0, 0 );
+        SET_CAR_CAN_BE_DAMAGED( currentPlayerVehicle, 1 );
     }
+
     if (DOES_OBJECT_EXIST( l_U502 ))
     {
         DELETE_OBJECT( ref l_U502 );
     }
+
     l_U672 = 0;
     WAIT( 10 );
     if (NOT l_U719)
@@ -335,6 +340,7 @@ void sub_1662()
         sub_2128();
         l_U719 = 1;
     }
+
     return;
 }
 
@@ -346,8 +352,8 @@ void LockPlayerVehicle()
     {
         if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U486 );
-            LOCK_CAR_DOORS( l_U486, 1 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerVehicle );
+            LOCK_CAR_DOORS( currentPlayerVehicle, 1 );
         }
     }
     return;
@@ -362,7 +368,8 @@ void CurrentPlayerChar()
     return Result;
 }
 
-void sub_1820()
+// sub_1820
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -487,6 +494,7 @@ void DisableMinigameInProgress()
     return;
 }
 
+// TODO Finish this
 int sub_2982()
 {
     unknown uVar2;
@@ -496,98 +504,121 @@ int sub_2982()
     vector vVar8;
     int iVar11;
     unknown uVar12;
-    unknown uVar13;
+    unknown currentPoliceVehicle;
 
     DISPLAY_HUD( 0 );
     DISPLAY_RADAR( 0 );
+
+    // Quite sure this is checking if the textures are loaded.
     if (sub_3007())
     {
         PRIORITIZE_STREAMING_REQUEST();
-        if (IS_PLAYER_PLAYING( sub_1820() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            SET_PLAYER_CONTROL( sub_1820(), 0 );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
         }
-        if (IS_PLAYER_PLAYING( sub_1820() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
             if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
             {
                 if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U486 );
-                    SET_CAR_PROOFS( l_U486, 1, 1, 1, 1, 1 );
-                    LOCK_CAR_DOORS( l_U486, 4 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerVehicle );
+                    SET_CAR_PROOFS( currentPlayerVehicle, 1, 1, 1, 1, 1 );
+                    LOCK_CAR_DOORS( currentPlayerVehicle, 4 );
                 }
                 else
                 {
                     return 0;
                 }
-                if (IS_VEH_DRIVEABLE( l_U486 ))
+                if (IS_VEH_DRIVEABLE( currentPlayerVehicle ))
                 {
-                    GET_INTERIOR_FROM_CAR( l_U486, ref iVar11 );
-                    GET_CAR_COORDINATES( l_U486, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+                    GET_INTERIOR_FROM_CAR( currentPlayerVehicle, ref iVar11 );
+                    GET_CAR_COORDINATES( currentPlayerVehicle, ref uVar2.x, ref uVar2.y, ref uVar2.z );
                 }
+
                 REQUEST_MODEL( -1701391632 );
                 while (NOT (HAS_MODEL_LOADED( -1701391632 )))
                 {
                     WAIT( 0 );
                 }
-                CREATE_OBJECT( -1701391632, uVar2._fU0, uVar2._fU4, uVar2._fU8, ref l_U502, 1 );
+
+                CREATE_OBJECT( -1701391632, uVar2.x, uVar2.y, uVar2.z, ref l_U502, 1 );
+
                 if (iVar11 != nil)
                 {
-                    if (IS_VEH_DRIVEABLE( l_U486 ))
+                    if (IS_VEH_DRIVEABLE( currentPlayerVehicle ))
                     {
-                        GET_KEY_FOR_CAR_IN_ROOM( l_U486, ref uVar12 );
+                        GET_KEY_FOR_CAR_IN_ROOM( currentPlayerVehicle, ref uVar12 );
                         ADD_OBJECT_TO_INTERIOR_ROOM_BY_KEY( l_U502, uVar12 );
                     }
                 }
+
                 MARK_MODEL_AS_NO_LONGER_NEEDED( -1701391632 );
-                if ((DOES_OBJECT_EXIST( l_U502 )) AND (IS_VEH_DRIVEABLE( l_U486 )))
+
+                if ((DOES_OBJECT_EXIST( l_U502 )) AND (IS_VEH_DRIVEABLE( currentPlayerVehicle )))
                 {
-                    GET_CAR_MODEL( l_U486, ref uVar13 );
-                    switch (uVar13)
+                    GET_CAR_MODEL( currentPlayerVehicle, ref currentPoliceVehicle );
+
+                    // TODO Figure out what these are, possibly camera angles?
+                    switch (currentPoliceVehicle)
                     {
+                        // Police Cruiser
                         case 2046537925:
                         vVar5 = {0.00000000, 0.34500000, 0.20000000};
                         vVar8 = {0.00000000, 0.00000000, 0.00000000};
                         break;
+
+                        // Police Patrol
                         case -1627000575:
                         vVar5 = {0.10000000, 0.39400000, 0.10000000};
                         vVar8 = {0.00000000, 0.00000000, 0.00000000};
                         break;
+
+                        // Noose Patrol Car
                         case 148777611:
                         vVar5 = {0.10000000, 0.39400000, 0.10000000};
                         vVar8 = {0.00000000, 0.00000000, 0.00000000};
                         break;
+
+                        // Police Patriot 
                         case -350085182:
                         vVar5 = {0.00000000, 0.38500000, 0.45000000};
                         vVar8 = {0.00000000, 0.00000000, 0.00000000};
                         break;
+
+                        // Police Stockade
                         case -1900572838:
                         vVar5 = {l_U716};
                         vVar8 = {0.00000000, 0.00000000, 0.00000000};
                         break;
+
+                        // FIB Car
                         case 1127131465:
                         vVar5 = {0.10000000, 0.39400000, 0.10000000};
                         vVar8 = {0.00000000, 0.00000000, 0.00000000};
                         break;
                     }
-                    ATTACH_OBJECT_TO_CAR( l_U502, l_U486, 0, vVar5, vVar8 );
-                    FREEZE_CAR_POSITION( l_U486, 0 );
-                    SET_CAR_CAN_BE_DAMAGED( l_U486, 1 );
+                    ATTACH_OBJECT_TO_CAR( l_U502, currentPlayerVehicle, 0, vVar5, vVar8 );
+                    FREEZE_CAR_POSITION( currentPlayerVehicle, 0 );
+                    SET_CAR_CAN_BE_DAMAGED( currentPlayerVehicle, 1 );
                 }
+
                 if (DOES_OBJECT_EXIST( l_U502 ))
                 {
-                    BEGIN_CAM_COMMANDS( ref l_U488 );
-                    CREATE_CAM( 14, ref l_U485 );
-                    if (IS_VEH_DRIVEABLE( l_U486 ))
+                    BEGIN_CAM_COMMANDS( ref camCommands1);
+                    CREATE_CAM( 14, ref playerCamera );
+
+                    if (IS_VEH_DRIVEABLE( currentPlayerVehicle ))
                     {
-                        ATTACH_CAM_TO_VEHICLE( l_U485, l_U486 );
-                        SET_CAM_ATTACH_OFFSET( l_U485, 0.00000000, 0.16000000, 0.20000000 );
-                        SET_CAM_ATTACH_OFFSET_IS_RELATIVE( l_U485, 1 );
+                        ATTACH_CAM_TO_VEHICLE( playerCamera, currentPlayerVehicle );
+                        SET_CAM_ATTACH_OFFSET( playerCamera, 0.00000000, 0.16000000, 0.20000000 );
+                        SET_CAM_ATTACH_OFFSET_IS_RELATIVE( playerCamera, 1 );
                     }
-                    SET_CAM_ACTIVE( l_U485, 1 );
-                    SET_CAM_PROPAGATE( l_U485, 1 );
-                    END_CAM_COMMANDS( ref l_U488 );
+
+                    SET_CAM_ACTIVE( playerCamera, 1 );
+                    SET_CAM_PROPAGATE( playerCamera, 1 );
+                    END_CAM_COMMANDS( ref camCommands1);
                 }
             }
             PLAY_SOUND_FRONTEND( -1, "POLICE_COMPUTER_BOOTUP" );
@@ -1317,6 +1348,7 @@ void FindStreetName(unknown uParam0, unknown uParam1, unknown uParam2, unknown u
     return;
 }
 
+// Request the scripts
 void sub_18756()
 {
     REQUEST_SCRIPT( "mostWanted" );
@@ -1326,47 +1358,49 @@ void sub_18756()
     return;
 }
 
+// Get car deformations
 void sub_19391()
 {
     unknown uVar2;
 
-    if (NOT (IS_CAR_DEAD( l_U486 )))
+    if (NOT (IS_CAR_DEAD( currentPlayerVehicle )))
     {
-        GET_CAR_MODEL( l_U486, ref uVar2 );
+        GET_CAR_MODEL( currentPlayerVehicle, ref uVar2 );
         switch (uVar2)
         {
             case 2046537925:
-            GET_CAR_DEFORMATION_AT_POS( l_U486, 0.00000000, 0.34500000, 0.20000000, ref l_U700 );
+            GET_CAR_DEFORMATION_AT_POS( currentPlayerVehicle, 0.00000000, 0.34500000, 0.20000000, ref l_U700 );
             break;
             case -1627000575:
-            GET_CAR_DEFORMATION_AT_POS( l_U486, 0.10000000, 0.39100000, 0.10000000, ref l_U700 );
+            GET_CAR_DEFORMATION_AT_POS( currentPlayerVehicle, 0.10000000, 0.39100000, 0.10000000, ref l_U700 );
             break;
             case 148777611:
-            GET_CAR_DEFORMATION_AT_POS( l_U486, 0.05000000, 0.46000000, 0.21000000, ref l_U700 );
+            GET_CAR_DEFORMATION_AT_POS( currentPlayerVehicle, 0.05000000, 0.46000000, 0.21000000, ref l_U700 );
             break;
             case -350085182:
-            GET_CAR_DEFORMATION_AT_POS( l_U486, 0.02000000, 0.61000000, 0.56000000, ref l_U700 );
+            GET_CAR_DEFORMATION_AT_POS( currentPlayerVehicle, 0.02000000, 0.61000000, 0.56000000, ref l_U700 );
             break;
             case -1900572838:
-            GET_CAR_DEFORMATION_AT_POS( l_U486, -0.15000000, 1.11000000, 1.20000000, ref l_U700 );
+            GET_CAR_DEFORMATION_AT_POS( currentPlayerVehicle, -0.15000000, 1.11000000, 1.20000000, ref l_U700 );
             break;
             case 1127131465:
-            GET_CAR_DEFORMATION_AT_POS( l_U486, 0.08000000, 0.51000000, 0.14000000, ref l_U700 );
+            GET_CAR_DEFORMATION_AT_POS( currentPlayerVehicle, 0.08000000, 0.51000000, 0.14000000, ref l_U700 );
             break;
         }
     }
     return;
 }
 
+// More possible camera angles or something
 void sub_19733()
 {
     vector vVar2;
     vector vVar5;
     unknown uVar8;
 
-    if (NOT (IS_CAR_DEAD( l_U486 )))
+    if (NOT (IS_CAR_DEAD( currentPlayerVehicle )))
     {
-        GET_CAR_MODEL( l_U486, ref uVar8 );
+        GET_CAR_MODEL( currentPlayerVehicle, ref uVar8 );
         switch (uVar8)
         {
             case 2046537925:
@@ -1396,84 +1430,84 @@ void sub_19733()
         }
         if (DOES_OBJECT_EXIST( l_U502 ))
         {
-            ATTACH_OBJECT_TO_CAR( l_U502, l_U486, 0, vVar2, vVar5 );
+            ATTACH_OBJECT_TO_CAR( l_U502, currentPlayerVehicle, 0, vVar2, vVar5 );
         }
-        GET_CAR_HEADING( l_U486, ref l_U703 );
-        GET_CAR_ROLL( l_U486, ref l_U704 );
-        GET_CAR_PITCH( l_U486, ref l_U705 );
+        GET_CAR_HEADING( currentPlayerVehicle, ref l_U703 );
+        GET_CAR_ROLL( currentPlayerVehicle, ref l_U704 );
+        GET_CAR_PITCH( currentPlayerVehicle, ref l_U705 );
         l_U709._fU0 = l_U705;
         l_U709._fU4 = -l_U704;
         l_U709._fU8 = l_U703;
-        ATTACH_CAM_TO_VEHICLE( l_U485, l_U486 );
-        GET_CAR_MODEL( l_U486, ref uVar8 );
+        ATTACH_CAM_TO_VEHICLE( playerCamera, currentPlayerVehicle );
+        GET_CAR_MODEL( currentPlayerVehicle, ref uVar8 );
         switch (uVar8)
         {
             case 2046537925:
             if (GET_IS_WIDESCREEN())
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.00000000, 0.05000000, 0.20000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.00000000, 0.05000000, 0.20000000 );
             }
             else
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.00000000, 0.01900000, 0.20000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.00000000, 0.01900000, 0.20000000 );
             }
             break;
             case -1627000575:
             if (GET_IS_WIDESCREEN())
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.10000000, 0.09700000, 0.10000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.10000000, 0.09700000, 0.10000000 );
             }
             else
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.10000000, 0.06400000, 0.10000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.10000000, 0.06400000, 0.10000000 );
             }
             break;
             case 148777611:
             if (GET_IS_WIDESCREEN())
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.05000000, 0.16500000, 0.21000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.05000000, 0.16500000, 0.21000000 );
             }
             else
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.05000000, 0.13300000, 0.21000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.05000000, 0.13300000, 0.21000000 );
             }
             break;
             case -350085182:
             if (GET_IS_WIDESCREEN())
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.02000000, 0.31500000, 0.56000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.02000000, 0.31500000, 0.56000000 );
             }
             else
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.02000000, 0.28000000, 0.56000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.02000000, 0.28000000, 0.56000000 );
             }
             break;
             case -1900572838:
             if (GET_IS_WIDESCREEN())
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, -0.10000000, 0.81600000, 1.20000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, -0.10000000, 0.81600000, 1.20000000 );
             }
             else
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, -0.10000000, 0.78200000, 1.20000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, -0.10000000, 0.78200000, 1.20000000 );
             }
             break;
             case 1127131465:
             if (GET_IS_WIDESCREEN())
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.08000000, 0.21600000, 0.14000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.08000000, 0.21600000, 0.14000000 );
             }
             else
             {
-                SET_CAM_ATTACH_OFFSET( l_U485, 0.08000000, 0.18200000, 0.14000000 );
+                SET_CAM_ATTACH_OFFSET( playerCamera, 0.08000000, 0.18200000, 0.14000000 );
             }
             break;
         }
-        SET_CAM_ATTACH_OFFSET_IS_RELATIVE( l_U485, 1 );
+        SET_CAM_ATTACH_OFFSET_IS_RELATIVE( playerCamera, 1 );
         SET_ROT_ORDER( 2 );
-        SET_CAM_ROT( l_U485, l_U709._fU0, l_U709._fU4, l_U709._fU8 );
+        SET_CAM_ROT( playerCamera, l_U709._fU0, l_U709._fU4, l_U709._fU8 );
         SET_ROT_ORDER( 0 );
-        SET_CAM_FOV( l_U485, 45.00000000 );
+        SET_CAM_FOV( playerCamera, 45.00000000 );
         if (NOT l_U672)
         {
             SET_GLOBAL_RENDER_FLAGS( 0, 0, 0, 0 );
@@ -1508,6 +1542,9 @@ void sub_20892()
     return;
 }
 
+// Looks like logic for handling the police menu movement,
+// POLICE_COMPUTER_FORWARDS, SCRIPTED_REPORTS_DISPATCH_BACKUP, 
+// 
 void sub_20953()
 {
     unknown uVar2;
@@ -2292,7 +2329,7 @@ void sub_25390(unknown uParam0)
     }
     else if ((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "DERRICK1" )) > 0)
     {
-        if (NOT (IS_WANTED_LEVEL_GREATER( sub_1820(), 0 )))
+        if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
         {
             switch (uParam0)
             {
@@ -2492,10 +2529,10 @@ void sub_28608()
             sub_30294();
             uVar3._fU0 = l_U498[l_U495];
             uVar3._fU4 = l_U677[l_U495];
-            uVar3._fU8 = l_U486;
+            uVar3._fU8 = currentPlayerVehicle;
             uVar3._fU12 = l_U692[l_U495];
             uVar3._fU16 = {l_U682[l_U495]};
-            SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 1 );
+            SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 1 );
             g_U8210 = 1;
             SET_CINEMATIC_BUTTON_ENABLED( 1 );
             DisableMinigameInProgress();
@@ -3160,7 +3197,7 @@ void sub_32244()
 
 void sub_32321()
 {
-    if (IS_PLAYER_PLAYING( sub_1820() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if ((g_U8219) || (NOT (IS_CHAR_IN_ANY_POLICE_VEHICLE( CurrentPlayerChar() ))))
         {
@@ -3188,7 +3225,7 @@ void sub_32371()
     {
         DELETE_OBJECT( ref l_U502 );
     }
-    SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 1 );
+    SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 1 );
     DisableMinigameInProgress();
     SetPlayerVisibleInPoliceVehicle( 1 );
     sub_2555();
@@ -3433,6 +3470,7 @@ void sub_34851()
     return;
 }
 
+// Possibly setting the keyboard items on the police computer
 int sub_34937()
 {
     string sVar2;
@@ -5225,7 +5263,7 @@ void sub_50452(int iParam0, boolean bParam1)
                         sub_30429();
                     }
                     g_U8210 = 1;
-                    SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 1 );
+                    SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 1 );
                     SET_CINEMATIC_BUTTON_ENABLED( 1 );
                     DisableMinigameInProgress();
                     sub_2555();
@@ -5609,7 +5647,7 @@ void sub_54681()
     unknown uVar7;
     unknown uVar8;
 
-    if (IS_PLAYER_PLAYING( sub_1820() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
         uVar8 = GET_MAP_AREA_FROM_COORDS( uVar5 );
@@ -5795,7 +5833,7 @@ int sub_56152(int iParam0)
     unknown uVar6;
     unknown uVar7;
 
-    if (IS_PLAYER_PLAYING( sub_1820() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
         uVar7 = GET_MAP_AREA_FROM_COORDS( uVar4 );

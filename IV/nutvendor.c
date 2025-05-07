@@ -7,25 +7,32 @@ void main()
     l_U12 = 0;
     l_U57 = 0;
     l_U58 = 0;
-    l_U59 = 0;
+
+    // l_U59 = particleEffects
+    particleEffects = 0;
     l_U60 = 0;
-    l_U65 = "ObjScpt_07";
+    // l_U65 = currentObjectScript?
+    currentObjectScript = "ObjScpt_07";
     l_U66 = 0;
     l_U67 = 0;
     l_U68 = 1;
     l_U69 = 0;
     l_U70 = 0;
+
     if (HAS_DEATHARREST_EXECUTED())
     {
-        sub_117();
+        CleanupScript();
     }
+
     while (true)
     {
         WAIT( 0 );
         if (g_U9890 != 1)
         {
-            if (IS_PLAYER_PLAYING( sub_475() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
+                // TODO Figure this out
+                // l_U94 is some type of object, the hotdogCartObject?
                 if (DOES_OBJECT_EXIST( l_U94 ))
                 {
                     if (IS_OBJECT_WITHIN_BRAIN_ACTIVATION_RANGE( l_U94 ))
@@ -62,24 +69,25 @@ void main()
                                 MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U89 );
                                 l_U89 = nil;
                             }
-                            if (NOT (IS_CHAR_INJURED( l_U88 )))
+                            if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
                             {
-                                CLEAR_CHAR_TASKS( l_U88 );
+                                CLEAR_CHAR_TASKS( hotdogVendorPed );
                             }
-                            if (DOES_OBJECT_EXIST( l_U90 ))
+                            if (DOES_OBJECT_EXIST( hotdogVenderCart ))
                             {
-                                if (IS_OBJECT_ATTACHED( l_U90 ))
+                                if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
                                 {
-                                    DETACH_OBJECT( l_U90, 1 );
+                                    DETACH_OBJECT( hotdogVenderCart, 1 );
                                 }
-                                DELETE_OBJECT( ref l_U90 );
-                                MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U90 );
+                                DELETE_OBJECT( ref hotdogVenderCart );
+                                MARK_OBJECT_AS_NO_LONGER_NEEDED( ref hotdogVenderCart );
                             }
                             if (l_U60 == 0)
                             {
-                                if (NOT (IS_CHAR_INJURED( l_U88 )))
+                                if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
                                 {
-                                    TASK_ACHIEVE_HEADING( l_U88, l_U49 );
+                                    // l_U49 = hotdogStandHeading
+                                    TASK_ACHIEVE_HEADING( hotdogVendorPed, hotdogStandHeading );
                                 }
                             }
                             if (l_U12 != 19)
@@ -97,14 +105,17 @@ void main()
                             l_U71[1] = 0;
                             l_U71[0] = 0;
                             l_U74 = 0;
-                            CREATE_OBJECT( 1432278665, l_U22._fU0, l_U22._fU4, l_U22._fU8, ref l_U90, 1 );
-                            SET_OBJECT_VISIBLE( l_U90, 0 );
-                            SET_OBJECT_COLLISION( l_U90, 0 );
-                            if (IS_PLAYER_PLAYING( sub_475() ))
+
+                            CREATE_OBJECT( 1432278665, l_U22.x, l_U22.y, l_U22.z, ref hotdogVenderCart, 1 );
+                            SET_OBJECT_VISIBLE( hotdogVenderCart, 0 );
+                            SET_OBJECT_COLLISION( hotdogVenderCart, 0 );
+
+                            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                             {
-                                sub_652( 0 );
-                                SET_PLAYER_CONTROL_ADVANCED( sub_475(), 0, 0, 1 );
+                                TogglePlayerControl( 0 );
+                                SET_PLAYER_CONTROL_ADVANCED( CurrentPlayerId(), 0, 0, 1 );
                             }
+
                             l_U12 = 0;
                             l_U11 = 7;
                             break;
@@ -116,46 +127,48 @@ void main()
                     }
                     else
                     {
-                        sub_117();
+                        CleanupScript();
                     }
                 }
                 else
                 {
-                    sub_117();
+                    CleanupScript();
                 }
             }
             else
             {
-                sub_117();
+                CleanupScript();
             }
         }
         else
         {
-            sub_117();
+            CleanupScript();
         }
     }
     return;
 }
 
-void sub_117()
+// Cleanup Script
+// sub_117
+void CleanupScript()
 {
     sub_139( "ObjScpt_07" );
-    sub_205( 2, "ObjScpt_07" );
-    sub_205( 2, "ClaScpt_07" );
-    sub_205( 2, "NULL" );
+    SetScriptObject( 2, "ObjScpt_07" );
+    SetScriptObject( 2, "ClaScpt_07" );
+    SetScriptObject( 2, "NULL" );
     if (l_U11 == 7)
     {
-        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_603() );
-        sub_652( 1 );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( GetPlayerChar() );
+        TogglePlayerControl( 1 );
     }
-    if (DOES_OBJECT_EXIST( l_U90 ))
+    if (DOES_OBJECT_EXIST( hotdogVenderCart ))
     {
-        if (IS_OBJECT_ATTACHED( l_U90 ))
+        if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
         {
-            DETACH_OBJECT( l_U90, 1 );
+            DETACH_OBJECT( hotdogVenderCart, 1 );
         }
-        DELETE_OBJECT( ref l_U90 );
-        MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U90 );
+        DELETE_OBJECT( ref hotdogVenderCart );
+        MARK_OBJECT_AS_NO_LONGER_NEEDED( ref hotdogVenderCart );
     }
     if (DOES_OBJECT_EXIST( l_U91 ))
     {
@@ -166,23 +179,25 @@ void sub_117()
         DELETE_OBJECT( ref l_U91 );
         MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U91 );
     }
-    if (l_U59 != 0)
+    
+    // 
+    if (particleEffects != 0)
     {
-        STOP_PTFX( l_U59 );
+        STOP_PTFX( particleEffects );
     }
-    if (NOT (IS_CHAR_INJURED( l_U88 )))
+    if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
     {
         if (l_U70 == 1)
         {
-            CLEAR_CHAR_TASKS( l_U88 );
-            SET_CHAR_KEEP_TASK( l_U88, 1 );
-            TASK_COMBAT( l_U88, sub_603() );
+            CLEAR_CHAR_TASKS( hotdogVendorPed );
+            SET_CHAR_KEEP_TASK( hotdogVendorPed, 1 );
+            TASK_COMBAT( hotdogVendorPed, GetPlayerChar() );
         }
         else
         {
-            CLEAR_CHAR_TASKS( l_U88 );
+            CLEAR_CHAR_TASKS( hotdogVendorPed );
         }
-        MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U88 );
+        MARK_CHAR_AS_NO_LONGER_NEEDED( ref hotdogVendorPed );
     }
     TERMINATE_THIS_SCRIPT();
     return;
@@ -200,7 +215,10 @@ void sub_139(unknown uParam0)
     return;
 }
 
-void sub_205(int iParam0, string sParam1)
+// TODO Check this later
+// sub_205
+// Possibly SetScriptObject(int iParam0, string scriptObject)
+void SetScriptObject(int iParam0, string sParam1)
 {
     string sVar4;
 
@@ -246,7 +264,7 @@ void sub_205(int iParam0, string sParam1)
             }
             if (l_U2)
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_475(), 1 );
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 1 );
                 l_U2 = 0;
             }
             if (l_U0)
@@ -269,12 +287,14 @@ void sub_426()
     return;
 }
 
-void sub_475()
+// sub_475
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
-void sub_603()
+// sub_603
+void GetPlayerChar()
 {
     unknown Result;
 
@@ -282,15 +302,17 @@ void sub_603()
     return Result;
 }
 
-void sub_652(int iParam0)
+// Toggle Player Control
+// sub_652
+void TogglePlayerControl(int toggle)
 {
-    if (iParam0 == 0)
+    if (toggle == 0)
     {
-        SET_PLAYER_CONTROL( sub_475(), 0 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
     }
     else
     {
-        SET_PLAYER_CONTROL( sub_475(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     }
     return;
 }
@@ -501,7 +523,7 @@ void sub_1843()
 
 void sub_1932()
 {
-    l_U65 = "ObjScpt_07";
+    currentObjectScript = "ObjScpt_07";
     return;
 }
 
@@ -510,10 +532,10 @@ void sub_1969(unknown uParam0)
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
         GET_OBJECT_COORDINATES( uParam0, ref l_U13._fU0, ref l_U13._fU4, ref l_U13._fU8 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -0.20000000, 0.70000000, -0.50000000, ref l_U16._fU0, ref l_U16._fU4, ref l_U16._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -0.20000000, 0.70000000, -0.50000000, ref l_U16.x, ref l_U16.y, ref l_U16.z );
         GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -1.30000000, 0.20000000, 0.00000000, ref l_U19._fU0, ref l_U19._fU4, ref l_U19._fU8 );
-        GET_HEADING_FROM_VECTOR_2D( l_U19._fU0 - l_U16._fU0, l_U19._fU4 - l_U16._fU4, ref l_U49 );
-        l_U53 = l_U49 - 180;
+        GET_HEADING_FROM_VECTOR_2D( l_U19._fU0 - l_U16.x, l_U19._fU4 - l_U16.y, ref hotdogStandHeading );
+        l_U53 = hotdogStandHeading - 180;
     }
     return;
 }
@@ -524,19 +546,23 @@ void sub_2166(unknown uParam0)
     {
         if (NOT (IS_OBJECT_ON_SCREEN( uParam0 )))
         {
-            l_U59 = START_PTFX_ON_OBJ( "ambient_hotdogstand", uParam0, 0.00000000, 0.00000000, 0.80000000, 0.00000000, 0.00000000, 0.00000000, 1065353216 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 0.50000000, -0.50000000, ref l_U22._fU0, ref l_U22._fU4, ref l_U22._fU8 );
-            CREATE_OBJECT( 1432278665, l_U22._fU0, l_U22._fU4, l_U22._fU8, ref l_U90, 1 );
-            SET_OBJECT_VISIBLE( l_U90, 0 );
-            SET_OBJECT_COLLISION( l_U90, 0 );
+            particleEffects = START_PTFX_ON_OBJ( "ambient_hotdogstand", uParam0, 0.00000000, 0.00000000, 0.80000000, 0.00000000, 0.00000000, 0.00000000, 1065353216 );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 0.50000000, -0.50000000, ref l_U22.x, ref l_U22.y, ref l_U22.z );
+
+            // l_U90 = hotdogVenderCart
+            CREATE_OBJECT( 1432278665, l_U22.x, l_U22.y, l_U22.z, ref hotdogVenderCart, 1 );
+            SET_OBJECT_VISIBLE( hotdogVenderCart, 0 );
+            SET_OBJECT_COLLISION( hotdogVenderCart, 0 );
             SET_OBJECT_LIGHTS( uParam0, 1 );
-            CREATE_CHAR( 4, l_U87, l_U16._fU0, l_U16._fU4, l_U16._fU8, ref l_U88, 1 );
-            if (NOT (IS_CHAR_INJURED( l_U88 )))
+
+            // l_U88 is possibly the nutVendorPed or hotdogVendorPed
+            CREATE_CHAR( 4, l_U87, l_U16.x, l_U16.y, l_U16.z, ref hotdogVendorPed, 1 );
+            if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
             {
-                SET_CHAR_RANDOM_COMPONENT_VARIATION( l_U88 );
-                SET_CHAR_HEADING( l_U88, l_U49 );
-                SET_CHAR_IN_CUTSCENE( l_U88, 1 );
-                TASK_START_SCENARIO_IN_PLACE( l_U88, "scenario_standing", -1082130432 );
+                SET_CHAR_RANDOM_COMPONENT_VARIATION( hotdogVendorPed );
+                SET_CHAR_HEADING( hotdogVendorPed, hotdogStandHeading );
+                SET_CHAR_IN_CUTSCENE( hotdogVendorPed, 1 );
+                TASK_START_SCENARIO_IN_PLACE( hotdogVendorPed, "scenario_standing", -1082130432 );
                 l_U11 = 3;
             }
         }
@@ -549,48 +575,48 @@ void sub_2543(unknown uParam0)
     unknown uVar3;
 
     sub_2554( uParam0 );
-    if (DOES_CHAR_EXIST( l_U88 ))
+    if (DOES_CHAR_EXIST( hotdogVendorPed ))
     {
-        if (IS_CHAR_DEAD( l_U88 ))
+        if (IS_CHAR_DEAD( hotdogVendorPed ))
         {
-            sub_117();
+            CleanupScript();
         }
-        if (IS_CHAR_FATALLY_INJURED( l_U88 ))
+        if (IS_CHAR_FATALLY_INJURED( hotdogVendorPed ))
         {
-            sub_117();
+            CleanupScript();
         }
-        if (IS_CHAR_INJURED( l_U88 ))
+        if (IS_CHAR_INJURED( hotdogVendorPed ))
         {
-            sub_117();
+            CleanupScript();
         }
-        if (IS_PED_FLEEING( l_U88 ))
+        if (IS_PED_FLEEING( hotdogVendorPed ))
         {
-            sub_117();
+            CleanupScript();
         }
-        if (NOT (IS_CHAR_INJURED( l_U88 )))
+        if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
         {
-            GET_CURRENT_CHAR_WEAPON( sub_603(), ref uVar3 );
-            if (IS_PLAYER_TARGETTING_CHAR( sub_475(), l_U88 ))
+            GET_CURRENT_CHAR_WEAPON( GetPlayerChar(), ref uVar3 );
+            if (IS_PLAYER_TARGETTING_CHAR( CurrentPlayerId(), hotdogVendorPed ))
             {
                 if (NOT sub_3190())
                 {
-                    SAY_AMBIENT_SPEECH( l_U88, "GUN_RUN", 0, 1, 0 );
-                    sub_117();
+                    SAY_AMBIENT_SPEECH( hotdogVendorPed, "GUN_RUN", 0, 1, 0 );
+                    CleanupScript();
                 }
             }
         }
-        if (IS_CHAR_SHOOTING_IN_AREA( sub_603(), l_U13._fU0 - 15, l_U13._fU4 - 15, l_U13._fU0 + 15, l_U13._fU4 + 15, 0 ))
+        if (IS_CHAR_SHOOTING_IN_AREA( GetPlayerChar(), l_U13._fU0 - 15, l_U13._fU4 - 15, l_U13._fU0 + 15, l_U13._fU4 + 15, 0 ))
         {
-            sub_117();
+            CleanupScript();
         }
     }
     if (NOT (IS_CHAR_DEAD( l_U89 )))
     {
-        if ((sub_3425( l_U19 )) || ((IS_PLAYER_TARGETTING_CHAR( sub_475(), l_U89 )) || (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U89, sub_603(), 0 ))))
+        if ((sub_3425( l_U19 )) || ((IS_PLAYER_TARGETTING_CHAR( CurrentPlayerId(), l_U89 )) || (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U89, GetPlayerChar(), 0 ))))
         {
-            if (NOT (IS_CHAR_INJURED( l_U88 )))
+            if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
             {
-                CLEAR_CHAR_TASKS( l_U88 );
+                CLEAR_CHAR_TASKS( hotdogVendorPed );
             }
             sub_3546();
             MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U89 );
@@ -605,16 +631,16 @@ void sub_2543(unknown uParam0)
     }
     if (NOT (IS_CHAR_DEAD( l_U89 )))
     {
-        if (IS_CHAR_TOUCHING_CHAR( sub_603(), l_U89 ))
+        if (IS_CHAR_TOUCHING_CHAR( GetPlayerChar(), l_U89 ))
         {
             if (NOT (IS_CHAR_INJURED( l_U89 )))
             {
                 CLEAR_CHAR_TASKS_IMMEDIATELY( l_U89 );
                 TASK_WANDER_STANDARD( l_U89 );
             }
-            if (NOT (IS_CHAR_INJURED( l_U88 )))
+            if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
             {
-                CLEAR_CHAR_TASKS( l_U88 );
+                CLEAR_CHAR_TASKS( hotdogVendorPed );
             }
             sub_3546();
             l_U57 = 0;
@@ -627,15 +653,15 @@ void sub_2543(unknown uParam0)
             l_U12 = 0;
         }
     }
-    if (IS_CHAR_IN_MELEE_COMBAT( sub_603() ))
+    if (IS_CHAR_IN_MELEE_COMBAT( GetPlayerChar() ))
     {
         sub_3546();
     }
-    if (NOT (IS_CHAR_INJURED( l_U88 )))
+    if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
     {
-        if (IS_CHAR_IN_MELEE_COMBAT( l_U88 ))
+        if (IS_CHAR_IN_MELEE_COMBAT( hotdogVendorPed ))
         {
-            if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_603(), l_U88, 10.00000000, 10.00000000, 10.00000000, 0 ))
+            if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( GetPlayerChar(), hotdogVendorPed, 10.00000000, 10.00000000, 10.00000000, 0 ))
             {
                 l_U69 = 1;
             }
@@ -645,9 +671,9 @@ void sub_2543(unknown uParam0)
     {
         sub_3546();
     }
-    if (IS_CHAR_SHOOTING_IN_AREA( sub_603(), l_U13._fU0 - 30, l_U13._fU4 - 30, l_U13._fU0 + 30, l_U13._fU4 + 30, 0 ))
+    if (IS_CHAR_SHOOTING_IN_AREA( GetPlayerChar(), l_U13._fU0 - 30, l_U13._fU4 - 30, l_U13._fU0 + 30, l_U13._fU4 + 30, 0 ))
     {
-        sub_117();
+        CleanupScript();
     }
     if (l_U11 == 7)
     {
@@ -665,9 +691,9 @@ void sub_2543(unknown uParam0)
                     MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U91 );
                     if (NOT (IS_CONTROL_PRESSED( 2, 2 )))
                     {
-                        CLEAR_CHAR_TASKS( sub_603() );
+                        CLEAR_CHAR_TASKS( GetPlayerChar() );
                     }
-                    sub_652( 1 );
+                    TogglePlayerControl( 1 );
                     l_U12 = 19;
                 }
             }
@@ -691,16 +717,16 @@ void sub_2543(unknown uParam0)
     {
         if (NOT (IS_OBJECT_UPRIGHT( uParam0, 20 )))
         {
-            if (LOCATE_CHAR_ANY_MEANS_OBJECT_3D( sub_603(), uParam0, 4.00000000, 4.00000000, 4.00000000, 0 ))
+            if (LOCATE_CHAR_ANY_MEANS_OBJECT_3D( GetPlayerChar(), uParam0, 4.00000000, 4.00000000, 4.00000000, 0 ))
             {
                 l_U70 = 1;
             }
-            sub_117();
+            CleanupScript();
         }
         if ((GET_OBJECT_FRAGMENT_DAMAGE_HEALTH( uParam0, 0 )) < l_U4)
         {
             sub_4710( uParam0 );
-            sub_117();
+            CleanupScript();
         }
     }
     if (DOES_OBJECT_EXIST( uParam0 ))
@@ -710,30 +736,30 @@ void sub_2543(unknown uParam0)
             sub_1969( uParam0 );
         }
     }
-    if (IS_PLAYER_PLAYING( sub_475() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_475() ))
+        if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() ))
         {
-            GET_INTERIOR_FROM_CHAR( sub_603(), ref l_U92 );
+            GET_INTERIOR_FROM_CHAR( GetPlayerChar(), ref l_U92 );
             if (l_U92 == nil)
             {
                 if (HAVE_ANIMS_LOADED( "amb@nutcart" ))
                 {
-                    if (NOT (IS_CHAR_INJURED( l_U88 )))
+                    if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
                     {
-                        if ((NOT (IS_CHAR_IN_ANY_CAR( sub_603() ))) AND (l_U11 != 1))
+                        if ((NOT (IS_CHAR_IN_ANY_CAR( GetPlayerChar() ))) AND (l_U11 != 1))
                         {
-                            if (LOCATE_CHAR_ANY_MEANS_3D( sub_603(), l_U19._fU0, l_U19._fU4, l_U19._fU8, 2.00000000, 2.00000000, 1.00000000, 0 ))
+                            if (LOCATE_CHAR_ANY_MEANS_3D( GetPlayerChar(), l_U19._fU0, l_U19._fU4, l_U19._fU8, 2.00000000, 2.00000000, 1.00000000, 0 ))
                             {
                                 if (l_U11 != 7)
                                 {
                                     if (l_U69 == 0)
                                     {
-                                        if (NOT (IS_PED_RAGDOLL( l_U88 )))
+                                        if (NOT (IS_PED_RAGDOLL( hotdogVendorPed )))
                                         {
-                                            if (NOT (IS_CHAR_GETTING_UP( l_U88 )))
+                                            if (NOT (IS_CHAR_GETTING_UP( hotdogVendorPed )))
                                             {
-                                                if (NOT (IS_CHAR_IN_MELEE_COMBAT( l_U88 )))
+                                                if (NOT (IS_CHAR_IN_MELEE_COMBAT( hotdogVendorPed )))
                                                 {
                                                     if (l_U60 == 0)
                                                     {
@@ -742,27 +768,27 @@ void sub_2543(unknown uParam0)
                                                             sub_1932();
                                                             if (sub_5234( 2, 0 ))
                                                             {
-                                                                if (sub_5495( 2, l_U65, 0 ))
+                                                                if (sub_5495( 2, currentObjectScript, 0 ))
                                                                 {
-                                                                    if (IS_SCORE_GREATER( sub_475(), 5 ))
+                                                                    if (IS_SCORE_GREATER( CurrentPlayerId(), 5 ))
                                                                     {
-                                                                        sub_139( l_U65 );
-                                                                        REMOVE_PED_HELMET( sub_603(), 1 );
+                                                                        sub_139( currentObjectScript );
+                                                                        REMOVE_PED_HELMET( GetPlayerChar(), 1 );
                                                                         g_U9060++;
                                                                         if (g_U9060 < g_U9057)
                                                                         {
                                                                             if (USING_STANDARD_CONTROLS())
                                                                             {
-                                                                                l_U65 = "ObjScpt_07";
+                                                                                currentObjectScript = "ObjScpt_07";
                                                                             }
                                                                             else
                                                                             {
-                                                                                l_U65 = "ClaScpt_07";
+                                                                                currentObjectScript = "ClaScpt_07";
                                                                             }
                                                                         }
                                                                         else
                                                                         {
-                                                                            l_U65 = "NULL";
+                                                                            currentObjectScript = "NULL";
                                                                         }
                                                                         l_U11 = 6;
                                                                     }
@@ -774,87 +800,89 @@ void sub_2543(unknown uParam0)
                                                             }
                                                             else
                                                             {
-                                                                sub_205( 2, "ObjScpt_07" );
-                                                                sub_205( 2, "ClaScpt_07" );
-                                                                sub_205( 2, "NULL" );
+                                                                SetScriptObject( 2, "ObjScpt_07" );
+                                                                SetScriptObject( 2, "ClaScpt_07" );
+                                                                SetScriptObject( 2, "NULL" );
                                                             }
                                                         }
                                                         else
                                                         {
-                                                            sub_205( 2, "ObjScpt_07" );
-                                                            sub_205( 2, "ClaScpt_07" );
-                                                            sub_205( 2, "NULL" );
+                                                            SetScriptObject( 2, "ObjScpt_07" );
+                                                            SetScriptObject( 2, "ClaScpt_07" );
+                                                            SetScriptObject( 2, "NULL" );
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        sub_205( 2, "ObjScpt_07" );
-                                                        sub_205( 2, "ClaScpt_07" );
-                                                        sub_205( 2, "NULL" );
+                                                        SetScriptObject( 2, "ObjScpt_07" );
+                                                        SetScriptObject( 2, "ClaScpt_07" );
+                                                        SetScriptObject( 2, "NULL" );
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    sub_205( 2, "ObjScpt_07" );
-                                                    sub_205( 2, "ClaScpt_07" );
-                                                    sub_205( 2, "NULL" );
+                                                    SetScriptObject( 2, "ObjScpt_07" );
+                                                    SetScriptObject( 2, "ClaScpt_07" );
+                                                    SetScriptObject( 2, "NULL" );
                                                 }
                                             }
                                             else
                                             {
-                                                sub_205( 2, "ObjScpt_07" );
-                                                sub_205( 2, "ClaScpt_07" );
-                                                sub_205( 2, "NULL" );
+                                                SetScriptObject( 2, "ObjScpt_07" );
+                                                SetScriptObject( 2, "ClaScpt_07" );
+                                                SetScriptObject( 2, "NULL" );
                                             }
                                         }
                                         else
                                         {
-                                            sub_205( 2, "ObjScpt_07" );
-                                            sub_205( 2, "ClaScpt_07" );
-                                            sub_205( 2, "NULL" );
+                                            SetScriptObject( 2, "ObjScpt_07" );
+                                            SetScriptObject( 2, "ClaScpt_07" );
+                                            SetScriptObject( 2, "NULL" );
                                         }
                                     }
+
+                                    // l_U68 seems to be cancelling the hot dog vendor speech.
                                     else if (l_U68 == 0)
                                     {
-                                        CANCEL_CURRENTLY_PLAYING_AMBIENT_SPEECH( l_U88 );
-                                        sub_6690();
-                                        SAY_AMBIENT_SPEECH( l_U88, "Generic_Fuck_Off", 1, 0, 0 );
+                                        CANCEL_CURRENTLY_PLAYING_AMBIENT_SPEECH( hotdogVendorPed );
+                                        PrintUpsetVendorText();
+                                        SAY_AMBIENT_SPEECH( hotdogVendorPed, "Generic_Fuck_Off", 1, 0, 0 );
                                         l_U68 = 1;
                                     }
-                                    sub_205( 2, "ObjScpt_07" );
-                                    sub_205( 2, "ClaScpt_07" );
-                                    sub_205( 2, "NULL" );;
+                                    SetScriptObject( 2, "ObjScpt_07" );
+                                    SetScriptObject( 2, "ClaScpt_07" );
+                                    SetScriptObject( 2, "NULL" );;
                                 }
                             }
                             else
                             {
                                 l_U68 = 0;
-                                sub_205( 2, "ObjScpt_07" );
-                                sub_205( 2, "ClaScpt_07" );
-                                sub_205( 2, "NULL" );
+                                SetScriptObject( 2, "ObjScpt_07" );
+                                SetScriptObject( 2, "ClaScpt_07" );
+                                SetScriptObject( 2, "NULL" );
                             }
                         }
                         else
                         {
-                            sub_205( 2, "ObjScpt_07" );
-                            sub_205( 2, "ClaScpt_07" );
-                            sub_205( 2, "NULL" );
+                            SetScriptObject( 2, "ObjScpt_07" );
+                            SetScriptObject( 2, "ClaScpt_07" );
+                            SetScriptObject( 2, "NULL" );
                         }
                     }
                     else
                     {
-                        sub_205( 2, "ObjScpt_07" );
-                        sub_205( 2, "ClaScpt_07" );
-                        sub_205( 2, "NULL" );
+                        SetScriptObject( 2, "ObjScpt_07" );
+                        SetScriptObject( 2, "ClaScpt_07" );
+                        SetScriptObject( 2, "NULL" );
                     }
                 }
             }
         }
         else
         {
-            sub_205( 2, "ObjScpt_07" );
-            sub_205( 2, "ClaScpt_07" );
-            sub_205( 2, "NULL" );
+            SetScriptObject( 2, "ObjScpt_07" );
+            SetScriptObject( 2, "ClaScpt_07" );
+            SetScriptObject( 2, "NULL" );
         }
     }
     return;
@@ -865,13 +893,13 @@ void sub_2554(unknown uParam0)
     switch (l_U60)
     {
         case 0:
-        if (NOT (IS_CHAR_INJURED( l_U88 )))
+        if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
         {
-            if (NOT (LOCATE_CHAR_ON_FOOT_3D( l_U88, l_U16._fU0, l_U16._fU4, l_U16._fU8, 1.00000000, 1.00000000, 2.00000000, 0 )))
+            if (NOT (LOCATE_CHAR_ON_FOOT_3D( hotdogVendorPed, l_U16.x, l_U16.y, l_U16.z, 1.00000000, 1.00000000, 2.00000000, 0 )))
             {
                 OPEN_SEQUENCE_TASK( ref l_U93 );
-                TASK_FOLLOW_NAV_MESH_TO_COORD( 0, l_U16._fU0, l_U16._fU4, l_U16._fU8, 2, -1, 1.00000000 );
-                TASK_CHAR_SLIDE_TO_COORD( 0, l_U16._fU0, l_U16._fU4, l_U16._fU8, l_U49, 2.00000000 );
+                TASK_FOLLOW_NAV_MESH_TO_COORD( 0, l_U16.x, l_U16.y, l_U16.z, 2, -1, 1.00000000 );
+                TASK_CHAR_SLIDE_TO_COORD( 0, l_U16.x, l_U16.y, l_U16.z, hotdogStandHeading, 2.00000000 );
                 CLOSE_SEQUENCE_TASK( l_U93 );
                 l_U85 = 0;
                 if (l_U89 != nil)
@@ -881,8 +909,8 @@ void sub_2554(unknown uParam0)
                 }
                 if (l_U11 == 7)
                 {
-                    sub_652( 1 );
-                    CLEAR_CHAR_TASKS( sub_603() );
+                    TogglePlayerControl( 1 );
+                    CLEAR_CHAR_TASKS( GetPlayerChar() );
                     l_U12 = 0;
                 }
                 sub_1969( uParam0 );
@@ -892,9 +920,9 @@ void sub_2554(unknown uParam0)
         }
         break;
         case 1:
-        if (NOT (IS_CHAR_INJURED( l_U88 )))
+        if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
         {
-            TASK_PERFORM_SEQUENCE( l_U88, l_U93 );
+            TASK_PERFORM_SEQUENCE( hotdogVendorPed, l_U93 );
             GET_GAME_TIMER( ref l_U62 );
             CLEAR_SEQUENCE_TASK( l_U93 );
             l_U60++;
@@ -903,9 +931,9 @@ void sub_2554(unknown uParam0)
         case 2:
         GET_GAME_TIMER( ref l_U63 );
         l_U64 = l_U63 - l_U62;
-        if (NOT (IS_CHAR_INJURED( l_U88 )))
+        if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
         {
-            GET_SCRIPT_TASK_STATUS( l_U88, 29, ref l_U85 );
+            GET_SCRIPT_TASK_STATUS( hotdogVendorPed, 29, ref l_U85 );
             if ((l_U64 > 8000) || (l_U85 == 7))
             {
                 l_U11 = 3;
@@ -921,7 +949,7 @@ int sub_3190()
 {
     int iVar2;
 
-    GET_CURRENT_CHAR_WEAPON( sub_603(), ref iVar2 );
+    GET_CURRENT_CHAR_WEAPON( GetPlayerChar(), ref iVar2 );
     if (iVar2 == 0)
     {
         return 1;
@@ -943,9 +971,9 @@ int sub_3190()
 
 int sub_3425(unknown uParam0, unknown uParam1, unknown uParam2)
 {
-    if (NOT (IS_CHAR_DEAD( sub_603() )))
+    if (NOT (IS_CHAR_DEAD( GetPlayerChar() )))
     {
-        if (LOCATE_CHAR_ANY_MEANS_3D( sub_603(), uParam0._fU0, uParam0._fU4, uParam0._fU8, 1.00000000, 1.00000000, 3.00000000, 0 ))
+        if (LOCATE_CHAR_ANY_MEANS_3D( GetPlayerChar(), uParam0._fU0, uParam0._fU4, uParam0._fU8, 1.00000000, 1.00000000, 3.00000000, 0 ))
         {
             return 1;
         }
@@ -964,14 +992,14 @@ void sub_3546()
         DELETE_OBJECT( ref l_U91 );
         MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U91 );
     }
-    if (DOES_OBJECT_EXIST( l_U90 ))
+    if (DOES_OBJECT_EXIST( hotdogVenderCart ))
     {
-        if (IS_OBJECT_ATTACHED( l_U90 ))
+        if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
         {
-            DETACH_OBJECT( l_U90, 1 );
+            DETACH_OBJECT( hotdogVenderCart, 1 );
         }
-        DELETE_OBJECT( ref l_U90 );
-        MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U90 );
+        DELETE_OBJECT( ref hotdogVenderCart );
+        MARK_OBJECT_AS_NO_LONGER_NEEDED( ref hotdogVenderCart );
     }
     return;
 }
@@ -1026,12 +1054,12 @@ void sub_4710(unknown uParam0)
 {
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        if (NOT (IS_CHAR_DEAD( l_U88 )))
+        if (NOT (IS_CHAR_DEAD( hotdogVendorPed )))
         {
-            if (LOCATE_CHAR_ANY_MEANS_OBJECT_2D( l_U88, uParam0, 5.00000000, 5.00000000, 0 ))
+            if (LOCATE_CHAR_ANY_MEANS_OBJECT_2D( hotdogVendorPed, uParam0, 5.00000000, 5.00000000, 0 ))
             {
                 TRIGGER_PTFX_ON_OBJ( "fire_hotdog_blaze", uParam0, 0.00000000, 0.00000000, 0.80000000, 0.00000000, 0.00000000, 0.00000000, 1065353216 );
-                START_CHAR_FIRE( l_U88 );
+                START_CHAR_FIRE( hotdogVendorPed );
                 INCREMENT_INT_STAT_NO_MESSAGE( 272, 1 );
             }
         }
@@ -1041,17 +1069,17 @@ void sub_4710(unknown uParam0)
 
 int sub_5234(int iParam0, unknown uParam1)
 {
-    if (IS_PLAYER_PLAYING( sub_475() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (IS_SCREEN_FADED_IN())
         {
-            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( sub_475() )))
+            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
             {
-                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_475() )))))
+                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))))
                 {
                     if (NOT sub_4040())
                     {
-                        if ((GET_OBJECT_PED_IS_HOLDING( sub_603() )) == nil)
+                        if ((GET_OBJECT_PED_IS_HOLDING( GetPlayerChar() )) == nil)
                         {
                             if (g_U9172 <= iParam0)
                             {
@@ -1126,7 +1154,7 @@ int sub_5495(unknown uParam0, string sParam1, unknown uParam2)
         {
             if (NOT l_U2)
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_475(), 0 );
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 0 );
                 l_U2 = 1;
             }
             g_U9172 = uParam0;
@@ -1195,7 +1223,9 @@ int sub_6268(unknown uParam0, unknown uParam1, unknown uParam2)
     return 0;
 }
 
-void sub_6690()
+// sub_6690
+// Print upset vendor text
+void PrintUpsetVendorText()
 {
     int iVar2;
 
@@ -1244,11 +1274,11 @@ void sub_7393()
     switch (l_U61)
     {
         case 0:
-        if (NOT (IS_CHAR_INJURED( l_U88 )))
+        if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
         {
-            if (NOT (IS_CHAR_IN_MELEE_COMBAT( l_U88 )))
+            if (NOT (IS_CHAR_IN_MELEE_COMBAT( hotdogVendorPed )))
             {
-                SAY_AMBIENT_SPEECH( l_U88, "ATTRACT_NUTS", 0, 1, 0 );
+                SAY_AMBIENT_SPEECH( hotdogVendorPed, "ATTRACT_NUTS", 0, 1, 0 );
                 GET_GAME_TIMER( ref l_U62 );
                 GENERATE_RANDOM_INT_IN_RANGE( 4000, 13000, ref l_U55 );
                 l_U61++;
@@ -1289,9 +1319,9 @@ void sub_7623()
                 {
                     if (NOT (IS_PED_A_MISSION_PED( l_U89 )))
                     {
-                        if (NOT (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U89, sub_603(), 0 )))
+                        if (NOT (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U89, GetPlayerChar(), 0 )))
                         {
-                            if (NOT (IS_PLAYER_TARGETTING_CHAR( sub_475(), l_U89 )))
+                            if (NOT (IS_PLAYER_TARGETTING_CHAR( CurrentPlayerId(), l_U89 )))
                             {
                                 if (NOT (sub_3425( l_U19 )))
                                 {
@@ -1344,7 +1374,7 @@ void sub_7623()
 void sub_8082()
 {
     sub_8091();
-    if (NOT (IS_CHAR_INJURED( l_U88 )))
+    if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
     {
         switch (l_U12)
         {
@@ -1352,9 +1382,9 @@ void sub_8082()
             if (NOT (IS_CHAR_INJURED( l_U89 )))
             {
                 TASK_FOLLOW_NAV_MESH_TO_COORD( l_U89, l_U19._fU0, l_U19._fU4, l_U19._fU8, 2, -2, 1.00000000 );
-                if (sub_8350( l_U88, l_U16 ))
+                if (sub_8350( hotdogVendorPed, l_U16 ))
                 {
-                    TASK_CHAR_SLIDE_TO_COORD( l_U88, l_U16._fU0, l_U16._fU4, l_U16._fU8, l_U49, 2.00000000 );
+                    TASK_CHAR_SLIDE_TO_COORD( hotdogVendorPed, l_U16.x, l_U16.y, l_U16.z, hotdogStandHeading, 2.00000000 );
                 }
                 l_U12 = 1;
             }
@@ -1398,7 +1428,7 @@ void sub_8082()
             if (NOT (IS_CHAR_INJURED( l_U89 )))
             {
                 l_U83 = 0;
-                TASK_TURN_CHAR_TO_FACE_CHAR( l_U89, l_U88 );
+                TASK_TURN_CHAR_TO_FACE_CHAR( l_U89, hotdogVendorPed );
                 l_U12 = 5;
             }
             break;
@@ -1415,7 +1445,7 @@ void sub_8082()
             case 6:
             if (NOT (IS_CHAR_INJURED( l_U89 )))
             {
-                TASK_PLAY_ANIM( l_U88, "SELL_NUTS", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
+                TASK_PLAY_ANIM( hotdogVendorPed, "SELL_NUTS", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
                 TASK_PLAY_ANIM( l_U89, "BUY_NUTS", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
                 SAY_AMBIENT_SPEECH( l_U89, "Order_Food", 1, 0, 0 );
                 l_U83 = 0;
@@ -1434,25 +1464,25 @@ void sub_8082()
                     l_U12 = 19;
                 }
             }
-            if (IS_CHAR_PLAYING_ANIM( l_U88, "amb@nutcart", "BUY_NUTS" ))
+            if (IS_CHAR_PLAYING_ANIM( hotdogVendorPed, "amb@nutcart", "BUY_NUTS" ))
             {
-                GET_CHAR_ANIM_CURRENT_TIME( l_U88, "amb@nutcart", "BUY_NUTS", ref l_U50 );
+                GET_CHAR_ANIM_CURRENT_TIME( hotdogVendorPed, "amb@nutcart", "BUY_NUTS", ref l_U50 );
             }
             if (l_U71[0] == 0)
             {
                 if (l_U50 > 0.21900000)
                 {
-                    if (NOT (DOES_OBJECT_EXIST( l_U90 )))
+                    if (NOT (DOES_OBJECT_EXIST( hotdogVenderCart )))
                     {
-                        CREATE_OBJECT( 1432278665, l_U22._fU0, l_U22._fU4, l_U22._fU8, ref l_U90, 1 );
+                        CREATE_OBJECT( 1432278665, l_U22.x, l_U22.y, l_U22.z, ref hotdogVenderCart, 1 );
                     }
-                    if (DOES_OBJECT_EXIST( l_U90 ))
+                    if (DOES_OBJECT_EXIST( hotdogVenderCart ))
                     {
-                        if (NOT (IS_OBJECT_ATTACHED( l_U90 )))
+                        if (NOT (IS_OBJECT_ATTACHED( hotdogVenderCart )))
                         {
-                            ATTACH_OBJECT_TO_PED( l_U90, l_U88, 1219, 0, 0, 0, 0.00000000, 0.00000000, 0.00000000, 0 );
+                            ATTACH_OBJECT_TO_PED( hotdogVenderCart, hotdogVendorPed, 1219, 0, 0, 0, 0.00000000, 0.00000000, 0.00000000, 0 );
                         }
-                        SET_OBJECT_VISIBLE( l_U90, 1 );
+                        SET_OBJECT_VISIBLE( hotdogVenderCart, 1 );
                         l_U71[0] = 1;
                     }
                 }
@@ -1461,14 +1491,14 @@ void sub_8082()
             {
                 if (l_U50 > 0.72500000)
                 {
-                    if (DOES_OBJECT_EXIST( l_U90 ))
+                    if (DOES_OBJECT_EXIST( hotdogVenderCart ))
                     {
-                        if (IS_OBJECT_ATTACHED( l_U90 ))
+                        if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
                         {
-                            DETACH_OBJECT( l_U90, 1 );
+                            DETACH_OBJECT( hotdogVenderCart, 1 );
                         }
-                        DELETE_OBJECT( ref l_U90 );
-                        SAY_AMBIENT_SPEECH( l_U88, "SELL_GOODS", 0, 1, 0 );
+                        DELETE_OBJECT( ref hotdogVenderCart );
+                        SAY_AMBIENT_SPEECH( hotdogVendorPed, "SELL_GOODS", 0, 1, 0 );
                         l_U71[1] = 1;
                     }
                 }
@@ -1490,20 +1520,20 @@ void sub_8082()
             }
             break;
             case 19:
-            if (DOES_OBJECT_EXIST( l_U90 ))
+            if (DOES_OBJECT_EXIST( hotdogVenderCart ))
             {
-                if (IS_OBJECT_ATTACHED( l_U90 ))
+                if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
                 {
-                    DETACH_OBJECT( l_U90, 1 );
+                    DETACH_OBJECT( hotdogVenderCart, 1 );
                 }
-                DELETE_OBJECT( ref l_U90 );
+                DELETE_OBJECT( ref hotdogVenderCart );
             }
-            sub_205( 2, "ObjScpt_07" );
-            sub_205( 2, "ClaScpt_07" );
-            sub_205( 2, "NULL" );
-            CREATE_OBJECT( 1432278665, l_U22._fU0, l_U22._fU4, l_U22._fU8, ref l_U90, 1 );
-            SET_OBJECT_VISIBLE( l_U90, 0 );
-            SET_OBJECT_COLLISION( l_U90, 0 );
+            SetScriptObject( 2, "ObjScpt_07" );
+            SetScriptObject( 2, "ClaScpt_07" );
+            SetScriptObject( 2, "NULL" );
+            CREATE_OBJECT( 1432278665, l_U22.x, l_U22.y, l_U22.z, ref hotdogVenderCart, 1 );
+            SET_OBJECT_VISIBLE( hotdogVenderCart, 0 );
+            SET_OBJECT_COLLISION( hotdogVenderCart, 0 );
             l_U50 = 0.00000000;
             l_U74 = 0;
             l_U71[0] = 0;
@@ -1553,7 +1583,7 @@ int sub_8350(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
 
 void sub_10281()
 {
-    if (NOT (IS_CHAR_INJURED( l_U88 )))
+    if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
     {
         switch (l_U12)
         {
@@ -1562,9 +1592,9 @@ void sub_10281()
             {
                 l_U12 = 19;
             }
-            GET_CHAR_COORDINATES( sub_603(), ref l_U46._fU0, ref l_U46._fU4, ref l_U46._fU8 );
-            TASK_FOLLOW_NAV_MESH_TO_COORD( sub_603(), l_U19._fU0, l_U19._fU4, l_U19._fU8, 3, -2, 0.20000000 );
-            TASK_TURN_CHAR_TO_FACE_COORD( l_U88, l_U19._fU0, l_U19._fU4, l_U19._fU8 );
+            GET_CHAR_COORDINATES( GetPlayerChar(), ref l_U46._fU0, ref l_U46._fU4, ref l_U46._fU8 );
+            TASK_FOLLOW_NAV_MESH_TO_COORD( GetPlayerChar(), l_U19._fU0, l_U19._fU4, l_U19._fU8, 3, -2, 0.20000000 );
+            TASK_TURN_CHAR_TO_FACE_COORD( hotdogVendorPed, l_U19._fU0, l_U19._fU4, l_U19._fU8 );
             l_U83 = 0;
             l_U12 = 1;
             break;
@@ -1573,13 +1603,13 @@ void sub_10281()
             {
                 l_U12 = 19;
             }
-            GET_SCRIPT_TASK_STATUS( sub_603(), 27, ref l_U83 );
+            GET_SCRIPT_TASK_STATUS( GetPlayerChar(), 27, ref l_U83 );
             if (l_U83 == 7)
             {
                 if (sub_10718( l_U19 ))
                 {
                     sub_10808();
-                    TASK_CHAR_SLIDE_TO_COORD_HDG_RATE( sub_603(), l_U19._fU0, l_U19._fU4, l_U19._fU8, l_U53, 2.00000000, 270.00000000 );
+                    TASK_CHAR_SLIDE_TO_COORD_HDG_RATE( GetPlayerChar(), l_U19._fU0, l_U19._fU4, l_U19._fU8, l_U53, 2.00000000, 270.00000000 );
                     l_U12 = 3;
                 }
                 else
@@ -1596,7 +1626,7 @@ void sub_10281()
             }
             else
             {
-                GET_SCRIPT_TASK_STATUS( sub_603(), 68, ref l_U83 );
+                GET_SCRIPT_TASK_STATUS( GetPlayerChar(), 68, ref l_U83 );
                 if (l_U83 == 7)
                 {
                     GET_GAME_TIMER( ref l_U62 );
@@ -1606,44 +1636,44 @@ void sub_10281()
             }
             break;
             case 4:
-            TASK_TURN_CHAR_TO_FACE_CHAR( sub_603(), l_U88 );
+            TASK_TURN_CHAR_TO_FACE_CHAR( GetPlayerChar(), hotdogVendorPed );
             l_U12 = 5;
             break;
             case 5:
-            GET_SCRIPT_TASK_STATUS( sub_603(), 34, ref l_U83 );
+            GET_SCRIPT_TASK_STATUS( GetPlayerChar(), 34, ref l_U83 );
             if (l_U83 == 7)
             {
-                TASK_LOOK_AT_CHAR( l_U88, sub_603(), 7000, 0 );
-                TASK_PLAY_ANIM( sub_603(), "BUY_NUTS_PLYR", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
-                TASK_PLAY_ANIM( l_U88, "SELL_NUTS_PLYR", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
-                SAY_AMBIENT_SPEECH( sub_603(), "GENERIC_BUY", 1, 1, 0 );
+                TASK_LOOK_AT_CHAR( hotdogVendorPed, GetPlayerChar(), 7000, 0 );
+                TASK_PLAY_ANIM( GetPlayerChar(), "BUY_NUTS_PLYR", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
+                TASK_PLAY_ANIM( hotdogVendorPed, "SELL_NUTS_PLYR", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
+                SAY_AMBIENT_SPEECH( GetPlayerChar(), "GENERIC_BUY", 1, 1, 0 );
                 l_U12 = 12;
             }
             break;
             case 12:
-            if (IS_CHAR_PLAYING_ANIM( sub_603(), "amb@nutcart", "BUY_NUTS_PLYR" ))
+            if (IS_CHAR_PLAYING_ANIM( GetPlayerChar(), "amb@nutcart", "BUY_NUTS_PLYR" ))
             {
-                GET_CHAR_ANIM_CURRENT_TIME( sub_603(), "amb@nutcart", "BUY_NUTS_PLYR", ref l_U51 );
+                GET_CHAR_ANIM_CURRENT_TIME( GetPlayerChar(), "amb@nutcart", "BUY_NUTS_PLYR", ref l_U51 );
             }
-            if (IS_CHAR_PLAYING_ANIM( l_U88, "amb@nutcart", "SELL_NUTS_PLYR" ))
+            if (IS_CHAR_PLAYING_ANIM( hotdogVendorPed, "amb@nutcart", "SELL_NUTS_PLYR" ))
             {
-                GET_CHAR_ANIM_CURRENT_TIME( l_U88, "amb@nutcart", "SELL_NUTS_PLYR", ref l_U50 );
+                GET_CHAR_ANIM_CURRENT_TIME( hotdogVendorPed, "amb@nutcart", "SELL_NUTS_PLYR", ref l_U50 );
             }
             if (l_U71[0] == 0)
             {
                 if (l_U50 > 0.30200000)
                 {
-                    if (NOT (DOES_OBJECT_EXIST( l_U90 )))
+                    if (NOT (DOES_OBJECT_EXIST( hotdogVenderCart )))
                     {
-                        CREATE_OBJECT( 1432278665, l_U22._fU0, l_U22._fU4, l_U22._fU8, ref l_U90, 1 );
+                        CREATE_OBJECT( 1432278665, l_U22.x, l_U22.y, l_U22.z, ref hotdogVenderCart, 1 );
                     }
-                    if (DOES_OBJECT_EXIST( l_U90 ))
+                    if (DOES_OBJECT_EXIST( hotdogVenderCart ))
                     {
-                        if (NOT (IS_OBJECT_ATTACHED( l_U90 )))
+                        if (NOT (IS_OBJECT_ATTACHED( hotdogVenderCart )))
                         {
-                            ATTACH_OBJECT_TO_PED( l_U90, l_U88, 1219, -0.01000000, -0.02000000, 0, 2.96000000, -0.04000000, 0.56000000, 0 );
+                            ATTACH_OBJECT_TO_PED( hotdogVenderCart, hotdogVendorPed, 1219, -0.01000000, -0.02000000, 0, 2.96000000, -0.04000000, 0.56000000, 0 );
                         }
-                        SET_OBJECT_VISIBLE( l_U90, 1 );
+                        SET_OBJECT_VISIBLE( hotdogVenderCart, 1 );
                         l_U71[0] = 1;
                     }
                 }
@@ -1662,43 +1692,43 @@ void sub_10281()
                         SET_OBJECT_COLLISION( l_U91, 0 );
                         if (NOT (IS_OBJECT_ATTACHED( l_U91 )))
                         {
-                            ATTACH_OBJECT_TO_PED( l_U91, sub_603(), 1232, 0, 0, 0, 0.00000000, 0.00000000, 0.00000000, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U91, GetPlayerChar(), 1232, 0, 0, 0, 0.00000000, 0.00000000, 0.00000000, 0 );
                         }
                     }
                     sub_11843();
-                    if (DOES_OBJECT_EXIST( l_U90 ))
+                    if (DOES_OBJECT_EXIST( hotdogVenderCart ))
                     {
-                        if (IS_OBJECT_ATTACHED( l_U90 ))
+                        if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
                         {
-                            DETACH_OBJECT( l_U90, 1 );
+                            DETACH_OBJECT( hotdogVenderCart, 1 );
                         }
-                        DELETE_OBJECT( ref l_U90 );
+                        DELETE_OBJECT( ref hotdogVenderCart );
                     }
-                    SAY_AMBIENT_SPEECH( l_U88, "SELL_GOODS", 1, 1, 0 );
+                    SAY_AMBIENT_SPEECH( hotdogVendorPed, "SELL_GOODS", 1, 1, 0 );
                     l_U50 = 0.00000000;
                     l_U12 = 17;
                 }
             }
             break;
             case 17:
-            if (NOT (IS_CHAR_PLAYING_ANIM( sub_603(), "amb@nutcart", "BUY_NUTS_PLYR" )))
+            if (NOT (IS_CHAR_PLAYING_ANIM( GetPlayerChar(), "amb@nutcart", "BUY_NUTS_PLYR" )))
             {
-                SAY_AMBIENT_SPEECH( sub_603(), "THANKS", 1, 1, 0 );
-                TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( sub_603(), "EAT_NUTS_PLYR", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
+                SAY_AMBIENT_SPEECH( GetPlayerChar(), "THANKS", 1, 1, 0 );
+                TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( GetPlayerChar(), "EAT_NUTS_PLYR", "amb@nutcart", 8.00000000, 0, 0, 0, 0, -2 );
                 l_U50 = 0.00000000;
-                if (IS_PLAYER_PLAYING( sub_475() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    sub_652( 1 );
+                    TogglePlayerControl( 1 );
                 }
                 l_U12 = 18;
             }
             break;
             case 18:
-            if (IS_CHAR_PLAYING_ANIM( sub_603(), "amb@nutcart", "EAT_NUTS_PLYR" ))
+            if (IS_CHAR_PLAYING_ANIM( GetPlayerChar(), "amb@nutcart", "EAT_NUTS_PLYR" ))
             {
-                GET_CHAR_ANIM_CURRENT_TIME( sub_603(), "amb@nutcart", "EAT_NUTS_PLYR", ref l_U50 );
+                GET_CHAR_ANIM_CURRENT_TIME( GetPlayerChar(), "amb@nutcart", "EAT_NUTS_PLYR", ref l_U50 );
             }
-            if (NOT (IS_CHAR_PLAYING_ANIM( sub_603(), "amb@nutcart", "EAT_NUTS_PLYR" )))
+            if (NOT (IS_CHAR_PLAYING_ANIM( GetPlayerChar(), "amb@nutcart", "EAT_NUTS_PLYR" )))
             {
                 if (DOES_OBJECT_EXIST( l_U91 ))
                 {
@@ -1713,24 +1743,24 @@ void sub_10281()
             }
             break;
             case 19:
-            sub_205( 2, "ObjScpt_07" );
-            sub_205( 2, "ClaScpt_07" );
-            sub_205( 2, "NULL" );
-            if (DOES_OBJECT_EXIST( l_U90 ))
+            SetScriptObject( 2, "ObjScpt_07" );
+            SetScriptObject( 2, "ClaScpt_07" );
+            SetScriptObject( 2, "NULL" );
+            if (DOES_OBJECT_EXIST( hotdogVenderCart ))
             {
-                if (IS_OBJECT_ATTACHED( l_U90 ))
+                if (IS_OBJECT_ATTACHED( hotdogVenderCart ))
                 {
-                    DETACH_OBJECT( l_U90, 1 );
+                    DETACH_OBJECT( hotdogVenderCart, 1 );
                 }
-                DELETE_OBJECT( ref l_U90 );
+                DELETE_OBJECT( ref hotdogVenderCart );
             }
             sub_13115();
-            CREATE_OBJECT( 1432278665, l_U22._fU0, l_U22._fU4, l_U22._fU8, ref l_U90, 1 );
-            SET_OBJECT_VISIBLE( l_U90, 0 );
-            SET_OBJECT_COLLISION( l_U90, 0 );
-            if (NOT (IS_CHAR_INJURED( l_U88 )))
+            CREATE_OBJECT( 1432278665, l_U22.x, l_U22.y, l_U22.z, ref hotdogVenderCart, 1 );
+            SET_OBJECT_VISIBLE( hotdogVenderCart, 0 );
+            SET_OBJECT_COLLISION( hotdogVenderCart, 0 );
+            if (NOT (IS_CHAR_INJURED( hotdogVendorPed )))
             {
-                TASK_ACHIEVE_HEADING( l_U88, l_U49 );
+                TASK_ACHIEVE_HEADING( hotdogVendorPed, hotdogStandHeading );
             }
             l_U50 = 0.00000000;
             l_U66 = 0;
@@ -1747,8 +1777,8 @@ int sub_10390()
 {
     if ((sub_10438()) || ((IS_BUTTON_PRESSED( 0, 16 )) || ((IS_BUTTON_PRESSED( 0, 15 )) || ((IS_BUTTON_PRESSED( 0, 14 )) || (IS_BUTTON_PRESSED( 0, 17 ))))))
     {
-        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_603() );
-        SET_PLAYER_CONTROL( sub_475(), 1 );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( GetPlayerChar() );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         return 1;
     }
     return 0;
@@ -1779,9 +1809,9 @@ int sub_10718(unknown uParam0, unknown uParam1, unknown uParam2)
     unknown uVar6;
     unknown uVar7;
 
-    if (NOT (IS_CHAR_DEAD( sub_603() )))
+    if (NOT (IS_CHAR_DEAD( GetPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_603(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
+        GET_CHAR_COORDINATES( GetPlayerChar(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
         if ((VDIST( uVar5, uParam0 )) < 10.00000000)
         {
             return 1;
@@ -1792,17 +1822,17 @@ int sub_10718(unknown uParam0, unknown uParam1, unknown uParam2)
 
 void sub_10808()
 {
-    if (NOT (IS_CHAR_DEAD( sub_603() )))
+    if (NOT (IS_CHAR_DEAD( GetPlayerChar() )))
     {
-        GET_CURRENT_CHAR_WEAPON( sub_603(), ref l_U9 );
+        GET_CURRENT_CHAR_WEAPON( GetPlayerChar(), ref l_U9 );
         if (l_U9 == 46)
         {
-            REMOVE_WEAPON_FROM_CHAR( sub_603(), 46 );
-            SET_CURRENT_CHAR_WEAPON( sub_603(), 0, 1 );
+            REMOVE_WEAPON_FROM_CHAR( GetPlayerChar(), 46 );
+            SET_CURRENT_CHAR_WEAPON( GetPlayerChar(), 0, 1 );
         }
         if (l_U9 != 0)
         {
-            SET_CURRENT_CHAR_WEAPON( sub_603(), 0, 1 );
+            SET_CURRENT_CHAR_WEAPON( GetPlayerChar(), 0, 1 );
         }
     }
     return;
@@ -1810,9 +1840,9 @@ void sub_10808()
 
 void sub_11843()
 {
-    ADD_SCORE( sub_475(), -5 );
+    ADD_SCORE( CurrentPlayerId(), -5 );
     sub_11865();
-    SET_CHAR_HEALTH( sub_603(), sub_11982() );
+    SET_CHAR_HEALTH( GetPlayerChar(), sub_11982() );
     sub_12070( 2, 1 );
     INCREMENT_INT_STAT_NO_MESSAGE( 97, 5 );
     INCREMENT_INT_STAT_NO_MESSAGE( 104, 5 );
@@ -1827,9 +1857,9 @@ void sub_11865()
     GENERATE_RANDOM_INT_IN_RANGE( 0, 4, ref iVar2 );
     if (iVar2 == 0)
     {
-        if (IS_PLAYER_PLAYING( sub_475() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            SET_PLAYER_MOOD_NORMAL( sub_475() );
+            SET_PLAYER_MOOD_NORMAL( CurrentPlayerId() );
         }
     }
     sub_11922();
@@ -1838,9 +1868,9 @@ void sub_11865()
 
 void sub_11922()
 {
-    if (NOT (IS_CHAR_DEAD( sub_603() )))
+    if (NOT (IS_CHAR_DEAD( GetPlayerChar() )))
     {
-        RESET_VISIBLE_PED_DAMAGE( sub_603() );
+        RESET_VISIBLE_PED_DAMAGE( GetPlayerChar() );
     }
     return;
 }
@@ -1849,9 +1879,9 @@ void sub_11982()
 {
     int Result;
 
-    if (NOT (IS_CHAR_DEAD( sub_603() )))
+    if (NOT (IS_CHAR_DEAD( GetPlayerChar() )))
     {
-        GET_CHAR_HEALTH( sub_603(), ref Result );
+        GET_CHAR_HEALTH( GetPlayerChar(), ref Result );
         if (Result <= 100)
         {
             Result += 100;
@@ -1870,8 +1900,14 @@ void sub_12070(unknown uParam0, unknown uParam1)
     return;
 }
 
-void sub_12091(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
+// Increment values for stats
+// uParam0 seems to be set to 2 in sub_11843
+// uParam1 seems to be the amount to increase by.
+// uParam2 and uParam3 seem to be unused.
+// void sub_12091(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
+void sub_12091(unknown uParam0, int statIncrementAmount, unknown uParam2, unknown uParam3)
 {
+    // Why are there so many of these, they aren't in use.
     unknown uVar6;
     unknown uVar7;
     unknown uVar8;
@@ -1892,50 +1928,51 @@ void sub_12091(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     switch (uParam0)
     {
         case 0:
-        PLAYSTATS_INT( "SPRUNK_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "SPRUNK_BOUGHT", statIncrementAmount );
         break;
         case 1:
-        PLAYSTATS_INT( "HOTDOG_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "HOTDOG_BOUGHT", statIncrementAmount );
         break;
         case 2:
-        PLAYSTATS_INT( "NUTS_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "NUTS_BOUGHT", statIncrementAmount );
         break;
         case 3:
-        PLAYSTATS_INT( "BURGERS_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "BURGERS_BOUGHT", statIncrementAmount );
         break;
         case 7:
-        PLAYSTATS_INT( "DONATE_BEGGAR", uParam1 );
+        PLAYSTATS_INT( "DONATE_BEGGAR", statIncrementAmount );
         break;
         case 8:
-        PLAYSTATS_INT( "DONATE_BUSKER", uParam1 );
+        PLAYSTATS_INT( "DONATE_BUSKER", statIncrementAmount );
         break;
         case 4:
-        PLAYSTATS_INT( "BSHOT_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "BSHOT_BOUGHT", statIncrementAmount );
         break;
         case 5:
-        PLAYSTATS_INT( "CBELL_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "CBELL_BOUGHT", statIncrementAmount );
         break;
         case 6:
-        PLAYSTATS_INT( "CAFE_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "CAFE_BOUGHT", statIncrementAmount );
         break;
         case 9: break;
     }
     return;
 }
 
+// Set the player to put their weapon away.
 void sub_13115()
 {
-    if (NOT (IS_CHAR_DEAD( sub_603() )))
+    if (NOT (IS_CHAR_DEAD( GetPlayerChar() )))
     {
         if (l_U9 != 0)
         {
             if (l_U9 != 46)
             {
-                SET_CURRENT_CHAR_WEAPON( sub_603(), l_U9, 0 );
+                SET_CURRENT_CHAR_WEAPON( GetPlayerChar(), l_U9, 0 );
             }
             else
             {
-                REMOVE_WEAPON_FROM_CHAR( sub_603(), 46 );
+                REMOVE_WEAPON_FROM_CHAR( GetPlayerChar(), 46 );
             }
         }
     }
