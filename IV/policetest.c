@@ -177,32 +177,32 @@ void main()
     {
         if (HAS_DEATHARREST_EXECUTED())
         {
-            sub_1643();
+            CleanupScript();
         }
         while (IS_REPLAY_SAVING())
         {
             WAIT( 0 );
         }
         l_U719 = 0;
-        sub_2694();
+        EnableMinigameInProgress();
         if (g_U9890 == 1)
         {
-            sub_2438( 1 );
-            sub_2737();
+            SetPlayerVisibleInPoliceVehicle( 1 );
+            DisableMinigameInProgress();
             sub_2555();
             SET_CINEMATIC_BUTTON_ENABLED( 1 );
-            sub_2600();
+            SetPlayerCannotBeDraggedOutVehicle();
             TERMINATE_THIS_SCRIPT();
         }
         if (IS_PLAYER_PLAYING( sub_1820() ))
         {
-            if ((g_U33837) || ((IS_CHAR_SHOOTING( sub_1712() )) || ((g_U555 == 1) || (IS_MOBILE_PHONE_CALL_ONGOING()))))
+            if ((g_U33837) || ((IS_CHAR_SHOOTING( CurrentPlayerChar() )) || ((g_U555 == 1) || (IS_MOBILE_PHONE_CALL_ONGOING()))))
             {
-                sub_2737();
-                sub_2438( 1 );
+                DisableMinigameInProgress();
+                SetPlayerVisibleInPoliceVehicle( 1 );
                 sub_2555();
                 SET_CINEMATIC_BUTTON_ENABLED( 1 );
-                sub_2600();
+                SetPlayerCannotBeDraggedOutVehicle();
                 TERMINATE_THIS_SCRIPT();
             }
         }
@@ -210,7 +210,7 @@ void main()
         {
             SET_PLAYER_CONTROL( sub_1820(), 0 );
             SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 0 );
-            SET_CHAR_CANT_BE_DRAGGED_OUT( sub_1712(), 1 );
+            SET_CHAR_CANT_BE_DRAGGED_OUT( CurrentPlayerChar(), 1 );
         }
         l_U673 = {-0.00400000, 0.20300000, 0.00500000};
         g_U8209 = 1;
@@ -218,8 +218,8 @@ void main()
         LOAD_ALL_PATH_NODES( 1 );
         if (NOT sub_2982())
         {
-            sub_1643();
-            sub_2737();
+            CleanupScript();
+            DisableMinigameInProgress();
         }
         sub_6091();
         sub_18756();
@@ -236,10 +236,10 @@ void main()
         ADD_WIDGET_FLOAT_SLIDER( "fScalarOne", ref l_U730, 0.00000000, 2.50000000, 0.00100000 );
         ADD_WIDGET_FLOAT_SLIDER( "fScalarTwo", ref l_U731, 0.00000000, 2.50000000, 0.00100000 );
         ADD_WIDGET_SLIDER( "Police Comp Renderer Debug", ref l_U484, 0, 12, 1 );
-        if (NOT (IS_CHAR_DEAD( sub_1712() )))
+        if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1712(), ref l_U486 );
-            SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( sub_1712(), 0 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U486 );
+            SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( CurrentPlayerChar(), 0 );
         }
         while (true)
         {
@@ -259,7 +259,8 @@ void main()
     return;
 }
 
-void sub_1643()
+// sub_1643
+void CleanupScript()
 {
     if (l_U672)
     {
@@ -277,10 +278,10 @@ void sub_1643()
     {
         ;
     }
-    sub_2438( 1 );
+    SetPlayerVisibleInPoliceVehicle( 1 );
     sub_2555();
     SET_CINEMATIC_BUTTON_ENABLED( 1 );
-    sub_2600();
+    SetPlayerCannotBeDraggedOutVehicle();
     TERMINATE_THIS_SCRIPT();
     return;
 }
@@ -291,7 +292,7 @@ void sub_1662()
     SET_TEXT_DRAW_BEFORE_FADE( 0 );
     DISPLAY_HUD( 1 );
     DISPLAY_RADAR( 1 );
-    sub_1703();
+    LockPlayerVehicle();
     if (IS_PLAYER_PLAYING( sub_1820() ))
     {
         if (HAS_CUTSCENE_FINISHED())
@@ -337,20 +338,23 @@ void sub_1662()
     return;
 }
 
-void sub_1703()
+// Lock the players vehicle
+// sub_1703
+void LockPlayerVehicle()
 {
-    if (NOT (IS_CHAR_DEAD( sub_1712() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_1712() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1712(), ref l_U486 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U486 );
             LOCK_CAR_DOORS( l_U486, 1 );
         }
     }
     return;
 }
 
-void sub_1712()
+// sub_1712
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -363,6 +367,9 @@ void sub_1820()
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
+// Release list of textures for sub_2141
+// Remove txds for sub_2219
+// Release specific textures for sub_2280
 void sub_2128()
 {
     unknown uVar2;
@@ -379,6 +386,7 @@ void sub_2128()
     return;
 }
 
+// Release a list of textures, uParam0 seems to be an int
 void sub_2141(unknown uParam0)
 {
     int I;
@@ -393,6 +401,7 @@ void sub_2141(unknown uParam0)
     return;
 }
 
+// Remove a specific TXD
 void sub_2219(int iParam0)
 {
     if (iParam0 != nil)
@@ -402,6 +411,7 @@ void sub_2219(int iParam0)
     return;
 }
 
+// Release a specific texture
 void sub_2280(int iParam0)
 {
     if (iParam0 != nil)
@@ -411,19 +421,25 @@ void sub_2280(int iParam0)
     return;
 }
 
-void sub_2438(unknown uParam0)
+// Check if char is not dead
+// Check if they are in a police vehicle
+// Set the char visible
+// uParam0 = playerCharVisible
+// sub_2438
+void SetPlayerVisibleInPoliceVehicle(unknown playerCharVisible)
 {
-    int iVar3;
+    int playerChar;
+    // Not in use
     unknown uVar4;
 
-    GET_GROUP_MEMBER( sub_2447(), 0, ref iVar3 );
-    if (iVar3 != nil)
+    GET_GROUP_MEMBER( sub_2447(), 0, ref playerChar );
+    if (playerChar != nil)
     {
-        if (NOT (IS_CHAR_DEAD( iVar3 )))
+        if (NOT (IS_CHAR_DEAD( playerChar )))
         {
-            if (IS_CHAR_IN_ANY_POLICE_VEHICLE( iVar3 ))
+            if (IS_CHAR_IN_ANY_POLICE_VEHICLE( playerChar ))
             {
-                SET_CHAR_VISIBLE( iVar3, uParam0 );
+                SET_CHAR_VISIBLE( playerChar, playerCharVisible );
             }
         }
     }
@@ -438,6 +454,7 @@ void sub_2447()
     return Result;
 }
 
+// Unknown, setting a couple values to 0
 void sub_2555()
 {
     g_U91._fU100 = 0;
@@ -445,22 +462,26 @@ void sub_2555()
     return;
 }
 
-void sub_2600()
+// sub_2600
+// Set the player to not be able to be dragged out
+void SetPlayerCannotBeDraggedOutVehicle()
 {
-    if (NOT (IS_CHAR_DEAD( sub_1712() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        SET_CHAR_CANT_BE_DRAGGED_OUT( sub_1712(), 0 );
+        SET_CHAR_CANT_BE_DRAGGED_OUT( CurrentPlayerChar(), 0 );
     }
     return;
 }
 
-void sub_2694()
+// sub_2694
+void EnableMinigameInProgress()
 {
     SET_MINIGAME_IN_PROGRESS( 1 );
     return;
 }
 
-void sub_2737()
+// sub_2737
+void DisableMinigameInProgress()
 {
     SET_MINIGAME_IN_PROGRESS( 0 );
     return;
@@ -488,11 +509,11 @@ int sub_2982()
         }
         if (IS_PLAYER_PLAYING( sub_1820() ))
         {
-            if (NOT (IS_CHAR_DEAD( sub_1712() )))
+            if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
             {
-                if (IS_CHAR_SITTING_IN_ANY_CAR( sub_1712() ))
+                if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1712(), ref l_U486 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U486 );
                     SET_CAR_PROOFS( l_U486, 1, 1, 1, 1, 1 );
                     LOCK_CAR_DOORS( l_U486, 4 );
                 }
@@ -575,21 +596,27 @@ int sub_2982()
     return 1;
 }
 
+// Load the textures
 int sub_3007()
 {
     g_U2244 = LOAD_TXD( "policeComputer" );
     g_U2245[0] = GET_TEXTURE( g_U2244, "mainMenu" );
     sub_3104( "policeComputer", "mainMenu" );
+
     g_U2245[1] = GET_TEXTURE( g_U2244, "starselect" );
     sub_3104( "policeComputer", "starselect" );
+
     g_U2245[2] = GET_TEXTURE( g_U2244, "keyBut" );
     sub_3104( "policeComputer", "spaceBar0" );
     g_U2245[3] = GET_TEXTURE( g_U2244, "spaceBar0" );
+
     sub_3104( "policeComputer", "enterBut0" );
     g_U2245[4] = GET_TEXTURE( g_U2244, "enterBut0" );
+
     sub_3104( "policeComputer", "wantedpersons" );
     g_U2245[5] = GET_TEXTURE( g_U2244, "wantedpersons" );
     sub_3104( "policeComputer", "lcpdtitle" );
+
     g_U2245[6] = GET_TEXTURE( g_U2244, "lcpdtitle" );
     g_U2245[7] = GET_TEXTURE( g_U2244, "badge" );
     g_U2245[8] = GET_TEXTURE( g_U2244, "badge_dds3" );
@@ -598,6 +625,7 @@ int sub_3007()
     g_U2245[11] = GET_TEXTURE( g_U2244, "spaceBar1" );
     g_U2245[12] = GET_TEXTURE( g_U2244, "measuring_board" );
     g_U2245[13] = GET_TEXTURE( g_U2244, "bkDrop" );
+
     sub_3104( "policeComputer", "badge" );
     sub_3104( "policeComputer", "badge_dds3" );
     sub_3104( "policeComputer", "enterBut1" );
@@ -605,6 +633,7 @@ int sub_3007()
     sub_3104( "policeComputer", "spaceBar1" );
     sub_3104( "policeComputer", "measuring_board" );
     sub_3104( "policeComputer", "bkDrop" );
+
     sub_3104( "PDBMostWantedNJ", "bacerra" );
     sub_3104( "PDBMostWantedNJ", "danny" );
     sub_3104( "PDBMostWantedNJ", "katsuda" );
@@ -615,6 +644,7 @@ int sub_3007()
     sub_3104( "PDBMostWantedNJ", "M_Y_GIRI_LO_01" );
     sub_3104( "PDBMostWantedNJ", "M_Y_STREETPUNK_02" );
     sub_3104( "PDBMostWantedNJ", "WILBERT" );
+
     sub_3104( "PDBMostWantedmh", "m_o_gjam_lo_01" );
     sub_3104( "PDBMostWantedmh", "m_o_grus_hi_01" );
     sub_3104( "PDBMostWantedmh", "m_y_bronx_b" );
@@ -625,6 +655,7 @@ int sub_3007()
     sub_3104( "PDBMostWantedmh", "m_y_gtri_lo_02" );
     sub_3104( "PDBMostWantedmh", "m_y_runner" );
     sub_3104( "PDBMostWantedmh", "m_y_streetpunk_04" );
+
     sub_3104( "PDBMostWantedeast", "m_m_fatmod_01" );
     sub_3104( "PDBMostWantedeast", "m_m_gjam_hi_01" );
     sub_3104( "PDBMostWantedeast", "m_y_bronx_01" );
@@ -639,6 +670,7 @@ int sub_3007()
     return 0;
 }
 
+// Possibly debug line
 void sub_3104(unknown uParam0, unknown uParam1)
 {
     return;
@@ -653,7 +685,9 @@ int sub_6091()
     unknown uVar6;
     unknown uVar7;
     unknown uVar8;
-    int iVar9;
+
+
+    int currentMapArea;
     unknown uVar10;
 
     GENERATE_RANDOM_INT_IN_RANGE( 0, 3, ref uVar5 );
@@ -662,48 +696,60 @@ int sub_6091()
     l_U498[1] = uVar5;
     GENERATE_RANDOM_INT_IN_RANGE( 0, 3, ref uVar5 );
     l_U498[2] = uVar5;
-    if (NOT (IS_CHAR_DEAD( sub_1712() )))
+
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_1712(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
     }
     if (sub_6202( uVar6 ))
     {
         return 1;
     }
-    iVar9 = GET_MAP_AREA_FROM_COORDS( uVar6 );
-    if (iVar9 == 0)
+
+    currentMapArea = GET_MAP_AREA_FROM_COORDS( uVar6 );
+    if (currentMapArea == 0)
     {
-        iVar9 = 1;
+        currentMapArea = 1;
     }
-    else if (iVar9 == 1)
+    else if (currentMapArea == 1)
     {
-        iVar9 = 0;
+        currentMapArea = 0;
     }
-    l_U682[0] = {sub_6907( iVar9, -1 )};
-    sub_18251( l_U682[0], ref l_U692[0], ref l_U696[0] );
+
+    // currentMapArea = uParam0 in vector sub_6907
+    l_U682[0] = {sub_6907( currentMapArea, -1 )};
+
+    FindStreetName( l_U682[0], ref l_U692[0], ref l_U696[0] );
+
     while (((VDIST( uVar6, l_U682[0] )) > 700.00000000) || ((VDIST( uVar6, l_U682[0] )) < 150.00000000))
     {
-        l_U682[0] = {sub_6907( iVar9, -1 )};
-        sub_18251( l_U682[0], ref l_U692[0], ref l_U696[0] );
+        l_U682[0] = {sub_6907( currentMapArea, -1 )};
+        FindStreetName( l_U682[0], ref l_U692[0], ref l_U696[0] );
     }
-    l_U682[1] = {sub_6907( iVar9, -1 )};
-    sub_18251( l_U682[1], ref l_U692[1], ref l_U696[1] );
+
+    l_U682[1] = {sub_6907( currentMapArea, -1 )};
+    FindStreetName( l_U682[1], ref l_U692[1], ref l_U696[1] );
+
     while (((VDIST( uVar6, l_U682[1] )) > 700.00000000) || ((VDIST( uVar6, l_U682[1] )) < 150.00000000))
     {
-        l_U682[1] = {sub_6907( iVar9, -1 )};
-        sub_18251( l_U682[1], ref l_U692[1], ref l_U696[1] );
+        l_U682[1] = {sub_6907( currentMapArea, -1 )};
+        FindStreetName( l_U682[1], ref l_U692[1], ref l_U696[1] );
     }
-    l_U682[2] = {sub_6907( iVar9, -1 )};
-    sub_18251( l_U682[2], ref l_U692[2], ref l_U696[2] );
+
+    l_U682[2] = {sub_6907( currentMapArea, -1 )};
+    FindStreetName( l_U682[2], ref l_U692[2], ref l_U696[2] );
+
     while (((VDIST( uVar6, l_U682[2] )) > 700.00000000) || ((VDIST( uVar6, l_U682[2] )) < 150.00000000))
     {
-        l_U682[2] = {sub_6907( iVar9, -1 )};
-        sub_18251( l_U682[2], ref l_U692[2], ref l_U696[2] );
+        l_U682[2] = {sub_6907( currentMapArea, -1 )};
+        FindStreetName( l_U682[2], ref l_U692[2], ref l_U696[2] );
     }
+
     for ( I = 0; I <= 2; I++ )
     {
         GENERATE_RANDOM_INT_IN_RANGE( 0, 150, ref l_U677[I] );
     }
+
     LOAD_ALL_PATH_NODES( 0 );
     return 1;
 }
@@ -742,6 +788,9 @@ int sub_6202(unknown uParam0, unknown uParam1, unknown uParam2)
     return 0;
 }
 
+// I don't think I have uParam0 and uParam1 correct here.
+// Possibly ListOfCrimes(int crimeArea?, int crimeType?)
+// uParam0 seems to be set with GET_MAP_AREA_FROM_COORDS in "int sub_6091()"
 vector sub_6907(unknown uParam0, int iParam1)
 {
     switch (uParam0)
@@ -749,7 +798,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 0:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 25 );
+            iParam1 = GetRandomInt( 0, 25 );
         }
         switch (iParam1)
         {
@@ -783,7 +832,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 1:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 93 );
+            iParam1 = GetRandomInt( 0, 93 );
         }
         switch (iParam1)
         {
@@ -885,7 +934,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 2:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 83 );
+            iParam1 = GetRandomInt( 0, 83 );
         }
         switch (iParam1)
         {
@@ -978,7 +1027,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 4:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 117 );
+            iParam1 = GetRandomInt( 0, 117 );
         }
         switch (iParam1)
         {
@@ -1104,7 +1153,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 5:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 17 );
+            iParam1 = GetRandomInt( 0, 17 );
         }
         switch (iParam1)
         {
@@ -1130,7 +1179,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 6:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 8 );
+            iParam1 = GetRandomInt( 0, 8 );
         }
         switch (iParam1)
         {
@@ -1147,7 +1196,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 7:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 13 );
+            iParam1 = GetRandomInt( 0, 13 );
         }
         switch (iParam1)
         {
@@ -1169,7 +1218,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 8:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 11 );
+            iParam1 = GetRandomInt( 0, 11 );
         }
         switch (iParam1)
         {
@@ -1189,7 +1238,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 9:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 9 );
+            iParam1 = GetRandomInt( 0, 9 );
         }
         switch (iParam1)
         {
@@ -1207,7 +1256,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 10:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 13 );
+            iParam1 = GetRandomInt( 0, 13 );
         }
         switch (iParam1)
         {
@@ -1229,7 +1278,7 @@ vector sub_6907(unknown uParam0, int iParam1)
         case 11:
         if (iParam1 == -1)
         {
-            iParam1 = sub_7032( 0, 13 );
+            iParam1 = GetRandomInt( 0, 13 );
         }
         switch (iParam1)
         {
@@ -1252,13 +1301,17 @@ vector sub_6907(unknown uParam0, int iParam1)
     return vector( 0.00000000, 0.00000000, 0.00000000);
 }
 
-void sub_7032(unknown uParam0, unknown Result)
+// Get a random int in range
+// sub_7032
+// Result seems to be the max integer and the variable to store it?
+void GetRandomInt(unknown uParam0, unknown Result)
 {
     GENERATE_RANDOM_INT_IN_RANGE( uParam0, Result, ref Result );
     return Result;
 }
 
-void sub_18251(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4)
+// sub_18251
+void FindStreetName(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4)
 {
     FIND_STREET_NAME_AT_POSITION( uParam0, uParam3, uParam4 );
     return;
@@ -1532,11 +1585,11 @@ void sub_20953()
             {
                 DELETE_OBJECT( ref l_U502 );
             }
-            sub_2737();
-            sub_2438( 1 );
+            DisableMinigameInProgress();
+            SetPlayerVisibleInPoliceVehicle( 1 );
             sub_2555();
             SET_CINEMATIC_BUTTON_ENABLED( 1 );
-            sub_2600();
+            SetPlayerCannotBeDraggedOutVehicle();
             TERMINATE_THIS_SCRIPT();
         }
         if ((NOT l_U496) AND (IS_CONTROL_PRESSED( 2, 77 )))
@@ -1544,9 +1597,9 @@ void sub_20953()
             switch (l_U490)
             {
                 case 0:
-                if (NOT (IS_CHAR_DEAD( sub_1712() )))
+                if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
                 {
-                    GET_CHAR_COORDINATES( sub_1712(), ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
+                    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
                 }
                 if ((g_U15654[20]) AND ((sub_27338()) AND ((NOT g_U10978) AND ((NOT (sub_6202( uVar3 ))) AND (NOT GET_MISSION_FLAG())))))
                 {
@@ -1598,9 +1651,9 @@ void sub_20953()
                 break;
                 case 3:
                 PLAY_SOUND_FRONTEND( -1, "POLICE_COMPUTER_FORWARDS" );
-                if (NOT (IS_CHAR_DEAD( sub_1712() )))
+                if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
                 {
-                    GET_CHAR_COORDINATES( sub_1712(), ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
+                    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
                     iVar6 = GET_HOURS_OF_DAY();
                     iVar7 = GET_CURRENT_DAY_OF_WEEK();
                 }
@@ -1623,11 +1676,11 @@ void sub_20953()
                         {
                             DELETE_OBJECT( ref l_U502 );
                         }
-                        sub_2737();
-                        sub_2438( 1 );
+                        DisableMinigameInProgress();
+                        SetPlayerVisibleInPoliceVehicle( 1 );
                         sub_2555();
                         SET_CINEMATIC_BUTTON_ENABLED( 1 );
-                        sub_2600();
+                        SetPlayerCannotBeDraggedOutVehicle();
                         TERMINATE_THIS_SCRIPT();
                     }
                     else
@@ -2147,7 +2200,7 @@ void sub_25390(unknown uParam0)
                 }
                 break;
                 case 5:
-                if (sub_26000( "PD_LYLE", "PD_RIVAS" ))
+                if (SetPlayerCannotBeDraggedOutVehicle0( "PD_LYLE", "PD_RIVAS" ))
                 {
                     if (NOT g_U64946)
                     {
@@ -2210,7 +2263,7 @@ void sub_25390(unknown uParam0)
                 }
                 break;
                 case 5:
-                if (sub_26000( "PD_ADAM", "PD_DIMAYEV" ))
+                if (SetPlayerCannotBeDraggedOutVehicle0( "PD_ADAM", "PD_DIMAYEV" ))
                 {
                     if (NOT g_U64948)
                     {
@@ -2272,7 +2325,7 @@ void sub_25390(unknown uParam0)
     return;
 }
 
-int sub_26000(unknown uParam0, unknown uParam1)
+int SetPlayerCannotBeDraggedOutVehicle0(unknown uParam0, unknown uParam1)
 {
     if ((COMPARE_STRING( ref g_U2273[g_U8085]._fU0, uParam1 )) AND (COMPARE_STRING( ref g_U2273[g_U8085]._fU16, uParam0 )))
     {
@@ -2445,7 +2498,7 @@ void sub_28608()
             SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 1 );
             g_U8210 = 1;
             SET_CINEMATIC_BUTTON_ENABLED( 1 );
-            sub_2737();
+            DisableMinigameInProgress();
             sub_2555();
             sub_30429();
             uVar10 = START_NEW_SCRIPT_WITH_ARGS( "vigilante", ref uVar3, 7, 1024 );
@@ -2470,10 +2523,10 @@ void sub_28608()
             }
             g_U8209 = 0;
             g_U8210 = 0;
-            sub_2438( 1 );
+            SetPlayerVisibleInPoliceVehicle( 1 );
             sub_2555();
             SET_CINEMATIC_BUTTON_ENABLED( 1 );
-            sub_2600();
+            SetPlayerCannotBeDraggedOutVehicle();
             TERMINATE_THIS_SCRIPT();
             l_U487 = 0;
         }
@@ -3109,7 +3162,7 @@ void sub_32321()
 {
     if (IS_PLAYER_PLAYING( sub_1820() ))
     {
-        if ((g_U8219) || (NOT (IS_CHAR_IN_ANY_POLICE_VEHICLE( sub_1712() ))))
+        if ((g_U8219) || (NOT (IS_CHAR_IN_ANY_POLICE_VEHICLE( CurrentPlayerChar() ))))
         {
             sub_32371();
             g_U8219 = 0;
@@ -3136,11 +3189,11 @@ void sub_32371()
         DELETE_OBJECT( ref l_U502 );
     }
     SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 1 );
-    sub_2737();
-    sub_2438( 1 );
+    DisableMinigameInProgress();
+    SetPlayerVisibleInPoliceVehicle( 1 );
     sub_2555();
     SET_CINEMATIC_BUTTON_ENABLED( 1 );
-    sub_2600();
+    SetPlayerCannotBeDraggedOutVehicle();
     TERMINATE_THIS_SCRIPT();
     return;
 }
@@ -4406,6 +4459,7 @@ void sub_40348(unknown uParam0, unknown uParam1, int iParam2)
     return;
 }
 
+// This could be useful for setting text on the screen.
 void sub_40592()
 {
     SET_TEXT_FONT( 0 );
@@ -5099,11 +5153,11 @@ void sub_50452(int iParam0, boolean bParam1)
                                     {
                                         DELETE_OBJECT( ref l_U502 );
                                     }
-                                    sub_2737();
-                                    sub_2438( 1 );
+                                    DisableMinigameInProgress();
+                                    SetPlayerVisibleInPoliceVehicle( 1 );
                                     sub_2555();
                                     SET_CINEMATIC_BUTTON_ENABLED( 1 );
-                                    sub_2600();
+                                    SetPlayerCannotBeDraggedOutVehicle();
                                     TERMINATE_THIS_SCRIPT();
                                 }
                             }
@@ -5142,11 +5196,11 @@ void sub_50452(int iParam0, boolean bParam1)
                                 {
                                     DELETE_OBJECT( ref l_U502 );
                                 }
-                                sub_2737();
-                                sub_2438( 1 );
+                                DisableMinigameInProgress();
+                                SetPlayerVisibleInPoliceVehicle( 1 );
                                 sub_2555();
                                 SET_CINEMATIC_BUTTON_ENABLED( 1 );
-                                sub_2600();
+                                SetPlayerCannotBeDraggedOutVehicle();
                                 TERMINATE_THIS_SCRIPT();
                             }
                         }
@@ -5173,7 +5227,7 @@ void sub_50452(int iParam0, boolean bParam1)
                     g_U8210 = 1;
                     SET_PLAYER_CAN_DO_DRIVE_BY( sub_1820(), 1 );
                     SET_CINEMATIC_BUTTON_ENABLED( 1 );
-                    sub_2737();
+                    DisableMinigameInProgress();
                     sub_2555();
                     sub_30429();
                     uVar4 = START_NEW_SCRIPT_WITH_ARGS( "mostWanted", ref iParam0, 1, 1024 );
@@ -5188,10 +5242,10 @@ void sub_50452(int iParam0, boolean bParam1)
                         DELETE_OBJECT( ref l_U502 );
                     }
                     g_U8210 = 0;
-                    sub_2438( 1 );
+                    SetPlayerVisibleInPoliceVehicle( 1 );
                     sub_2555();
                     SET_CINEMATIC_BUTTON_ENABLED( 1 );
-                    sub_2600();
+                    SetPlayerCannotBeDraggedOutVehicle();
                     TERMINATE_THIS_SCRIPT();
                 }
             }
@@ -5416,7 +5470,7 @@ void sub_54325()
         sub_58213( uVar2, l_U715 );
         if (NOT g_U8086)
         {
-            if (NOT (LOCATE_CHAR_ANY_MEANS_2D( sub_1712(), g_U2273[uVar2]._fU32._fU16._fU0, g_U2273[uVar2]._fU32._fU16._fU4, 150.00000000, 150.00000000, 0 )))
+            if (NOT (LOCATE_CHAR_ANY_MEANS_2D( CurrentPlayerChar(), g_U2273[uVar2]._fU32._fU16._fU0, g_U2273[uVar2]._fU32._fU16._fU4, 150.00000000, 150.00000000, 0 )))
             {
                 sub_50452( uVar2, 1 );
                 if ((NOT l_U496) AND (sub_26966()))
@@ -5557,7 +5611,7 @@ void sub_54681()
 
     if (IS_PLAYER_PLAYING( sub_1820() ))
     {
-        GET_CHAR_COORDINATES( sub_1712(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
         uVar8 = GET_MAP_AREA_FROM_COORDS( uVar5 );
     }
     for ( I = 0; I <= (sub_44917() - 1); I++ )
@@ -5743,7 +5797,7 @@ int sub_56152(int iParam0)
 
     if (IS_PLAYER_PLAYING( sub_1820() ))
     {
-        GET_CHAR_COORDINATES( sub_1712(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
         uVar7 = GET_MAP_AREA_FROM_COORDS( uVar4 );
     }
     for ( Result = 0; Result <= (sub_44917() - 1); Result++ )
