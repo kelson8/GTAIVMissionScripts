@@ -228,6 +228,10 @@ Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mea
 14. SET_CAR_HEADING(int vehicleHandle, float heading) - Set the cars heading.
 15. DELETE_CAR(int &vehicleHandle) - Delete the specified vehicle
 16. MARK_CAR_AS_NO_LONGER_NEEDED(int &vehicleHandle) - Mark the specified vehicle as no longer needed, cleanup for game.
+17. SET_CAR_CAN_BE_DAMAGED(int &vehicleHandle, int toggle) - Toggle the car being able to be damaged, 1 is on 0 is off.
+18. SET_CAR_CAN_BE_VISIBLY_DAMAGED(int &vehicleHandle, int toggle)- Toggle the car being able to be visibly damaged, 1 is on 0 is off.
+19. SET_CAN_BURST_CAR_TYRES(int vehicleHandle, int toggle) - Toggle the car being able to burst tires, 1 is on, 0 is off.
+
 
 </details>
 
