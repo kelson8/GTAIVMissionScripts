@@ -11,8 +11,12 @@
 // l_U2484 = RomanGarageBlip
 // l_U2228 = IvanHealth
 
+// l_U2234 = GetPlayerCar
+
 // Functions:
 // sub_7813 = SetIvanCarInvincible
+
+// Mostly completed this function: sub_23877(int charHandle, int vehicleHandle)
 
 // TODO Figure out what this value is: l_U2180
 // Usage: 
@@ -257,7 +261,7 @@ void sub_934(unknown uParam0)
     boolean bVar4;
     unknown uVar5;
 
-    iVar3 = g_U13391[uParam0].x._fU56;
+    iVar3 = g_U13391[uParam0]._fU0._fU56;
     bVar4 = iVar3 == 6;
     if (g_U813)
     {
@@ -392,10 +396,10 @@ void sub_1463()
     iVar2 = 0;
     GET_GAME_TIMER( ref iVar2 );
     iVar3 = iVar2 + sub_1485();
-    if (iVar3 > g_U63988.y)
+    if (iVar3 > g_U63988._fU4)
     {
-        g_U63988.y = iVar3;
-        g_U63988.z = iVar2;
+        g_U63988._fU4 = iVar3;
+        g_U63988._fU8 = iVar2;
     }
     return;
 }
@@ -478,7 +482,7 @@ void sub_2110(int iParam0)
     {
         return;
     }
-    if (g_U91.y0 == 0)
+    if (g_U91._fU40 == 0)
     {
         return;
     }
@@ -486,7 +490,7 @@ void sub_2110(int iParam0)
     {
         return;
     }
-    iVar3 = g_U13391[iParam0].x._fU56;
+    iVar3 = g_U13391[iParam0]._fU0._fU56;
     bVar4 = iVar3 == 6;
     if (bVar4)
     {
@@ -496,18 +500,18 @@ void sub_2110(int iParam0)
     {
         return;
     }
-    if (g_U9893.y0 == -1)
+    if (g_U9893._fU40 == -1)
     {
         return;
     }
-    if (NOT (g_U9893.y0 == iParam0))
+    if (NOT (g_U9893._fU40 == iParam0))
     {
         return;
     }
     if (NOT g_U813)
     {
         sub_2894();
-        g_U9893.y = 1;
+        g_U9893._fU4 = 1;
     }
     return;
 }
@@ -529,9 +533,9 @@ void sub_2119()
     if (NOT sub_2609())
     {
         SET_MESSAGES_WAITING( 0 );
-        g_U91.y04 = 1000;
+        g_U91._fU404 = 1000;
     }
-    if (g_U91.x == 1014)
+    if (g_U91._fU0 == 1014)
     {
         g_U91._fU92 = 1;
     }
@@ -543,25 +547,25 @@ int sub_2157(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3,
     switch (uParam0)
     {
         case 0:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 14, 23 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 14, 23 );
         break;
         case 1:
-        return GET_BITS_IN_RANGE( uParam1.x[0], 0, 13 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[0], 0, 13 );
         break;
         case 2:
-        return GET_BITS_IN_RANGE( uParam1.x[0], 14, 27 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[0], 14, 27 );
         break;
         case 3:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 0, 13 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 0, 13 );
         break;
         case 4:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 24, 27 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 24, 27 );
         break;
         case 5:
-        return GET_BITS_IN_RANGE( uParam1.x[0], 28, 31 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[0], 28, 31 );
         break;
         case 6:
-        return uParam1.x[2];
+        return uParam1._fU0[2];
         break;
     }
     return -1;
@@ -584,9 +588,9 @@ void sub_2443(int iParam0)
 
 void sub_2528(unknown uParam0)
 {
-    g_U569[uParam0].x[0] = -1;
-    g_U569[uParam0].x[1] = -1;
-    g_U569[uParam0].x[2] = -1;
+    g_U569[uParam0]._fU0[0] = -1;
+    g_U569[uParam0]._fU0[1] = -1;
+    g_U569[uParam0]._fU0[2] = -1;
     return;
 }
 
@@ -606,15 +610,15 @@ int sub_2609()
 
 void sub_2894()
 {
-    g_U9893.y = 0;
-    g_U9893.z = 0;
+    g_U9893._fU4 = 0;
+    g_U9893._fU8 = 0;
     g_U9893._fU12 = 0;
     g_U9893._fU16 = 0;
     g_U9893._fU20 = 0;
     g_U9893._fU28 = 0;
     g_U9893._fU32 = 0;
     g_U9893._fU36 = 0;
-    g_U9893.y8 = 0;
+    g_U9893._fU48 = 0;
     return;
 }
 
@@ -716,29 +720,30 @@ void sub_3302()
     SWITCH_ROADS_OFF( 824.13570000, -345.81040000, 10.01840000, 900.39770000, -232.65000000, 20.88940000 );
 
     // TODO Figure out what these coordinates are
-    l_U2260[0].y = {1173.05300000, -379.92940000, 26.25120000};
+    l_U2260[0]._fU4 = {1173.05300000, -379.92940000, 26.25120000};
     l_U2260[0]._fU28 = 358.65690000;
     l_U2260[0]._fU64 = 1;
 
-    l_U2260[1].y = {1165.91000000, -366.12000000, 35.83030000};
+    l_U2260[1]._fU4 = {1165.91000000, -366.12000000, 35.83030000};
     l_U2260[1]._fU28 = 241.93940000;
     l_U2260[1]._fU64 = 2;
-    l_U2260[1]._fU32 = {1166.32000000, -365.00000000, 37.01000000};
-    l_U2260[1].y4 = {1166.32000000, -370.01000000, 37.03000000};
 
-    l_U2260[2].y = {1164.86300000, -362.01740000, 38.02080000};
+    l_U2260[1]._fU32 = {1166.32000000, -365.00000000, 37.01000000};
+    l_U2260[1]._fU44 = {1166.32000000, -370.01000000, 37.03000000};
+
+    l_U2260[2]._fU4 = {1164.86300000, -362.01740000, 38.02080000};
     l_U2260[2]._fU28 = 211.68640000;
     l_U2260[2]._fU64 = 3;
 
-    l_U2260[3].y = {1162.72800000, -374.73210000, 39.48670000};
+    l_U2260[3]._fU4 = {1162.72800000, -374.73210000, 39.48670000};
     l_U2260[3]._fU28 = 294.86200000;
     l_U2260[3]._fU64 = 1;
 
-    l_U2260[4].y = {1171.68000000, -371.62000000, 46.14000000};
+    l_U2260[4]._fU4 = {1171.68000000, -371.62000000, 46.14000000};
     l_U2260[4]._fU28 = 272.94530000;
     l_U2260[4]._fU64 = 2;
 
-    l_U2260[5].y = {1173.65000000, -373.52000000, 46.14000000};
+    l_U2260[5]._fU4 = {1173.65000000, -373.52000000, 46.14000000};
     l_U2260[5]._fU28 = 272.94530000;
     l_U2260[5]._fU64 = 2;
 
@@ -750,7 +755,7 @@ void sub_3302()
 
 void sub_3484(unknown uParam0)
 {
-    StrCopy( ref l_U181.x, uParam0, 16 );
+    StrCopy( ref l_U181._fU0, uParam0, 16 );
     sub_3503();
     return;
 }
@@ -761,8 +766,8 @@ void sub_3503()
 
     for ( I = 0; I <= 8; I++ )
     {
-        l_U181._fU16[I].x = nil;
-        StrCopy( ref l_U181._fU16[I].y, "", 32 );
+        l_U181._fU16[I]._fU0 = nil;
+        StrCopy( ref l_U181._fU16[I]._fU4, "", 32 );
         l_U181._fU344[I] = 0;
     }
     return;
@@ -786,8 +791,8 @@ void CurrentPlayerId()
 
 void sub_3727(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
 {
-    l_U181._fU16[uParam0].x = uParam1;
-    StrCopy( ref l_U181._fU16[uParam0].y, uParam2, 32 );
+    l_U181._fU16[uParam0]._fU0 = uParam1;
+    StrCopy( ref l_U181._fU16[uParam0]._fU4, uParam2, 32 );
     if (NOT (IS_CHAR_INJURED( uParam1 )))
     {
         BLOCK_CHAR_AMBIENT_ANIMS( uParam1, uParam3 );
@@ -1151,9 +1156,9 @@ void sub_6797()
         }
 
         // Get the player car, set as mission vehicle, and set it to havge strong axles.
-        GET_CAR_CHAR_IS_USING( PlayerChar, ref l_U2234 );
-        SET_CAR_AS_MISSION_CAR( l_U2234 );
-        SET_VEH_HAS_STRONG_AXLES( l_U2234, 1 );
+        GET_CAR_CHAR_IS_USING( PlayerChar, ref GetPlayerCar );
+        SET_CAR_AS_MISSION_CAR( GetPlayerCar );
+        SET_VEH_HAS_STRONG_AXLES( GetPlayerCar, 1 );
     }
     SWITCH_ROADS_OFF( 804.11170000, -381.11840000, 1.00000000, 824.11170000, -301.11840000, 21.00000000 );
     SetIvanCarInvincible();
@@ -2536,7 +2541,7 @@ int sub_21978(unknown uParam0, int iParam1, unknown uParam2, boolean bParam3, bo
     int iVar12;
 
     iVar12 = 0;
-    iParam1->x = uParam2;
+    iParam1->_fU0 = uParam2;
     if (NOT (sub_22000( iParam1 )))
     {
         return 0;
@@ -2548,7 +2553,7 @@ int sub_21978(unknown uParam0, int iParam1, unknown uParam2, boolean bParam3, bo
     {
         if (iParam1->_fU12)
         {
-            iVar12 = iParam1->z;
+            iVar12 = iParam1->_fU8;
             iParam1->_fU12 = 0;
         }
     }
@@ -2578,7 +2583,7 @@ int sub_21978(unknown uParam0, int iParam1, unknown uParam2, boolean bParam3, bo
     }
     g_U8493 = {(iParam1^)};
     sub_22692( ref g_U8395, ref l_U181 );
-    StrCopy( ref g_U8395.x, uParam7, 16 );
+    StrCopy( ref g_U8395._fU0, uParam7, 16 );
     g_U8395._fU388 = uParam8;
     g_U8394 = 1;
     return 1;
@@ -2593,7 +2598,7 @@ int sub_22000(int iParam0)
     }
     if (IS_THREAD_ACTIVE( g_U556[1] ))
     {
-        switch (g_U91.x)
+        switch (g_U91._fU0)
         {
             case 1010:
             case 1001:
@@ -2614,20 +2619,20 @@ int sub_22000(int iParam0)
     }
     if (IS_SCRIPTED_CONVERSATION_ONGOING())
     {
-        if (g_U8392 > iParam0->x)
+        if (g_U8392 > iParam0->_fU0)
         {
             sub_22077( "\n !!!!! CANT PLAY SPEECH CURRENT SPEECH HAS HIGHER PRIORITY" );
             return 0;
         }
         ABORT_SCRIPTED_CONVERSATION( 0 );
     }
-    g_U8392 = iParam0->x;
+    g_U8392 = iParam0->_fU0;
     g_U8393++;
     if (g_U8393 > 100000)
     {
         g_U8393 = 1;
     }
-    iParam0->y = g_U8393;
+    iParam0->_fU4 = g_U8393;
     return 1;
 }
 
@@ -2642,7 +2647,7 @@ void sub_22692(int iParam0, int iParam1)
 {
     int I;
 
-    iParam0->x = {iParam1->x};
+    iParam0->_fU0 = {iParam1->_fU0};
     for ( I = 0; I <= 8; I++ )
     {
         iParam0->_fU16[I] = {iParam1->_fU16[I]};
@@ -2657,7 +2662,7 @@ int sub_22883(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 {
     if ((g_U8394 == 2) || ((g_U8394 == 1) || (IS_SCRIPTED_CONVERSATION_ONGOING())))
     {
-        if (uParam0.y == g_U8393)
+        if (uParam0._fU4 == g_U8393)
         {
             return 1;
         }
@@ -2777,6 +2782,10 @@ void sub_23474(unknown uParam0, unknown uParam1, unknown uParam2, float fParam3,
     return;
 }
 
+// TODO Figure out what this is
+// Check if the vehicle "uParam0" is driveable
+// Checks if the char "uParam1" is not dead
+// Returns this float value: return (VMAG( uVar7 )) * (SIN( fVar16 ));
 float sub_23487(unknown uParam0, unknown uParam1)
 {
     // Vector3
@@ -2812,11 +2821,20 @@ float sub_23487(unknown uParam0, unknown uParam1)
     return (VMAG( uVar7 )) * (SIN( fVar16 ));
 }
 
-int sub_23877(unknown uParam0, unknown uParam1)
+// Check if the char "charHandle" is not injured
+// Checks if the vehicle "vehicleHandle" is driveable
+// int sub_23877(unknown uParam0, unknown uParam1)
+int sub_23877(int charHandle, int vehicleHandle)
 {
-    vector vVar4;
-    vector vVar7;
-    vector vVar10;
+    // vector vVar4;
+    vector charCoordinates;
+
+    // vector vVar7
+    vector carCoordinates
+
+    // vector vVar10;
+    vector offsetVector;
+    
     unknown uVar13;
     unknown uVar14;
     unknown uVar15;
@@ -2825,33 +2843,41 @@ int sub_23877(unknown uParam0, unknown uParam1)
     unknown uVar18;
     float fVar19;
 
-    if (NOT (IS_CHAR_INJURED( uParam0 )))
+    if (NOT (IS_CHAR_INJURED( charHandle )))
     {
-        if (NOT (IS_CAR_DEAD( uParam1 )))
+        if (NOT (IS_CAR_DEAD( vehicleHandle )))
         {
-            if (IS_CHAR_IN_CAR( uParam0, uParam1 ))
+            if (IS_CHAR_IN_CAR( charHandle, vehicleHandle ))
             {
                 return 0;
             }
         }
     }
-    if (NOT (IS_CHAR_DEAD( uParam0 )))
+
+    if (NOT (IS_CHAR_DEAD( charHandle )))
     {
-        GET_CHAR_COORDINATES( uParam0, ref vVar4.x, ref vVar4.y, ref vVar4.z );
+        GET_CHAR_COORDINATES( charHandle, ref charCoordinates.x, ref charCoordinates.y, ref charCoordinates.z );
     }
-    if (IS_VEH_DRIVEABLE( uParam1 ))
+
+    if (IS_VEH_DRIVEABLE( vehicleHandle ))
     {
-        GET_CAR_COORDINATES( uParam1, ref vVar7.x, ref vVar7.y, ref vVar7.z );
+        GET_CAR_COORDINATES( vehicleHandle, ref carCoordinates.x, ref carCoordinates.y, ref carCoordinates.z );
     }
-    uVar13 = {vVar7 - vVar4};
-    if (IS_VEH_DRIVEABLE( uParam1 ))
+
+    // TODO Find out what this is for
+    uVar13 = {carCoordinates - charCoordinates};
+
+    if (IS_VEH_DRIVEABLE( vehicleHandle ))
     {
-        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( uParam1, 0.00000000, 5.00000000, 0.00000000, ref vVar10.x, ref vVar10.y, ref vVar10.z );
-        uVar16 = {vVar10 - vVar7};
+        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( vehicleHandle, 0.00000000, 5.00000000, 0.00000000, ref offsetVector.x, ref offsetVector.y, ref offsetVector.z );
+        uVar16 = {offsetVector - carCoordinates};
     }
+
     uVar13.z = 0.00000000;
     uVar16.z = 0.00000000;
+    // Returns (uVar13->x * uVar16->x) + (uVar13->y * uVar16->y)) + (uVar13->z * uVar16->z
     fVar19 = sub_24098( ref uVar13, ref uVar16 );
+
     if (fVar19 < 0.00000000)
     {
         return 1;
@@ -3170,7 +3196,7 @@ void sub_26293(unknown uParam0, unknown uParam1)
             uVar13 = {vVar10 - vVar7};
         }
     }
-    GET_ANGLE_BETWEEN_2D_VECTORS( uVar4.x, uVar4.y, uVar13.x, uVar13.y, ref Result );
+    GET_ANGLE_BETWEEN_2D_VECTORS( uVar4._fU0, uVar4._fU4, uVar13._fU0, uVar13._fU4, ref Result );
     return Result;
 }
 
@@ -5589,9 +5615,9 @@ void sub_43732(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
             StrCopy( ref uVar8._fU32[(uParam1^)], "END", 16 );
         }
         StrCopy( ref uVar8._fU16, uParam2, 16 );
-        uVar8.x = uParam3;
-        uVar8.y = uParam4;
-        uVar8.z = uParam5;
+        uVar8._fU0 = uParam3;
+        uVar8._fU4 = uParam4;
+        uVar8._fU8 = uParam5;
         REQUEST_SCRIPT( "SPcellphoneEndCall" );
         while (NOT (HAS_SCRIPT_LOADED( "SPcellphoneEndCall" )))
         {
@@ -6146,11 +6172,11 @@ void sub_50156(unknown uParam0)
     unknown uVar3;
 
     uVar3 = sub_50167( uParam0 );
-    if (NOT g_U34048[uVar3].x)
+    if (NOT g_U34048[uVar3]._fU0)
     {
         return;
     }
-    g_U34048[uVar3].x = 0;
+    g_U34048[uVar3]._fU0 = 0;
     sub_50352();
     return;
 }
@@ -6188,7 +6214,7 @@ int sub_50178(unknown uParam0)
 
 void sub_50352()
 {
-    g_U34175._fU16.x--;
+    g_U34175._fU16._fU0--;
     sub_50385();
     return;
 }
@@ -6199,7 +6225,7 @@ void sub_50385()
     {
         return;
     }
-    if (g_U34175._fU16.y < g_U34175._fU16.x)
+    if (g_U34175._fU16._fU4 < g_U34175._fU16._fU0)
     {
         return;
     }
@@ -6272,29 +6298,29 @@ void sub_50659(int iParam0, unknown uParam1, unknown uParam2, boolean bParam3)
     {
         return;
     }
-    if (NOT ((ref iParam0->z->y) == 0))
+    if (NOT ((ref iParam0->_fU8->_fU4) == 0))
     {
-        if ((ref iParam0->z->y) <= 15)
+        if ((ref iParam0->_fU8->_fU4) <= 15)
         {
-            ref iParam0->z->y = 15;
+            ref iParam0->_fU8->_fU4 = 15;
         }
-        else if ((ref iParam0->z->y) <= 30)
+        else if ((ref iParam0->_fU8->_fU4) <= 30)
         {
-            ref iParam0->z->y = 30;
+            ref iParam0->_fU8->_fU4 = 30;
         }
-        else if ((ref iParam0->z->y) <= 45)
+        else if ((ref iParam0->_fU8->_fU4) <= 45)
         {
-            ref iParam0->z->y = 45;
+            ref iParam0->_fU8->_fU4 = 45;
         }
         else
         {
-            ref iParam0->z->y = 0;
-            ref iParam0->z->x++;
+            ref iParam0->_fU8->_fU4 = 0;
+            ref iParam0->_fU8->_fU0++;
         };;;
     }
-    while ((ref iParam0->z->x) >= 24)
+    while ((ref iParam0->_fU8->_fU0) >= 24)
     {
-        ref iParam0->z->x -= 24;
+        ref iParam0->_fU8->_fU0 -= 24;
         sub_50844( iParam0 + 0 );
     }
     return;
@@ -6302,16 +6328,16 @@ void sub_50659(int iParam0, unknown uParam1, unknown uParam2, boolean bParam3)
 
 void sub_50712(int iParam0, int iParam1, int iParam2)
 {
-    ref iParam0->z->y += iParam2;
-    ref iParam0->z->x += iParam1;
-    while ((ref iParam0->z->y) >= 60)
+    ref iParam0->_fU8->_fU4 += iParam2;
+    ref iParam0->_fU8->_fU0 += iParam1;
+    while ((ref iParam0->_fU8->_fU4) >= 60)
     {
-        ref iParam0->z->y -= 60;
-        ref iParam0->z->x++;
+        ref iParam0->_fU8->_fU4 -= 60;
+        ref iParam0->_fU8->_fU0++;
     }
-    while ((ref iParam0->z->x) >= 24)
+    while ((ref iParam0->_fU8->_fU0) >= 24)
     {
-        ref iParam0->z->x -= 24;
+        ref iParam0->_fU8->_fU0 -= 24;
         sub_50844( iParam0 + 0 );
     }
     return;
@@ -6319,14 +6345,14 @@ void sub_50712(int iParam0, int iParam1, int iParam2)
 
 void sub_50844(int iParam0)
 {
-    iParam0->x++;
-    if (iParam0->x > (sub_50875( iParam0->y )))
+    iParam0->_fU0++;
+    if (iParam0->_fU0 > (sub_50875( iParam0->_fU4 )))
     {
-        iParam0->x = 1;
-        iParam0->y++;
-        if (iParam0->y > 12)
+        iParam0->_fU0 = 1;
+        iParam0->_fU4++;
+        if (iParam0->_fU4 > 12)
         {
-            iParam0->y = 1;
+            iParam0->_fU4 = 1;
         }
     }
     return;
@@ -6354,10 +6380,10 @@ int sub_50875(unknown uParam0)
 
 void sub_51271(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4)
 {
-    SET_BITS_IN_RANGE( uParam4, 0, 4, uParam0.x.x );
-    SET_BITS_IN_RANGE( uParam4, 5, 8, uParam0.x.y );
-    SET_BITS_IN_RANGE( uParam4, 9, 13, uParam0.z.x );
-    SET_BITS_IN_RANGE( uParam4, 14, 19, uParam0.z.y );
+    SET_BITS_IN_RANGE( uParam4, 0, 4, uParam0._fU0._fU0 );
+    SET_BITS_IN_RANGE( uParam4, 5, 8, uParam0._fU0._fU4 );
+    SET_BITS_IN_RANGE( uParam4, 9, 13, uParam0._fU8._fU0 );
+    SET_BITS_IN_RANGE( uParam4, 14, 19, uParam0._fU8._fU4 );
     return;
 }
 
@@ -6377,8 +6403,8 @@ void sub_51652(unknown uParam0)
     unknown uVar14;
 
     iVar3 = GET_BITS_IN_RANGE( g_U953, 12, 14 );
-    array(ref uVar4.x.x, 3);
-    ref uVar4.x;
+    array(ref uVar4._fU0._fU0, 3);
+    ref uVar4._fU0;
     ref uVar4;
     switch (uParam0)
     {
@@ -6442,12 +6468,12 @@ void sub_51863(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     sub_51887( uVar7, 8, iParam4 + 0 );
     GENERATE_RANDOM_INT_IN_RANGE( 0, 8, ref uVar7 );
     sub_51887( uVar7, 9, iParam4 + 0 );
-    ref iParam4->x->_fU20 = 0;
-    ref iParam4->x->_fU24 = 0;
-    ref iParam4->x->_fU28 = 0;
-    ref iParam4->x->_fU32 = 0;
-    ref iParam4->x->_fU16 = 1;
-    ref iParam4->x->_fU36 = 1;
+    ref iParam4->_fU0->_fU20 = 0;
+    ref iParam4->_fU0->_fU24 = 0;
+    ref iParam4->_fU0->_fU28 = 0;
+    ref iParam4->_fU0->_fU32 = 0;
+    ref iParam4->_fU0->_fU16 = 1;
+    ref iParam4->_fU0->_fU36 = 1;
     return;
 }
 
@@ -6456,43 +6482,43 @@ void sub_51887(unknown uParam0, unknown uParam1, int iParam2)
     switch (uParam1)
     {
         case 0:
-        SET_BITS_IN_RANGE( ref iParam2->x[1], 14, 23, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[1], 14, 23, uParam0 );
         break;
         case 1:
-        SET_BITS_IN_RANGE( ref iParam2->x[0], 0, 13, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[0], 0, 13, uParam0 );
         break;
         case 2:
-        SET_BITS_IN_RANGE( ref iParam2->x[0], 14, 27, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[0], 14, 27, uParam0 );
         break;
         case 3:
-        SET_BITS_IN_RANGE( ref iParam2->x[1], 0, 13, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[1], 0, 13, uParam0 );
         break;
         case 4:
-        SET_BITS_IN_RANGE( ref iParam2->x[2], 22, 25, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[2], 22, 25, uParam0 );
         break;
         case 5:
-        SET_BITS_IN_RANGE( ref iParam2->x[0], 28, 31, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[0], 28, 31, uParam0 );
         break;
         case 6:
-        SET_BITS_IN_RANGE( ref iParam2->x[2], 0, 15, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[2], 0, 15, uParam0 );
         break;
         case 8:
-        SET_BITS_IN_RANGE( ref iParam2->x[2], 16, 18, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[2], 16, 18, uParam0 );
         break;
         case 9:
-        SET_BITS_IN_RANGE( ref iParam2->x[2], 19, 21, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[2], 19, 21, uParam0 );
         break;
         case 11:
-        SET_BITS_IN_RANGE( ref iParam2->x[1], 27, 31, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[1], 27, 31, uParam0 );
         break;
         case 12:
-        SET_BITS_IN_RANGE( ref iParam2->x[2], 29, 31, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[2], 29, 31, uParam0 );
         break;
         case 13:
-        SET_BITS_IN_RANGE( ref iParam2->x[1], 24, 26, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[1], 24, 26, uParam0 );
         break;
         case 14:
-        SET_BITS_IN_RANGE( ref iParam2->x[2], 26, 28, uParam0 );
+        SET_BITS_IN_RANGE( ref iParam2->_fU0[2], 26, 28, uParam0 );
         break;
     }
     return;
@@ -6513,28 +6539,28 @@ int sub_52570(int iParam0, int iParam1)
     {
         ;
     }
-    if (g_U968[39].x[0] != -1)
+    if (g_U968[39]._fU0[0] != -1)
     {
         if (NOT sub_52610())
         {
             return 0;
         }
     }
-    if (iParam0->y0 != -1)
+    if (iParam0->_fU40 != -1)
     {
         return 0;
     }
-    iVar5 = sub_53297( iParam0->x );
+    iVar5 = sub_53297( iParam0->_fU0 );
     if (iVar5 != -1)
     {
         sub_53096( iVar5 );
     }
     for ( I = 0; I <= 39; I++ )
     {
-        if (g_U968[I].x[0] == -1)
+        if (g_U968[I]._fU0[0] == -1)
         {
-            g_U968[I] = {iParam0->x};
-            iParam0->y0 = I;
+            g_U968[I] = {iParam0->_fU0};
+            iParam0->_fU40 = I;
             I = 40;
             INCREMENT_INT_STAT_NO_MESSAGE( 368, 1 );
         }
@@ -6563,43 +6589,43 @@ int sub_52644(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     switch (uParam0)
     {
         case 0:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 14, 23 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 14, 23 );
         break;
         case 1:
-        return GET_BITS_IN_RANGE( uParam1.x[0], 0, 13 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[0], 0, 13 );
         break;
         case 2:
-        return GET_BITS_IN_RANGE( uParam1.x[0], 14, 27 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[0], 14, 27 );
         break;
         case 3:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 0, 13 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 0, 13 );
         break;
         case 4:
-        return GET_BITS_IN_RANGE( uParam1.x[2], 22, 25 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[2], 22, 25 );
         break;
         case 5:
-        return GET_BITS_IN_RANGE( uParam1.x[0], 28, 31 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[0], 28, 31 );
         break;
         case 6:
-        return GET_BITS_IN_RANGE( uParam1.x[2], 0, 15 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[2], 0, 15 );
         break;
         case 8:
-        return GET_BITS_IN_RANGE( uParam1.x[2], 16, 18 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[2], 16, 18 );
         break;
         case 9:
-        return GET_BITS_IN_RANGE( uParam1.x[2], 19, 21 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[2], 19, 21 );
         break;
         case 11:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 27, 31 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 27, 31 );
         break;
         case 12:
-        return GET_BITS_IN_RANGE( uParam1.x[2], 29, 31 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[2], 29, 31 );
         break;
         case 13:
-        return GET_BITS_IN_RANGE( uParam1.x[1], 24, 26 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[1], 24, 26 );
         break;
         case 14:
-        return GET_BITS_IN_RANGE( uParam1.x[2], 26, 28 );
+        return GET_BITS_IN_RANGE( uParam1._fU0[2], 26, 28 );
         break;
     }
     return -1;
@@ -6622,9 +6648,9 @@ void sub_53096(int iParam0)
 
 void sub_53169(unknown uParam0)
 {
-    g_U968[uParam0].x[0] = -1;
-    g_U968[uParam0].x[1] = -1;
-    g_U968[uParam0].x[2] = -1;
+    g_U968[uParam0]._fU0[0] = -1;
+    g_U968[uParam0]._fU0[1] = -1;
+    g_U968[uParam0]._fU0[2] = -1;
     return;
 }
 
@@ -6634,7 +6660,7 @@ int sub_53297(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 
     for ( Result = 0; Result <= 39; Result++ )
     {
-        if (g_U968[Result].x[0] != -1)
+        if (g_U968[Result]._fU0[0] != -1)
         {
             if (sub_53358( uParam0, g_U968[Result] ))
             {
@@ -6651,7 +6677,7 @@ int sub_53297(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 
 int sub_53358(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9, unknown uParam10, unknown uParam11, unknown uParam12, unknown uParam13, unknown uParam14, unknown uParam15, unknown uParam16, unknown uParam17, unknown uParam18, unknown uParam19)
 {
-    if ((uParam0.x[1] == uParam10.x[1]) AND (uParam0.x[0] == uParam10.x[0]))
+    if ((uParam0._fU0[1] == uParam10._fU0[1]) AND (uParam0._fU0[0] == uParam10._fU0[0]))
     {
         return 1;
     }
@@ -6689,7 +6715,7 @@ int sub_53803(unknown uParam0, unknown uParam1)
         {
             if (COMPARE_STRING( ref g_U2273[Result]._fU16, uParam0 ))
             {
-                if (COMPARE_STRING( ref g_U2273[Result].x, uParam1 ))
+                if (COMPARE_STRING( ref g_U2273[Result]._fU0, uParam1 ))
                 {
                     return Result;
                 }
@@ -6758,25 +6784,25 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
     StrCopy( ref cVar9, "", 64 );
     if (bParam3)
     {
-        if (g_U13391[iParam0].z0.x == 0)
+        if (g_U13391[iParam0]._fU80._fU0 == 0)
         {
             StrCopy( ref cVar9, uParam4, 64 );
             ConcatString(ref cVar9, " Pass_Stats: friend mission", 64);
             sub_54226( ref cVar9 );
             return;
         }
-        if (g_U13391[iParam0].z0.y == -1)
+        if (g_U13391[iParam0]._fU80._fU4 == -1)
         {
             StrCopy( ref cVar9, uParam4, 64 );
             ConcatString(ref cVar9, " Pass_Stats: friend missionID", 64);
             sub_54226( ref cVar9 );
             return;
         }
-        iVar7 = g_U13391[iParam0].z0.y;
+        iVar7 = g_U13391[iParam0]._fU80._fU4;
     }
     else if (bParam2)
     {
-        if (NOT g_U13391[iParam0]._fU160.z0)
+        if (NOT g_U13391[iParam0]._fU160._fU80)
         {
             StrCopy( ref cVar9, uParam4, 64 );
             ConcatString(ref cVar9, " Pass_Stats: proc mission", 64);
@@ -6792,21 +6818,21 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
         }
         iVar7 = g_U13391[iParam0]._fU160._fU76;
     }
-    else if (g_U13391[iParam0].x.x == 0)
+    else if (g_U13391[iParam0]._fU0._fU0 == 0)
     {
         StrCopy( ref cVar9, uParam4, 64 );
         ConcatString(ref cVar9, " Pass_Stats: mission", 64);
         sub_54226( ref cVar9 );
         return;
     }
-    if (g_U13391[iParam0].x.y == -1)
+    if (g_U13391[iParam0]._fU0._fU4 == -1)
     {
         StrCopy( ref cVar9, uParam4, 64 );
         ConcatString(ref cVar9, " Pass_Stats: missionID", 64);
         sub_54226( ref cVar9 );
         return;
     }
-    iVar7 = g_U13391[iParam0].x.y;
+    iVar7 = g_U13391[iParam0]._fU0._fU4;
     iVar8 = sub_54803( iParam0, iVar7 );;;
     iVar25 = 0;
     if (bParam1)
@@ -6815,18 +6841,18 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
     }
     if (bParam2)
     {
-        iVar25 = g_U13391[iParam0]._fU160.z4;
+        iVar25 = g_U13391[iParam0]._fU160._fU84;
     }
     if (bParam3)
     {
-        g_U10981[iParam0]._fU144.z++;
-        if ((g_U10981[iParam0]._fU144.z >= g_U10981[iParam0]._fU144.y) AND (NOT g_U10981[iParam0]._fU144._fU12))
+        g_U10981[iParam0]._fU144._fU8++;
+        if ((g_U10981[iParam0]._fU144._fU8 >= g_U10981[iParam0]._fU144._fU4) AND (NOT g_U10981[iParam0]._fU144._fU12))
         {
             iVar26 = 0;
             GET_GAME_TIMER( ref iVar26 );
             g_U10981[iParam0]._fU144._fU16 = iVar26 + 60000;
         }
-        if (g_U10981[iParam0]._fU144.z == 1)
+        if (g_U10981[iParam0]._fU144._fU8 == 1)
         {
             if (iParam0 == 3)
             {
@@ -6844,11 +6870,11 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
     }
     if (bParam2)
     {
-        g_U13391[iParam0]._fU160.z4++;
+        g_U13391[iParam0]._fU160._fU84++;
     }
     if ((iVar7 == 12) AND (iParam0 == 0))
     {
-        SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
+        SET_PLAYER_MOOD_PISSED_OFF( sub_3643(), 150 );
     }
     else
     {
@@ -6860,7 +6886,7 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
     uVar29 = sub_1576( iParam0 );
     if (bParam1)
     {
-        iVar30 = g_U13391[iParam0].x._fU56;
+        iVar30 = g_U13391[iParam0]._fU0._fU56;
         if ((iVar30 == 6) || (iVar30 == 5))
         {
             bVar27 = false;
@@ -6871,7 +6897,7 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
             if (IS_BIT_SET( g_U26758[uVar28]._fU108, 2 ))
             {
                 REGISTER_MISSION_PASSED( ref g_U9921 );
-                sub_64665( 9, ref g_U13391[iParam0].x._fU24 );
+                sub_64665( 9, ref g_U13391[iParam0]._fU0._fU24 );
                 if ((g_U10978) AND (NOT bVar27))
                 {
                     bVar31 = false;
@@ -6879,7 +6905,7 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
                 if (bVar31)
                 {
                     sub_65095();
-                    g_U9914.z = 1;
+                    g_U9914._fU8 = 1;
                     g_U9914._fU20 = sub_65180( iParam0, iVar7 );
                 }
             }
@@ -6932,11 +6958,11 @@ int sub_54803(int iParam0, int iParam1)
     {
         sub_1975( "Main_Missions: Find_Trigger(): Illegal Strand ID" );
     }
-    uVar4 = g_U32640[iParam0].x;
-    iVar5 = g_U32640[iParam0].y;
+    uVar4 = g_U32640[iParam0]._fU0;
+    iVar5 = g_U32640[iParam0]._fU4;
     for ( Result = uVar4; Result <= iVar5; Result++ )
     {
-        if (g_U26758[Result].y == iParam1)
+        if (g_U26758[Result]._fU4 == iParam1)
         {
             return Result;
         }
@@ -6950,8 +6976,8 @@ void sub_55200(unknown uParam0, unknown uParam1)
 
     iVar4 = 0;
     GET_GAME_TIMER( ref iVar4 );
-    g_U15874[uParam0].x = uParam1;
-    g_U15874[uParam0].y = iVar4 + 7200000;
+    g_U15874[uParam0]._fU0 = uParam1;
+    g_U15874[uParam0]._fU4 = iVar4 + 7200000;
     return;
 }
 
@@ -7046,7 +7072,7 @@ int sub_55289(unknown uParam0, unknown uParam1, unknown uParam2, boolean bParam3
     uVar9 = sub_54803( uParam0, uParam1 );
     if (bParam3)
     {
-        iVar10 = g_U13391[uParam0].x._fU56;
+        iVar10 = g_U13391[uParam0]._fU0._fU56;
         if ((NOT (iVar10 == 6)) AND (NOT (iVar10 == 5)))
         {
             sub_62843( uVar9, uParam0 );
@@ -8179,7 +8205,7 @@ int sub_62891(int iParam0, int iParam1)
     {
         return 0;
     }
-    iVar4 = g_U13391[iParam1].x._fU56;
+    iVar4 = g_U13391[iParam1]._fU0._fU56;
     bVar5 = iVar4 == 6;
     if (bVar5)
     {
@@ -8192,7 +8218,7 @@ int sub_62891(int iParam0, int iParam1)
         if (iVar6 > 0)
         {
             sub_63031( 0, iVar6 );
-            g_U13334[iParam1].y += iVar6;
+            g_U13334[iParam1]._fU4 += iVar6;
         }
         SET_BIT( ref g_U26758[iParam0]._fU108, 3 );
         return 1;
@@ -8202,11 +8228,11 @@ int sub_62891(int iParam0, int iParam1)
 
 void sub_63031(unknown uParam0, int iParam1)
 {
-    g_U32871[uParam0].y += iParam1;
-    if (g_U32871[uParam0].y > g_U32871[uParam0].x)
+    g_U32871[uParam0]._fU4 += iParam1;
+    if (g_U32871[uParam0]._fU4 > g_U32871[uParam0]._fU0)
     {
         SCRIPT_ASSERT( "Flow_Achievements_Game_Progress_Made: Current Category is over target value" );
-        g_U32871[uParam0].y = g_U32871[uParam0].x;
+        g_U32871[uParam0]._fU4 = g_U32871[uParam0]._fU0;
     }
     sub_63213( 0 );
     return;
@@ -8229,16 +8255,16 @@ void sub_63213(boolean bParam0)
     I = 0;
     for ( I = 0; I < 8; I++ )
     {
-        if (g_U32871[I].y == g_U32871[I].x)
+        if (g_U32871[I]._fU4 == g_U32871[I]._fU0)
         {
-            fVar4 = g_U32871[I].z;
+            fVar4 = g_U32871[I]._fU8;
         }
         else
         {
             bVar7 = false;
-            fVar5 = TO_FLOAT( g_U32871[I].x );
-            fVar6 = TO_FLOAT( g_U32871[I].y );
-            fVar4 = (fVar6 / fVar5) * g_U32871[I].z;
+            fVar5 = TO_FLOAT( g_U32871[I]._fU0 );
+            fVar6 = TO_FLOAT( g_U32871[I]._fU4 );
+            fVar4 = (fVar6 / fVar5) * g_U32871[I]._fU8;
         }
         fVar3 += fVar4;
     }
@@ -8282,21 +8308,21 @@ void sub_63622(int iParam0)
     {
         return;
     }
-    if (g_U13334[iParam0].x == 0)
+    if (g_U13334[iParam0]._fU0 == 0)
     {
         return;
     }
     fVar3 = 0.00000000;
     fVar4 = 0.00000000;
     fVar5 = 0.00000000;
-    if (g_U13334[iParam0].y == g_U13334[iParam0].x)
+    if (g_U13334[iParam0]._fU4 == g_U13334[iParam0]._fU0)
     {
         fVar3 = 100.00000000;
     }
     else
     {
-        fVar4 = TO_FLOAT( g_U13334[iParam0].x );
-        fVar5 = TO_FLOAT( g_U13334[iParam0].y );
+        fVar4 = TO_FLOAT( g_U13334[iParam0]._fU0 );
+        fVar5 = TO_FLOAT( g_U13334[iParam0]._fU4 );
         fVar3 = fVar5 / fVar4;
         fVar3 *= 100.00000000;
     }
@@ -8453,9 +8479,9 @@ void sub_64684(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
 
 void sub_65095()
 {
-    g_U9914.x = 1;
-    g_U9914.y = 0;
-    g_U9914.z = 0;
+    g_U9914._fU0 = 1;
+    g_U9914._fU4 = 0;
+    g_U9914._fU8 = 0;
     g_U9914._fU12 = 0;
     g_U9914._fU16 = 0;
     g_U9914._fU20 = 0;
@@ -8489,9 +8515,9 @@ void sub_65276(unknown uParam0)
         g_U9385 = 0;
         return;
     }
-    g_U9380.x = 1;
-    g_U9380.y = uParam0;
-    g_U9380.z = 0;
+    g_U9380._fU0 = 1;
+    g_U9380._fU4 = uParam0;
+    g_U9380._fU8 = 0;
     g_U9380._fU12 = 0;
     g_U9380._fU16 = 0;
     return;
