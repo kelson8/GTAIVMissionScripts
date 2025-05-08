@@ -1,9 +1,12 @@
 # List of natives
-These are natives that I found useful in GTA 4:
 
-https://gtamods.com/wiki/List_of_native_functions_(GTA_IV)
 
-List of keybinds: https://gtamods.com/wiki/Key_Codes_(GTA_IV)
+Useful links:
+* These are natives that I found useful in GTA 4: https://gtamods.com/wiki/List_of_native_functions_(GTA_IV)
+* List of keybinds: https://gtamods.com/wiki/Key_Codes_(GTA_IV)
+* List of animations: https://alexguirre.github.io/animations-list/
+
+
 
 <details>
 <summary> Controller natives: </summary>
