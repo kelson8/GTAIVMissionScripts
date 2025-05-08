@@ -571,6 +571,7 @@ void sub_1815()
     return;
 }
 
+// Create the chars
 void sub_2622()
 {
     sub_2634( "" );
@@ -584,17 +585,21 @@ void sub_2622()
     SET_OBJECT_HEADING( l_U125[0], l_U119 );
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U125[0], 0.80000000, 4.00000000, 0.96000000, ref l_U358[0]._fU0, ref l_U358[0]._fU4, ref l_U358[0]._fU8 );
     SET_RELATIONSHIP( 2, 28, 0 );
+
     CREATE_CHAR( 26, l_U124, 82.52380000, -337.32920000, 10.17450000, ref l_U120, 1 );
     SET_AMBIENT_VOICE_NAME( l_U123, " M_Y_GTRI_LO_01_FULL_01" );
     SET_CHAR_HEADING( l_U120, l_U119 + 100.48830000 );
+
     SET_CHAR_RELATIONSHIP( l_U120, 1, 0 );
     SET_CHAR_RELATIONSHIP_GROUP( l_U120, 28 );
+
     GIVE_WEAPON_TO_CHAR( l_U120, 9, 30000, 0 );
     SET_CURRENT_CHAR_WEAPON( l_U120, 0, 0 );
     TASK_STAND_GUARD( l_U120, l_U358[0]._fU0, l_U358[0]._fU4, l_U358[0]._fU8, l_U119 + 100.48830000, 0.50000000, 0, -1 );
     SET_ROOM_FOR_CHAR_BY_NAME( l_U120, l_U192 );
     TASK_START_SCENARIO_AT_POSITION( l_U120, "SCENARIO_STANDING", l_U358[0]._fU0, l_U358[0]._fU4, l_U358[0]._fU8, l_U119 + 100.48830000 );
     sub_3248( 1, l_U120, "GUNSHOP_TRIAD", 0 );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U124 );
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U125[0], -7.39380000, 3.80900000, 0.10710000, ref l_U358[1]._fU0, ref l_U358[1]._fU4, ref l_U358[1]._fU8 );
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U125[0], -7.51180000, 5.74700000, 0.10730000, ref l_U358[2]._fU0, ref l_U358[2]._fU4, ref l_U358[2]._fU8 );
@@ -614,8 +619,11 @@ void sub_2622()
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U125[0], -3.40000000, 2.45000000, 0.50000000, ref l_U371[12]._fU0, ref l_U371[12]._fU4, ref l_U371[12]._fU8 );
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U125[0], -4.90000000, -1.31000000, 1.04000000, ref l_U371[13]._fU0, ref l_U371[13]._fU4, ref l_U371[13]._fU8 );
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U125[0], -1.20000000, 3.00000000, 0.00000000, ref l_U371[14]._fU0, ref l_U371[14]._fU4, ref l_U371[14]._fU8 );
+    
     MARK_MODEL_AS_NO_LONGER_NEEDED( 501936518 );
+    
     DELETE_OBJECT( ref l_U125[0] );
+    
     sub_4528( ref l_U200[l_U117], 1, l_U371[13]._fU0, l_U371[13]._fU4, l_U371[13]._fU8, 192.78730000, ref l_U117 );
     sub_4528( ref l_U200[l_U117], 7, l_U371[0]._fU0, l_U371[0]._fU4, l_U371[0]._fU8, 90.00000000, ref l_U117 );
     sub_4528( ref l_U200[l_U117], 9, l_U371[1]._fU0, l_U371[1]._fU4, l_U371[1]._fU8, 180.00000000, ref l_U117 );
@@ -630,11 +638,13 @@ void sub_2622()
     sub_4528( ref l_U200[l_U117], 4, l_U371[10]._fU0, l_U371[10]._fU4, l_U371[10]._fU8, 181.15430000, ref l_U117 );
     sub_4528( ref l_U200[l_U117], 5, l_U371[11]._fU0, l_U371[11]._fU4, l_U371[11]._fU8, 181.15430000, ref l_U117 );
     sub_4528( ref l_U200[l_U117], 18, l_U371[12]._fU0, l_U371[12]._fU4, l_U371[12]._fU8, 181.15430000, ref l_U117 );
+
     for ( l_U194 = 0; l_U194 <= (l_U117 - 1); l_U194++ )
     {
         sub_5349( ref l_U200[l_U194] );
         ADD_OBJECT_TO_INTERIOR_ROOM_BY_NAME( l_U200[l_U194]._fU20, l_U192 );
     }
+
     if (NOT l_U424)
     {
         CREATE_OBJECT_NO_OFFSET( -1758615024, l_U371[14]._fU0, l_U371[14]._fU4, l_U371[14]._fU8, ref l_U425, 1 );
@@ -644,42 +654,58 @@ void sub_2622()
         MARK_MODEL_AS_NO_LONGER_NEEDED( -1758615024 );
         l_U424 = 1;
     }
+
     SET_OBJECT_HEADING( l_U200[0]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[0]._fU20, 90.00000000, 85.00000000, l_U119 + 90.00000000 );
+
     SET_OBJECT_HEADING( l_U200[1]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[1]._fU20, 90.00000000, 0.00000000, l_U119 + 45.00000000 );
+
     SET_OBJECT_HEADING( l_U200[2]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[2]._fU20, 90.00000000, 0.00000000, l_U119 + 60.00000000 );
+
     SET_OBJECT_HEADING( l_U200[3]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[3]._fU20, 90.00000000, 0.00000000, l_U119 );
+
     SET_OBJECT_HEADING( l_U200[4]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[4]._fU20, 90.00000000, 0.00000000, l_U119 + 315.00000000 );
+
     SET_OBJECT_HEADING( l_U200[5]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[5]._fU20, 90.00000000, 0.00000000, l_U119 + 160.00000000 );
+
     SET_OBJECT_HEADING( l_U200[6]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[6]._fU20, 90.00000000, 0.00000000, l_U119 + 200.00000000 );
+
     SET_OBJECT_HEADING( l_U200[7]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[7]._fU20, 90.00000000, 180.00000000, l_U119 + 270.00000000 );
+
     SET_OBJECT_HEADING( l_U200[8]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[8]._fU20, 90.00000000, 180.00000000, l_U119 + 130.00000000 );
+
     SET_OBJECT_HEADING( l_U200[9]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[9]._fU20, 90.00000000, 180.00000000, l_U119 + 200.00000000 );
+
     SET_OBJECT_HEADING( l_U200[10]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[10]._fU20, 90.00000000, 180.00000000, l_U119 + 180.00000000 );
+
     SET_OBJECT_HEADING( l_U200[13]._fU20, l_U119 );
     SET_OBJECT_ROTATION( l_U200[13]._fU20, 90.00000000, 0.00000000, l_U119 + 90.00000000 );
+
     REQUEST_ANIMS( "missgunlockup" );
+
     while (NOT (HAVE_ANIMS_LOADED( "missgunlockup" )))
     {
         WAIT( 0 );
         REQUEST_ANIMS( "missgunlockup" );
     }
+
     if (NOT (IS_CHAR_INJURED( l_U120 )))
     {
         UNLOCK_RAGDOLL( l_U120, 1 );
         SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U120, 1 );
         FREEZE_CHAR_POSITION( l_U120, 1 );
     }
+
     SET_STATE_OF_CLOSEST_DOOR_OF_TYPE( 807349477, 73.00000000, -343.10000000, 11.40000000, 0, 0.00000000 );
     sub_3248( 0, sub_950(), "NIKO", 0 );
     l_U356 = 1;
@@ -2655,12 +2681,14 @@ int sub_22250(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     return 0;
 }
 
+// Seems to create multiple chars for this
 void sub_23566()
 {
     while ((sub_23610( l_U358[3]._fU0, l_U358[3]._fU4, l_U358[3]._fU8, 2.00000000 )) || ((sub_23610( l_U358[2]._fU0, l_U358[2]._fU4, l_U358[2]._fU8, 2.00000000 )) || (NOT (sub_23610( l_U358[1]._fU0, l_U358[1]._fU4, l_U358[1]._fU8, 2.00000000 )))))
     {
         WAIT( 0 );
     }
+
     if (NOT l_U184)
     {
         SET_RELATIONSHIP( 5, 28, 0 );
@@ -2669,16 +2697,19 @@ void sub_23566()
         LOAD_COMBAT_DECISION_MAKER( 3, ref l_U196 );
         SET_ROOM_FOR_CHAR_BY_NAME( l_U121, l_U192 );
         SET_CHAR_RANDOM_COMPONENT_VARIATION( l_U121 );
+
         CREATE_CHAR( 7, l_U124, l_U358[2]._fU0, l_U358[2]._fU4, l_U358[2]._fU8, ref l_U122, 1 );
         SET_AMBIENT_VOICE_NAME( l_U122, "M_Y_GTRI_LO_02_GANG_01" );
         LOAD_COMBAT_DECISION_MAKER( 3, ref l_U197 );
         SET_ROOM_FOR_CHAR_BY_NAME( l_U122, l_U192 );
         SET_CHAR_RANDOM_COMPONENT_VARIATION( l_U122 );
+
         CREATE_CHAR( 7, l_U124, l_U358[3]._fU0, l_U358[3]._fU4, l_U358[3]._fU8, ref l_U123, 1 );
         SET_AMBIENT_VOICE_NAME( l_U123, " M_Y_GTRI_LO_01_GANG_01" );
         LOAD_COMBAT_DECISION_MAKER( 3, ref l_U198 );
         SET_ROOM_FOR_CHAR_BY_NAME( l_U123, l_U192 );
         SET_CHAR_RANDOM_COMPONENT_VARIATION( l_U123 );
+
         if (NOT (IS_CHAR_INJURED( l_U121 )))
         {
             SET_CHAR_RELATIONSHIP_GROUP( l_U121, 28 );
@@ -2687,6 +2718,7 @@ void sub_23566()
             SET_COMBAT_DECISION_MAKER( l_U121, l_U196 );
             TASK_COMBAT( l_U121, sub_950() );
         }
+
         if (NOT (IS_CHAR_INJURED( l_U122 )))
         {
             SET_CHAR_RELATIONSHIP_GROUP( l_U122, 28 );
@@ -2695,6 +2727,7 @@ void sub_23566()
             SET_COMBAT_DECISION_MAKER( l_U122, l_U197 );
             TASK_COMBAT( l_U122, sub_950() );
         }
+
         if (NOT (IS_CHAR_INJURED( l_U123 )))
         {
             SET_CHAR_RELATIONSHIP_GROUP( l_U123, 28 );

@@ -10,42 +10,62 @@ void main()
     l_U37 = 0;
     l_U40 = 0;
     l_U42 = 0;
-    l_U43 = "TOLLBOOTH_BARRIER_RAISE";
+    // l_U43 = tollBoothRaiseBarrierSound
+
+    tollBoothRaiseBarrierSound = "TOLLBOOTH_BARRIER_RAISE";
     l_U44 = "TOLLBOOTH_BARRIER_LOWER";
+    // Is this unused?
     l_U45 = "TOLLBOOTH_COINS_IN";
-    l_U46 = -1;
+    
+    // l_U46 = currentSoundId 
+    currentSoundId = -1;
+    
     l_U47 = -1;
     l_U48 = -1;
     l_U49 = -1;
     l_U50 = 0;
     l_U51 = 0;
     l_U52 = 0;
-    l_U54 = 0;
+
+    // currentCopModelReference
+    // l_U54 = currentCopModelRef
+    currentCopModelRef = 0;
     l_U56 = 1;
+    // l_U11 = Toll booth coords or tollBoothGateCoords?
     l_U11 = {l_U57._fU4[0]};
+
+    // l_U32 = tollBoothGateHeading
     l_U32 = l_U57._fU68[0];
+
+    // Seems to check "if ((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "MultiTutorial" )) >= 1)"
     while (sub_266())
     {
         WAIT( 0 );
     }
-    CREATE_OBJECT_NO_OFFSET( -1341473171, l_U11._fU0, l_U11._fU4, l_U11._fU8, ref l_U20, 1 );
+
+    // l_U20 might be tollBoothObject or tollBoothGate
+    CREATE_OBJECT_NO_OFFSET( -1341473171, l_U11.x, l_U11.y, l_U11.z, ref l_U20, 1 );
     SET_OBJECT_HEADING( l_U20, l_U32 );
     SET_OBJECT_DYNAMIC( l_U20, 0 );
     SET_OBJECT_COLLISION( l_U20, 0 );
     FREEZE_OBJECT_POSITION( l_U20, 1 );
     SET_OBJECT_VISIBLE( l_U20, 0 );
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
-    GET_OBJECT_COORDINATES( l_U20, ref l_U11._fU0, ref l_U11._fU4, ref l_U11._fU8 );
+    GET_OBJECT_COORDINATES( l_U20, ref l_U11.x, ref l_U11.y, ref l_U11.z );
+
     sub_458();
+
+    // Possibly debug function, does nothing
     sub_530();
+
     while (true)
     {
         WAIT( 0 );
         sub_561();
-        if (IS_PLAYER_PLAYING( sub_1277() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            sub_763();
-            if (NOT (IS_WANTED_LEVEL_GREATER( sub_1277(), 0 )))
+            GivePlayerWantedLevel();
+            if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
             {
                 if (NOT l_U55)
                 {
@@ -58,7 +78,7 @@ void main()
             }
             if (DOES_OBJECT_EXIST( l_U20 ))
             {
-                GET_OBJECT_COORDINATES( l_U20, ref l_U11._fU0, ref l_U11._fU4, ref l_U11._fU8 );
+                GET_OBJECT_COORDINATES( l_U20, ref l_U11.x, ref l_U11.y, ref l_U11.z );
                 GET_OBJECT_HEADING( l_U20, ref l_U53 );
                 SET_OBJECT_DYNAMIC( l_U20, 0 );
                 if ((NOT (sub_3063( l_U20 ))) AND (IS_WORLD_POINT_WITHIN_BRAIN_ACTIVATION_RANGE()))
@@ -71,16 +91,16 @@ void main()
                             {
                                 sub_3292();
                             }
-                            sub_763();
+                            GivePlayerWantedLevel();
                         }
                     }
-                    if (NOT (IS_CHAR_INJURED( sub_772() )))
+                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                     {
-                        if (IS_CHAR_IN_ANY_CAR( sub_772() ))
+                        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                         {
                             if (NOT sub_1046())
                             {
-                                if (LOCATE_CHAR_ANY_MEANS_3D( sub_772(), l_U11._fU0, l_U11._fU4, l_U11._fU8, 50.00000000, 50.00000000, 10.00000000, 1 ))
+                                if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U11.x, l_U11.y, l_U11.z, 50.00000000, 50.00000000, 10.00000000, 1 ))
                                 {
                                     if (g_U9890 != 9)
                                     {
@@ -108,24 +128,24 @@ void main()
                         case 2:
                         sub_1698();
                         sub_4551();
-                        if (NOT (IS_CHAR_INJURED( l_U25 )))
+                        if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                         {
                             if (DOES_OBJECT_EXIST( l_U22 ))
                             {
-                                if (HAS_CLOSEST_OBJECT_OF_TYPE_BEEN_DAMAGED_BY_CHAR( l_U17._fU0, l_U17._fU4, l_U17._fU8, 3.00000000, -1295524692, sub_772() ))
+                                if (HAS_CLOSEST_OBJECT_OF_TYPE_BEEN_DAMAGED_BY_CHAR( l_U17._fU0, l_U17._fU4, l_U17._fU8, 3.00000000, -1295524692, CurrentPlayerChar() ))
                                 {
-                                    if (NOT (sub_846( sub_772() )))
+                                    if (NOT (sub_846( CurrentPlayerChar() )))
                                     {
-                                        CLEAR_CHAR_TASKS( sub_772() );
+                                        CLEAR_CHAR_TASKS( CurrentPlayerChar() );
                                     }
                                 }
                                 else if (NOT sub_3225())
                                 {
-                                    if (NOT (IS_CHAR_INJURED( sub_772() )))
+                                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                                     {
                                         if (sub_4979())
                                         {
-                                            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_772(), ref l_U23 );
+                                            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U23 );
                                         }
                                         else if (IS_CAR_DEAD( l_U23 ))
                                         {
@@ -137,29 +157,29 @@ void main()
                                         sub_5439( "IF IS_VEH_DRIVEABLE(boothCar)\n" );
                                         if (sub_5467( l_U23, l_U31, 15.00000000 ))
                                         {
-                                            if ((NOT (IS_CHAR_IN_ANY_HELI( sub_772() ))) AND (IS_CHAR_IN_CAR( sub_772(), l_U23 )))
+                                            if ((NOT (IS_CHAR_IN_ANY_HELI( CurrentPlayerChar() ))) AND (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U23 )))
                                             {
-                                                if (NOT (IS_WANTED_LEVEL_GREATER( sub_1277(), 0 )))
+                                                if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                                                 {
                                                     if (sub_1046())
                                                     {
                                                         sub_5716();
                                                         if (sub_5831( l_U23 ))
                                                         {
-                                                            if (sub_846( sub_772() ))
+                                                            if (sub_846( CurrentPlayerChar() ))
                                                             {
                                                                 l_U0 = 3;
                                                             }
                                                             else if (sub_5961( 5 ))
                                                             {
                                                                 sub_6034( l_U23 );
-                                                                sub_6093( sub_772(), l_U23 );
+                                                                sub_6093( CurrentPlayerChar(), l_U23 );
                                                                 l_U0 = 3;
                                                             }
                                                             else if (NOT l_U51)
                                                             {
                                                                 PRINT_HELP( "TOLCASH" );
-                                                                SAY_AMBIENT_SPEECH( l_U25, "TOLL_PAID_NO", 1, 0, 0 );
+                                                                SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_PAID_NO", 1, 0, 0 );
                                                                 l_U51 = 1;
                                                             };;;
                                                         }
@@ -215,7 +235,7 @@ void main()
                             sub_5439( "armStage = openArm\n" );
                             if (TIMERA() > 1200)
                             {
-                                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U20, 0.00000000, -1.00000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
+                                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U20, 0.00000000, -1.00000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
                                 SETTIMERA( 0 );
                             }
                             if (l_U36)
@@ -247,9 +267,9 @@ void main()
                                     }
                                 }
                             }
-                            else if (NOT (IS_CHAR_INJURED( sub_772() )))
+                            else if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                             {
-                                GET_SCRIPT_TASK_STATUS( sub_772(), 80, ref l_U38 );
+                                GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 80, ref l_U38 );
                                 if (l_U38 == 7)
                                 {
                                     sub_656();
@@ -295,7 +315,7 @@ void main()
                                     l_U52 = 0;
                                 }
                             }
-                            else if (NOT (LOCATE_CHAR_ANY_MEANS_OBJECT_3D( sub_772(), l_U22, 10.00000000, 10.00000000, 10.00000000, 0 )))
+                            else if (NOT (LOCATE_CHAR_ANY_MEANS_OBJECT_3D( CurrentPlayerChar(), l_U22, 10.00000000, 10.00000000, 10.00000000, 0 )))
                             {
                                 l_U1 = 2;
                                 l_U35 = 0;
@@ -328,9 +348,9 @@ void main()
                 }
                 else if (l_U40)
                 {
-                    if (NOT (IS_CHAR_INJURED( l_U25 )))
+                    if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                     {
-                        SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                        SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                     }
                 }
                 PRINTSTRING( "Toll Booth Script Killed" );
@@ -339,9 +359,9 @@ void main()
             }
             else if (l_U40)
             {
-                if (NOT (IS_CHAR_INJURED( l_U25 )))
+                if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                 {
-                    SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                    SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                 }
             }
             PRINTSTRING( "Toll Booth Script Killed" );
@@ -377,6 +397,7 @@ void sub_458()
     return;
 }
 
+// Possibly debug function, does nothing
 void sub_530()
 {
     return;
@@ -413,14 +434,15 @@ void sub_656()
 {
     if (DOES_OBJECT_EXIST( l_U22 ))
     {
-        l_U46 = GET_SOUND_ID();
-        PLAY_SOUND_FROM_OBJECT( l_U46, l_U43, l_U22 );
+        currentSoundId = GET_SOUND_ID();
+        PLAY_SOUND_FROM_OBJECT( currentSoundId, tollBoothRaiseBarrierSound, l_U22 );
         SET_OBJECT_COLLISION( l_U22, 0 );
         while (l_U8._fU4 <= 84.00000000)
         {
             WAIT( 0 );
             l_U8._fU4 += 3.00000000;
-            sub_763();
+
+            GivePlayerWantedLevel();
             SET_OBJECT_ROTATION( l_U22, 0.00000000, l_U8._fU4, l_U30 );
             if (l_U36)
             {
@@ -428,29 +450,32 @@ void sub_656()
             }
         }
         SET_OBJECT_COLLISION( l_U22, 1 );
-        STOP_SOUND( l_U46 );
-        RELEASE_SOUND_ID( l_U46 );
-        l_U46 = -1;
+        STOP_SOUND( currentSoundId );
+        RELEASE_SOUND_ID( currentSoundId );
+        currentSoundId = -1;
     }
     return;
 }
 
-void sub_763()
+// sub_763
+// Seems to add the wanted level if the player skips the toll booth without paying
+void GivePlayerWantedLevel()
+
 {
-    if (NOT (IS_CHAR_DEAD( sub_772() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
         if (DOES_OBJECT_EXIST( l_U22 ))
         {
-            if (NOT (sub_846( sub_772() )))
+            if (NOT (sub_846( CurrentPlayerChar() )))
             {
-                if ((l_U40) || (HAS_CLOSEST_OBJECT_OF_TYPE_BEEN_DAMAGED_BY_CHAR( l_U17._fU0, l_U17._fU4, l_U17._fU8, 3.00000000, -1295524692, sub_772() )))
+                if ((l_U40) || (HAS_CLOSEST_OBJECT_OF_TYPE_BEEN_DAMAGED_BY_CHAR( l_U17._fU0, l_U17._fU4, l_U17._fU8, 3.00000000, -1295524692, CurrentPlayerChar() )))
                 {
-                    CLEAR_CHAR_TASKS( sub_772() );
-                    ALTER_WANTED_LEVEL_NO_DROP( sub_1277(), 1 );
-                    APPLY_WANTED_LEVEL_CHANGE_NOW( sub_1277() );
-                    if (NOT (IS_CHAR_INJURED( l_U25 )))
+                    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+                    ALTER_WANTED_LEVEL_NO_DROP( CurrentPlayerId(), 1 );
+                    APPLY_WANTED_LEVEL_CHANGE_NOW( CurrentPlayerId() );
+                    if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                     {
-                        SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                        SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                     }
                     PRINTSTRING( "Toll Booth Script Killed" );
                     PRINTNL();
@@ -462,7 +487,8 @@ void sub_763()
     return;
 }
 
-void sub_772()
+// sub_772
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -470,6 +496,11 @@ void sub_772()
     return Result;
 }
 
+// If the player is not injured, and in a car
+// TODO Fill out all the car models for this, there is a lot, I think it is all emergency vehicles
+// If the car models are: Police Patrol, Police Stockade, Police Patriot, 
+// If iParam0 is CurrentPlayerChar
+// If sub_1046 return 1, else return 1
 int sub_846(int iParam0)
 {
     unknown uVar3;
@@ -479,9 +510,17 @@ int sub_846(int iParam0)
         if (IS_CHAR_IN_ANY_CAR( iParam0 ))
         {
             STORE_CAR_CHAR_IS_IN_NO_SAVE( iParam0, ref uVar3 );
-            if ((IS_CAR_MODEL( uVar3, -1627000575 )) || ((IS_CAR_MODEL( uVar3, -1900572838 )) || ((IS_CAR_MODEL( uVar3, -350085182 )) || ((IS_CAR_MODEL( uVar3, 2046537925 )) || ((IS_CAR_MODEL( uVar3, 1911513875 )) || ((IS_CAR_MODEL( uVar3, 148777611 )) || ((IS_CAR_MODEL( uVar3, 1938952078 )) || ((IS_CAR_MODEL( uVar3, 1127131465 )) || (IS_CAR_MODEL( uVar3, 1171614426 ))))))))))
+            if ((IS_CAR_MODEL( uVar3, -1627000575 )) 
+            || ((IS_CAR_MODEL( uVar3, -1900572838 )) 
+            || ((IS_CAR_MODEL( uVar3, -350085182 )) 
+            || ((IS_CAR_MODEL( uVar3, 2046537925 )) 
+            || ((IS_CAR_MODEL( uVar3, 1911513875 )) 
+            || ((IS_CAR_MODEL( uVar3, 148777611 )) 
+            || ((IS_CAR_MODEL( uVar3, 1938952078 )) 
+            || ((IS_CAR_MODEL( uVar3, 1127131465 )) 
+            || (IS_CAR_MODEL( uVar3, 1171614426 ))))))))))
             {
-                if (iParam0 == sub_772())
+                if (iParam0 == CurrentPlayerChar())
                 {
                     if (sub_1046())
                     {
@@ -503,17 +542,17 @@ int sub_1046()
     unknown uVar2;
     int iVar3;
 
-    if (NOT (IS_CHAR_INJURED( sub_772() )))
+    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_772() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_772(), ref uVar2 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar2 );
             if ((NOT (IS_CAR_ON_FIRE( uVar2 ))) AND (IS_VEH_DRIVEABLE( uVar2 )))
             {
                 GET_DRIVER_OF_CAR( uVar2, ref iVar3 );
                 if (NOT (IS_CAR_MODEL( uVar2, 1491375716 )))
                 {
-                    if (iVar3 == sub_772())
+                    if (iVar3 == CurrentPlayerChar())
                     {
                         return 1;
                     }
@@ -524,7 +563,8 @@ int sub_1046()
     return 0;
 }
 
-void sub_1277()
+// sub_1277
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -549,15 +589,16 @@ void sub_1415()
         STOP_SOUND( l_U47 );
         RELEASE_SOUND_ID( l_U47 );
     }
-    if (l_U46 != -1)
+    if (currentSoundId != -1)
     {
-        STOP_SOUND( l_U46 );
-        RELEASE_SOUND_ID( l_U46 );
+        STOP_SOUND( currentSoundId );
+        RELEASE_SOUND_ID( currentSoundId );
     }
     TERMINATE_THIS_SCRIPT();
     return;
 }
 
+// Clear the help message
 void sub_1457(unknown uParam0)
 {
     if (DOES_TEXT_LABEL_EXIST( uParam0 ))
@@ -572,60 +613,60 @@ void sub_1457(unknown uParam0)
 
 void sub_1698()
 {
-    if (NOT (IS_CHAR_DEAD( sub_772() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
         if (DOES_OBJECT_EXIST( l_U21 ))
         {
             if (sub_1046())
             {
-                if (LOCATE_CHAR_IN_CAR_OBJECT_3D( sub_772(), l_U21, 1.50000000, 1.50000000, 1.50000000, 0 ))
+                if (LOCATE_CHAR_IN_CAR_OBJECT_3D( CurrentPlayerChar(), l_U21, 1.50000000, 1.50000000, 1.50000000, 0 ))
                 {
                     if (l_U40 == 0)
                     {
                         l_U40 = 1;
-                        if (NOT (IS_CHAR_INJURED( l_U25 )))
+                        if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                         {
-                            SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                            SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                         }
                     }
                 }
                 if (NOT (HAS_OBJECT_BEEN_DAMAGED( l_U22 )))
                 {
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, -6.00000000, 0.00000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-                    if (LOCATE_CHAR_IN_CAR_3D( sub_772(), l_U2._fU0, l_U2._fU4, l_U2._fU8, 1.50000000, 1.50000000, 2.00000000, 0 ))
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, -6.00000000, 0.00000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+                    if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U2.x, l_U2.y, l_U2.z, 1.50000000, 1.50000000, 2.00000000, 0 ))
                     {
                         if (l_U40 == 0)
                         {
                             l_U40 = 1;
-                            if (NOT (IS_CHAR_INJURED( l_U25 )))
+                            if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                             {
-                                SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                                SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                             }
                             SETTIMERB( 0 );
                         }
                     }
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, -4.00000000, 0.00000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-                    if (LOCATE_CHAR_IN_CAR_3D( sub_772(), l_U2._fU0, l_U2._fU4, l_U2._fU8, 1.50000000, 1.50000000, 2.00000000, 0 ))
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, -4.00000000, 0.00000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+                    if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U2.x, l_U2.y, l_U2.z, 1.50000000, 1.50000000, 2.00000000, 0 ))
                     {
                         if (l_U40 == 0)
                         {
                             l_U40 = 1;
-                            if (NOT (IS_CHAR_INJURED( l_U25 )))
+                            if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                             {
-                                SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                                SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                             }
                             SETTIMERB( 0 );
                         }
                     }
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, -2.00000000, 0.00000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-                    if (LOCATE_CHAR_IN_CAR_3D( sub_772(), l_U2._fU0, l_U2._fU4, l_U2._fU8, 1.50000000, 1.50000000, 2.00000000, 0 ))
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, -2.00000000, 0.00000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+                    if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U2.x, l_U2.y, l_U2.z, 1.50000000, 1.50000000, 2.00000000, 0 ))
                     {
                         if (l_U40 == 0)
                         {
                             l_U40 = 1;
-                            if (NOT (IS_CHAR_INJURED( l_U25 )))
+                            if (NOT (IS_CHAR_INJURED( tollBoothPed )))
                             {
-                                SAY_AMBIENT_SPEECH( l_U25, "TOLL_COME_BACK", 1, 0, 0 );
+                                SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_COME_BACK", 1, 0, 0 );
                             }
                             SETTIMERB( 0 );
                         }
@@ -634,12 +675,12 @@ void sub_1698()
             }
             if (IS_CAR_DEAD( l_U24 ))
             {
-                GET_RANDOM_CAR_FRONT_BUMPER_IN_SPHERE_NO_SAVE( l_U2._fU0, l_U2._fU4, l_U2._fU8, 5.00000000, 0, 0, ref l_U24, l_U23 );
+                GET_RANDOM_CAR_FRONT_BUMPER_IN_SPHERE_NO_SAVE( l_U2.x, l_U2.y, l_U2.z, 5.00000000, 0, 0, ref l_U24, l_U23 );
             }
             else
             {
                 GET_DRIVER_OF_CAR( l_U24, ref l_U27 );
-                if (l_U27 == sub_772())
+                if (l_U27 == CurrentPlayerChar())
                 {
                     ;
                 }
@@ -648,7 +689,7 @@ void sub_1698()
                     GET_SCRIPT_TASK_STATUS( l_U27, 48, ref l_U38 );
                     if (l_U38 == 7)
                     {
-                        if (NOT (IS_CHAR_IN_CAR( sub_772(), l_U24 )))
+                        if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U24 )))
                         {
                             ;
                         }
@@ -674,7 +715,7 @@ void sub_2589()
         while (l_U8._fU4 >= 0.00000000)
         {
             WAIT( 0 );
-            sub_763();
+            GivePlayerWantedLevel();
             SET_OBJECT_ROTATION( l_U22, 0.00000000, l_U8._fU4, l_U30 );
             l_U8._fU4 -= 3.00000000;
             if (l_U36)
@@ -696,12 +737,12 @@ void sub_2589()
 
 void sub_2875()
 {
-    if (NOT (IS_CHAR_INJURED( l_U25 )))
+    if (NOT (IS_CHAR_INJURED( tollBoothPed )))
     {
-        GET_SCRIPT_TASK_STATUS( l_U25, 80, ref l_U38 );
+        GET_SCRIPT_TASK_STATUS( tollBoothPed, 80, ref l_U38 );
         if (l_U38 == 7)
         {
-            TASK_PLAY_ANIM( l_U25, "Idle", "AMB@TOLLBOOTH", 4.00000000, 1, 0, 0, 0, 0 );
+            TASK_PLAY_ANIM( tollBoothPed, "Idle", "AMB@TOLLBOOTH", 4.00000000, 1, 0, 0, 0, 0 );
         }
     }
     return;
@@ -756,19 +797,19 @@ void sub_3292()
     {
         if (DOES_OBJECT_EXIST( l_U20 ))
         {
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, 3.00000000, 3.00000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-            GET_RANDOM_CAR_FRONT_BUMPER_IN_SPHERE_NO_SAVE( l_U2._fU0, l_U2._fU4, l_U2._fU8, 4.00000000, 0, 0, ref l_U24, l_U23 );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, 3.00000000, 3.00000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+            GET_RANDOM_CAR_FRONT_BUMPER_IN_SPHERE_NO_SAVE( l_U2.x, l_U2.y, l_U2.z, 4.00000000, 0, 0, ref l_U24, l_U23 );
             if (NOT (IS_CAR_DEAD( l_U24 )))
             {
                 GET_DRIVER_OF_CAR( l_U24, ref l_U27 );
-                if (l_U27 != sub_772())
+                if (l_U27 != CurrentPlayerChar())
                 {
                     if (NOT (IS_CHAR_INJURED( l_U27 )))
                     {
                         GET_SCRIPT_TASK_STATUS( l_U27, 48, ref l_U38 );
                         if (l_U38 == 7)
                         {
-                            if (NOT (IS_CHAR_IN_CAR( sub_772(), l_U24 )))
+                            if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U24 )))
                             {
                                 ;
                             }
@@ -790,21 +831,26 @@ int sub_3722()
     REQUEST_ANIMS( "AMB@TOLLBOOTH" );
     REQUEST_MODEL( -1295524692 );
     REQUEST_MODEL( -1174154857 );
-    REQUEST_MODEL( sub_3778() );
-    if ((HAS_MODEL_LOADED( sub_3778() )) AND ((REQUEST_AMBIENT_AUDIO_BANK( "SCRIPT_AMBIENT\TOLLBOOTH" )) AND ((HAVE_ANIMS_LOADED( "AMB@TOLLBOOTH" )) AND ((HAS_MODEL_LOADED( -1174154857 )) AND (HAS_MODEL_LOADED( -1295524692 ))))))
+    REQUEST_MODEL( CurrentCopModel() );
+    if ((HAS_MODEL_LOADED( CurrentCopModel() )) 
+    AND ((REQUEST_AMBIENT_AUDIO_BANK( "SCRIPT_AMBIENT\TOLLBOOTH" )) 
+    AND ((HAVE_ANIMS_LOADED( "AMB@TOLLBOOTH" )) 
+    AND ((HAS_MODEL_LOADED( -1174154857 )) 
+    AND (HAS_MODEL_LOADED( -1295524692 ))))))
     {
         return 1;
     }
     return 0;
 }
 
-void sub_3778()
+// sub_3778
+void CurrentCopModel()
 {
-    if (l_U54 == 0)
+    if (currentCopModelRef == 0)
     {
-        GET_CURRENT_BASIC_COP_MODEL( ref l_U54 );
+        GET_CURRENT_BASIC_COP_MODEL( ref currentCopModelRef );
     }
-    return l_U54;
+    return currentCopModelRef;
 }
 
 void sub_3953(unknown uParam0)
@@ -814,10 +860,10 @@ void sub_3953(unknown uParam0)
 
     fVar3 = -0.30000000;
     fVar4 = 0.70000000;
-    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 2.89900000, -1.00000000, fVar3, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-    CREATE_OBJECT( -1174154857, l_U2._fU0, l_U2._fU4, l_U2._fU8, ref l_U21, 1 );
-    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 3.09900000, -1.00000000, fVar4, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-    CREATE_OBJECT( -1295524692, l_U2._fU0, l_U2._fU4, l_U2._fU8, ref l_U22, 1 );
+    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 2.89900000, -1.00000000, fVar3, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+    CREATE_OBJECT( -1174154857, l_U2.x, l_U2.y, l_U2.z, ref l_U21, 1 );
+    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 3.09900000, -1.00000000, fVar4, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+    CREATE_OBJECT( -1295524692, l_U2.x, l_U2.y, l_U2.z, ref l_U22, 1 );
     l_U17 = {l_U2};
     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U14._fU0, l_U14._fU4, l_U14._fU8, ref l_U17._fU0, ref l_U17._fU4, ref l_U17._fU8 );
     GET_OBJECT_HEADING( uParam0, ref l_U28 );
@@ -845,18 +891,18 @@ void sub_4338(unknown uParam0)
 {
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.50000000, 0.25000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-        CREATE_CHAR( 6, sub_3778(), l_U2._fU0, l_U2._fU4, l_U2._fU8, ref l_U25, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.50000000, 0.25000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+        CREATE_CHAR( 6, CurrentCopModel(), l_U2.x, l_U2.y, l_U2.z, ref tollBoothPed, 1 );
         GET_OBJECT_HEADING( uParam0, ref l_U29 );
-        SET_INFORM_RESPECTED_FRIENDS( l_U25, 999, 999 );
-        SET_PED_DONT_DO_EVASIVE_DIVES( l_U25, 1 );
-        SET_PED_WONT_ATTACK_PLAYER_WITHOUT_WANTED_LEVEL( l_U25, 1 );
+        SET_INFORM_RESPECTED_FRIENDS( tollBoothPed, 999, 999 );
+        SET_PED_DONT_DO_EVASIVE_DIVES( tollBoothPed, 1 );
+        SET_PED_WONT_ATTACK_PLAYER_WITHOUT_WANTED_LEVEL( tollBoothPed, 1 );
         l_U29 += 180.00000000;
         if (l_U29 >= 360.00000000)
         {
             l_U29 -= 360.00000000;
         }
-        SET_CHAR_HEADING( l_U25, l_U29 );
+        SET_CHAR_HEADING( tollBoothPed, l_U29 );
     }
     return;
 }
@@ -867,18 +913,18 @@ void sub_4551()
     {
         if (DOES_OBJECT_EXIST( l_U21 ))
         {
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, 0.00000000, 10.00000000, 0.00000000, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
-            if (LOCATE_CHAR_IN_CAR_3D( sub_772(), l_U2._fU0, l_U2._fU4, l_U2._fU8, 50.00000000, 50.00000000, 3.00000000, 0 ))
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, 0.00000000, 10.00000000, 0.00000000, ref l_U2.x, ref l_U2.y, ref l_U2.z );
+            if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U2.x, l_U2.y, l_U2.z, 50.00000000, 50.00000000, 3.00000000, 0 ))
             {
-                if (NOT (IS_CHAR_IN_ANY_HELI( sub_772() )))
+                if (NOT (IS_CHAR_IN_ANY_HELI( CurrentPlayerChar() )))
                 {
                     if (sub_1046())
                     {
-                        if (NOT (IS_WANTED_LEVEL_GREATER( sub_1277(), 0 )))
+                        if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                         {
-                            if (NOT (sub_846( sub_772() )))
+                            if (NOT (sub_846( CurrentPlayerChar() )))
                             {
-                                if (IS_SCORE_GREATER( sub_1277(), 4 ))
+                                if (IS_SCORE_GREATER( CurrentPlayerId(), 4 ))
                                 {
                                     sub_4768( "TOLNTRO", 1 );
                                     l_U56 = 0;
@@ -913,13 +959,13 @@ int sub_4979()
 
     if (DOES_OBJECT_EXIST( l_U20 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U20, l_U14._fU0, l_U14._fU4, l_U14._fU8, ref l_U2._fU0, ref l_U2._fU4, ref l_U2._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U20, l_U14._fU0, l_U14._fU4, l_U14._fU8, ref l_U2.x, ref l_U2.y, ref l_U2.z );
     }
-    if (NOT (IS_CHAR_DEAD( sub_772() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_772() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_772(), ref uVar2 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar2 );
             if (sub_1046())
             {
                 if ((IS_CAR_MODEL( uVar2, 1917016601 )) || ((IS_CAR_MODEL( uVar2, 1677715180 )) || ((IS_CAR_MODEL( uVar2, 850991848 )) || ((IS_CAR_MODEL( uVar2, -1099960214 )) || ((IS_CAR_MODEL( uVar2, 2053223216 )) || ((IS_CAR_MODEL( uVar2, 904750859 )) || ((IS_CAR_MODEL( uVar2, 569305213 )) || ((IS_CAR_MODEL( uVar2, 1353720154 )) || (IS_CAR_MODEL( uVar2, -2137348917 ))))))))))
@@ -935,7 +981,7 @@ int sub_4979()
             {
                 fVar3 = 6.00000000;
             }
-            if (LOCATE_CHAR_IN_CAR_3D( sub_772(), l_U2._fU0, l_U2._fU4, l_U2._fU8, fVar3, fVar3, fVar3, 0 ))
+            if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U2.x, l_U2.y, l_U2.z, fVar3, fVar3, fVar3, 0 ))
             {
                 return 1;
             }
@@ -944,6 +990,7 @@ int sub_4979()
     return 0;
 }
 
+// Debug line
 void sub_5439(unknown uParam0)
 {
     return;
@@ -996,9 +1043,9 @@ void sub_5716()
 {
     if (g_U9152)
     {
-        if (NOT (sub_846( sub_772() )))
+        if (NOT (sub_846( CurrentPlayerChar() )))
         {
-            if (IS_SCORE_GREATER( sub_1277(), 4 ))
+            if (IS_SCORE_GREATER( CurrentPlayerId(), 4 ))
             {
                 if (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "TOLNTRO" ))
                 {
@@ -1021,7 +1068,7 @@ int sub_5831(unknown uParam0)
     if (NOT (IS_CAR_DEAD( uParam0 )))
     {
         GET_CAR_SPEED( uParam0, ref fVar3 );
-        if (sub_846( sub_772() ))
+        if (sub_846( CurrentPlayerChar() ))
         {
             fVar4 = 20.00000000;
         }
@@ -1042,10 +1089,10 @@ int sub_5961(int iParam0)
 {
     int iVar3;
 
-    STORE_SCORE( sub_1277(), ref iVar3 );
+    STORE_SCORE( CurrentPlayerId(), ref iVar3 );
     if (iVar3 >= iParam0)
     {
-        ADD_SCORE( sub_1277(), -iParam0 );
+        ADD_SCORE( CurrentPlayerId(), -iParam0 );
         return 1;
         break;
     }
@@ -1064,45 +1111,47 @@ void sub_6034(unknown uParam0)
     return;
 }
 
-void sub_6093(int iParam0, unknown uParam1)
+// Animations for giving money using the toll booth.
+// void sub_6093(int iParam0, unknown uParam1)
+void sub_6093(int iParam0, int vehicle)
 {
     string sVar4;
 
     if (NOT (IS_CHAR_INJURED( iParam0 )))
     {
-        if (IS_VEH_DRIVEABLE( uParam1 ))
+        if (IS_VEH_DRIVEABLE( vehicle ))
         {
             if (sub_6133( iParam0 ))
             {
                 sVar4 = "Give_Money";
-                if (sub_6239( uParam1 ))
+                if (sub_6239( vehicle ))
                 {
                     sVar4 = "toss_money_chopper";
                 }
-                else if (sub_6315( uParam1 ))
+                else if (sub_6315( vehicle ))
                 {
                     sVar4 = "toss_money_dirt";
                 }
-                else if (sub_6388( uParam1 ))
+                else if (sub_6388( vehicle ))
                 {
                     sVar4 = "toss_money_freeway";
                 }
-                else if (sub_6479( uParam1 ))
+                else if (sub_6479( vehicle ))
                 {
                     sVar4 = "toss_money_scooter";
                 }
-                else if (sub_6555( uParam1 ))
+                else if (sub_6555( vehicle ))
                 {
                     sVar4 = "toss_money_spt";
                 };;;;;
-                if (iParam0 == sub_772())
+                if (iParam0 == CurrentPlayerChar())
                 {
                     TASK_PLAY_ANIM( iParam0, sVar4, "AMB@TOLLBOOTH", 4.00000000, 0, 0, 0, 0, 0 );
                 }
                 else
                 {
                     OPEN_SEQUENCE_TASK( ref l_U39 );
-                    TASK_CAR_TEMP_ACTION( 0, uParam1, 24, 1000 );
+                    TASK_CAR_TEMP_ACTION( 0, vehicle, 24, 1000 );
                     TASK_PLAY_ANIM( 0, sVar4, "AMB@TOLLBOOTH", 4.00000000, 0, 1, 0, 0, 0 );
                     CLOSE_SEQUENCE_TASK( l_U39 );
                     TASK_PERFORM_SEQUENCE( iParam0, l_U39 );
@@ -1116,7 +1165,7 @@ void sub_6093(int iParam0, unknown uParam1)
 
 int sub_6133(int iParam0)
 {
-    if (iParam0 == sub_772())
+    if (iParam0 == CurrentPlayerChar())
     {
         if (NOT sub_6155())
         {
@@ -1139,6 +1188,7 @@ int sub_6155()
     return 1;
 }
 
+// Chopper bike
 int sub_6239(unknown uParam0)
 {
     if (IS_CAR_MODEL( uParam0, -570033273 ))
@@ -1148,6 +1198,7 @@ int sub_6239(unknown uParam0)
     return 0;
 }
 
+// Sanchez bike
 int sub_6315(unknown uParam0)
 {
     if (IS_CAR_MODEL( uParam0, 788045382 ))
@@ -1157,15 +1208,19 @@ int sub_6315(unknown uParam0)
     return 0;
 }
 
+// 584879743 = Hellfury bike
+// -1830458836 = Bobber? not in the vehicle list
 int sub_6388(unknown uParam0)
 {
-    if ((IS_CAR_MODEL( uParam0, 584879743 )) || (IS_CAR_MODEL( uParam0, -1830458836 )))
+    if ((IS_CAR_MODEL( uParam0, 584879743 )) 
+    || (IS_CAR_MODEL( uParam0, -1830458836 )))
     {
         return 1;
     }
     return 0;
 }
 
+// Faggio
 int sub_6479(unknown uParam0)
 {
     if (IS_CAR_MODEL( uParam0, -1842748181 ))
@@ -1175,9 +1230,12 @@ int sub_6479(unknown uParam0)
     return 0;
 }
 
+// -909201658 = PCJ-600
+// 1203311498 = NRG-900
 int sub_6555(unknown uParam0)
 {
-    if ((IS_CAR_MODEL( uParam0, -909201658 )) || (IS_CAR_MODEL( uParam0, 1203311498 )))
+    if ((IS_CAR_MODEL( uParam0, -909201658 )) 
+    || (IS_CAR_MODEL( uParam0, 1203311498 )))
     {
         return 1;
     }
@@ -1186,27 +1244,31 @@ int sub_6555(unknown uParam0)
 
 void sub_7517()
 {
-    if (NOT (IS_CHAR_INJURED( l_U25 )))
+    if (NOT (IS_CHAR_INJURED( tollBoothPed )))
     {
-        if (sub_7542())
+        // I guess if this is 0, then it is set
+        if (GetRandomInt())
         {
-            TASK_PLAY_ANIM( l_U25, "Indicate_Left_A", "AMB@TOLLBOOTH", 4.00000000, 0, 0, 0, 0, 0 );
+            TASK_PLAY_ANIM( tollBoothPed, "Indicate_Left_A", "AMB@TOLLBOOTH", 4.00000000, 0, 0, 0, 0, 0 );
         }
         else
         {
-            TASK_PLAY_ANIM( l_U25, "Indicate_Left_B", "AMB@TOLLBOOTH", 4.00000000, 0, 0, 0, 0, 0 );
+            TASK_PLAY_ANIM( tollBoothPed, "Indicate_Left_B", "AMB@TOLLBOOTH", 4.00000000, 0, 0, 0, 0, 0 );
         }
-        SAY_AMBIENT_SPEECH( l_U25, "TOLL_PAID_YES", 1, 0, 0 );
+        SAY_AMBIENT_SPEECH( tollBoothPed, "TOLL_PAID_YES", 1, 0, 0 );
     }
     return;
 }
 
-int sub_7542()
-{
-    int iVar2;
 
-    GENERATE_RANDOM_INT_IN_RANGE( 0, 2, ref iVar2 );
-    if (iVar2 == 0)
+// int sub_7542()
+int GetRandomInt()
+{
+    // iVar2 = randomInt
+    int randomInt;
+
+    GENERATE_RANDOM_INT_IN_RANGE( 0, 2, ref randomInt );
+    if (randomInt == 0)
     {
         return 1;
     }
@@ -1218,7 +1280,7 @@ void sub_7899()
     if (IS_VEH_DRIVEABLE( l_U23 ))
     {
         GET_DRIVER_OF_CAR( l_U23, ref l_U26 );
-        if (l_U26 == sub_772())
+        if (l_U26 == CurrentPlayerChar())
         {
             ;
         }
@@ -1232,6 +1294,7 @@ void sub_7899()
                     GET_SCRIPT_TASK_STATUS( l_U26, 49, ref l_U38 );
                     if (l_U38 == 1)
                     {
+                        // Seems to set the char speeds when going through the toll booth
                         if (g_U2230)
                         {
                             SET_DRIVE_TASK_CRUISE_SPEED( l_U26, 22.00000000 );
@@ -1242,7 +1305,7 @@ void sub_7899()
                         }
                     }
                 }
-                else if (NOT (IS_CHAR_IN_CAR( sub_772(), l_U23 )))
+                else if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U23 )))
                 {
                     TASK_CAR_DRIVE_WANDER( l_U26, l_U23, 15.00000000, 0 );
                 }

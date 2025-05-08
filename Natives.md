@@ -11,6 +11,8 @@ List of keybinds: https://gtamods.com/wiki/Key_Codes_(GTA_IV)
 1. SHAKE_PAD (Controller Index, Unknown Intensity, unknown_duration_ms) https://gtamods.com/wiki/SHAKE_PAD
 </details>
 
+<br>
+
 <details>
 <summary> Sound natives: </summary>
 
@@ -53,8 +55,12 @@ I found most of these in ambbeggar.c under sub_2220
 7. CLEAR_SEQUENCE_TASK()
 8. CLOSE_SEQUENCE_TASK()
 9. SAY_AMBIENT_SPEECH( l_U111, "Generic_Hi", 0, 0, 0 ) -- value 1 seems to be seems to be the character, value 2 seems to be the speech string, values 3, 4, and 5 are unknown.
+10. SET_ROMANS_MOOD(int value) - Can be set from 0-3, 0 = normal, 1 = sad, 2 = shaken up, 3 = drunk.
+11. UNLOCK_MISSION_NEWS_STORY(int value) - This seems to possibly set a news story for the radio in game, values seem to range from 0-60?, possibly more but that was with a quick look at it.
 
 </details>
+
+<br>
 
 <details>
 <summary> Pickup natives: </summary>
@@ -65,19 +71,90 @@ I found most of these in ambbeggar.c under sub_2220
 
 </details>
 
+<br>
 
 <details>
 <summary> Timer natives: </summary>
 
-1. GET_GAME_TIMER
+Example for GET_GAME_TIMER: Setup a blank int to store the timer: int currentGameTimer;
+
+1. GET_GAME_TIMER(&currentGameTimer {same variable as above})
+2. CHECK_STUCK_TIMER()
+3. CLEAR_ONSCREEN_TIMER
+4. DISPLAY_ONSCREEN_TIMER_WITH_STRING
+5. FREEZE_ONSCREEN_TIMER
+6. GET_NETWORK_TIMER
+7. RESET_STUCK_TIMER
+8. SET_NETWORK_VEHICLE_RESPOT_TIMER
+9. SET_TIMER_BEEP_COUNTDOWN_TIME
+
+10. SETTIMERA
+11. SETTIMERB
+12. SETTIMERC
+
+13. START_PROFILE_TIMER
+14. STOP_PROFILE_TIMER
+
+15. TIMERA
+16. TIMERB
+17. TIMERC
+
+18. SET_INVINCIBILITY_TIMER_DURATION
+
 
 </details>
+
+<br>
 
 <details>
 <summary> Phone natives: </summary>
+
 1. SCRIPT_IS_MOVING_MOBILE_PHONE_OFFSCREEN (unk1? int)
+2. SET_MOBILE_RING_TYPE( cellphone3Dstructure._fU112 ) - Unknown as to what this gets set to, seems to only be in use in spcellphonemain.c
+3. START_CUSTOM_MOBILE_PHONE_RINGING
+3. ADD_LINE_TO_MOBILE_PHONE_CALL(int unk, unknown, unknown)
+4. CAN_RENDER_RADIOHUD_SPRITE_IN_MOBILE_PHONE
+
+5. CODE_WANTS_MOBILE_PHONE_REMOVED
+6. CODE_WANTS_MOBILE_PHONE_REMOVED_FOR_WEAPON_SWITCHING
+7. CREATE_MOBILE_PHONE( int phoneType? ) - Seems to only be in use in spcellphone.c, create a phone for the game.
+8. DESTROY_MOBILE_PHONE() - Seems to run after phone calls end, in spcellphonecalling.c, spcellphonemain.c, spcellphonenetwork.c and spcellphonetutorial.c.
+
+9. GET_MOBILE_PHONE_POSITION() - Unknown/possibly not in use.
+10. GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure.phoneRenderId ) - This usage is labeled in ```sub_3398()``` under ```spcellphonecalling.c```
+11. GET_MOBILE_PHONE_ROTATION() - Unknown/possibly not in use.
+12. GET_MOBILE_PHONE_SCALE() - Unknown/possibly not in use.
+13. GET_MOBILE_PHONE_TASK_SUB_TASK
+
+14. IS_MOBILE_PHONE_CALL_ONGOING
+15. IS_MOBILE_PHONE_RADIO_ACTIVE() - Possibly can turn on/off the mobile radio? Unknown usage
+
+16. NEW_MOBILE_PHONE_CALL
+17. RENDER_RADIOHUD_SPRITE_IN_MOBILE_PHONE
+
+18. SCRIPT_IS_USING_MOBILE_PHONE
+
+19. SET_MOBILE_PHONE_POSITION
+20. SET_MOBILE_PHONE_RADIO_STATE
+21. SET_MOBILE_PHONE_ROTATION
+22. SET_MOBILE_PHONE_SCALE
+23. SET_MOBILE_RADIO_ENABLED_DURING_GAMEPLAY
+24. SET_MOBILE_RING_TYPE
+25. SET_PED_MOBILE_RING_TYPE
+26. START_CUSTOM_MOBILE_PHONE_RINGING
+
+27. START_MOBILE_PHONE_CALL
+28. START_MOBILE_PHONE_CALLING
+29. START_MOBILE_PHONE_RINGING
+30. STOP_MOBILE_PHONE_RINGING
+31. STOP_PED_MOBILE_RINGING
+32. TASK_MOBILE_CONVERSATION
+33. TASK_USE_MOBILE_PHONE
+34. TASK_USE_MOBILE_PHONE_TIMED
 
 </details>
+
+<br>
 
 <details>
 <summary> Language natives: </summary>
@@ -86,6 +163,8 @@ I found most of these in ambbeggar.c under sub_2220
 
 </details>
 
+<br>
+
 <details>
 <summary> String natives: </summary>
 
@@ -93,6 +172,7 @@ I found most of these in ambbeggar.c under sub_2220
 
 </details>
 
+<br>
 
 <details>
 <summary> Char natives: </summary>
@@ -145,6 +225,8 @@ CREATE_CHAR model hashes: https://gtamods.com/wiki/List_of_models_hashes#Peds
 40. SET_CHAR_READY_TO_BE_EXECUTED
 
 </details>
+
+<br>
 
 <details>
 <summary> Char natives 2: </summary>
@@ -210,6 +292,9 @@ This one is incomplete, I will need to figure out how to use the C# tool for deb
 <details>
 <summary> Vehicle natives: </summary>
 
+Useful links:
+* https://gtamods.com/wiki/CREATE_MISSION_TRAIN
+
 Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mean to find it in there but it'll work on IV also.
 
 1. CREATE_CAR(Hash carModelHash, float vehicleX, float vehicleY, float vehicleZ, int carHandle, int unknown {usually 1}) - Create a vehicle with the model hash at the specific coordinates.
@@ -231,7 +316,7 @@ Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mea
 17. SET_CAR_CAN_BE_DAMAGED(int &vehicleHandle, int toggle) - Toggle the car being able to be damaged, 1 is on 0 is off.
 18. SET_CAR_CAN_BE_VISIBLY_DAMAGED(int &vehicleHandle, int toggle)- Toggle the car being able to be visibly damaged, 1 is on 0 is off.
 19. SET_CAN_BURST_CAR_TYRES(int vehicleHandle, int toggle) - Toggle the car being able to burst tires, 1 is on, 0 is off.
-
+20. CREATE_MISSION_TRAIN(int trainType, float trainX, float trainY, float trainZ, int trainDirection, &trainHandle) - Create a train with the specified train type, coords, direction can be either 1 or 0, and trainHandle takes a reference to an int
 
 </details>
 
@@ -282,4 +367,12 @@ Some of these were taken from "void sub_8827()" in vlad4.c
 6. SET_CAR_DENSITY_MULTIPLIER(float value) - Set the car density, from 0.0 to 1.0 being the max
 
 7. SET_PED_DENSITY_MULTIPLIER(float value) - Set the ped density, from 0.0 to 1.0 being the max
+</details>
+
+<details>
+<summary> Door natives: </summary>
+
+https://gtamods.com/wiki/SET_STATE_OF_CLOSEST_DOOR_OF_TYPE
+1. SET_STATE_OF_CLOSEST_DOOR_OF_TYPE(char doorHash, float doorX, float doorY, float doorZ, int lock, float doorSwing) - Toggle doors locked or unlocked, lock can be 0 for unlocked or 1 for locked, doorSwing can be from -1.0 to 1.0.
+
 </details>

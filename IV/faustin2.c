@@ -53,9 +53,10 @@ void main()
         {
             sub_22506();
             sub_28204();
-            if (DOES_CHAR_EXIST( l_U501 ))
+            // l_U501 = dimitriChar
+            if (DOES_CHAR_EXIST( dimitriChar ))
             {
-                if ((IS_CHAR_DEAD( l_U501 )) || (IS_CHAR_INJURED( l_U501 )))
+                if ((IS_CHAR_DEAD( dimitriChar )) || (IS_CHAR_INJURED( dimitriChar )))
                 {
                     l_U604 = 1;
                     sub_22606();
@@ -67,17 +68,17 @@ void main()
                 sub_22606();
             }
         }
-        if (sub_20741( sub_4023(), l_U501 ))
+        if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
         {
             if (NOT (DOES_VEHICLE_EXIST( l_U507 )))
             {
-                STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_4023(), ref l_U507 );
+                STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U507 );
                 SET_CAR_AS_MISSION_CAR( l_U507 );
             }
         }
-        else if (NOT (IS_CHAR_IN_ANY_CAR( sub_4023() )))
+        else if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
         {
-            if (NOT (IS_CHAR_IN_ANY_CAR( l_U501 )))
+            if (NOT (IS_CHAR_IN_ANY_CAR( dimitriChar )))
             {
                 if (DOES_VEHICLE_EXIST( l_U507 ))
                 {
@@ -88,37 +89,37 @@ void main()
         switch (l_U602)
         {
             case 0:
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
                 if ((sub_29018()) AND ((NOT l_U575) AND (IS_SCREEN_FADED_IN())))
                 {
                     sub_29252( "F2_CAR1", 0, 1, ref l_U593, 6, 1 );
                     l_U575 = 1;
                 }
-                if (sub_29426( ref l_U498, ref l_U497, l_U501, 775.89700000, -548.45300000, 10.81600000, "GI_01", "DIMITRI_BUDDY", "GI_01" ))
+                if (sub_29426( ref l_U498, ref l_U497, dimitriChar, 775.89700000, -548.45300000, 10.81600000, "GI_01", "DIMITRI_BUDDY", "GI_01" ))
                 {
-                    if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), l_U586._fU0, l_U586._fU4, l_U586._fU8, 1.60000000, 1.60000000, 1.60000000, 0 ))
+                    if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U586.x, l_U586.y, l_U586.z, 1.60000000, 1.60000000, 1.60000000, 0 ))
                     {
                         sub_30048();
                         sub_30087();
-                        SET_EVERYONE_IGNORE_PLAYER( sub_4479(), 1 );
+                        SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 1 );
                         l_U602 = 2;
                     }
                     if (NOT l_U567)
                     {
-                        if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), 775.89700000, -548.45300000, 10.81600000, 2.50000000, 2.50000000, 2.50000000, 1 ))
+                        if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), 775.89700000, -548.45300000, 10.81600000, 2.50000000, 2.50000000, 2.50000000, 1 ))
                         {
                             if (sub_24205( 1, 1 ))
                             {
                                 sub_31798();
-                                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                                 {
-                                    REMOVE_CHAR_FROM_GROUP( l_U501 );
+                                    REMOVE_CHAR_FROM_GROUP( dimitriChar );
                                     OPEN_SEQUENCE_TASK( ref l_U589 );
                                     TASK_LEAVE_ANY_CAR( 0 );
                                     TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 788.84750000, -535.65310000, 7.52740000, 2, 80000, 0.40000000 );
                                     CLOSE_SEQUENCE_TASK( l_U589 );
-                                    TASK_PERFORM_SEQUENCE( l_U501, l_U589 );
+                                    TASK_PERFORM_SEQUENCE( dimitriChar, l_U589 );
                                     CLEAR_SEQUENCE_TASK( l_U589 );
                                 }
                                 if (DOES_BLIP_EXIST( l_U497 ))
@@ -142,31 +143,31 @@ void main()
                         }
                         else
                         {
-                            sub_32293( l_U501, "F2_CAR1", "F2_CAR2", 0 );
+                            sub_32293( dimitriChar, "F2_CAR1", "F2_CAR2", 0 );
                         }
                     }
                 }
             }
             break;
             case 1:
-            if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), 787.13000000, -537.02100000, 8.02800000, 1.30000000, 1.30000000, 1.30000000, 0 ))
+            if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), 787.13000000, -537.02100000, 8.02800000, 1.30000000, 1.30000000, 1.30000000, 0 ))
             {
                 sub_30087();
-                SET_EVERYONE_IGNORE_PLAYER( sub_4479(), 1 );
+                SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 1 );
                 if (NOT (IS_CHAR_DEAD( l_U502 )))
                 {
-                    TASK_LOOK_AT_CHAR( l_U502, sub_4023(), -2, 0 );
+                    TASK_LOOK_AT_CHAR( l_U502, CurrentPlayerChar(), -2, 0 );
                 }
                 if (NOT (IS_CHAR_DEAD( l_U503[0] )))
                 {
-                    TASK_LOOK_AT_CHAR( l_U503[0], sub_4023(), -2, 0 );
+                    TASK_LOOK_AT_CHAR( l_U503[0], CurrentPlayerChar(), -2, 0 );
                 }
                 if (NOT (IS_CHAR_DEAD( l_U503[1] )))
                 {
-                    TASK_LOOK_AT_CHAR( l_U503[1], sub_4023(), -2, 0 );
-                    if (NOT (IS_CHAR_DEAD( l_U501 )))
+                    TASK_LOOK_AT_CHAR( l_U503[1], CurrentPlayerChar(), -2, 0 );
+                    if (NOT (IS_CHAR_DEAD( dimitriChar )))
                     {
-                        TASK_LOOK_AT_CHAR( l_U501, l_U503[1], -2, 0 );
+                        TASK_LOOK_AT_CHAR( dimitriChar, l_U503[1], -2, 0 );
                     }
                 }
                 SET_WANTED_MULTIPLIER( 0.00000000 );
@@ -174,10 +175,10 @@ void main()
             }
             else
             {
-                GET_CHAR_COORDINATES( l_U501, ref l_U576[0]._fU0, ref l_U576[0]._fU4, ref l_U576[0]._fU8 );
-                if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), l_U576[0]._fU0, l_U576[0]._fU4, l_U576[0]._fU8, 20.00000000, 20.00000000, 20.00000000, 0 ))
+                GET_CHAR_COORDINATES( dimitriChar, ref l_U576[0]._fU0, ref l_U576[0]._fU4, ref l_U576[0]._fU8 );
+                if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U576[0]._fU0, l_U576[0]._fU4, l_U576[0]._fU8, 20.00000000, 20.00000000, 20.00000000, 0 ))
                 {
-                    if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), l_U576[0]._fU0, l_U576[0]._fU4, l_U576[0]._fU8, 10.00000000, 10.00000000, 10.00000000, 0 ))
+                    if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U576[0]._fU0, l_U576[0]._fU4, l_U576[0]._fU8, 10.00000000, 10.00000000, 10.00000000, 0 ))
                     {
                         if (NOT (DOES_BLIP_EXIST( l_U497 )))
                         {
@@ -197,7 +198,7 @@ void main()
                     {
                         REMOVE_BLIP( l_U497 );
                     }
-                    ADD_BLIP_FOR_CHAR( l_U501, ref l_U498 );
+                    ADD_BLIP_FOR_CHAR( dimitriChar, ref l_U498 );
                     SET_BLIP_AS_FRIENDLY( l_U498, 1 );
                     sub_32220( "GI_39", 7500 );
                 }
@@ -226,11 +227,11 @@ void main()
                 }
                 else
                 {
-                    sub_34468();
-                    sub_35428( l_U502, l_U508, l_U521, sub_4023(), 0 );
-                    sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
-                    sub_35428( l_U503[1], l_U511[1], l_U522[1], sub_4023(), 2 );
-                    sub_35428( l_U501, l_U518, l_U525, l_U503[1], 3 );
+                    SetupBlipsForPeds();
+                    sub_35428( l_U502, l_U508, l_U521, CurrentPlayerChar(), 0 );
+                    sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
+                    sub_35428( l_U503[1], l_U511[1], l_U522[1], CurrentPlayerChar(), 2 );
+                    sub_35428( dimitriChar, l_U518, l_U525, l_U503[1], 3 );
                 }
             }
             break;
@@ -245,13 +246,13 @@ void main()
                 {
                     ADD_BLIP_FOR_CHAR( l_U503[1], ref l_U498 );
                 }
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
                     OPEN_SEQUENCE_TASK( ref l_U589 );
                     TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U503[1] );
                     TASK_PLAY_ANIM_NON_INTERRUPTABLE( 0, "point_fwd", "missfaustin2", 10.00000000, 0, 0, 0, 0, -1 );
                     CLOSE_SEQUENCE_TASK( l_U589 );
-                    TASK_PERFORM_SEQUENCE( l_U501, l_U589 );
+                    TASK_PERFORM_SEQUENCE( dimitriChar, l_U589 );
                     CLEAR_SEQUENCE_TASK( l_U589 );
                 }
                 sub_24777();
@@ -261,11 +262,11 @@ void main()
             }
             else
             {
-                sub_34468();
-                sub_35428( l_U502, l_U508, l_U521, sub_4023(), 0 );
-                sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
-                sub_35428( l_U503[1], l_U511[1], l_U522[1], sub_4023(), 2 );
-                sub_35428( l_U501, l_U518, l_U525, l_U503[1], 3 );
+                SetupBlipsForPeds();
+                sub_35428( l_U502, l_U508, l_U521, CurrentPlayerChar(), 0 );
+                sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
+                sub_35428( l_U503[1], l_U511[1], l_U522[1], CurrentPlayerChar(), 2 );
+                sub_35428( dimitriChar, l_U518, l_U525, l_U503[1], 3 );
             }
             break;
             case 4:
@@ -277,7 +278,7 @@ void main()
                     if (NOT (IS_CHAR_DEAD( l_U503[1] )))
                     {
                         OPEN_SEQUENCE_TASK( ref l_U589 );
-                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, sub_4023() );
+                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, CurrentPlayerChar() );
                         TASK_PLAY_ANIM_NON_INTERRUPTABLE( 0, "point_fwd", "missfaustin2", 10.00000000, 0, 0, 0, 0, -1 );
                         CLOSE_SEQUENCE_TASK( l_U589 );
                         TASK_PERFORM_SEQUENCE( l_U503[1], l_U589 );
@@ -318,23 +319,23 @@ void main()
                     PRINT_HELP( "GI_13" );
                     l_U557 = 1;
                 }
-                sub_35428( l_U502, l_U508, l_U521, sub_4023(), 0 );
-                sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
-                sub_35428( l_U503[1], l_U511[1], l_U522[1], sub_4023(), 2 );
-                sub_35428( l_U501, l_U518, l_U525, l_U503[1], 3 );
-                sub_34468();
+                sub_35428( l_U502, l_U508, l_U521, CurrentPlayerChar(), 0 );
+                sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
+                sub_35428( l_U503[1], l_U511[1], l_U522[1], CurrentPlayerChar(), 2 );
+                sub_35428( dimitriChar, l_U518, l_U525, l_U503[1], 3 );
+                SetupBlipsForPeds();
             }
             break;
             case 5:
             if (sub_29018())
             {
-                if ((NOT (IS_CHAR_DEAD( l_U503[1] ))) AND (NOT (IS_CHAR_DEAD( l_U501 ))))
+                if ((NOT (IS_CHAR_DEAD( l_U503[1] ))) AND (NOT (IS_CHAR_DEAD( dimitriChar ))))
                 {
                     OPEN_SEQUENCE_TASK( ref l_U589 );
                     TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U503[1] );
                     TASK_PLAY_ANIM_NON_INTERRUPTABLE( 0, "point_fwd", "missfaustin2", 10.00000000, 0, 0, 0, 0, -1 );
                     CLOSE_SEQUENCE_TASK( l_U589 );
-                    TASK_PERFORM_SEQUENCE( l_U501, l_U589 );
+                    TASK_PERFORM_SEQUENCE( dimitriChar, l_U589 );
                     CLEAR_SEQUENCE_TASK( l_U589 );
                 }
                 sub_29252( "F2_POINT2", 1, 1, ref l_U593, 6, 1 );
@@ -351,11 +352,11 @@ void main()
             }
             else
             {
-                sub_34468();
-                sub_35428( l_U502, l_U508, l_U521, sub_4023(), 0 );
-                sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
-                sub_35428( l_U503[1], l_U511[1], l_U522[1], sub_4023(), 2 );
-                sub_35428( l_U501, l_U518, l_U525, l_U503[1], 3 );
+                SetupBlipsForPeds();
+                sub_35428( l_U502, l_U508, l_U521, CurrentPlayerChar(), 0 );
+                sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
+                sub_35428( l_U503[1], l_U511[1], l_U522[1], CurrentPlayerChar(), 2 );
+                sub_35428( dimitriChar, l_U518, l_U525, l_U503[1], 3 );
                 if (NOT (IS_CHAR_DEAD( l_U503[1] )))
                 {
                     if (IS_PED_RAGDOLL( l_U503[1] ))
@@ -400,17 +401,17 @@ void main()
                             {
                                 OPEN_SEQUENCE_TASK( ref l_U589 );
                                 TASK_PLAY_ANIM( 0, "shock_to_plead", "missfaustin2", 4.00000000, 0, 0, 0, 0, -1 );
-                                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                                 {
-                                    TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U501 );
+                                    TASK_TURN_CHAR_TO_FACE_CHAR( 0, dimitriChar );
                                 }
                                 CLOSE_SEQUENCE_TASK( l_U589 );
                                 TASK_PERFORM_SEQUENCE( l_U502, l_U589 );
                                 CLEAR_SEQUENCE_TASK( l_U589 );
                                 sub_29252( "F2_PAY", 0, 1, ref l_U593, 6, 1 );
-                                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                                 {
-                                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U501, l_U502 );
+                                    TASK_TURN_CHAR_TO_FACE_CHAR( dimitriChar, l_U502 );
                                 }
                             }
                             else
@@ -435,13 +436,13 @@ void main()
                         {
                             sub_26262( "F2_SHOOT", ref l_U593, 6, 1 );
                             TASK_PLAY_ANIM( l_U503[1], "reaction_shock", "missfaustin2", 4.00000000, 0, 0, 0, 0, -1 );
-                            if (NOT (IS_CHAR_DEAD( l_U501 )))
+                            if (NOT (IS_CHAR_DEAD( dimitriChar )))
                             {
                                 OPEN_SEQUENCE_TASK( ref l_U589 );
                                 TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U503[1] );
                                 TASK_PLAY_ANIM_NON_INTERRUPTABLE( 0, "point_fwd", "missfaustin2", 10.00000000, 0, 0, 0, 0, -1 );
                                 CLOSE_SEQUENCE_TASK( l_U589 );
-                                TASK_PERFORM_SEQUENCE( l_U501, l_U589 );
+                                TASK_PERFORM_SEQUENCE( dimitriChar, l_U589 );
                                 CLEAR_SEQUENCE_TASK( l_U589 );
                             }
                             l_U553 = 1;
@@ -483,7 +484,7 @@ void main()
                     }
                     if (NOT l_U592)
                     {
-                        sub_35428( l_U502, l_U508, l_U521, sub_4023(), 0 );
+                        sub_35428( l_U502, l_U508, l_U521, CurrentPlayerChar(), 0 );
                     }
                 }
                 else if (NOT (sub_29033( l_U593 )))
@@ -515,26 +516,26 @@ void main()
                     }
                     l_U602 = 7;;
                 }
-                sub_34468();
-                sub_35428( l_U503[1], l_U511[1], l_U522[1], sub_4023(), 2 );
-                sub_35428( l_U501, l_U518, l_U525, l_U502, 3 );
+                SetupBlipsForPeds();
+                sub_35428( l_U503[1], l_U511[1], l_U522[1], CurrentPlayerChar(), 2 );
+                sub_35428( dimitriChar, l_U518, l_U525, l_U502, 3 );
             }
             break;
             case 7:
-            if ((NOT (sub_29033( l_U593 ))) AND (NOT (IS_CHAR_DEAD( l_U501 ))))
+            if ((NOT (sub_29033( l_U593 ))) AND (NOT (IS_CHAR_DEAD( dimitriChar ))))
             {
-                if (NOT (sub_35428( l_U501, l_U518, l_U525, l_U503[1], 3 )))
+                if (NOT (sub_35428( dimitriChar, l_U518, l_U525, l_U503[1], 3 )))
                 {
-                    FREEZE_CHAR_POSITION( l_U501, 1 );
-                    if ((NOT (IS_CHAR_DEAD( l_U502 ))) AND (NOT (IS_CHAR_DEAD( l_U501 ))))
+                    FREEZE_CHAR_POSITION( dimitriChar, 1 );
+                    if ((NOT (IS_CHAR_DEAD( l_U502 ))) AND (NOT (IS_CHAR_DEAD( dimitriChar ))))
                     {
-                        TASK_LOOK_AT_CHAR( l_U502, l_U501, -2, 0 );
-                        TASK_LOOK_AT_CHAR( l_U501, l_U502, -2, 0 );
+                        TASK_LOOK_AT_CHAR( l_U502, dimitriChar, -2, 0 );
+                        TASK_LOOK_AT_CHAR( dimitriChar, l_U502, -2, 0 );
                         OPEN_SEQUENCE_TASK( ref l_U589 );
                         TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U502 );
                         TASK_PLAY_ANIM_NON_INTERRUPTABLE( 0, "point_fwd", "missfaustin2", 10.00000000, 0, 0, 0, 0, -1 );
                         CLOSE_SEQUENCE_TASK( l_U589 );
-                        TASK_PERFORM_SEQUENCE( l_U501, l_U589 );
+                        TASK_PERFORM_SEQUENCE( dimitriChar, l_U589 );
                         CLEAR_SEQUENCE_TASK( l_U589 );
                     }
                     if (l_U605)
@@ -549,23 +550,23 @@ void main()
                 }
                 else
                 {
-                    sub_34468();
+                    SetupBlipsForPeds();
                 }
             }
             else
             {
-                sub_34468();
-                sub_35428( l_U502, l_U508, l_U521, sub_4023(), 0 );
-                sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
-                sub_35428( l_U501, l_U518, l_U525, l_U502, 3 );
+                SetupBlipsForPeds();
+                sub_35428( l_U502, l_U508, l_U521, CurrentPlayerChar(), 0 );
+                sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
+                sub_35428( dimitriChar, l_U518, l_U525, l_U502, 3 );
             }
             break;
             case 8:
-            if ((NOT (sub_29033( l_U593 ))) AND ((NOT (IS_CHAR_DEAD( l_U501 ))) AND (NOT (IS_CHAR_DEAD( l_U502 )))))
+            if ((NOT (sub_29033( l_U593 ))) AND ((NOT (IS_CHAR_DEAD( dimitriChar ))) AND (NOT (IS_CHAR_DEAD( l_U502 )))))
             {
-                GET_CHAR_COORDINATES( l_U501, ref l_U576[0]._fU0, ref l_U576[0]._fU4, ref l_U576[0]._fU8 );
-                GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS( l_U501, 0.00000000, 0.85000000, 0.00000000, ref l_U576[0]._fU0, ref l_U576[0]._fU4, ref l_U576[0]._fU8 );
-                GET_CHAR_HEADING( l_U501, ref l_U591 );
+                GET_CHAR_COORDINATES( dimitriChar, ref l_U576[0]._fU0, ref l_U576[0]._fU4, ref l_U576[0]._fU8 );
+                GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS( dimitriChar, 0.00000000, 0.85000000, 0.00000000, ref l_U576[0]._fU0, ref l_U576[0]._fU4, ref l_U576[0]._fU8 );
+                GET_CHAR_HEADING( dimitriChar, ref l_U591 );
                 TASK_CHAR_SLIDE_TO_COORD( l_U502, l_U576[0]._fU0, l_U576[0]._fU4, l_U576[0]._fU8, 120.00000000, 0.80000000 );
                 SETTIMERA( 0 );
                 if (l_U605)
@@ -580,41 +581,41 @@ void main()
             }
             else
             {
-                sub_34468();
-                sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
+                SetupBlipsForPeds();
+                sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
             }
             break;
             case 9:
-            if ((NOT (IS_CHAR_DEAD( l_U501 ))) AND (NOT (IS_CHAR_DEAD( l_U502 ))))
+            if ((NOT (IS_CHAR_DEAD( dimitriChar ))) AND (NOT (IS_CHAR_DEAD( l_U502 ))))
             {
                 GET_SCRIPT_TASK_STATUS( l_U502, 68, ref l_U531 );
                 if (l_U531 == 7)
                 {
                     FREEZE_CHAR_POSITION( l_U502, 1 );
-                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U502, l_U501 );
-                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U501, l_U502 );
+                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U502, dimitriChar );
+                    TASK_TURN_CHAR_TO_FACE_CHAR( dimitriChar, l_U502 );
                     l_U602 = 10;
                 }
                 else
                 {
-                    sub_34468();
+                    SetupBlipsForPeds();
                 }
             }
             break;
             case 10:
-            if ((NOT (IS_CHAR_DEAD( l_U501 ))) AND (NOT (IS_CHAR_DEAD( l_U502 ))))
+            if ((NOT (IS_CHAR_DEAD( dimitriChar ))) AND (NOT (IS_CHAR_DEAD( l_U502 ))))
             {
-                GET_SCRIPT_TASK_STATUS( l_U501, 34, ref l_U531 );
+                GET_SCRIPT_TASK_STATUS( dimitriChar, 34, ref l_U531 );
                 if (l_U531 == 7)
                 {
                     GET_SCRIPT_TASK_STATUS( l_U502, 34, ref l_U531 );
                     if (l_U531 == 7)
                     {
                         TASK_CLEAR_LOOK_AT( l_U502 );
-                        TASK_CLEAR_LOOK_AT( l_U501 );
-                        if ((NOT (IS_CHAR_DEAD( l_U501 ))) AND (NOT (IS_CHAR_DEAD( l_U502 ))))
+                        TASK_CLEAR_LOOK_AT( dimitriChar );
+                        if ((NOT (IS_CHAR_DEAD( dimitriChar ))) AND (NOT (IS_CHAR_DEAD( l_U502 ))))
                         {
-                            TASK_PLAY_ANIM_NON_INTERRUPTABLE( l_U501, "take_n_pistolwhip", "missfaustin2", 10.00000000, 0, 1, 1, 0, -1 );
+                            TASK_PLAY_ANIM_NON_INTERRUPTABLE( dimitriChar, "take_n_pistolwhip", "missfaustin2", 10.00000000, 0, 1, 1, 0, -1 );
                             TASK_PLAY_ANIM_NON_INTERRUPTABLE( l_U502, "give_n_pistolwhip", "missfaustin2", 10.00000000, 0, 0, 0, 0, -1 );
                         }
                         SETTIMERA( 0 );
@@ -622,55 +623,55 @@ void main()
                     }
                     else
                     {
-                        sub_34468();
+                        SetupBlipsForPeds();
                     }
                 }
                 else
                 {
-                    sub_34468();
+                    SetupBlipsForPeds();
                 }
             }
             break;
             case 11:
-            if ((NOT (IS_CHAR_DEAD( l_U502 ))) AND (NOT (IS_CHAR_DEAD( l_U501 ))))
+            if ((NOT (IS_CHAR_DEAD( l_U502 ))) AND (NOT (IS_CHAR_DEAD( dimitriChar ))))
             {
-                if (IS_CHAR_PLAYING_ANIM( l_U501, "missfaustin2", "take_n_pistolwhip" ))
+                if (IS_CHAR_PLAYING_ANIM( dimitriChar, "missfaustin2", "take_n_pistolwhip" ))
                 {
-                    GET_CHAR_ANIM_CURRENT_TIME( l_U501, "missfaustin2", "take_n_pistolwhip", ref l_U591 );
+                    GET_CHAR_ANIM_CURRENT_TIME( dimitriChar, "missfaustin2", "take_n_pistolwhip", ref l_U591 );
                     if (l_U591 > 0.40000000)
                     {
-                        GIVE_WEAPON_TO_CHAR( l_U501, 7, 30000, 0 );
-                        SET_CURRENT_CHAR_WEAPON( l_U501, 7, 1 );
+                        GIVE_WEAPON_TO_CHAR( dimitriChar, 7, 30000, 0 );
+                        SET_CURRENT_CHAR_WEAPON( dimitriChar, 7, 1 );
                         SETTIMERA( 0 );
                         l_U602 = 12;
                     }
                     else
                     {
-                        sub_34468();
+                        SetupBlipsForPeds();
                     }
                 }
                 else
                 {
-                    sub_34468();
+                    SetupBlipsForPeds();
                 }
             }
             else
             {
-                sub_35428( l_U503[0], l_U511[0], l_U522[0], sub_4023(), 1 );
+                sub_35428( l_U503[0], l_U511[0], l_U522[0], CurrentPlayerChar(), 1 );
             }
             break;
             case 12:
-            if ((NOT (IS_CHAR_DEAD( l_U502 ))) AND (NOT (IS_CHAR_DEAD( l_U501 ))))
+            if ((NOT (IS_CHAR_DEAD( l_U502 ))) AND (NOT (IS_CHAR_DEAD( dimitriChar ))))
             {
-                if (IS_CHAR_PLAYING_ANIM( l_U501, "missfaustin2", "take_n_pistolwhip" ))
+                if (IS_CHAR_PLAYING_ANIM( dimitriChar, "missfaustin2", "take_n_pistolwhip" ))
                 {
-                    GET_CHAR_ANIM_CURRENT_TIME( l_U501, "missfaustin2", "take_n_pistolwhip", ref l_U591 );
+                    GET_CHAR_ANIM_CURRENT_TIME( dimitriChar, "missfaustin2", "take_n_pistolwhip", ref l_U591 );
                     if (l_U591 > 0.58000000)
                     {
-                        FREEZE_CHAR_POSITION( l_U501, 0 );
+                        FREEZE_CHAR_POSITION( dimitriChar, 0 );
                         FREEZE_CHAR_POSITION( l_U502, 0 );
-                        SET_DONT_ACTIVATE_RAGDOLL_FROM_PLAYER_IMPACT( l_U501, 1 );
-                        UNLOCK_RAGDOLL( l_U501, 0 );
+                        SET_DONT_ACTIVATE_RAGDOLL_FROM_PLAYER_IMPACT( dimitriChar, 1 );
+                        UNLOCK_RAGDOLL( dimitriChar, 0 );
                         SWITCH_PED_TO_RAGDOLL( l_U502, 0, 60000, 1, 1, 1, 0 );
                         CREATE_NM_MESSAGE( 1, 79 );
                         SEND_NM_MESSAGE( l_U502 );
@@ -694,7 +695,7 @@ void main()
                             SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U503[0], 1 );
                             SET_CHAR_WILL_MOVE_WHEN_INJURED( l_U503[0], 0 );
                             OPEN_SEQUENCE_TASK( ref l_U589 );
-                            TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U501 );
+                            TASK_TURN_CHAR_TO_FACE_CHAR( 0, dimitriChar );
                             TASK_PLAY_ANIM( 0, "drop_knees", "missfaustin2", 4.00000000, 0, 0, 0, 0, -1 );
                             TASK_PLAY_ANIM( 0, "plead_idle", "missfaustin2", 4.00000000, 1, 0, 0, 0, -1 );
                             CLOSE_SEQUENCE_TASK( l_U589 );
@@ -706,7 +707,7 @@ void main()
                     }
                     else
                     {
-                        sub_34468();
+                        SetupBlipsForPeds();
                     }
                 }
                 else
@@ -725,7 +726,7 @@ void main()
                         SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U503[0], 1 );
                         SET_CHAR_WILL_MOVE_WHEN_INJURED( l_U503[0], 0 );
                         OPEN_SEQUENCE_TASK( ref l_U589 );
-                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, sub_4023() );
+                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, CurrentPlayerChar() );
                         TASK_PLAY_ANIM( 0, "drop_knees", "missfaustin2", 4.00000000, 0, 0, 0, 0, -1 );
                         TASK_PLAY_ANIM( 0, "plead_idle", "missfaustin2", 4.00000000, 1, 0, 0, 0, -1 );
                         CLOSE_SEQUENCE_TASK( l_U589 );
@@ -750,9 +751,9 @@ void main()
                     {
                         SET_CHAR_NEVER_TARGETTED( l_U502, 1 );
                     }
-                    if (NOT (IS_CHAR_DEAD( l_U501 )))
+                    if (NOT (IS_CHAR_DEAD( dimitriChar )))
                     {
-                        TASK_TURN_CHAR_TO_FACE_CHAR( l_U501, l_U503[0] );
+                        TASK_TURN_CHAR_TO_FACE_CHAR( dimitriChar, l_U503[0] );
                     }
                     sub_26262( "F2_PORNA", ref l_U593, 6, 1 );
                     l_U602 = 14;
@@ -760,25 +761,26 @@ void main()
             }
             else
             {
-                sub_34468();
+                SetupBlipsForPeds();
             }
             break;
+
             case 14:
             sub_42051();
             if (NOT (sub_29033( l_U593 )))
             {
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
-                    TASK_FOLLOW_NAV_MESH_TO_COORD( l_U501, 779.79870000, -543.82730000, 8.49470000, 2, -1, 0.50000000 );
+                    TASK_FOLLOW_NAV_MESH_TO_COORD( dimitriChar, 779.79870000, -543.82730000, 8.49470000, 2, -1, 0.50000000 );
                     if (DOES_BLIP_EXIST( l_U498 ))
                     {
                         REMOVE_BLIP( l_U498 );
                     }
-                    ADD_BLIP_FOR_CHAR( l_U501, ref l_U498 );
+                    ADD_BLIP_FOR_CHAR( dimitriChar, ref l_U498 );
                     SET_BLIP_AS_FRIENDLY( l_U498, 1 );
                 }
-                SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U501, 1 );
-                UNLOCK_RAGDOLL( l_U501, 1 );
+                SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( dimitriChar, 1 );
+                UNLOCK_RAGDOLL( dimitriChar, 1 );
                 sub_24777();
                 if ((l_U601 == 417) || ((l_U601 == 14768) || ((l_U601 == 14512) || ((l_U601 == 1200) || ((l_U601 == 421) || ((l_U601 == 425) || ((l_U601 == 420) || ((l_U601 == 424) || ((l_U601 == 419) || ((l_U601 == 423) || (l_U601 == 418)))))))))))
                 {
@@ -788,18 +790,18 @@ void main()
                 {
                     sub_26262( "F2_NOTLEG", ref l_U593, 6, 1 );
                 }
-                TASK_LOOK_AT_CHAR( l_U501, sub_4023(), 2500, 0 );
+                TASK_LOOK_AT_CHAR( dimitriChar, CurrentPlayerChar(), 2500, 0 );
                 SET_WANTED_MULTIPLIER( 0.40000000 );
                 SETTIMERA( 0 );
                 l_U602 = 15;
             }
             else
             {
-                sub_34468();
+                SetupBlipsForPeds();
             }
             break;
             case 15:
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
                 sub_42051();
                 if ((NOT l_U563) AND (sub_29018()))
@@ -807,16 +809,16 @@ void main()
                     PRINT_NOW( "GI_88", 7500, 0 );
                     l_U563 = 1;
                 }
-                GET_INTERIOR_FROM_CHAR( sub_4023(), ref iVar2 );
+                GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref iVar2 );
                 if (iVar2 == nil)
                 {
-                    if (HAS_CHAR_SPOTTED_CHAR( l_U501, sub_4023() ))
+                    if (HAS_CHAR_SPOTTED_CHAR( dimitriChar, CurrentPlayerChar() ))
                     {
-                        if (NOT (IS_CHAR_DEAD( l_U501 )))
+                        if (NOT (IS_CHAR_DEAD( dimitriChar )))
                         {
-                            GET_PLAYER_GROUP( sub_4479(), ref l_U532 );
-                            SET_GROUP_MEMBER( sub_8595(), l_U501 );
-                            SET_CHAR_RELATIONSHIP( l_U501, 1, 0 );
+                            GET_PLAYER_GROUP( CurrentPlayerId(), ref l_U532 );
+                            SET_GROUP_MEMBER( sub_8595(), dimitriChar );
+                            SET_CHAR_RELATIONSHIP( dimitriChar, 1, 0 );
                         }
                         MARK_MODEL_AS_NO_LONGER_NEEDED( 568525885 );
                         sub_24777();
@@ -834,12 +836,12 @@ void main()
                 }
                 else
                 {
-                    GET_SCRIPT_TASK_STATUS( l_U501, 27, ref l_U531 );
+                    GET_SCRIPT_TASK_STATUS( dimitriChar, 27, ref l_U531 );
                     if (l_U531 == 7)
                     {
                         if (NOT l_U558)
                         {
-                            TASK_TURN_CHAR_TO_FACE_CHAR( l_U501, sub_4023() );
+                            TASK_TURN_CHAR_TO_FACE_CHAR( dimitriChar, CurrentPlayerChar() );
                             l_U558 = 1;
                         }
                     }
@@ -850,16 +852,16 @@ void main()
             sub_42051();
             if (sub_29018())
             {
-                SET_DONT_ACTIVATE_RAGDOLL_FROM_PLAYER_IMPACT( l_U501, 0 );
+                SET_DONT_ACTIVATE_RAGDOLL_FROM_PLAYER_IMPACT( dimitriChar, 0 );
                 PRINT( "GI_28", 7500, 0 );
                 l_U602 = 18;
             }
             break;
             case 18:
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
                 sub_42051();
-                if (IS_WANTED_LEVEL_GREATER( sub_4479(), 0 ))
+                if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 ))
                 {
                     if (DOES_BLIP_EXIST( l_U497 ))
                     {
@@ -867,11 +869,11 @@ void main()
                         PRINT_NOW( "GNSHP_WNTD", 7500, 0 );
                     }
                 }
-                else if ((IS_CHAR_IN_AREA_3D( l_U501, 1049.00000000, 48, 28, 1057.00000000, 105, 42, 0 )) AND (IS_CHAR_IN_AREA_3D( sub_4023(), 1049.00000000, 48, 28, 1057.00000000, 105, 42, 0 )))
+                else if ((IS_CHAR_IN_AREA_3D( dimitriChar, 1049.00000000, 48, 28, 1057.00000000, 105, 42, 0 )) AND (IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), 1049.00000000, 48, 28, 1057.00000000, 105, 42, 0 )))
                 {
-                    if ((sub_43298( l_U501 )) AND (sub_20741( sub_4023(), l_U501 )))
+                    if ((sub_43298( dimitriChar )) AND (AreCharsInCar( CurrentPlayerChar(), dimitriChar )))
                     {
-                        REMOVE_CHAR_FROM_GROUP( l_U501 );
+                        REMOVE_CHAR_FROM_GROUP( dimitriChar );
                     }
                     if (DOES_BLIP_EXIST( l_U498 ))
                     {
@@ -882,7 +884,7 @@ void main()
                         PRINT_NOW( "GI_28", 7500, 0 );
                         ADD_BLIP_FOR_COORD( 1055.55600000, 86.85400000, 33.98700000, ref l_U497 );
                     }
-                    if (LOCATE_CHAR_ON_FOOT_3D( sub_4023(), 1055.55600000, 86.85400000, 33.98700000, 1.60000000, 1.60000000, 1.60000000, 1 ))
+                    if (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), 1055.55600000, 86.85400000, 33.98700000, 1.60000000, 1.60000000, 1.60000000, 1 ))
                     {
                         if (DOES_CHAR_EXIST( l_U503[0] ))
                         {
@@ -896,14 +898,14 @@ void main()
                         {
                             DELETE_CHAR( ref l_U502 );
                         }
-                        SET_EVERYONE_IGNORE_PLAYER( sub_4479(), 0 );
+                        SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 0 );
                         sub_30048();
                         REMOVE_BLIP( l_U497 );
-                        if (NOT (IS_CHAR_IN_ANY_CAR( l_U501 )))
+                        if (NOT (IS_CHAR_IN_ANY_CAR( dimitriChar )))
                         {
-                            TASK_FOLLOW_NAV_MESH_TO_COORD( l_U501, 1054.94600000, 89.40510000, 32.42070000, 2, 40000, 1.00000000 );
+                            TASK_FOLLOW_NAV_MESH_TO_COORD( dimitriChar, 1054.94600000, 89.40510000, 32.42070000, 2, 40000, 1.00000000 );
                         }
-                        REMOVE_CHAR_FROM_GROUP( l_U501 );
+                        REMOVE_CHAR_FROM_GROUP( dimitriChar );
                         sub_32220( "GI_44", 7500 );
                         REMOVE_BLIP( l_U497 );
                         ADD_BLIP_FOR_COORD( 1062.30000000, 88.63230000, 33.24610000 + 1.60000000, ref l_U497 );
@@ -911,7 +913,8 @@ void main()
                         PRINTNL();
                         PRINTSTRING( "SETTING GUNSHOP TO UNLOCKED" );
                         PRINTNL();
-                        g_U64661 = 1;
+                        // Seems to be gun shop unlock flag
+                        gunShopUnlockFlag1 = 1;
                         g_U64663 = 1;
                         l_U602 = 20;
                     }
@@ -921,25 +924,25 @@ void main()
                         l_U570 = 1;
                     }
                 }
-                else if (NOT (sub_43298( l_U501 )))
+                else if (NOT (sub_43298( dimitriChar )))
                 {
-                    sub_43932( l_U501 );
+                    sub_43932( dimitriChar );
                 }
-                if (sub_29426( ref l_U498, ref l_U497, l_U501, 1055.55600000, 86.85400000, 33.98700000, "GI_28", "DIMITRI_BUDDY", "GI_28" ))
+                if (sub_29426( ref l_U498, ref l_U497, dimitriChar, 1055.55600000, 86.85400000, 33.98700000, "GI_28", "DIMITRI_BUDDY", "GI_28" ))
                 {
                     if (NOT (IS_THIS_PRINT_BEING_DISPLAYED( "GI_28", 0, 0, 0, 0, -1, -1, -1, -1, -1, -1 )))
                     {
                         if ((l_U608) || (g_U64648[1] == 0))
                         {
-                            sub_44131( l_U501 );
+                            sub_44131( dimitriChar );
                             l_U608 = 1;
                         }
                         else
                         {
-                            sub_32293( l_U501, "F2_CAR4", "F2_CAR4", 1 );
+                            sub_32293( dimitriChar, "F2_CAR4", "F2_CAR4", 1 );
                         }
                     }
-                    if (LOCATE_CHAR_ON_FOOT_3D( sub_4023(), 1055.55600000, 86.85400000, 33.98700000, 1.60000000, 1.60000000, 1.60000000, 1 ))
+                    if (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), 1055.55600000, 86.85400000, 33.98700000, 1.60000000, 1.60000000, 1.60000000, 1 ))
                     {
                         ;
                     }
@@ -947,7 +950,7 @@ void main()
             }
             break;
             case 20:
-            if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), 1062.30000000, 88.63230000, 33.24610000 + 1.60000000, 1.60000000, 1.60000000, 1.60000000, 0 ))
+            if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), 1062.30000000, 88.63230000, 33.24610000 + 1.60000000, 1.60000000, 1.60000000, 1.60000000, 0 ))
             {
                 if (DOES_BLIP_EXIST( l_U497 ))
                 {
@@ -957,7 +960,7 @@ void main()
             }
             else if (DOES_BLIP_EXIST( l_U497 ))
             {
-                if ((sub_45177()) AND (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), 1058.23800000, 86.84730000, 34.25310000 + (1.60000000 / 2), 1.60000000, 1.60000000, 1.60000000, 0 )))
+                if ((sub_45177()) AND (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), 1058.23800000, 86.84730000, 34.25310000 + (1.60000000 / 2), 1.60000000, 1.60000000, 1.60000000, 0 )))
                 {
                     REMOVE_BLIP( l_U497 );
                 }
@@ -980,16 +983,16 @@ void main()
                 {
                     REMOVE_BLIP( l_U498 );
                 }
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
-                    ADD_BLIP_FOR_CHAR( l_U501, ref l_U498 );
+                    ADD_BLIP_FOR_CHAR( dimitriChar, ref l_U498 );
                     CHANGE_BLIP_COLOUR( l_U498, 3 );
                     CHANGE_BLIP_PRIORITY( l_U498, 2 );
                 }
                 SETTIMERA( 0 );
                 l_U602 = 22;
             }
-            else if ((NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), 1062.30000000, 88.63230000, 33.24610000 + 1.60000000, 1.60000000, 1.60000000, 1.60000000, 0 ))) AND (NOT l_U568))
+            else if ((NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), 1062.30000000, 88.63230000, 33.24610000 + 1.60000000, 1.60000000, 1.60000000, 1.60000000, 0 ))) AND (NOT l_U568))
             {
                 l_U568 = 1;
             }
@@ -997,7 +1000,7 @@ void main()
             sub_45287();;
             break;
             case 22:
-            if (IS_CHAR_IN_AREA_3D( sub_4023(), 1057.80000000, 86.00000000, 25.00000000, 1060.70000000, 95.00000000, 50.00000000, 1 ))
+            if (IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), 1057.80000000, 86.00000000, 25.00000000, 1060.70000000, 95.00000000, 50.00000000, 1 ))
             {
                 sub_46172( 19 );
                 sub_2456( 19, 1 );
@@ -1016,16 +1019,16 @@ void main()
             }
             break;
             case 23:
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                if (IS_CHAR_IN_ANY_CAR( l_U501 ))
+                if (IS_CHAR_IN_ANY_CAR( dimitriChar ))
                 {
-                    if (sub_20741( sub_4023(), l_U501 ))
+                    if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
                     {
-                        GET_PLAYER_GROUP( sub_4479(), ref l_U532 );
-                        SET_GROUP_MEMBER( sub_8595(), l_U501 );
-                        SET_CHAR_RELATIONSHIP( l_U501, 1, 0 );
-                        SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U501, 1 );
+                        GET_PLAYER_GROUP( CurrentPlayerId(), ref l_U532 );
+                        SET_GROUP_MEMBER( sub_8595(), dimitriChar );
+                        SET_CHAR_RELATIONSHIP( dimitriChar, 1, 0 );
+                        SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( dimitriChar, 1 );
                         REMOVE_BLIP( l_U498 );
                         l_U602 = 24;
                     }
@@ -1041,12 +1044,12 @@ void main()
                 }
                 else
                 {
-                    GET_CHAR_COORDINATES( l_U501, ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
-                    if ((HAS_CHAR_SPOTTED_CHAR( sub_4023(), l_U501 )) AND (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), uVar3._fU0, uVar3._fU4, uVar3._fU8, 20.00000000, 20.00000000, 20.00000000, 0 )))
+                    GET_CHAR_COORDINATES( dimitriChar, ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
+                    if ((HAS_CHAR_SPOTTED_CHAR( CurrentPlayerChar(), dimitriChar )) AND (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), uVar3._fU0, uVar3._fU4, uVar3._fU8, 20.00000000, 20.00000000, 20.00000000, 0 )))
                     {
-                        GET_PLAYER_GROUP( sub_4479(), ref l_U532 );
-                        SET_GROUP_MEMBER( sub_8595(), l_U501 );
-                        SET_CHAR_RELATIONSHIP( l_U501, 1, 0 );
+                        GET_PLAYER_GROUP( CurrentPlayerId(), ref l_U532 );
+                        SET_GROUP_MEMBER( sub_8595(), dimitriChar );
+                        SET_CHAR_RELATIONSHIP( dimitriChar, 1, 0 );
                         REMOVE_BLIP( l_U498 );
                         l_U602 = 24;
                     }
@@ -1063,7 +1066,7 @@ void main()
             }
             break;
             case 24:
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
                 if (sub_29018())
                 {
@@ -1094,16 +1097,16 @@ void main()
                 }
                 if (l_U562)
                 {
-                    if (sub_29426( ref l_U498, ref l_U497, l_U501, 1340.83600000, -846.45690000, 9.23770000, "GI_34", "DIMITRI_BUDDY", "GI_34" ))
+                    if (sub_29426( ref l_U498, ref l_U497, dimitriChar, 1340.83600000, -846.45690000, 9.23770000, "GI_34", "DIMITRI_BUDDY", "GI_34" ))
                     {
-                        if (LOCATE_CHAR_ANY_MEANS_3D( sub_4023(), 1340.83600000, -846.45690000, 9.23770000, 2.50000000, 2.50000000, 2.50000000, 1 ))
+                        if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), 1340.83600000, -846.45690000, 9.23770000, 2.50000000, 2.50000000, 2.50000000, 1 ))
                         {
                             if (sub_24205( 1, 1 ))
                             {
                                 sub_30048();
                                 REMOVE_BLIP( l_U497 );
                                 l_U559 = 1;
-                                if (IS_CHAR_IN_ANY_CAR( sub_4023() ))
+                                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                                 {
                                     sub_24516( "F2_END" );
                                 }
@@ -1118,7 +1121,7 @@ void main()
                         {
                             if (NOT (IS_THIS_PRINT_BEING_DISPLAYED( "GI_34", 0, 0, 0, 0, -1, -1, -1, -1, -1, -1 )))
                             {
-                                sub_32293( l_U501, "F2_CAR6", "F2_CAR8", 2 );
+                                sub_32293( dimitriChar, "F2_CAR6", "F2_CAR8", 2 );
                             }
                         }
                     }
@@ -1519,9 +1522,9 @@ void sub_2277()
 {
     g_U9211 = 0;
     SET_CREATE_RANDOM_COPS( 1 );
-    if (NOT (IS_CHAR_DEAD( l_U501 )))
+    if (NOT (IS_CHAR_DEAD( dimitriChar )))
     {
-        TASK_CLEAR_LOOK_AT( l_U501 );
+        TASK_CLEAR_LOOK_AT( dimitriChar );
     }
     if (NOT (IS_CHAR_DEAD( l_U502 )))
     {
@@ -1543,14 +1546,14 @@ void sub_2277()
     SWITCH_PED_ROADS_BACK_TO_ORIGINAL( 778.00000000, -544.88000000, -100.00000000, 804.36000000, -527.68000000, 100.00000000 );
     SWITCH_PED_ROADS_BACK_TO_ORIGINAL( 1048.65600000, 83.25701000, 0.00000000, 1057.37500000, 83.25701000, 100.00000000 );
     FLUSH_SCENARIO_BLOCKING_AREAS();
-    if (IS_PLAYER_PLAYING( sub_4479() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        SET_EVERYONE_IGNORE_PLAYER( sub_4479(), 0 );
-        SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( sub_4023(), 1 );
+        SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 0 );
+        SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( CurrentPlayerChar(), 1 );
     }
     g_U9330 = 0;
     g_U15654[60] = 0;
-    g_U64661 = 0;
+    gunShopUnlockFlag1 = 0;
     sub_4573();
     sub_4615( ref l_U593, 0 );
     SET_WANTED_MULTIPLIER( 1.00000000 );
@@ -1808,9 +1811,9 @@ void sub_3569()
     iVar12 = -1;
     if (NOT bVar6)
     {
-        if (NOT (IS_CHAR_DEAD( sub_4023() )))
+        if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            GET_CHAR_COORDINATES( sub_4023(), ref uVar7._fU0, ref uVar7._fU4, ref uVar7._fU8 );
+            GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar7._fU0, ref uVar7._fU4, ref uVar7._fU8 );
             for ( I = 0; I < 5; I++ )
             {
                 if (g_U9943[I]._fU0)
@@ -1853,7 +1856,8 @@ void sub_3614(unknown uParam0, boolean bParam1)
     return;
 }
 
-void sub_4023()
+// sub_4023
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -1879,7 +1883,8 @@ void sub_4334()
     return;
 }
 
-void sub_4479()
+// sub_4479
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -1909,7 +1914,7 @@ void sub_4774()
     LOAD_ADDITIONAL_TEXT( "GUNINTR", 0 );
     LOAD_ADDITIONAL_TEXT( "F2AUD", 6 );
     sub_4825( "F2AUD" );
-    sub_4952( 0, sub_4023(), "NIKO", 0 );
+    sub_4952( 0, CurrentPlayerChar(), "NIKO", 0 );
     sub_5141( 1341.04500000, -846.67000000, 7.24720000, 0, 1316.30000000, -845.90000000, 9.14000000, 100, -1, 0 );
     if (g_U9893._fU24)
     {
@@ -1958,23 +1963,23 @@ void sub_4774()
     l_U525 = 326.65910000;
     l_U586 = {787.03500000, -537.12200000, 7.92300000};
     LOAD_SCENE( 1329.14300000, -846.51870000, 7.11060000 );
-    SET_CHAR_COORDINATES( sub_4023(), 1329.14300000, -846.51870000, 7.11060000 );
-    SET_CHAR_HEADING( sub_4023(), 270.00000000 );
-    SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( sub_4023(), 0 );
-    sub_6854( 25, ref l_U501, 1330.51800000, -848.06660000, 7.13190000, 32.00000000 );
-    SET_CHAR_NEVER_TARGETTED( l_U501, 1 );
-    sub_4952( 1, l_U501, "DIMITRI", 0 );
-    SET_PED_DIES_WHEN_INJURED( l_U501, 1 );
-    SET_LOAD_COLLISION_FOR_CHAR_FLAG( l_U501, 1 );
-    SET_CHAR_PROP_INDEX( l_U501, 1, 0 );
-    GET_PLAYER_GROUP( sub_4479(), ref l_U532 );
-    SET_GROUP_MEMBER( sub_8595(), l_U501 );
-    SET_CHAR_RELATIONSHIP( l_U501, 1, 0 );
+    SET_CHAR_COORDINATES( CurrentPlayerChar(), 1329.14300000, -846.51870000, 7.11060000 );
+    SET_CHAR_HEADING( CurrentPlayerChar(), 270.00000000 );
+    SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( CurrentPlayerChar(), 0 );
+    sub_6854( 25, ref dimitriChar, 1330.51800000, -848.06660000, 7.13190000, 32.00000000 );
+    SET_CHAR_NEVER_TARGETTED( dimitriChar, 1 );
+    sub_4952( 1, dimitriChar, "DIMITRI", 0 );
+    SET_PED_DIES_WHEN_INJURED( dimitriChar, 1 );
+    SET_LOAD_COLLISION_FOR_CHAR_FLAG( dimitriChar, 1 );
+    SET_CHAR_PROP_INDEX( dimitriChar, 1, 0 );
+    GET_PLAYER_GROUP( CurrentPlayerId(), ref l_U532 );
+    SET_GROUP_MEMBER( sub_8595(), dimitriChar );
+    SET_CHAR_RELATIONSHIP( dimitriChar, 1, 0 );
     ADD_BLIP_FOR_COORD( 775.89700000, -548.45300000, 10.81600000, ref l_U497 );
     CHANGE_BLIP_COLOUR( l_U497, 5 );
     SET_ROUTE( l_U497, 1 );
-    SET_PLAYER_CONTROL( sub_4479(), 1 );
-    SET_CAM_BEHIND_PED( sub_4023() );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     sub_4573();
     while (NOT IS_SCREEN_FADED_OUT())
     {
@@ -2329,7 +2334,7 @@ void sub_8595()
 void sub_9050()
 {
     sub_9059();
-    CLEAR_WANTED_LEVEL( sub_4479() );
+    CLEAR_WANTED_LEVEL( CurrentPlayerId() );
     TRIGGER_MISSION_COMPLETE_AUDIO( 52 );
     g_U64663 = 1;
     sub_2277();
@@ -2485,11 +2490,11 @@ void sub_9177(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, un
     }
     if ((iVar7 == 12) AND (iParam0 == 0))
     {
-        SET_PLAYER_MOOD_PISSED_OFF( sub_4479(), 150 );
+        SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
     }
     else
     {
-        SET_PLAYER_MOOD_NORMAL( sub_4479() );
+        SET_PLAYER_MOOD_NORMAL( CurrentPlayerId() );
     }
     sub_1375();
     bVar27 = true;
@@ -2800,7 +2805,7 @@ void sub_10823(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
 
 void sub_10834(unknown uParam0)
 {
-    ADD_SCORE( sub_4479(), uParam0 );
+    ADD_SCORE( CurrentPlayerId(), uParam0 );
     sub_10859( uParam0 );
     return;
 }
@@ -4168,9 +4173,9 @@ void sub_20710()
 {
     if (l_U602 == 0)
     {
-        if (sub_20741( sub_4023(), l_U501 ))
+        if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
         {
-            SET_CHAR_COORDINATES( sub_4023(), 782.50510000, -555.73330000, 10.12960000 );
+            SET_CHAR_COORDINATES( CurrentPlayerChar(), 782.50510000, -555.73330000, 10.12960000 );
             if (NOT (IS_CAR_DEAD( l_U507 )))
             {
                 SET_CAR_HEADING( l_U507, 55.00000000 );
@@ -4192,19 +4197,19 @@ void sub_20710()
             SET_CAR_HEADING( l_U600, 55.00000000 );
             SET_CAR_COORDINATES( l_U600, 782.50510000, -555.73330000, 10.12960000 );
             MARK_MODEL_AS_NO_LONGER_NEEDED( l_U599 );
-            WARP_CHAR_INTO_CAR( sub_4023(), l_U600 );
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U600 );
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, l_U600, 0 );
+                WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, l_U600, 0 );
             }
         }
-        SET_CAM_BEHIND_PED( sub_4023() );
+        SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     }
     else if ((l_U602 == 15) || (l_U602 == 18))
     {
-        if (sub_20741( sub_4023(), l_U501 ))
+        if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
         {
-            SET_CHAR_COORDINATES( sub_4023(), 1066.93000000, 103.55680000, 32.74950000 );
+            SET_CHAR_COORDINATES( CurrentPlayerChar(), 1066.93000000, 103.55680000, 32.74950000 );
             if (NOT (IS_CAR_DEAD( l_U507 )))
             {
                 SET_CAR_HEADING( l_U507, 55.00000000 );
@@ -4226,19 +4231,19 @@ void sub_20710()
             SET_CAR_HEADING( l_U600, 90.00000000 );
             SET_CAR_COORDINATES( l_U600, 1066.93000000, 103.55680000, 32.74950000 );
             MARK_MODEL_AS_NO_LONGER_NEEDED( l_U599 );
-            WARP_CHAR_INTO_CAR( sub_4023(), l_U600 );
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U600 );
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, l_U600, 0 );
+                WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, l_U600, 0 );
             }
         }
-        SET_CAM_BEHIND_PED( sub_4023() );
+        SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     }
     else if (l_U602 == 24)
     {
-        if (sub_20741( sub_4023(), l_U501 ))
+        if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
         {
-            SET_CHAR_COORDINATES( sub_4023(), 1342.91400000, -828.29490000, 7.33240000 );
+            SET_CHAR_COORDINATES( CurrentPlayerChar(), 1342.91400000, -828.29490000, 7.33240000 );
             if (NOT (IS_CAR_DEAD( l_U507 )))
             {
                 SET_CAR_HEADING( l_U507, 176.00000000 );
@@ -4260,13 +4265,13 @@ void sub_20710()
             SET_CAR_HEADING( l_U600, 176.00000000 );
             SET_CAR_COORDINATES( l_U600, 1342.91400000, -828.29490000, 7.33240000 );
             MARK_MODEL_AS_NO_LONGER_NEEDED( l_U599 );
-            WARP_CHAR_INTO_CAR( sub_4023(), l_U600 );
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U600 );
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, l_U600, 0 );
+                WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, l_U600, 0 );
             }
         }
-        SET_CAM_BEHIND_PED( sub_4023() );
+        SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     }
     else if ((l_U602 == 13) || ((l_U602 == 12) || ((l_U602 == 11) || ((l_U602 == 8) || ((l_U602 == 7) || ((l_U602 == 6) || ((l_U602 == 5) || ((l_U602 == 4) || ((l_U602 == 3) || (l_U602 == 2))))))))))
     {
@@ -4285,17 +4290,17 @@ void sub_20710()
         ADD_BLIP_FOR_COORD( 1052.19100000, 91.74401000, 33.43440000, ref l_U497 );
         CHANGE_BLIP_COLOUR( l_U497, 5 );
         SET_ROUTE( l_U497, 1 );
-        if (NOT (IS_CHAR_DEAD( l_U501 )))
+        if (NOT (IS_CHAR_DEAD( dimitriChar )))
         {
-            CLEAR_CHAR_TASKS_IMMEDIATELY( l_U501 );
-            GET_PLAYER_GROUP( sub_4479(), ref l_U532 );
-            SET_GROUP_MEMBER( sub_8595(), l_U501 );
-            SET_CHAR_RELATIONSHIP( l_U501, 1, 0 );
+            CLEAR_CHAR_TASKS_IMMEDIATELY( dimitriChar );
+            GET_PLAYER_GROUP( CurrentPlayerId(), ref l_U532 );
+            SET_GROUP_MEMBER( sub_8595(), dimitriChar );
+            SET_CHAR_RELATIONSHIP( dimitriChar, 1, 0 );
         }
         l_U602 = 18;
-        if (sub_20741( sub_4023(), l_U501 ))
+        if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
         {
-            SET_CHAR_COORDINATES( sub_4023(), 1066.93000000, 103.55680000, 32.74950000 );
+            SET_CHAR_COORDINATES( CurrentPlayerChar(), 1066.93000000, 103.55680000, 32.74950000 );
             if (NOT (IS_CAR_DEAD( l_U507 )))
             {
                 SET_CAR_HEADING( l_U507, 55.00000000 );
@@ -4316,33 +4321,44 @@ void sub_20710()
             CREATE_CAR( l_U599, 1066.93000000, 103.55680000, 32.74950000, ref l_U600, 1 );
             SET_CAR_HEADING( l_U600, 90.00000000 );
             SET_CAR_COORDINATES( l_U600, 1066.93000000, 103.55680000, 32.74950000 );
-            WARP_CHAR_INTO_CAR( sub_4023(), l_U600 );
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U600 );
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, l_U600, 0 );
+                WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, l_U600, 0 );
             }
             MARK_CAR_AS_NO_LONGER_NEEDED( ref l_U600 );
             MARK_MODEL_AS_NO_LONGER_NEEDED( l_U599 );
         }
-        SET_CAM_BEHIND_PED( sub_4023() );
+        SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     };;;;
     return;
 }
 
-int sub_20741(unknown uParam0, unknown uParam1)
+// sub_20741
+// TODO Does this have two chars to check?
+// uParam0 = char1ToCheck?
+// uParam1 = char2ToCheck?
+// Check if char1 is not injured
+// Check if char is in any car
+// Store the chars car
+// Check if the vehicle is driveable, and char2 is not injured
+// Check if they are in the car uVar4.
+// Example in this file: if (AreCharsInCar( CurrentPlayerChar(), dimitriChar )), dimitriChar seems to be the ped, renamed from l_U501
+int AreCharsInCar(unknown char1ToCheck, unknown char2ToCheck)
 {
-    unknown uVar4;
+    // unknown uVar4;
+    Vehicle charCurrentCar;
 
-    if (NOT (IS_CHAR_INJURED( uParam0 )))
+    if (NOT (IS_CHAR_INJURED( char1ToCheck )))
     {
-        if (IS_CHAR_IN_ANY_CAR( uParam0 ))
+        if (IS_CHAR_IN_ANY_CAR( char1ToCheck ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( uParam0, ref uVar4 );
-            if (IS_VEH_DRIVEABLE( uVar4 ))
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( char1ToCheck, ref charCurrentCar );
+            if (IS_VEH_DRIVEABLE( charCurrentCar ))
             {
-                if (NOT (IS_CHAR_INJURED( uParam1 )))
+                if (NOT (IS_CHAR_INJURED( char2ToCheck )))
                 {
-                    if (IS_CHAR_IN_CAR( uParam1, uVar4 ))
+                    if (IS_CHAR_IN_CAR( char2ToCheck, charCurrentCar ))
                     {
                         return 1;
                     }
@@ -4390,9 +4406,9 @@ void sub_22606()
     switch (l_U604)
     {
         case 0:
-        if (NOT (IS_CHAR_DEAD( l_U501 )))
+        if (NOT (IS_CHAR_DEAD( dimitriChar )))
         {
-            DELETE_CHAR( ref l_U501 );
+            DELETE_CHAR( ref dimitriChar );
         }
         PRINT_NOW( "GI_FAIL_1", 7000, 1 );
         sub_22759( 4, "F2_FAIL1", "F2AUD", 0 );
@@ -4400,7 +4416,7 @@ void sub_22606()
         sub_23655();
         break;
         case 1:
-        sub_23883( 25, l_U501, 4 );
+        sub_23883( 25, dimitriChar, 4 );
         PRINT_NOW( "GI_FAIL_2", 7000, 1 );
         sub_22759( 4, "F2_CDDEAD", "F2AUD", 0 );
         sub_23345();
@@ -4418,9 +4434,9 @@ void sub_22606()
             {
                 PRINT_NOW( "GI_FAIL_3", 7000, 1 );
             }
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                SET_CHAR_PROOFS( l_U501, 1, 1, 1, 1, 1 );
+                SET_CHAR_PROOFS( dimitriChar, 1, 1, 1, 1, 1 );
             }
             sub_23345();
             l_U603 = 1;
@@ -4443,9 +4459,9 @@ void sub_22606()
         {
             CLEAR_PRINTS();
             PRINT_NOW( "GI_FAIL_4", 7000, 1 );
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                SET_CHAR_PROOFS( l_U501, 1, 1, 1, 1, 1 );
+                SET_CHAR_PROOFS( dimitriChar, 1, 1, 1, 1, 1 );
             }
             l_U603 = 1;
         }
@@ -4464,9 +4480,9 @@ void sub_22606()
         {
             CLEAR_PRINTS();
             PRINT_NOW( "GI_FAIL_5", 7000, 1 );
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                SET_CHAR_PROOFS( l_U501, 1, 1, 1, 1, 1 );
+                SET_CHAR_PROOFS( dimitriChar, 1, 1, 1, 1, 1 );
             }
             sub_23345();
             l_U603 = 1;
@@ -4485,6 +4501,7 @@ void sub_22606()
     return;
 }
 
+// Seems to end some strings and StrCopy for it, unsure of what this actually does.
 void sub_22759(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
 {
     char[12] cVar6;
@@ -4502,6 +4519,7 @@ void sub_22759(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     return;
 }
 
+// Seems to run the SPcellphoneEndCall script
 void sub_22803(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
 {
     unknown uVar8;
@@ -4539,7 +4557,8 @@ void sub_22803(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     array(ref uVar8._fU32, 5);
     ref uVar8;
     iVar38 = uVar8._fU32;
-    if (NOT (IS_THREAD_ACTIVE( g_U812 )))
+    // g_U812 = cellphoneEndCallScript
+    if (NOT (IS_THREAD_ACTIVE( cellphoneEndCallScript )))
     {
         uVar8._fU12 = uParam0;
         if ((uParam1^) > iVar38)
@@ -4559,6 +4578,7 @@ void sub_22803(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
         uVar8._fU0 = uParam3;
         uVar8._fU4 = uParam4;
         uVar8._fU8 = uParam5;
+
         REQUEST_SCRIPT( "SPcellphoneEndCall" );
         while (NOT (HAS_SCRIPT_LOADED( "SPcellphoneEndCall" )))
         {
@@ -4566,7 +4586,7 @@ void sub_22803(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
             WAIT( 0 );
         }
         g_U811 = 1;
-        g_U812 = START_NEW_SCRIPT_WITH_ARGS( "SPcellphoneEndCall", ref uVar8, 29, 1024 );
+        cellphoneEndCallScript = START_NEW_SCRIPT_WITH_ARGS( "SPcellphoneEndCall", ref uVar8, 29, 1024 );
         MARK_SCRIPT_AS_NO_LONGER_NEEDED( "SPcellphoneEndCall" );
     }
     else
@@ -4576,6 +4596,7 @@ void sub_22803(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     return;
 }
 
+// More blip checking
 void sub_23345()
 {
     if (DOES_BLIP_EXIST( l_U497 ))
@@ -4596,17 +4617,17 @@ void sub_23345()
     }
     if (NOT (IS_CHAR_INJURED( l_U502 )))
     {
-        TASK_SMART_FLEE_CHAR( l_U502, sub_4023(), 2000, -2 );
+        TASK_SMART_FLEE_CHAR( l_U502, CurrentPlayerChar(), 2000, -2 );
         SET_CHAR_KEEP_TASK( l_U502, 1 );
     }
     if (NOT (IS_CHAR_INJURED( l_U503[1] )))
     {
-        TASK_SMART_FLEE_CHAR( l_U503[1], sub_4023(), 2000, -2 );
+        TASK_SMART_FLEE_CHAR( l_U503[1], CurrentPlayerChar(), 2000, -2 );
         SET_CHAR_KEEP_TASK( l_U503[1], 1 );
     }
     if (NOT (IS_CHAR_INJURED( l_U503[0] )))
     {
-        TASK_SMART_FLEE_CHAR( l_U503[0], sub_4023(), 2000, -2 );
+        TASK_SMART_FLEE_CHAR( l_U503[0], CurrentPlayerChar(), 2000, -2 );
         SET_CHAR_KEEP_TASK( l_U503[0], 1 );
     }
     return;
@@ -4618,8 +4639,8 @@ void sub_23655()
     g_U15654[60] = 0;
     if (g_U9930 > 1)
     {
-        SET_PLAYER_MOOD_PISSED_OFF( sub_4479(), 150 );
-        SAY_AMBIENT_SPEECH( sub_4023(), "MISSION_FAIL_RAGE", 1, 1, 0 );
+        SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
+        SAY_AMBIENT_SPEECH( CurrentPlayerChar(), "MISSION_FAIL_RAGE", 1, 1, 0 );
     }
     sub_23745();
     sub_2277();
@@ -4648,7 +4669,7 @@ void sub_23768(unknown uParam0)
     {
         return;
     }
-    SET_PLAYER_MOOD_PISSED_OFF( sub_4479(), 150 );
+    SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
     CLEAR_HELP();
     sub_190( uParam0 );
     return;
@@ -4674,9 +4695,9 @@ int sub_24205(boolean bParam0, boolean bParam1)
     }
     if (bParam1)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_4023() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_4023(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_CAR_UPRIGHT_VALUE( uVar4, ref fVar6 );
@@ -4689,31 +4710,31 @@ int sub_24205(boolean bParam0, boolean bParam1)
     }
     if (bParam0)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_4023() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_4023(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_DRIVER_OF_CAR( uVar4, ref iVar5 );
-                if (NOT (iVar5 == sub_4023()))
+                if (NOT (iVar5 == CurrentPlayerChar()))
                 {
                     return 0;
                 }
             }
         }
     }
-    if (IS_CHAR_IN_ANY_CAR( sub_4023() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_4023() )))
+        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() )))
         {
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( sub_4479() )))
+    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( CurrentPlayerId() )))
     {
         return 0;
     }
-    if (NOT (CAN_PLAYER_START_MISSION( sub_4479() )))
+    if (NOT (CAN_PLAYER_START_MISSION( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -4751,9 +4772,9 @@ void sub_24516(unknown uParam0)
                     WAIT( 0 );
                 }
             }
-            if (DOES_CHAR_EXIST( l_U501 ))
+            if (DOES_CHAR_EXIST( dimitriChar ))
             {
-                DELETE_CHAR( ref l_U501 );
+                DELETE_CHAR( ref dimitriChar );
             }
             DO_SCREEN_FADE_IN( 500 );
             bVar4 = true;
@@ -4764,7 +4785,7 @@ void sub_24516(unknown uParam0)
             {
                 case 0:
                 sub_24777();
-                SET_PLAYER_CONTROL( sub_4479(), 0 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                 if (NOT l_U559)
                 {
                     if (NOT IS_SCREEN_FADED_OUT())
@@ -4788,14 +4809,14 @@ void sub_24516(unknown uParam0)
                 SWITCH_ROADS_OFF( 1352.89000000, -818.88000000, 0.00000000, 1335.31000000, -872.96000000, 100.00000000 );
                 if (NOT l_U559)
                 {
-                    if (IS_CHAR_IN_ANY_CAR( sub_4023() ))
+                    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                     {
-                        GET_CAR_CHAR_IS_USING( sub_4023(), ref uVar7 );
-                        if (NOT (IS_CHAR_DEAD( l_U501 )))
+                        GET_CAR_CHAR_IS_USING( CurrentPlayerChar(), ref uVar7 );
+                        if (NOT (IS_CHAR_DEAD( dimitriChar )))
                         {
-                            if (NOT (IS_CHAR_IN_CAR( l_U501, uVar7 )))
+                            if (NOT (IS_CHAR_IN_CAR( dimitriChar, uVar7 )))
                             {
-                                WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, uVar7, 0 );
+                                WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, uVar7, 0 );
                             }
                         }
                     }
@@ -4807,14 +4828,14 @@ void sub_24516(unknown uParam0)
                     if ((iVar11 < 1) AND ((iVar12 == nil) AND (IS_VEH_DRIVEABLE( l_U507 ))))
                     {
                         uVar7 = l_U507;
-                        if (NOT (IS_CHAR_DEAD( l_U501 )))
+                        if (NOT (IS_CHAR_DEAD( dimitriChar )))
                         {
-                            if (NOT (IS_CHAR_IN_CAR( l_U501, uVar7 )))
+                            if (NOT (IS_CHAR_IN_CAR( dimitriChar, uVar7 )))
                             {
-                                WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, uVar7, 0 );
+                                WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, uVar7, 0 );
                             }
                         }
-                        WARP_CHAR_INTO_CAR( sub_4023(), uVar7 );
+                        WARP_CHAR_INTO_CAR( CurrentPlayerChar(), uVar7 );
                     }
                     else
                     {
@@ -4824,10 +4845,10 @@ void sub_24516(unknown uParam0)
                             WAIT( 0 );
                         }
                         CREATE_CAR( 2016857647, 1341.09200000, -846.97060000, 7.24930000, ref uVar7, 1 );
-                        WARP_CHAR_INTO_CAR( sub_4023(), uVar7 );
-                        if (NOT (IS_CHAR_DEAD( l_U501 )))
+                        WARP_CHAR_INTO_CAR( CurrentPlayerChar(), uVar7 );
+                        if (NOT (IS_CHAR_DEAD( dimitriChar )))
                         {
-                            WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U501, uVar7, 0 );
+                            WARP_CHAR_INTO_CAR_AS_PASSENGER( dimitriChar, uVar7, 0 );
                         }
                     }
                     SET_CAR_HEADING( uVar7, 180.50000000 );
@@ -4857,18 +4878,18 @@ void sub_24516(unknown uParam0)
                 SET_CAM_PROPAGATE( l_U536, 1 );
                 SET_CAM_INTERP_STYLE_CORE( l_U536, l_U537[0], l_U537[1], 9000, 0 );
                 ACTIVATE_SCRIPTED_CAMS( 1, 1 );
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
-                    FREEZE_CHAR_POSITION( l_U501, 0 );
-                    GET_PED_BONE_POSITION( sub_4023(), 0, 0.00000000, 0.00000000, 0.00000000, ref l_U576[0] );
+                    FREEZE_CHAR_POSITION( dimitriChar, 0 );
+                    GET_PED_BONE_POSITION( CurrentPlayerChar(), 0, 0.00000000, 0.00000000, 0.00000000, ref l_U576[0] );
                     OPEN_SEQUENCE_TASK( ref l_U589 );
                     TASK_PAUSE( 0, 2000 );
                     TASK_LEAVE_ANY_CAR( 0 );
                     TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1325.59000000, -846.73000000, 7.97000000, 2, 20000, 0.50000000 );
                     CLOSE_SEQUENCE_TASK( l_U589 );
-                    TASK_PERFORM_SEQUENCE( l_U501, l_U589 );
+                    TASK_PERFORM_SEQUENCE( dimitriChar, l_U589 );
                     CLEAR_SEQUENCE_TASK( l_U589 );
-                    TASK_LOOK_AT_CHAR( sub_4023(), l_U501, 14000, 0 );
+                    TASK_LOOK_AT_CHAR( CurrentPlayerChar(), dimitriChar, 14000, 0 );
                 }
                 if (NOT l_U559)
                 {
@@ -4888,11 +4909,11 @@ void sub_24516(unknown uParam0)
                 }
                 break;
                 case 2:
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
-                    if ((TIMERA() > 14000) || (LOCATE_CHAR_ANY_MEANS_3D( l_U501, 1325.59000000, -846.73000000, 7.97000000, 8, 8, 8, 0 )))
+                    if ((TIMERA() > 14000) || (LOCATE_CHAR_ANY_MEANS_3D( dimitriChar, 1325.59000000, -846.73000000, 7.97000000, 8, 8, 8, 0 )))
                     {
-                        DELETE_CHAR( ref l_U501 );
+                        DELETE_CHAR( ref dimitriChar );
                         bVar3 = true;
                     }
                 }
@@ -4914,12 +4935,12 @@ void sub_24516(unknown uParam0)
     SET_WIDESCREEN_BORDERS( 0 );
     END_CAM_COMMANDS( ref l_U541 );
     sub_24777();
-    TASK_CLEAR_LOOK_AT( sub_4023() );
+    TASK_CLEAR_LOOK_AT( CurrentPlayerChar() );
     SET_WIDESCREEN_BORDERS( 0 );
     DISPLAY_HUD( 1 );
-    SET_PLAYER_CONTROL( sub_4479(), 1 );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     sub_4573();
-    SET_CAM_BEHIND_PED( sub_4023() );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     return;
 }
 
@@ -5110,34 +5131,34 @@ void sub_28204()
     if ((l_U602 == 6) || ((l_U602 == 5) || ((l_U602 == 4) || ((l_U602 == 3) || (l_U602 == 2)))))
     {
         bVar2 = false;
-        GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 7, ref l_U590 );
+        GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 7, ref l_U590 );
         if (l_U590 == 0)
         {
-            GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 9, ref l_U590 );
+            GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 9, ref l_U590 );
             if (l_U590 == 0)
             {
-                GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 10, ref l_U590 );
+                GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 10, ref l_U590 );
                 if (l_U590 == 0)
                 {
-                    GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 11, ref l_U590 );
+                    GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 11, ref l_U590 );
                     if (l_U590 == 0)
                     {
-                        GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 12, ref l_U590 );
+                        GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 12, ref l_U590 );
                         if (l_U590 == 0)
                         {
-                            GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 13, ref l_U590 );
+                            GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 13, ref l_U590 );
                             if (l_U590 == 0)
                             {
-                                GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 14, ref l_U590 );
+                                GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 14, ref l_U590 );
                                 if (l_U590 == 0)
                                 {
-                                    GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 15, ref l_U590 );
+                                    GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 15, ref l_U590 );
                                     if (l_U590 == 0)
                                     {
-                                        GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 16, ref l_U590 );
+                                        GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 16, ref l_U590 );
                                         if (l_U590 == 0)
                                         {
-                                            GET_AMMO_IN_CHAR_WEAPON( sub_4023(), 17, ref l_U590 );
+                                            GET_AMMO_IN_CHAR_WEAPON( CurrentPlayerChar(), 17, ref l_U590 );
                                             if (l_U590 == 0)
                                             {
                                                 bVar2 = true;
@@ -5217,7 +5238,7 @@ int sub_29426(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 {
     if (IS_GROUP_MEMBER( uParam2, sub_8595() ))
     {
-        if (sub_29461( uParam2, sub_4023() ))
+        if (sub_29461( uParam2, CurrentPlayerChar() ))
         {
             if (NOT (DOES_BLIP_EXIST( (uParam1^) )))
             {
@@ -5252,7 +5273,7 @@ int sub_29426(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         PRINT_NOW( uParam7, 7500, 1 );
         PRINTSTRING( "Left your buddy behind. (DO_BLIPS_PED)\n" );
     }
-    if (LOCATE_CHAR_ANY_MEANS_CHAR_2D( sub_4023(), uParam2, 20.00000000, 20.00000000, 0 ))
+    if (LOCATE_CHAR_ANY_MEANS_CHAR_2D( CurrentPlayerChar(), uParam2, 20.00000000, 20.00000000, 0 ))
     {
         SET_GROUP_MEMBER( sub_8595(), uParam2 );
     }
@@ -5301,8 +5322,8 @@ void sub_30087()
     unknown uVar2;
 
     CLEAR_PRINTS();
-    SET_PLAYER_CONTROL( sub_4479(), 0 );
-    CLEAR_CHAR_TASKS( sub_4023() );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
     while (NOT sub_24891())
     {
         WAIT( 0 );
@@ -5312,13 +5333,13 @@ void sub_30087()
     {
         WAIT( 0 );
     }
-    ALTER_WANTED_LEVEL( sub_4479(), 0 );
-    APPLY_WANTED_LEVEL_CHANGE_NOW( sub_4479() );
-    if (NOT (IS_CHAR_DEAD( l_U501 )))
+    ALTER_WANTED_LEVEL( CurrentPlayerId(), 0 );
+    APPLY_WANTED_LEVEL_CHANGE_NOW( CurrentPlayerId() );
+    if (NOT (IS_CHAR_DEAD( dimitriChar )))
     {
-        CLEAR_CHAR_TASKS_IMMEDIATELY( l_U501 );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( dimitriChar );
     }
-    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_4023() );
+    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
     sub_5141( 771.70670000, -543.04450000, 7.74360000, 41.50000000, 794.80000000, -536.50000000, 7.60000000, 10.00000000, -1, 0 );
     START_CUTSCENE_NOW( "imfau2" );
     while (NOT HAS_CUTSCENE_LOADED())
@@ -5340,19 +5361,19 @@ void sub_30087()
     LOAD_SCENE( 798.17960000, -537.19060000, 6.53220000 );
     GET_INTERIOR_AT_COORDS( 798.17960000, -537.19060000, 6.53220000, ref uVar2 );
     LOAD_SCENE_FOR_ROOM_BY_KEY( uVar2, GET_HASH_KEY( "sshop_MloRoom01" ) );
-    if (NOT (IS_CHAR_DEAD( l_U501 )))
+    if (NOT (IS_CHAR_DEAD( dimitriChar )))
     {
-        REMOVE_CHAR_FROM_GROUP( l_U501 );
-        CLEAR_CHAR_TASKS_IMMEDIATELY( l_U501 );
-        SET_CHAR_COORDINATES( l_U501, 795.92000000, -540.64000000, 6.52150000 );
-        SET_CHAR_HEADING( l_U501, 326.65910000 );
-        SET_ROOM_FOR_CHAR_BY_NAME( l_U501, "sshop_MloRoom01" );
+        REMOVE_CHAR_FROM_GROUP( dimitriChar );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( dimitriChar );
+        SET_CHAR_COORDINATES( dimitriChar, 795.92000000, -540.64000000, 6.52150000 );
+        SET_CHAR_HEADING( dimitriChar, 326.65910000 );
+        SET_ROOM_FOR_CHAR_BY_NAME( dimitriChar, "sshop_MloRoom01" );
     }
-    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_4023() );
-    SET_CHAR_HEADING( sub_4023(), 296.00000000 );
-    SET_CHAR_COORDINATES( sub_4023(), 794.70000000, -539.33000000, 6.52160000 );
-    SET_ROOM_FOR_CHAR_BY_NAME( sub_4023(), "sshop_MloRoom01" );
-    REMOVE_PLAYER_HELMET( sub_4479(), 1 );
+    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+    SET_CHAR_HEADING( CurrentPlayerChar(), 296.00000000 );
+    SET_CHAR_COORDINATES( CurrentPlayerChar(), 794.70000000, -539.33000000, 6.52160000 );
+    SET_ROOM_FOR_CHAR_BY_NAME( CurrentPlayerChar(), "sshop_MloRoom01" );
+    REMOVE_PLAYER_HELMET( CurrentPlayerId(), 1 );
     CREATE_CHAR( 26, 1352017873, l_U508._fU0, l_U508._fU4, l_U508._fU8, ref l_U502, 1 );
     SET_CHAR_HEADING( l_U502, 95.00000000 );
     SET_ROOM_FOR_CHAR_BY_NAME( l_U502, "sshop_MloRoom01" );
@@ -5381,8 +5402,8 @@ void sub_30087()
     MARK_MODEL_AS_NO_LONGER_NEEDED( -1516474414 );
     MARK_MODEL_AS_NO_LONGER_NEEDED( 223726252 );
     MARK_MODEL_AS_NO_LONGER_NEEDED( 1352017873 );
-    GIVE_WEAPON_TO_CHAR( sub_4023(), 7, 40, 0 );
-    SET_CURRENT_CHAR_WEAPON( sub_4023(), 7, 1 );
+    GIVE_WEAPON_TO_CHAR( CurrentPlayerChar(), 7, 40, 0 );
+    SET_CURRENT_CHAR_WEAPON( CurrentPlayerChar(), 7, 1 );
     REMOVE_BLIP( l_U497 );
     REMOVE_BLIP( l_U498 );
     ADD_BLIP_FOR_CHAR( l_U502, ref l_U498 );
@@ -5404,9 +5425,9 @@ void sub_30087()
     DO_SCREEN_FADE_IN_UNHACKED( 100 );
     l_U602 = 2;
     SETTIMERA( 0 );
-    SET_PLAYER_CONTROL( sub_4479(), 1 );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     sub_4573();
-    SET_CAM_BEHIND_PED( sub_4023() );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     return;
 }
 
@@ -5415,12 +5436,12 @@ void sub_31798()
     float fVar2;
     unknown uVar3;
 
-    if ((IS_CHAR_ON_ANY_BIKE( sub_4023() )) || (IS_CHAR_IN_ANY_CAR( sub_4023() )))
+    if ((IS_CHAR_ON_ANY_BIKE( CurrentPlayerChar() )) || (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
     {
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_4023(), ref uVar3 );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar3 );
         if (IS_VEH_DRIVEABLE( uVar3 ))
         {
-            SET_PLAYER_CONTROL( sub_4479(), 0 );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
             GET_CAR_SPEED( uVar3, ref fVar2 );
             while (fVar2 > 0.20000000)
             {
@@ -5430,7 +5451,7 @@ void sub_31798()
                     GET_CAR_SPEED( uVar3, ref fVar2 );
                 }
             }
-            SET_PLAYER_CONTROL( sub_4479(), 1 );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         }
     }
     return;
@@ -5445,7 +5466,7 @@ void sub_32220(unknown uParam0, unknown uParam1)
 
 void sub_32293(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
 {
-    if (sub_20741( sub_4023(), l_U501 ))
+    if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
     {
         if (NOT l_U546)
         {
@@ -5590,9 +5611,9 @@ void sub_33107(unknown uParam0)
 
 int sub_34170(unknown uParam0)
 {
-    if ((IS_PLAYER_FREE_AIMING_AT_CHAR( sub_4479(), uParam0 )) || ((IS_PLAYER_TARGETTING_CHAR( sub_4479(), uParam0 )) AND (IS_AUTO_AIMING_ON())))
+    if ((IS_PLAYER_FREE_AIMING_AT_CHAR( CurrentPlayerId(), uParam0 )) || ((IS_PLAYER_TARGETTING_CHAR( CurrentPlayerId(), uParam0 )) AND (IS_AUTO_AIMING_ON())))
     {
-        if (IS_CHAR_ARMED( sub_4023(), 4 ))
+        if (IS_CHAR_ARMED( CurrentPlayerChar(), 4 ))
         {
             PRINTSTRING( "Player was aiming at target" );
             return 1;
@@ -5608,13 +5629,15 @@ int sub_34170(unknown uParam0)
     return 0;
 }
 
-void sub_34468()
+// sub_34468
+// Seems to be setting up blips
+void SetupBlipsForPeds()
 {
     int iVar2;
 
     if (l_U605)
     {
-        if (NOT (IS_CHAR_IN_ANGLED_AREA_3D( sub_4023(), 795.71810000, -544.14810000, 6.40000000, 802.75520000, -538.29240000, 9.30000000, 8.00000000, 0 )))
+        if (NOT (IS_CHAR_IN_ANGLED_AREA_3D( CurrentPlayerChar(), 795.71810000, -544.14810000, 6.40000000, 802.75520000, -538.29240000, 9.30000000, 8.00000000, 0 )))
         {
             if (DOES_BLIP_EXIST( l_U498 ))
             {
@@ -5629,9 +5652,9 @@ void sub_34468()
                 REMOVE_BLIP( l_U499 );
             }
             sub_24777();
-            if (NOT (IS_CHAR_DEAD( l_U501 )))
+            if (NOT (IS_CHAR_DEAD( dimitriChar )))
             {
-                ADD_BLIP_FOR_CHAR( l_U501, ref l_U498 );
+                ADD_BLIP_FOR_CHAR( dimitriChar, ref l_U498 );
                 SET_BLIP_AS_FRIENDLY( l_U498, 1 );
             }
             PRINT_NOW( "GI_DONT_LEAVE", 7500, 0 );
@@ -5640,13 +5663,13 @@ void sub_34468()
     }
     else
     {
-        GET_INTERIOR_FROM_CHAR( sub_4023(), ref iVar2 );
+        GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref iVar2 );
         if (iVar2 == nil)
         {
             l_U604 = 0;
             sub_22606();
         }
-        else if (IS_CHAR_IN_ANGLED_AREA_3D( sub_4023(), 795.71810000, -544.14810000, 6.74261700, 802.75520000, -538.29240000, 9.32059200, 7.00000000, 0 ))
+        else if (IS_CHAR_IN_ANGLED_AREA_3D( CurrentPlayerChar(), 795.71810000, -544.14810000, 6.74261700, 802.75520000, -538.29240000, 9.32059200, 7.00000000, 0 ))
         {
             REMOVE_BLIP( l_U498 );
             CLEAR_SMALL_PRINTS();
@@ -5736,7 +5759,7 @@ int sub_35428(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
                 {
                     if (NOT (IS_CHAR_DEAD( iParam5 )))
                     {
-                        if (iParam0 == l_U501)
+                        if (iParam0 == dimitriChar)
                         {
                             if (iParam5 == l_U502)
                             {
@@ -5816,7 +5839,7 @@ int sub_43298(unknown uParam0)
 
     if (NOT (IS_CHAR_DEAD( uParam0 )))
     {
-        GET_PLAYER_GROUP( sub_4479(), ref uVar3 );
+        GET_PLAYER_GROUP( CurrentPlayerId(), ref uVar3 );
         if (IS_GROUP_MEMBER( uParam0, uVar3 ))
         {
             return 1;
@@ -5831,7 +5854,7 @@ void sub_43932(unknown uParam0)
 
     if (NOT (IS_CHAR_DEAD( uParam0 )))
     {
-        GET_PLAYER_GROUP( sub_4479(), ref uVar3 );
+        GET_PLAYER_GROUP( CurrentPlayerId(), ref uVar3 );
         SET_GROUP_MEMBER( sub_8595(), uParam0 );
         SET_CHAR_RELATIONSHIP( uParam0, 1, 0 );
     }
@@ -5840,9 +5863,9 @@ void sub_43932(unknown uParam0)
 
 void sub_44131(unknown uParam0)
 {
-    if (sub_20741( sub_4023(), l_U501 ))
+    if (AreCharsInCar( CurrentPlayerChar(), dimitriChar ))
     {
-        BLOCK_CHAR_AMBIENT_ANIMS( l_U501, 1 );
+        BLOCK_CHAR_AMBIENT_ANIMS( dimitriChar, 1 );
         if (NOT l_U546)
         {
             if (NOT l_U548)
@@ -5866,7 +5889,7 @@ void sub_44131(unknown uParam0)
                     }
                     else if (l_U607 == 1)
                     {
-                        if (sub_44346( l_U501, "F2_RINGS" ))
+                        if (sub_44346( dimitriChar, "F2_RINGS" ))
                         {
                             l_U546 = 1;
                         }
@@ -5913,7 +5936,7 @@ void sub_44131(unknown uParam0)
             {
                 if (l_U607 == 1)
                 {
-                    TASK_USE_MOBILE_PHONE( l_U501, 0 );
+                    TASK_USE_MOBILE_PHONE( dimitriChar, 0 );
                 }
                 l_U548 = 1;
                 l_U607++;
@@ -5925,7 +5948,7 @@ void sub_44131(unknown uParam0)
     {
         if (l_U607 == 1)
         {
-            TASK_USE_MOBILE_PHONE( l_U501, 0 );
+            TASK_USE_MOBILE_PHONE( dimitriChar, 0 );
             sub_4615( ref l_U593, 0 );
             sub_26262( "F2_HANGUP", ref l_U593, 6, 1 );
             l_U546 = 0;
@@ -5942,6 +5965,8 @@ void sub_44131(unknown uParam0)
     return;
 }
 
+// TODO Figure out what this function is doing, seems to be using the GET_MOBILE_PHONE_TASK_SUB_TASK I'm looking at
+// uParam1 seems to be "F2_RINGS" under "sub_44131()"
 int sub_44346(unknown uParam0, unknown uParam1)
 {
     int iVar4;
@@ -5967,9 +5992,9 @@ int sub_45177()
 {
     int iVar2;
 
-    if (NOT (IS_CHAR_INJURED( sub_4023() )))
+    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
     {
-        GET_KEY_FOR_CHAR_IN_ROOM( sub_4023(), ref iVar2 );
+        GET_KEY_FOR_CHAR_IN_ROOM( CurrentPlayerChar(), ref iVar2 );
         if (iVar2 == (GET_HASH_KEY( "GtaMloRoom01" )))
         {
             return 1;
@@ -5984,16 +6009,16 @@ int sub_45177()
 
 void sub_45287()
 {
-    if (NOT (IS_CHAR_DEAD( l_U501 )))
+    if (NOT (IS_CHAR_DEAD( dimitriChar )))
     {
-        if (NOT (IS_CHAR_INJURED( l_U501 )))
+        if (NOT (IS_CHAR_INJURED( dimitriChar )))
         {
-            if (IS_CHAR_IN_ANY_CAR( l_U501 ))
+            if (IS_CHAR_IN_ANY_CAR( dimitriChar ))
             {
-                STORE_CAR_CHAR_IS_IN_NO_SAVE( l_U501, ref l_U507 );
+                STORE_CAR_CHAR_IS_IN_NO_SAVE( dimitriChar, ref l_U507 );
                 if (NOT (IS_VEH_DRIVEABLE( l_U507 )))
                 {
-                    TASK_LEAVE_ANY_CAR( l_U501 );
+                    TASK_LEAVE_ANY_CAR( dimitriChar );
                 }
             }
         }
@@ -6007,7 +6032,7 @@ void sub_45403()
 
     if (l_U606)
     {
-        if (LOCATE_CHAR_ANY_MEANS_CHAR_2D( sub_4023(), l_U501, 20.00000000, 20.00000000, 0 ))
+        if (LOCATE_CHAR_ANY_MEANS_CHAR_2D( CurrentPlayerChar(), dimitriChar, 20.00000000, 20.00000000, 0 ))
         {
             if (DOES_BLIP_EXIST( l_U498 ))
             {
@@ -6034,8 +6059,8 @@ void sub_45403()
     }
     else
     {
-        GET_INTERIOR_FROM_CHAR( sub_4023(), ref iVar2 );
-        if ((NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_4023(), l_U501, 80.00000000, 80.00000000, 80.00000000, 0 ))) AND (iVar2 == nil))
+        GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref iVar2 );
+        if ((NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), dimitriChar, 80.00000000, 80.00000000, 80.00000000, 0 ))) AND (iVar2 == nil))
         {
             if (DOES_BLIP_EXIST( l_U497 ))
             {
@@ -6049,7 +6074,7 @@ void sub_45403()
             {
                 REMOVE_BLIP( l_U498 );
             }
-            ADD_BLIP_FOR_CHAR( l_U501, ref l_U498 );
+            ADD_BLIP_FOR_CHAR( dimitriChar, ref l_U498 );
             SET_BLIP_AS_FRIENDLY( l_U498, 1 );
             l_U606 = 1;
         }
@@ -6089,9 +6114,9 @@ void sub_47262(unknown uParam0)
                     WAIT( 0 );
                 }
             }
-            if (DOES_CHAR_EXIST( l_U501 ))
+            if (DOES_CHAR_EXIST( dimitriChar ))
             {
-                DELETE_CHAR( ref l_U501 );
+                DELETE_CHAR( ref dimitriChar );
             }
             DO_SCREEN_FADE_IN( 500 );
             bVar4 = true;
@@ -6101,7 +6126,7 @@ void sub_47262(unknown uParam0)
             switch (iVar6)
             {
                 case 0:
-                SET_PLAYER_CONTROL( sub_4479(), 0 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                 if (NOT IS_SCREEN_FADED_OUT())
                 {
                     DO_SCREEN_FADE_OUT( 500 );
@@ -6129,22 +6154,22 @@ void sub_47262(unknown uParam0)
                 SET_CAM_ACTIVE( uVar5, 1 );
                 SET_CAM_PROPAGATE( uVar5, 1 );
                 ACTIVATE_SCRIPTED_CAMS( 1, 1 );
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
-                    REMOVE_ALL_CHAR_WEAPONS( l_U501 );
-                    REMOVE_CHAR_FROM_GROUP( l_U501 );
-                    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_4023() );
-                    SET_CHAR_COORDINATES( sub_4023(), 1336.37800000, -846.91590000, 7.33810000 );
-                    SET_CHAR_HEADING( sub_4023(), 1 );
-                    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_4023(), 1 );
-                    TASK_LOOK_AT_CHAR( sub_4023(), l_U501, -2, 0 );
-                    CLEAR_CHAR_TASKS_IMMEDIATELY( l_U501 );
-                    SET_CHAR_COORDINATES( l_U501, 1336.84400000, -845.90420000, 7.33810000 );
-                    SET_CHAR_HEADING( l_U501, 142 );
-                    CLEAR_ROOM_FOR_CHAR( l_U501 );
-                    TASK_LOOK_AT_CHAR( l_U501, sub_4023(), -2, 0 );
-                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U501, sub_4023() );
-                    TASK_TURN_CHAR_TO_FACE_CHAR( sub_4023(), l_U501 );
+                    REMOVE_ALL_CHAR_WEAPONS( dimitriChar );
+                    REMOVE_CHAR_FROM_GROUP( dimitriChar );
+                    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                    SET_CHAR_COORDINATES( CurrentPlayerChar(), 1336.37800000, -846.91590000, 7.33810000 );
+                    SET_CHAR_HEADING( CurrentPlayerChar(), 1 );
+                    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 1 );
+                    TASK_LOOK_AT_CHAR( CurrentPlayerChar(), dimitriChar, -2, 0 );
+                    CLEAR_CHAR_TASKS_IMMEDIATELY( dimitriChar );
+                    SET_CHAR_COORDINATES( dimitriChar, 1336.84400000, -845.90420000, 7.33810000 );
+                    SET_CHAR_HEADING( dimitriChar, 142 );
+                    CLEAR_ROOM_FOR_CHAR( dimitriChar );
+                    TASK_LOOK_AT_CHAR( dimitriChar, CurrentPlayerChar(), -2, 0 );
+                    TASK_TURN_CHAR_TO_FACE_CHAR( dimitriChar, CurrentPlayerChar() );
+                    TASK_TURN_CHAR_TO_FACE_CHAR( CurrentPlayerChar(), dimitriChar );
                 }
                 WAIT( 500 );
                 DO_SCREEN_FADE_IN( 500 );
@@ -6163,10 +6188,10 @@ void sub_47262(unknown uParam0)
                 case 2:
                 if (TIMERA() > 5000)
                 {
-                    if (NOT (IS_CHAR_DEAD( l_U501 )))
+                    if (NOT (IS_CHAR_DEAD( dimitriChar )))
                     {
-                        TASK_CLEAR_LOOK_AT( l_U501 );
-                        TASK_FOLLOW_NAV_MESH_TO_COORD( l_U501, 1325.59000000, -846.73000000, 7.97000000, 2, 20000, 0.50000000 );
+                        TASK_CLEAR_LOOK_AT( dimitriChar );
+                        TASK_FOLLOW_NAV_MESH_TO_COORD( dimitriChar, 1325.59000000, -846.73000000, 7.97000000, 2, 20000, 0.50000000 );
                     }
                     SETTIMERA( 0 );
                     INCREMENT_INT_STAT_NO_MESSAGE( 373, 1 );
@@ -6174,13 +6199,13 @@ void sub_47262(unknown uParam0)
                 }
                 break;
                 case 3:
-                if (NOT (IS_CHAR_DEAD( l_U501 )))
+                if (NOT (IS_CHAR_DEAD( dimitriChar )))
                 {
-                    if ((TIMERA() > 14000) || (LOCATE_CHAR_ANY_MEANS_3D( l_U501, 1325.59000000, -846.73000000, 7.97000000, 7, 7, 7, 0 )))
+                    if ((TIMERA() > 14000) || (LOCATE_CHAR_ANY_MEANS_3D( dimitriChar, 1325.59000000, -846.73000000, 7.97000000, 7, 7, 7, 0 )))
                     {
-                        if (DOES_CHAR_EXIST( l_U501 ))
+                        if (DOES_CHAR_EXIST( dimitriChar ))
                         {
-                            DELETE_CHAR( ref l_U501 );
+                            DELETE_CHAR( ref dimitriChar );
                         }
                         bVar3 = true;
                     }
@@ -6196,11 +6221,11 @@ void sub_47262(unknown uParam0)
     sub_4615( ref l_U593, 0 );
     SET_WIDESCREEN_BORDERS( 0 );
     DISPLAY_HUD( 1 );
-    SET_PLAYER_CONTROL( sub_4479(), 1 );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     sub_4573();
-    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_4023(), 0 );
-    SET_CURRENT_CHAR_WEAPON( sub_4023(), 0, 0 );
-    SET_CAM_BEHIND_PED( sub_4023() );
+    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 0 );
+    SET_CURRENT_CHAR_WEAPON( CurrentPlayerChar(), 0, 0 );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     return;
 }
 

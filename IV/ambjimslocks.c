@@ -1,3 +1,6 @@
+// This script seems to auto lock a lot of doors in the game
+// https://gtamods.com/wiki/SET_STATE_OF_CLOSEST_DOOR_OF_TYPE
+
 void main()
 {
     l_U0 = 0;

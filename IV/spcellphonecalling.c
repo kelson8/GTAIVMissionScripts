@@ -860,11 +860,12 @@ void sub_2590(int iParam0, unknown uParam1, unknown uParam2)
 void sub_3398()
 {
     sub_1007( "\n == Mobile Phone Created" );
-    GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure._fU44 );
-    while (cellphone3Dstructure._fU44 == -1)
+    // _fU44 = phoneRenderId
+    GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure.phoneRenderId );
+    while (cellphone3Dstructure.phoneRenderId == -1)
     {
         WAIT( 0 );
-        GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure._fU44 );
+        GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure.phoneRenderId );
         sub_1007( "\n == Getting Render Target" );
     }
     sub_1007( "\n == Mobile Phone Loaded" );
@@ -1037,7 +1038,7 @@ void sub_5745()
 {
     if (cellphone3Dstructure._fU380)
     {
-        SET_TEXT_RENDER_ID( cellphone3Dstructure._fU44 );
+        SET_TEXT_RENDER_ID( cellphone3Dstructure.phoneRenderId );
     }
     if (l_U169)
     {
@@ -1295,7 +1296,7 @@ void sub_5794()
         l_U186[0] = {cellphone3Dstructure._fU208};
         StrCopy( ref l_U186[1], "", 16 );
         StrCopy( ref l_U186[2], "", 16 );
-        sub_6451( ref l_U112._fU0[0], ref l_U186, 0, ref l_U202, ref l_U201, ref l_U199, ref l_U200, ref l_U203._fU44, ref l_U203._fU60, ref l_U203._fU56, ref l_U203._fU52 );
+        sub_6451( ref l_U112._fU0[0], ref l_U186, 0, ref l_U202, ref l_U201, ref l_U199, ref l_U200, ref l_U203.phoneRenderId, ref l_U203._fU60, ref l_U203._fU56, ref l_U203._fU52 );
         break;
         case 1009:
         cellphone3Dstructure._fU424 = 0;
@@ -2091,7 +2092,7 @@ int sub_15317(int iParam0)
     {
         return 1;
     }
-    if (iParam0->_fU44)
+    if (iParam0->phoneRenderId)
     {
         if (HAS_STREAMED_TXD_LOADED( iParam0 + 0 ))
         {
@@ -2147,7 +2148,7 @@ void sub_16057(int iParam0, int iParam1, int iParam2)
     }
     else
     {
-        iVar5 = iParam0->_fU16[iParam0->_fU44];
+        iVar5 = iParam0->_fU16[iParam0->phoneRenderId];
     }
     if (iParam0->_fU52)
     {

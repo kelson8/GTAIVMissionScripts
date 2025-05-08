@@ -15,8 +15,13 @@ void main()
     l_U194 = 0;
     l_U195 = 0;
     l_U196 = 0;
-    l_U197 = 0;
+
+    // TODO Possibly incorrect
+    // l_U197
+    isFaustin2Running = 0;
+
     l_U198 = 0;
+
     l_U211 = "GtaMloRoom01";
     l_U212 = 0;
     l_U218 = 0;
@@ -54,11 +59,14 @@ void main()
     {
         sub_440();
     }
+
+    // isFaustin2Running Seems to be set to 1 if the faustin2 script is running
     if (((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "faustin2" )) > 0) AND (DOES_SCRIPT_EXIST( "faustin2" )))
     {
-        l_U197 = 1;
+        isFaustin2Running = 1;
     }
-    if (NOT l_U197)
+
+    if (NOT isFaustin2Running)
     {
         sub_1898();
     }
@@ -97,7 +105,7 @@ void main()
         l_U168[11] = 1;
         l_U168[12] = 1;
         l_U168[13] = 1;
-        if (l_U197)
+        if (isFaustin2Running)
         {
             g_U15654[18] = 0;
         }
@@ -112,9 +120,9 @@ void main()
         WAIT( 0 );
         if (((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "faustin2" )) > 0) AND (DOES_SCRIPT_EXIST( "faustin2" )))
         {
-            l_U197 = 1;
+            isFaustin2Running = 1;
         }
-        else if (l_U197)
+        else if (isFaustin2Running)
         {
             if (DOES_BLIP_EXIST( l_U146 ))
             {
@@ -125,7 +133,7 @@ void main()
                 sub_2426( 2, l_U126, "GUN_NUT", 0 );
             }
         }
-        l_U197 = 0;;
+        isFaustin2Running = 0;;
         if (IS_WORLD_POINT_WITHIN_BRAIN_ACTIVATION_RANGE())
         {
             switch (l_U381)
@@ -166,7 +174,7 @@ void main()
                 {
                     sub_3517();
                 }
-                else if (l_U197)
+                else if (isFaustin2Running)
                 {
                     sub_3517();
                 }
@@ -283,7 +291,7 @@ void main()
                         l_U381 = 10;
                     }
                 }
-                if ((g_U64661) AND (l_U197))
+                if ((gunShopUnlockFlag1) AND (isFaustin2Running))
                 {
                     g_U9334 = 0;
                     l_U168[3] = 1;
@@ -470,7 +478,7 @@ void main()
                         SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U126, 1 );
                         FREEZE_CHAR_POSITION( l_U126, 1 );
                     }
-                    if (NOT l_U197)
+                    if (NOT isFaustin2Running)
                     {
                         if (NOT g_U9334)
                         {
@@ -570,7 +578,7 @@ void main()
                         l_U381 = 10;;
                     }
                 }
-                else if (NOT l_U197)
+                else if (NOT isFaustin2Running)
                 {
                     if ((IS_WANTED_LEVEL_GREATER( sub_731(), 0 )) || (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U126, sub_983(), 0 )))
                     {
@@ -896,7 +904,7 @@ void sub_1898()
 
 void sub_2376()
 {
-    if (l_U197)
+    if (isFaustin2Running)
     {
         if (NOT l_U443)
         {
@@ -961,7 +969,7 @@ void sub_3517()
     TASK_STAND_GUARD( l_U126, l_U384[0]._fU0, l_U384[0]._fU4, l_U384[0]._fU8, l_U124 + 100.48830000, 0.50000000, 0, -1 );
     SET_ROOM_FOR_CHAR_BY_NAME( l_U126, l_U211 );
     TASK_START_SCENARIO_AT_POSITION( l_U126, "SCENARIO_STANDING", l_U384[0]._fU0, l_U384[0]._fU4, l_U384[0]._fU8, l_U124 + 100.48830000 );
-    if (l_U197)
+    if (isFaustin2Running)
     {
         sub_2426( 6, l_U126, "SHOPKEEPER", 0 );
         l_U443 = 1;
@@ -1064,7 +1072,7 @@ void sub_3517()
     }
     else if (l_U125 == 2)
     {
-        if ((NOT g_U64661) AND (l_U197))
+        if ((NOT gunShopUnlockFlag1) AND (isFaustin2Running))
         {
             SET_STATE_OF_CLOSEST_DOOR_OF_TYPE( 807349477, l_U202._fU0, l_U202._fU4, l_U202._fU8, 1, 0.00000000 );
         }
@@ -1779,7 +1787,7 @@ void sub_11995()
                 }
                 if (NOT g_U15654[60])
                 {
-                    if (l_U197)
+                    if (isFaustin2Running)
                     {
                         sub_7912( "F2_GUN", "F2AUD", ref l_U375, 4, 0 );
                         sub_2426( 2, l_U126, "GUN_NUT", 0 );
@@ -1839,7 +1847,7 @@ void sub_11995()
                 {
                     SET_CHAR_AMMO( sub_983(), l_U219[l_U212]._fU0, sub_21863( l_U219[l_U212]._fU0 ) );
                 }
-                if ((l_U197) AND (NOT g_U15654[60]))
+                if ((isFaustin2Running) AND (NOT g_U15654[60]))
                 {
                     SET_CHAR_AMMO( sub_983(), l_U219[l_U212]._fU0, l_U459 + 150 );
                     sub_7912( "F2_GUN", "F2AUD", ref l_U375, 3, 0 );

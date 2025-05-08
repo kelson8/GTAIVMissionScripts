@@ -26,14 +26,17 @@ void main()
     l_U496 = 0;
     l_U497 = 0;
     l_U498 = 0;
+
     PRINTSTRING( "--------------------------------------------\n" );
     PRINTSTRING( "CHOOSING PLAY MODE: " );
     PRINTSTRING( "RELEASE MODE" );
     PRINTNL();
     PRINTSTRING( "--------------------------------------------\n" );
+
     THIS_SCRIPT_SHOULD_BE_SAVED();
     THIS_SCRIPT_IS_SAFE_FOR_NETWORK_GAME();
     SET_THIS_SCRIPT_CAN_REMOVE_BLIPS_CREATED_BY_ANY_SCRIPT( 1 );
+
     sub_319( 1 );
     sub_23792();
     sub_26049();
@@ -45,6 +48,9 @@ void main()
     g_U2226 = 0;
     g_U2232 = 1;
     g_U21 = 0;
+
+    // Seems to be changed in main.c, packie3.c, gunlockup.c, gunlockupct.c, go_on_date.c, and faustin2.c, in use in taxi.c.
+    // Seems to set chars to spawn in on gunlokcupct.c
     g_U64663 = 1;
     g_U9202 = 0;
     SET_NO_RESPRAYS( 0 );
@@ -52,7 +58,7 @@ void main()
     ProtectedSet(g_U9939, 6);
     SET_MAX_WANTED_LEVEL( ProtectedGet(g_U9939) );
     iVar2 = 0;
-    sub_18682();
+    ToggleRoads();
     sub_41751();
     iVar3 = -1;
     sub_43542( iVar3 );
@@ -70,6 +76,7 @@ void main()
     {
         WAIT( 0 );
     }
+
     uVar5 = START_NEW_SCRIPT( "initial", 1024 );
     MARK_SCRIPT_AS_NO_LONGER_NEEDED( "initial" );
     WAIT( 0 );
@@ -77,14 +84,17 @@ void main()
     {
         WAIT( 0 );
     }
+
     if (bVar4)
     {
         sub_47139();
     }
+
     while (NOT sub_47188())
     {
         WAIT( 0 );
     }
+
     FORCE_LOADING_SCREEN( 0 );
     while (true)
     {
@@ -112,13 +122,17 @@ void main()
         {
             sub_261460();
             sub_261515();
+            // Getting game timer?
             sub_261670();
+            
             sub_264181();
-            sub_264335();
+            FlashMissionBlip();
             sub_264516();
         }
+
         sub_264693();
         sub_265082();
+
         if (GET_GFWL_IS_RETURNING_TO_SINGLE_PLAYER())
         {
             SET_GFWL_IS_RETURNING_TO_SINGLE_PLAYER( 0 );
@@ -146,36 +160,53 @@ void main()
     return;
 }
 
+// Seems to be the main reset to the game flow, judging by the "FLOW RESET" print string
 void sub_319(unknown uParam0)
 {
     PRINTSTRING( "********************************** FLOW RESET **********************************\n" );
     sub_421( uParam0 );
     sub_6493();
     sub_6569( uParam0 );
+
+    // This seems to be multiplying the players current money by -1?
     sub_7183();
+
+    // Does nothing
     sub_7316();
+
+    // Set max wanted level to 6, and clear wanted level
     sub_7333();
+
     sub_7397();
     sub_7426();
-    sub_7451();
+
+
+    DisablePayNSprays();
+
     sub_7476();
     sub_14733();
-    sub_14954();
-    sub_15019();
+
+    RemoveWeaponsFromPlayer();
+    
+    SetIslandsUnlockedStat();
     sub_15089();
+
     sub_15523();
-    sub_15669( uParam0 );
+    EnableSafehouses( uParam0 );
     sub_15753();
     sub_15826();
+
     sub_15847();
     sub_18198();
     sub_18257();
     sub_18312();
-    sub_18367();
+    SetRelationshipsForPeds();
+
     sub_18613();
-    sub_18634();
+    EnableMaxAmmoCap();
+
     sub_18659();
-    sub_18682();
+    ToggleRoads();
     sub_23405();
     return;
 }
@@ -1026,36 +1057,41 @@ void sub_7122()
     return;
 }
 
+// This seems to be multiplying the players current money by -1?
 void sub_7183()
 {
     int iVar2;
     int iVar3;
 
-    iVar2 = sub_7192();
+    iVar2 = CurrentPlayerMoney();
     iVar3 = iVar2 * -1;
-    sub_7277( iVar3 );
+    AddMoneyToPlayer( iVar3 );
     return;
 }
 
-void sub_7192()
+// sub_7192
+void CurrentPlayerMoney()
 {
     unknown Result;
 
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        STORE_SCORE( sub_7201(), ref Result );
+        STORE_SCORE( CurrentPlayerId(), ref Result );
     }
     return Result;
 }
 
-void sub_7201()
+// sub_7201
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
-void sub_7277(unknown uParam0)
+// sub_7277
+// void AddMoneyToPlayer(unknown uParam0)
+void AddMoneyToPlayer(float moneytoAdd)
 {
-    ADD_SCORE( sub_7201(), uParam0 );
+    ADD_SCORE( CurrentPlayerId(), moneytoAdd );
     return;
 }
 
@@ -1064,13 +1100,15 @@ void sub_7316()
     return;
 }
 
+// Set the players max wanted level to 6? And clears it
+// g_U9939 seems to be a wanted level global
 void sub_7333()
 {
     ProtectedSet(g_U9939, 6);
     SET_MAX_WANTED_LEVEL( ProtectedGet(g_U9939) );
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        CLEAR_WANTED_LEVEL( sub_7201() );
+        CLEAR_WANTED_LEVEL( CurrentPlayerId() );
     }
     return;
 }
@@ -1088,7 +1126,8 @@ void sub_7426()
     return;
 }
 
-void sub_7451()
+// sub_7451
+void DisablePayNSprays()
 {
     SET_NO_RESPRAYS( 1 );
     return;
@@ -1432,13 +1471,15 @@ void sub_14794(int iParam0, unknown uParam1)
     return;
 }
 
-void sub_14954()
+// sub_14954
+void RemoveWeaponsFromPlayer()
 {
-    REMOVE_ALL_CHAR_WEAPONS( sub_14963() );
+    REMOVE_ALL_CHAR_WEAPONS( CurrentPlayerChar() );
     return;
 }
 
-void sub_14963()
+// sub_14963
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -1446,18 +1487,19 @@ void sub_14963()
     return Result;
 }
 
-void sub_15019()
+// sub_15019
+void SetIslandsUnlockedStat()
 {
     int I;
-    int iVar3;
+    int currentIslandUnlocked;
 
     I = 0;
     for ( I = 0; I < 4; I++ )
     {
         g_U9932[I]._fU0 = 0;
     }
-    iVar3 = 0;
-    SET_INT_STAT( 363, iVar3 );
+    currentIslandUnlocked = 0;
+    SET_INT_STAT( 363, currentIslandUnlocked );
     return;
 }
 
@@ -1487,14 +1529,16 @@ void sub_15089()
     return;
 }
 
-void sub_15123(unknown uParam0)
+// Remove blip if exists
+// uParam0 = blipToRemove
+void sub_15123(unknown blipToRemove)
 {
-    if (NOT (DOES_BLIP_EXIST( (uParam0^) )))
+    if (NOT (DOES_BLIP_EXIST( (blipToRemove^) )))
     {
         return;
     }
-    REMOVE_BLIP( (uParam0^) );
-    (uParam0^) = nil;
+    REMOVE_BLIP( (blipToRemove^) );
+    (blipToRemove^) = nil;
     return;
 }
 
@@ -1543,7 +1587,9 @@ void sub_15523()
     return;
 }
 
-void sub_15669(boolean bParam0)
+// sub_15669
+// Enable safe houses
+voidEnableSafehouses(boolean bParam0)
 {
     int I;
 
@@ -1885,9 +1931,10 @@ void sub_18312()
     return;
 }
 
-void sub_18367()
+// sub_18367
+void SetRelationshipsForPeds()
 {
-    SET_PLAYER_CAN_BE_HASSLED_BY_GANGS( sub_7201(), 0 );
+    SET_PLAYER_CAN_BE_HASSLED_BY_GANGS( CurrentPlayerId(), 0 );
     ALLOW_GANG_RELATIONSHIPS_TO_BE_CHANGED_BY_NEXT_COMMAND( 1 );
     SET_RELATIONSHIP( 2, 4, 0 );
     ALLOW_GANG_RELATIONSHIPS_TO_BE_CHANGED_BY_NEXT_COMMAND( 1 );
@@ -1921,7 +1968,8 @@ void sub_18613()
     return;
 }
 
-void sub_18634()
+// sub_18634
+void EnableMaxAmmoCap()
 {
     ENABLE_MAX_AMMO_CAP( 1 );
     return;
@@ -1933,7 +1981,9 @@ void sub_18659()
     return;
 }
 
-void sub_18682()
+// sub_18682
+// Something to do with the bridges, possibly keeping the roads off for the peds and traffic until unlocked?
+void ToggleRoads()
 {
     int iVar2;
 
@@ -3398,9 +3448,9 @@ void sub_42808()
     iVar12 = -1;
     if (NOT bVar6)
     {
-        if (NOT (IS_CHAR_DEAD( sub_14963() )))
+        if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            GET_CHAR_COORDINATES( sub_14963(), ref uVar7._fU0, ref uVar7._fU4, ref uVar7._fU8 );
+            GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar7._fU0, ref uVar7._fU4, ref uVar7._fU8 );
             for ( I = 0; I < 5; I++ )
             {
                 if (g_U9943[I]._fU0)
@@ -3542,8 +3592,8 @@ void sub_43803(unknown uParam0)
     int iVar7;
     boolean bVar8;
 
-    iVar3 = GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 1 );
-    iVar4 = GET_CHAR_TEXTURE_VARIATION( sub_14963(), 1 );
+    iVar3 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 1 );
+    iVar4 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 1 );
     bVar8 = false;
     for ( I = 0; I < 45; I++ )
     {
@@ -3765,8 +3815,8 @@ void sub_44933(unknown uParam0)
     int iVar7;
     boolean bVar8;
 
-    iVar3 = GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 2 );
-    iVar4 = GET_CHAR_TEXTURE_VARIATION( sub_14963(), 2 );
+    iVar3 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 2 );
+    iVar4 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 2 );
     bVar8 = false;
     for ( I = 0; I < 26; I++ )
     {
@@ -3912,8 +3962,8 @@ void sub_45660(unknown uParam0)
     int iVar7;
     boolean bVar8;
 
-    iVar3 = GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 5 );
-    iVar4 = GET_CHAR_TEXTURE_VARIATION( sub_14963(), 5 );
+    iVar3 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 5 );
+    iVar4 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 5 );
     bVar8 = false;
     for ( I = 0; I < 20; I++ )
     {
@@ -4035,7 +4085,7 @@ void sub_46261(unknown uParam0)
     int iVar7;
     int iVar8;
 
-    GET_CHAR_PROP_INDEX( sub_14963(), 0, ref iVar3 );
+    GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, ref iVar3 );
     (uParam0^) = 4;
     bVar6 = false;
     for ( I = -1; I <= 4; I++ )
@@ -4052,8 +4102,8 @@ void sub_46261(unknown uParam0)
     }
     if ((uParam0^) == -1)
     {
-        iVar7 = GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 8 );
-        iVar8 = GET_CHAR_TEXTURE_VARIATION( sub_14963(), 8 );
+        iVar7 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 8 );
+        iVar8 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 8 );
         if ((iVar8 == 0) AND (iVar7 == 1))
         {
             (uParam0^) = 3;
@@ -4098,7 +4148,7 @@ void sub_46558(unknown uParam0)
     int iVar5;
     boolean bVar6;
 
-    GET_CHAR_PROP_INDEX( sub_14963(), 1, ref iVar3 );
+    GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 1, ref iVar3 );
     bVar6 = false;
     for ( I = -1; I <= 3; I++ )
     {
@@ -4148,9 +4198,9 @@ void sub_46929()
         return;
     }
     DO_SCREEN_FADE_IN( 1000 );
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        SET_PLAYER_CONTROL( sub_7201(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     }
     l_U493 = 1;
     return;
@@ -4196,7 +4246,7 @@ void sub_47308()
         g_U9931 = -1;
         g_U944 = 0;
         g_U945 = 0;
-        sub_18682();
+        ToggleRoads();
         g_U9172 = 0;
         g_U9173 = 0;
         g_U9178 = nil;
@@ -4645,14 +4695,14 @@ void sub_50406()
     unknown uVar4;
 
     bVar2 = false;
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
             if (NOT (g_U15936._fU24 == -1))
             {
                 uVar3 = g_U32697[g_U15936._fU24]._fU36;
-                if (IS_CHAR_IN_MODEL( sub_14963(), uVar3 ))
+                if (IS_CHAR_IN_MODEL( CurrentPlayerChar(), uVar3 ))
                 {
                     bVar2 = true;
                 }
@@ -4664,15 +4714,15 @@ void sub_50406()
     if (bVar2)
     {
         g_U15936._fU8 = 1;
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_14963(), ref g_U15936._fU32 );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref g_U15936._fU32 );
         g_U15936._fU24 = uVar4;
     }
     l_U30 = 0;
-    SET_PLAYER_CAN_DO_DRIVE_BY( sub_7201(), 0 );
+    SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 0 );
     sub_50584();
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        SET_PLAYER_CONTROL( sub_7201(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     }
     return;
 }
@@ -4686,20 +4736,20 @@ void sub_50584()
     uVar2 = nil;
     fVar3 = 0.00000000;
     bVar4 = false;
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return;
     }
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         l_U30 = 1;
-        SET_PLAYER_CAN_DO_DRIVE_BY( sub_7201(), 1 );
+        SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 1 );
         return;
     }
-    if (IS_CHAR_IN_ANY_POLICE_VEHICLE( sub_14963() ))
+    if (IS_CHAR_IN_ANY_POLICE_VEHICLE( CurrentPlayerChar() ))
     {
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_14963(), ref uVar2 );
-        if ((NOT (IS_CHAR_IN_MODEL( sub_14963(), -488123221 ))) AND (NOT (IS_CHAR_IN_MODEL( sub_14963(), 837858166 ))))
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar2 );
+        if ((NOT (IS_CHAR_IN_MODEL( CurrentPlayerChar(), -488123221 ))) AND (NOT (IS_CHAR_IN_MODEL( CurrentPlayerChar(), 837858166 ))))
         {
             GET_CAR_SPEED( uVar2, ref fVar3 );
             if (fVar3 < 0.40000000)
@@ -4734,14 +4784,14 @@ void sub_50584()
             return;
         }
         l_U30 = 1;
-        SET_PLAYER_CAN_DO_DRIVE_BY( sub_7201(), 1 );
+        SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 1 );
     }
     else if (NOT l_U30)
     {
         return;
     }
     l_U30 = 0;
-    SET_PLAYER_CAN_DO_DRIVE_BY( sub_7201(), 0 );;
+    SET_PLAYER_CAN_DO_DRIVE_BY( CurrentPlayerId(), 0 );;
     return;
 }
 
@@ -4794,9 +4844,9 @@ void sub_51514(boolean bParam0)
             g_U9173 = 0;
             g_U9178 = nil;
             sub_51601();
-            if (IS_PLAYER_PLAYING( sub_7201() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_7201(), 1 );
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 1 );
             }
         }
     }
@@ -7231,10 +7281,10 @@ void sub_74180(unknown uParam0)
         {
             if (DOES_CHAR_EXIST( g_U22274[uParam0]._fU500._fU184 ))
             {
-                if (NOT (IS_CHAR_DEAD( sub_14963() )))
+                if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
                 {
                     N_1363505769( g_U22274[uParam0]._fU500._fU184, ref uVar8._fU0, ref uVar8._fU4, ref uVar8._fU8 );
-                    GET_CHAR_COORDINATES( sub_14963(), ref uVar11._fU0, ref uVar11._fU4, ref uVar11._fU8 );
+                    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar11._fU0, ref uVar11._fU4, ref uVar11._fU8 );
                     fVar14 = 0.00000000;
                     GET_DISTANCE_BETWEEN_COORDS_3D( uVar8._fU0, uVar8._fU4, uVar8._fU8, uVar11._fU0, uVar11._fU4, uVar11._fU8, ref fVar14 );
                     if (fVar14 < 150.00000000)
@@ -7438,12 +7488,12 @@ int sub_75481(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_75108( "\n player is not playing" );
         return 0;
     }
-    if ((NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_14963() ))) AND (IS_CHAR_IN_ANY_CAR( sub_14963() )))
+    if ((NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))) AND (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
     {
         sub_75108( "\n player is in middle of getting in/out of a car" );
         return 0;
@@ -7579,7 +7629,7 @@ int sub_76053()
     unknown uVar3;
 
     bVar2 = false;
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_75108( "\n PHONE SCREEN CHECK - player is not playing." );
         return 0;
@@ -7599,11 +7649,11 @@ int sub_76053()
         sub_75108( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_7201() )))
+    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))
     {
-        if (NOT (IS_CHAR_IN_ANY_CAR( sub_14963() )))
+        if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
         {
-            GET_SCRIPT_TASK_STATUS( sub_14963(), 53, ref uVar3 );
+            GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 53, ref uVar3 );
             switch (uVar3)
             {
                 case 7:
@@ -7612,7 +7662,7 @@ int sub_76053()
                 return 0;
                 break;
                 default:
-                if (NOT (IS_CHAR_IN_WATER( sub_14963() )))
+                if (NOT (IS_CHAR_IN_WATER( CurrentPlayerChar() )))
                 {
                     bVar2 = true;
                 }
@@ -7630,7 +7680,7 @@ int sub_76053()
         sub_75108( "\n PHONE CHECK - CODE_WANTS_MOBILE_PHONE_REMOVED() is returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( sub_7201() )))
+    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() )))
     {
         sub_75108( "\n PHONE CHECK - IS_PLAYER_SCRIPT_CONTROL_ON is returning FALSE." );
         return 0;
@@ -8521,9 +8571,9 @@ int sub_84850()
     fVar5 = 70.00000000;
     Result = -1;
     fVar13 = 0.00000000;
-    if (NOT (IS_CHAR_DEAD( sub_14963() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_14963(), ref uVar7._fU0, ref uVar7._fU4, ref uVar7._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar7._fU0, ref uVar7._fU4, ref uVar7._fU8 );
         I = 0;
         for ( I = 0; I < 7; I++ )
         {
@@ -9190,14 +9240,14 @@ void sub_90472(unknown uParam0)
         return;
     }
     sub_89724( uParam0 );
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return;
     }
     uVar3 = g_U10981[uParam0]._fU292._fU28._fU0;
     uVar4 = g_U10981[uParam0]._fU292._fU28._fU4;
     uVar5 = g_U10981[uParam0]._fU292._fU40;
-    if (LOCATE_CHAR_ANY_MEANS_2D( sub_14963(), uVar3, uVar4, uVar5, uVar5, 0 ))
+    if (LOCATE_CHAR_ANY_MEANS_2D( CurrentPlayerChar(), uVar3, uVar4, uVar5, uVar5, 0 ))
     {
         return;
     }
@@ -10224,9 +10274,9 @@ int sub_96365()
     }
     array(ref iVar6, 5);
     array(ref fVar12, 5);
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        GET_CHAR_COORDINATES( sub_14963(), ref vVar20.x, ref vVar20.y, ref vVar20.z );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar20.x, ref vVar20.y, ref vVar20.z );
         iVar26 = GET_MAP_AREA_FROM_COORDS( vVar20 );
     }
     else
@@ -10647,9 +10697,9 @@ int sub_100689()
     }
     array(ref iVar6, 5);
     array(ref fVar12, 5);
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        GET_CHAR_COORDINATES( sub_14963(), ref vVar20.x, ref vVar20.y, ref vVar20.z );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar20.x, ref vVar20.y, ref vVar20.z );
         iVar26 = GET_MAP_AREA_FROM_COORDS( vVar20 );
     }
     else
@@ -11012,9 +11062,9 @@ int sub_104611(unknown uParam0)
     switch (uParam0)
     {
         case 0:
-        if (IS_PLAYER_PLAYING( sub_7201() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            if (IS_WANTED_LEVEL_GREATER( sub_7201(), 2 ))
+            if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 2 ))
             {
                 return 1;
             }
@@ -11202,7 +11252,7 @@ int sub_106637(unknown uParam0)
     {
         return 0;
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -11210,7 +11260,7 @@ int sub_106637(unknown uParam0)
     {
         return 0;
     }
-    if ((sub_85695()) || ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )) || (IS_THREAD_ACTIVE( g_U812 )))))))
+    if ((sub_85695()) || ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || (IS_THREAD_ACTIVE( g_U812 )))))))
     {
         return 0;
     }
@@ -12972,7 +13022,7 @@ int sub_120212(unknown uParam0, unknown uParam1, unknown uParam2)
 
 int sub_120468(unknown uParam0, unknown uParam1, unknown uParam2)
 {
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -12991,7 +13041,7 @@ int sub_120468(unknown uParam0, unknown uParam1, unknown uParam2)
 
 int sub_120660(unknown uParam0, unknown uParam1, unknown uParam2)
 {
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -13319,11 +13369,11 @@ void sub_124069(unknown uParam0)
 
 int sub_124712(unknown uParam0, unknown uParam1, unknown uParam2)
 {
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
-    if (IS_WANTED_LEVEL_GREATER( sub_7201(), 0 ))
+    if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 ))
     {
         sub_75373( ref g_U10981[uParam1]._fU92, ref g_U10981[uParam1]._fU76, 0 );
         sub_79389( ref g_U10981[uParam1]._fU92, ref g_U10981[uParam1]._fU76 );
@@ -15095,7 +15145,7 @@ int sub_147479(unknown uParam0, unknown uParam1)
     GET_GAME_TIMER( ref iVar4 );
     if (g_U22274[uParam0]._fU84 < iVar4)
     {
-        if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+        if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
             sub_147542( uParam0 );
             return 0;
@@ -15110,7 +15160,7 @@ int sub_147479(unknown uParam0, unknown uParam1)
             sub_147542( uParam0 );
             return 0;
         }
-        if ((sub_85695()) || ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )) || ((IS_THREAD_ACTIVE( g_U812 )) || ((g_U10978) || ((sub_124915( uParam0 )) || (NOT (g_U13391[uParam1]._fU80._fU0 == 0))))))))))
+        if ((sub_85695()) || ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || ((IS_THREAD_ACTIVE( g_U812 )) || ((g_U10978) || ((sub_124915( uParam0 )) || (NOT (g_U13391[uParam1]._fU80._fU0 == 0))))))))))
         {
             sub_147542( uParam0 );
             return 0;
@@ -15451,7 +15501,7 @@ int sub_148266()
     {
         return 0;
     }
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return 0;
     }
@@ -15521,7 +15571,7 @@ int sub_148266()
     {
         uVar2[I]._fU32 = 0;
     }
-    GET_CHAR_COORDINATES( sub_14963(), ref uVar139._fU0, ref uVar139._fU4, ref uVar139._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar139._fU0, ref uVar139._fU4, ref uVar139._fU8 );
     iVar142 = 0;
     fVar143 = 0.00000000;
     for ( I = 0; I < 15; I++ )
@@ -15793,7 +15843,7 @@ int sub_150457()
     {
         return 0;
     }
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return 0;
     }
@@ -15867,7 +15917,7 @@ int sub_150457()
     {
         uVar2[I]._fU32 = 0;
     }
-    GET_CHAR_COORDINATES( sub_14963(), ref uVar148._fU0, ref uVar148._fU4, ref uVar148._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar148._fU0, ref uVar148._fU4, ref uVar148._fU8 );
     iVar151 = 0;
     fVar152 = 0.00000000;
     for ( I = 0; I < 16; I++ )
@@ -18234,9 +18284,9 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
             case 144:
             if (g_U10981[uParam1]._fU32)
             {
-                if (IS_PLAYER_PLAYING( sub_7201() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    CLEAR_WANTED_LEVEL( sub_7201() );
+                    CLEAR_WANTED_LEVEL( CurrentPlayerId() );
                 }
                 sub_173764( "START SHOWCASE FAILGOTO" );
                 bVar6 = true;
@@ -18299,7 +18349,7 @@ void sub_173781()
     sub_173856();
     iVar2 = 1;
     sub_52551( iVar2 );
-    CLEAR_WANTED_LEVEL( sub_7201() );
+    CLEAR_WANTED_LEVEL( CurrentPlayerId() );
     SET_TIME_OF_DAY( 7, 0 );
     g_U15945 = -1;
     g_U9193 = 0;
@@ -18309,39 +18359,39 @@ void sub_173781()
     g_U9197 = 0;
     g_U9198 = 0;
     sub_174740();
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( sub_14963(), 1 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 1 )) == 0)))
+        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 1 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 1 )) == 0)))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_14963(), 1, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 1, 0, 0 );
         }
-        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( sub_14963(), 2 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 2 )) == 0)))
+        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 2 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 2 )) == 0)))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_14963(), 2, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 2, 0, 0 );
         }
-        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( sub_14963(), 5 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 5 )) == 0)))
+        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 5 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 5 )) == 0)))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_14963(), 5, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 5, 0, 0 );
         }
-        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( sub_14963(), 4 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 4 )) == 0)))
+        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 4 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 4 )) == 0)))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_14963(), 4, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 4, 0, 0 );
         }
-        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( sub_14963(), 3 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( sub_14963(), 3 )) == 0)))
+        if ((NOT ((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 3 )) == 0)) || (NOT ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 3 )) == 0)))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_14963(), 3, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 3, 0, 0 );
         }
         iVar3 = -1;
-        GET_CHAR_PROP_INDEX( sub_14963(), 0, ref iVar3 );
+        GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, ref iVar3 );
         if (NOT (iVar3 == -1))
         {
-            CLEAR_CHAR_PROP( sub_14963(), 0 );
+            CLEAR_CHAR_PROP( CurrentPlayerChar(), 0 );
         }
         iVar4 = -1;
-        GET_CHAR_PROP_INDEX( sub_14963(), 0, ref iVar4 );
+        GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, ref iVar4 );
         if (NOT (iVar4 == -1))
         {
-            CLEAR_CHAR_PROP( sub_14963(), 1 );
+            CLEAR_CHAR_PROP( CurrentPlayerChar(), 1 );
         }
     }
     sub_43788();
@@ -18352,11 +18402,11 @@ void sub_173790()
 {
     int iVar2;
 
-    IS_CHAR_DEAD( sub_14963() );
+    IS_CHAR_DEAD( CurrentPlayerChar() );
     iVar2 = 0;
-    STORE_SCORE( sub_7201(), ref iVar2 );
+    STORE_SCORE( CurrentPlayerId(), ref iVar2 );
     iVar2 *= -1;
-    ADD_SCORE( sub_7201(), iVar2 );
+    ADD_SCORE( CurrentPlayerId(), iVar2 );
     return;
 }
 
@@ -18946,12 +18996,12 @@ int sub_180917(unknown uParam0, int iParam1, unknown uParam2, unknown uParam3, i
             g_U15436[iParam1]._fU4 = 1;
             return 0;
         }
-        if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+        if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
             sub_181136( iParam1, 300000 );
             return 0;
         }
-        if ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )) || ((IS_THREAD_ACTIVE( g_U812 )) || (g_U10978))))))
+        if ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || ((IS_THREAD_ACTIVE( g_U812 )) || (g_U10978))))))
         {
             sub_181136( iParam1, 300000 );
             return 0;
@@ -19121,7 +19171,7 @@ int sub_181840(int iParam0, int iParam1, unknown uParam2, unknown uParam3, int i
             g_U15436[iParam1]._fU4 = 1;
             return 0;
         }
-        if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+        if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
             sub_181136( iParam1, iParam8 );
             return 0;
@@ -19134,7 +19184,7 @@ int sub_181840(int iParam0, int iParam1, unknown uParam2, unknown uParam3, int i
                 iVar18 = 1;
             }
         }
-        if ((g_U9371) || ((sub_85695()) || ((g_U33837) || ((iVar18) || ((sub_85448()) || ((IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )) || ((IS_THREAD_ACTIVE( g_U812 )) || (g_U10978))))))))
+        if ((g_U9371) || ((sub_85695()) || ((g_U33837) || ((iVar18) || ((sub_85448()) || ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || ((IS_THREAD_ACTIVE( g_U812 )) || (g_U10978))))))))
         {
             sub_181136( iParam1, iParam8 );
             return 0;
@@ -19385,11 +19435,11 @@ int sub_182876(int iParam0)
     {
         return 0;
     }
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return 1;
     }
-    bVar4 = IS_CHAR_IN_ANY_CAR( sub_14963() );
+    bVar4 = IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() );
     iVar5 = 0;
     if (bVar4)
     {
@@ -19449,11 +19499,11 @@ boolean sub_183076(unknown uParam0, int iParam1)
     float fVar11;
     int iVar12;
 
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return 0;
     }
-    GET_CHAR_COORDINATES( sub_14963(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
     Result = 0;
     if (sub_183136( uVar4, uParam0, ref Result ))
     {
@@ -19656,10 +19706,10 @@ int sub_184492()
     unknown uVar8;
     float fVar9;
 
-    bVar2 = IS_CHAR_DEAD( sub_14963() );
+    bVar2 = IS_CHAR_DEAD( CurrentPlayerChar() );
     if (NOT bVar2)
     {
-        GET_CHAR_COORDINATES( sub_14963(), ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar3._fU0, ref uVar3._fU4, ref uVar3._fU8 );
     }
     fVar9 = 0.00000000;
     if (NOT bVar2)
@@ -20354,7 +20404,7 @@ void sub_194104(unknown uParam0)
     sub_194139( uParam0 );
     sub_194189();
     sub_41765();
-    sub_18682();
+    ToggleRoads();
     sub_194245();
     return;
 }
@@ -21426,13 +21476,13 @@ void sub_203584(unknown uParam0)
 
 void sub_203649()
 {
-    SET_PLAYER_CAN_BE_HASSLED_BY_GANGS( sub_7201(), 1 );
+    SET_PLAYER_CAN_BE_HASSLED_BY_GANGS( CurrentPlayerId(), 1 );
     return;
 }
 
 void sub_203720()
 {
-    SET_PLAYER_CAN_BE_HASSLED_BY_GANGS( sub_7201(), 0 );
+    SET_PLAYER_CAN_BE_HASSLED_BY_GANGS( CurrentPlayerId(), 0 );
     return;
 }
 
@@ -21722,11 +21772,11 @@ int sub_206694(unknown uParam0)
 
 int sub_206994(unknown uParam0, unknown uParam1, unknown uParam2)
 {
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         return 1;
     }
-    if (HAS_CHAR_GOT_WEAPON( sub_14963(), uParam1 ))
+    if (HAS_CHAR_GOT_WEAPON( CurrentPlayerChar(), uParam1 ))
     {
         return 1;
     }
@@ -21736,7 +21786,7 @@ int sub_206994(unknown uParam0, unknown uParam1, unknown uParam2)
         REQUEST_MODEL( uParam0 );
         return 0;
     }
-    GIVE_WEAPON_TO_CHAR( sub_14963(), uParam1, uParam2, 0 );
+    GIVE_WEAPON_TO_CHAR( CurrentPlayerChar(), uParam1, uParam2, 0 );
     MARK_MODEL_AS_NO_LONGER_NEEDED( uParam0 );
     return 1;
 }
@@ -21971,7 +22021,7 @@ int sub_209788(unknown uParam0, int iParam1)
     {
         return 0;
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -21986,7 +22036,7 @@ int sub_209788(unknown uParam0, int iParam1)
     {
         return 0;
     }
-    if ((sub_85695()) || ((sub_85448()) || ((NOT IS_SCREEN_FADED_IN()) || ((IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )) || (IS_THREAD_ACTIVE( g_U812 ))))))
+    if ((sub_85695()) || ((sub_85448()) || ((NOT IS_SCREEN_FADED_IN()) || ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || (IS_THREAD_ACTIVE( g_U812 ))))))
     {
         return 0;
     }
@@ -22046,7 +22096,7 @@ int sub_210074(unknown uParam0)
     unknown uVar15;
     float fVar16;
 
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return 1;
     }
@@ -22080,7 +22130,7 @@ int sub_210074(unknown uParam0)
     {
         return 0;
     }
-    GET_CHAR_COORDINATES( sub_14963(), ref uVar13._fU0, ref uVar13._fU4, ref uVar13._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar13._fU0, ref uVar13._fU4, ref uVar13._fU8 );
     fVar16 = 0.00000000;
     GET_DISTANCE_BETWEEN_COORDS_3D( uVar13._fU0, uVar13._fU4, uVar13._fU8, uVar7._fU0, uVar7._fU4, uVar7._fU8, ref fVar16 );
     if (fVar16 < 200.00000000)
@@ -23658,14 +23708,14 @@ void sub_228000()
         if (iVar5 > g_U64895._fU32)
         {
             g_U64895._fU8 = 0;
-            if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+            if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
             {
                 sub_91953( ref g_U64895._fU16, 0, 30, 0 );
                 return;
             }
-            if (IS_WANTED_LEVEL_GREATER( sub_7201(), 0 ))
+            if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 ))
             {
-                CLEAR_WANTED_LEVEL( sub_7201() );
+                CLEAR_WANTED_LEVEL( CurrentPlayerId() );
                 sub_91953( ref g_U64895._fU16, 24, 0, 0 );
                 return;
             }
@@ -23723,21 +23773,21 @@ void sub_228000()
         sub_91953( ref g_U64895._fU16, 0, 30, 0 );
         return;
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_75373( ref g_U10981[iVar2]._fU92, ref g_U10981[iVar2]._fU76, 0 );
         sub_79389( ref g_U10981[iVar2]._fU92, ref g_U10981[iVar2]._fU76 );
         sub_91953( ref g_U64895._fU16, 0, 30, 0 );
         return;
     }
-    if (NOT (IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )))
+    if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
     {
         sub_75373( ref g_U10981[iVar2]._fU92, ref g_U10981[iVar2]._fU76, 0 );
         sub_79389( ref g_U10981[iVar2]._fU92, ref g_U10981[iVar2]._fU76 );
         sub_91953( ref g_U64895._fU16, 0, 30, 0 );
         return;
     }
-    if (IS_WANTED_LEVEL_GREATER( sub_7201(), 3 ))
+    if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 3 ))
     {
         sub_229160( "MF4_FM2", "MF4_FM4" );
         sub_91953( ref g_U64895._fU16, 0, 30, 0 );
@@ -25252,17 +25302,17 @@ void sub_243500()
     {
         if (sub_243532())
         {
-            if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+            if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
             {
                 g_U15936._fU16 = 0;
                 return;
             }
-            if (NOT (IS_PLAYER_CONTROL_ON( sub_7201() )))
+            if (NOT (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
             {
                 g_U15936._fU16 = 0;
                 return;
             }
-            if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_14963() )))
+            if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() )))
             {
                 g_U15936._fU16 = 0;
                 g_U15936._fU8 = 0;
@@ -25273,9 +25323,9 @@ void sub_243500()
                 g_U15936._fU16 = 0;
                 return;
             }
-            if (NOT (IS_CHAR_DEAD( sub_14963() )))
+            if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
             {
-                if (IS_CHAR_SHOOTING( sub_14963() ))
+                if (IS_CHAR_SHOOTING( CurrentPlayerChar() ))
                 {
                     g_U15936._fU16 = 0;
                 }
@@ -25298,9 +25348,9 @@ void sub_243500()
         {
             return;
         }
-        if (NOT (IS_CHAR_DEAD( sub_14963() )))
+        if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            if (IS_CHAR_SHOOTING( sub_14963() ))
+            if (IS_CHAR_SHOOTING( CurrentPlayerChar() ))
             {
                 return;
             }
@@ -25328,11 +25378,11 @@ void sub_243500()
         g_U15936._fU24 = -1;
     }
     g_U15936._fU0 = 0;
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         g_U15936._fU0 = 1;
     }
-    else if (NOT (IS_PLAYER_CONTROL_ON( sub_7201() )))
+    else if (NOT (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
     {
         g_U15936._fU0 = 1;
     }
@@ -25342,7 +25392,7 @@ void sub_243500()
     }
     if (NOT g_U15936._fU0)
     {
-        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_14963() )))
+        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() )))
         {
             g_U15936._fU0 = 1;
             g_U15936._fU8 = 0;
@@ -25369,7 +25419,7 @@ void sub_243500()
     }
     if (NOT g_U15936._fU8)
     {
-        if (IS_CHAR_SITTING_IN_ANY_CAR( sub_14963() ))
+        if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
         {
             g_U15936._fU12 = 0;
             sub_244946();
@@ -25388,9 +25438,9 @@ void sub_243500()
             return;
         }
     }
-    if (NOT (IS_CHAR_DEAD( sub_14963() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        if (NOT (IS_CHAR_SHOOTING( sub_14963() )))
+        if (NOT (IS_CHAR_SHOOTING( CurrentPlayerChar() )))
         {
             if ((NOT IS_SCREEN_FADING_IN()) AND ((NOT IS_SCREEN_FADING_OUT()) AND (NOT IS_SCREEN_FADED_OUT())))
             {
@@ -25440,14 +25490,14 @@ int sub_244002()
 
     I = 0;
     iVar3 = 0;
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
     for ( I = 0; I < g_U32824; I++ )
     {
         iVar3 = g_U32697[I]._fU36;
-        if (IS_CHAR_IN_MODEL( sub_14963(), iVar3 ))
+        if (IS_CHAR_IN_MODEL( CurrentPlayerChar(), iVar3 ))
         {
             if (sub_244093( I ))
             {
@@ -25549,9 +25599,9 @@ void sub_244946()
     for ( I = 0; I < g_U32824; I++ )
     {
         iVar3 = g_U32697[I]._fU36;
-        if (IS_CHAR_IN_MODEL( sub_14963(), iVar3 ))
+        if (IS_CHAR_IN_MODEL( CurrentPlayerChar(), iVar3 ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_14963(), ref g_U15936._fU32 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref g_U15936._fU32 );
             if (sub_244130( I ))
             {
                 if (NOT g_U15936._fU8)
@@ -25587,7 +25637,7 @@ void sub_245354(unknown uParam0, boolean bParam1)
     boolean bVar10;
 
     sub_245367( uParam0, bParam1 );
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return;
     }
@@ -25622,7 +25672,7 @@ void sub_245354(unknown uParam0, boolean bParam1)
             uVar7 = sub_48070( uParam0, iVar5 );
             uVar8 = g_U26758[uVar7]._fU16;
             fVar9 = g_U9387[uVar8]._fU0._fU8 + 2.00000000;
-            LOCATE_CHAR_ON_FOOT_3D( sub_14963(), g_U9387[uVar8]._fU0._fU0, g_U9387[uVar8]._fU0._fU4, fVar9, 1.60000000, 1.60000000, 2.00000000, 1 );
+            LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), g_U9387[uVar8]._fU0._fU0, g_U9387[uVar8]._fU0._fU4, fVar9, 1.60000000, 1.60000000, 2.00000000, 1 );
         }
     }
     if (g_U10980)
@@ -25637,7 +25687,7 @@ void sub_245354(unknown uParam0, boolean bParam1)
     {
         return;
     }
-    if (NOT (CAN_PLAYER_START_MISSION( sub_7201() )))
+    if (NOT (CAN_PLAYER_START_MISSION( CurrentPlayerId() )))
     {
         return;
     }
@@ -25762,7 +25812,7 @@ int sub_245867(int iParam0, boolean bParam1)
     bVar7 = false;
     if (g_U9387[uVar6]._fU16)
     {
-        if (LOCATE_CHAR_ON_FOOT_3D( sub_14963(), g_U9387[uVar6]._fU0._fU0, g_U9387[uVar6]._fU0._fU4, g_U9387[uVar6]._fU0._fU8, 1.60000000, 1.60000000, 2.00000000, 0 ))
+        if (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), g_U9387[uVar6]._fU0._fU0, g_U9387[uVar6]._fU0._fU4, g_U9387[uVar6]._fU0._fU8, 1.60000000, 1.60000000, 2.00000000, 0 ))
         {
             bVar7 = true;
         }
@@ -25772,7 +25822,7 @@ int sub_245867(int iParam0, boolean bParam1)
     {
         if (g_U9387[uVar6]._fU20)
         {
-            if (LOCATE_CHAR_IN_CAR_3D( sub_14963(), g_U9387[uVar6]._fU0._fU0, g_U9387[uVar6]._fU0._fU4, g_U9387[uVar6]._fU0._fU8, 2.50000000, 2.50000000, 2.00000000, 0 ))
+            if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), g_U9387[uVar6]._fU0._fU0, g_U9387[uVar6]._fU0._fU4, g_U9387[uVar6]._fU0._fU8, 2.50000000, 2.50000000, 2.00000000, 0 ))
             {
                 bVar7 = true;
             }
@@ -25796,7 +25846,7 @@ int sub_245867(int iParam0, boolean bParam1)
     }
     if (NOT bVar9)
     {
-        if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+        if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
             return 0;
         }
@@ -25856,7 +25906,7 @@ int sub_245867(int iParam0, boolean bParam1)
             g_U13391[iParam0]._fU0._fU0 = 3;
             sub_247844();
         }
-        CLEAR_WANTED_LEVEL( sub_7201() );
+        CLEAR_WANTED_LEVEL( CurrentPlayerId() );
     }
     sub_47494( iParam0 );
     sub_247959( iParam0 );
@@ -25892,9 +25942,9 @@ int sub_246316(boolean bParam0, boolean bParam1)
     }
     if (bParam1)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_14963(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_CAR_UPRIGHT_VALUE( uVar4, ref fVar6 );
@@ -25907,31 +25957,31 @@ int sub_246316(boolean bParam0, boolean bParam1)
     }
     if (bParam0)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_14963(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_DRIVER_OF_CAR( uVar4, ref iVar5 );
-                if (NOT (iVar5 == sub_14963()))
+                if (NOT (iVar5 == CurrentPlayerChar()))
                 {
                     return 0;
                 }
             }
         }
     }
-    if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_14963() )))
+        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() )))
         {
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( sub_7201() )))
+    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( CurrentPlayerId() )))
     {
         return 0;
     }
-    if (NOT (CAN_PLAYER_START_MISSION( sub_7201() )))
+    if (NOT (CAN_PLAYER_START_MISSION( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -26015,18 +26065,18 @@ void sub_247844()
 {
     int iVar2;
 
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return;
     }
     iVar2 = 0;
-    GET_CHAR_HEALTH( sub_14963(), ref iVar2 );
+    GET_CHAR_HEALTH( CurrentPlayerChar(), ref iVar2 );
     if (iVar2 >= 150)
     {
         return;
     }
-    SET_CHAR_HEALTH( sub_14963(), 150 );
-    RESET_VISIBLE_PED_DAMAGE( sub_14963() );
+    SET_CHAR_HEALTH( CurrentPlayerChar(), 150 );
+    RESET_VISIBLE_PED_DAMAGE( CurrentPlayerChar() );
     return;
 }
 
@@ -26120,7 +26170,7 @@ int sub_248339(int iParam0, boolean bParam1, unknown uParam2, boolean bParam3)
     if (bVar6)
     {
         g_U9893._fU24 = 0;
-        SET_PLAYER_CONTROL( sub_7201(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         sub_247844();
         if (g_U9893._fU36)
         {
@@ -26450,9 +26500,9 @@ void sub_250297()
     switch (l_U8)
     {
         case 1:
-        if (NOT (IS_CHAR_DEAD( sub_14963() )))
+        if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            GET_CHAR_SPEED( sub_14963(), ref fVar4 );
+            GET_CHAR_SPEED( CurrentPlayerChar(), ref fVar4 );
             if (NOT l_U23)
             {
                 if (fVar4 < 1.00000000)
@@ -26532,9 +26582,9 @@ void sub_250297()
         }
         if (l_U29)
         {
-            if (IS_PLAYER_PLAYING( sub_7201() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                CLEAR_CHAR_TASKS( sub_14963() );
+                CLEAR_CHAR_TASKS( CurrentPlayerChar() );
             }
             if (DOES_VEHICLE_EXIST( l_U9 ))
             {
@@ -26595,16 +26645,16 @@ void sub_250297()
         }
         if (l_U29)
         {
-            if (IS_PLAYER_PLAYING( sub_7201() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_14963() );
+                    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
                 }
                 else
                 {
-                    SET_PLAYER_CONTROL( sub_7201(), 0 );
-                    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_14963() );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+                    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
                 }
             }
             if (DOES_VEHICLE_EXIST( l_U9 ))
@@ -26617,13 +26667,13 @@ void sub_250297()
             SET_WIDESCREEN_BORDERS( 0 );
             l_U8 = 4;
             sub_51601();
-            if (NOT (IS_CHAR_DEAD( sub_14963() )))
+            if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
             {
-                if (IS_CHAR_ON_FIRE( sub_14963() ))
+                if (IS_CHAR_ON_FIRE( CurrentPlayerChar() ))
                 {
-                    EXTINGUISH_CHAR_FIRE( sub_14963() );
+                    EXTINGUISH_CHAR_FIRE( CurrentPlayerChar() );
                 }
-                SET_CHAR_PROOFS( sub_14963(), 0, 0, 0, 0, 0 );
+                SET_CHAR_PROOFS( CurrentPlayerChar(), 0, 0, 0, 0, 0 );
             }
             sub_251231();
         }
@@ -26663,7 +26713,7 @@ void sub_251763()
 {
     int iVar2;
 
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         l_U8 = 7;
         return;
@@ -26678,9 +26728,9 @@ void sub_251763()
     l_U22 = (iVar2 + 500) + 500;
     l_U8 = 6;
     sub_6591();
-    if (NOT (IS_CHAR_DEAD( sub_14963() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        SET_CHAR_PROOFS( sub_14963(), 1, 1, 1, 1, 1 );
+        SET_CHAR_PROOFS( CurrentPlayerChar(), 1, 1, 1, 1, 1 );
     }
     return;
 }
@@ -26703,11 +26753,11 @@ int sub_252083(unknown uParam0)
 
 void sub_252127(unknown uParam0)
 {
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            SET_PLAYER_CONTROL( sub_7201(), 0 );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
         }
     }
     switch (uParam0)
@@ -26832,14 +26882,14 @@ void sub_252953()
 {
     int iVar2;
 
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         l_U8 = 7;
         g_U9200 = 0;
         return;
     }
-    SET_PLAYER_CONTROL( sub_7201(), 0 );
-    CLEAR_CHAR_TASKS( sub_14963() );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
     DO_SCREEN_FADE_OUT( 500 );
     sub_250930();
     iVar2 = 0;
@@ -27203,9 +27253,9 @@ void sub_254509(int iParam0, boolean bParam1)
                 sub_43542( uVar8 );
                 g_U9931 = uVar8;
                 sub_255799( iParam0 );
-                if (IS_PLAYER_PLAYING( sub_7201() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    STOP_PED_SPEAKING( sub_14963(), 1 );
+                    STOP_PED_SPEAKING( CurrentPlayerChar(), 1 );
                 }
                 if (iVar4 == 0)
                 {
@@ -27362,11 +27412,11 @@ void sub_256525()
     }
     if (g_U9940)
     {
-        if (IS_PLAYER_PLAYING( sub_7201() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
             if (iVar2 > g_U9941)
             {
-                if (NOT (IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )))
+                if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                 {
                     g_U9940 = 0;
                 }
@@ -27399,11 +27449,11 @@ void sub_256525()
     {
         SET_MAX_WANTED_LEVEL( ProtectedGet(g_U9939) );
     }
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if (IS_WANTED_LEVEL_GREATER( sub_7201(), ProtectedGet(g_U9939) ))
+        if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), ProtectedGet(g_U9939) ))
         {
-            ALTER_WANTED_LEVEL( sub_7201(), ProtectedGet(g_U9939) );
+            ALTER_WANTED_LEVEL( CurrentPlayerId(), ProtectedGet(g_U9939) );
         }
     }
     return;
@@ -27418,11 +27468,11 @@ void sub_256856()
     int iVar6;
     int iVar7;
 
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return;
     }
-    GET_CHAR_COORDINATES( sub_14963(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
     iVar5 = GET_MAP_AREA_FROM_COORDS( uVar2 );
     iVar6 = 0;
     if (l_U497 > l_U495)
@@ -27431,11 +27481,11 @@ void sub_256856()
         iVar6 = GET_INT_STAT( 363 );
         if ((g_U9938) AND ((NOT (iVar5 >= 4)) AND (iVar5 > iVar6)))
         {
-            if (NOT (IS_WANTED_LEVEL_GREATER( sub_7201(), 5 )))
+            if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 5 )))
             {
                 SET_MAX_WANTED_LEVEL( 6 );
-                ALTER_WANTED_LEVEL( sub_7201(), 6 );
-                APPLY_WANTED_LEVEL_CHANGE_NOW( sub_7201() );
+                ALTER_WANTED_LEVEL( CurrentPlayerId(), 6 );
+                APPLY_WANTED_LEVEL_CHANGE_NOW( CurrentPlayerId() );
                 g_U9940 = 1;
                 iVar7 = 0;
                 GET_GAME_TIMER( ref iVar7 );
@@ -27469,12 +27519,12 @@ void sub_257140()
     }
     iVar2 = 0;
     GET_GAME_TIMER( ref iVar2 );
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         sub_6311();
         return;
     }
-    if (IS_CHAR_SHOOTING( sub_14963() ))
+    if (IS_CHAR_SHOOTING( CurrentPlayerChar() ))
     {
         if (NOT g_U9380._fU4)
         {
@@ -27514,16 +27564,16 @@ void sub_257140()
         sub_6311();
         return;
     }
-    if (IS_WANTED_LEVEL_GREATER( sub_7201(), 0 ))
+    if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 ))
     {
-        if (IS_WANTED_LEVEL_GREATER( sub_7201(), 1 ))
+        if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 1 ))
         {
             sub_6311();
             return;
         }
         if (g_U9380._fU8)
         {
-            CLEAR_WANTED_LEVEL( sub_7201() );
+            CLEAR_WANTED_LEVEL( CurrentPlayerId() );
             return;
         }
     }
@@ -27691,7 +27741,7 @@ int sub_258147(unknown uParam0)
 {
     int iVar3;
 
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -27810,11 +27860,11 @@ int sub_258646(unknown uParam0, unknown uParam1)
     iVar4 = uParam0;
     if (iVar4 == 42)
     {
-        if (NOT (IS_CHAR_DEAD( sub_14963() )))
+        if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
         {
-            if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+            if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
             {
-                if ((IS_CHAR_IN_MODEL( sub_14963(), -276900515 )) || (IS_CHAR_IN_MODEL( sub_14963(), -1932515764 )))
+                if ((IS_CHAR_IN_MODEL( CurrentPlayerChar(), -276900515 )) || (IS_CHAR_IN_MODEL( CurrentPlayerChar(), -1932515764 )))
                 {
                     (uParam1^) = 1;
                     return 1;
@@ -27919,11 +27969,11 @@ void sub_259217()
                     }
                 }
             }
-            else if (NOT (IS_CHAR_DEAD( sub_14963() )))
+            else if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
             {
-                if (LOCATE_CHAR_ANY_MEANS_3D( sub_14963(), g_U10324[l_U39]._fU0._fU0, g_U10324[l_U39]._fU0._fU4, g_U10324[l_U39]._fU0._fU8, 15.00000000, 15.00000000, 7.00000000, 0 ))
+                if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), g_U10324[l_U39]._fU0._fU0, g_U10324[l_U39]._fU0._fU4, g_U10324[l_U39]._fU0._fU8, 15.00000000, 15.00000000, 7.00000000, 0 ))
                 {
-                    GET_INTERIOR_FROM_CHAR( sub_14963(), ref iVar4 );
+                    GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref iVar4 );
                     if ((sub_260106( l_U39 )) || (NOT (iVar4 == nil)))
                     {
                         if (sub_260452( l_U39 ))
@@ -28049,7 +28099,7 @@ int sub_260106(unknown uParam0)
         {
             fVar9 = 5.00000000;
         }
-        if (LOCATE_CHAR_ON_FOOT_3D( sub_14963(), g_U10324[uParam0]._fU0._fU0, g_U10324[uParam0]._fU0._fU4, g_U10324[uParam0]._fU0._fU8, fVar9, fVar9, 5.00000000, 0 ))
+        if (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), g_U10324[uParam0]._fU0._fU0, g_U10324[uParam0]._fU0._fU4, g_U10324[uParam0]._fU0._fU8, fVar9, fVar9, 5.00000000, 0 ))
         {
             return 1;
         }
@@ -28062,7 +28112,7 @@ int sub_260106(unknown uParam0)
         {
             fVar9 = 10.00000000;
         }
-        if (LOCATE_CHAR_ANY_MEANS_3D( sub_14963(), g_U10324[uParam0]._fU0._fU0, g_U10324[uParam0]._fU0._fU4, g_U10324[uParam0]._fU0._fU8, fVar9, fVar9, 5.00000000, 0 ))
+        if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), g_U10324[uParam0]._fU0._fU0, g_U10324[uParam0]._fU0._fU4, g_U10324[uParam0]._fU0._fU8, fVar9, fVar9, 5.00000000, 0 ))
         {
             return 1;
         }
@@ -28177,11 +28227,11 @@ void sub_260801()
         sub_6374();
         return;
     }
-    if (IS_CHAR_DEAD( sub_14963() ))
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
         return;
     }
-    GET_CHAR_COORDINATES( sub_14963(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
     if (IS_CHAR_INJURED( g_U64542._fU4 ))
     {
         N_1363505769( g_U64542._fU4, ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
@@ -28320,23 +28370,27 @@ void sub_261670()
     I = 0;
     for ( I = 0; I < 13; I++ )
     {
+        // Seems to be getting the game timer
         sub_261696( I );
     }
     return;
 }
 
+// Seems to be getting the game timer
 void sub_261696(unknown uParam0)
 {
-    int iVar3;
+    int currentGameTimer;
     int iVar4;
 
-    iVar3 = 0;
-    GET_GAME_TIMER( ref iVar3 );
+    currentGameTimer = 0;
+    GET_GAME_TIMER( ref currentGameTimer );
     iVar4 = 0;
+
     if (NOT g_U15807[uParam0]._fU0)
     {
         return;
     }
+
     if (g_U15807[uParam0]._fU12)
     {
         if (sub_80901())
@@ -28349,7 +28403,7 @@ void sub_261696(unknown uParam0)
             case 2:
             g_U15807[uParam0]._fU12 = 0;
             sub_261810( uParam0 );
-            g_U15807[uParam0]._fU4 = g_U15807[uParam0]._fU8 + iVar3;
+            g_U15807[uParam0]._fU4 = g_U15807[uParam0]._fU8 + currentGameTimer;
             return;
         }
         g_U15807[uParam0]._fU12 = 0;
@@ -28360,41 +28414,48 @@ void sub_261696(unknown uParam0)
         sub_87630( g_U15873._fU0, 0 );
         return;
     }
+
     if (g_U10978)
     {
-        iVar4 = g_U15807[uParam0]._fU4 - iVar3;
+        iVar4 = g_U15807[uParam0]._fU4 - currentGameTimer;
         if (iVar4 < 20000)
         {
-            g_U15807[uParam0]._fU4 = 30000 + iVar3;
+            g_U15807[uParam0]._fU4 = 30000 + currentGameTimer;
         }
         return;
     }
-    if (g_U15807[uParam0]._fU4 > iVar3)
+
+    if (g_U15807[uParam0]._fU4 > currentGameTimer)
     {
         return;
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
-        g_U15807[uParam0]._fU4 = 30000 + iVar3;
+        g_U15807[uParam0]._fU4 = 30000 + currentGameTimer;
         return;
     }
-    if ((sub_85695()) || ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( sub_7201(), 0 )) || (IS_THREAD_ACTIVE( g_U812 )))))))
+
+    if ((sub_85695()) || ((sub_86171( 0 )) || ((sub_85448()) || ((sub_85644()) || ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || (IS_THREAD_ACTIVE( g_U812 )))))))
     {
-        g_U15807[uParam0]._fU4 = 30000 + iVar3;
+        g_U15807[uParam0]._fU4 = 30000 + currentGameTimer;
         return;
     }
+
     if (sub_262225( uParam0 ))
     {
-        g_U15807[uParam0]._fU4 = 30000 + iVar3;
+        g_U15807[uParam0]._fU4 = 30000 + currentGameTimer;
         return;
     }
+
     if (sub_262333( uParam0, ref g_U15873._fU0 ))
     {
         g_U15807[uParam0]._fU12 = 1;
         sub_52331();
         return;
     }
-    g_U15807[uParam0]._fU4 = 30000 + iVar3;
+
+    g_U15807[uParam0]._fU4 = 30000 + currentGameTimer;
     return;
 }
 
@@ -28617,13 +28678,15 @@ void sub_264181()
     return;
 }
 
-void sub_264335()
+// sub_264335
+// Flash blip
+void FlashMissionBlip()
 {
-    int iVar2;
+    int currentGameTimer;
     int I;
 
-    iVar2 = 0;
-    GET_GAME_TIMER( ref iVar2 );
+    currentGameTimer = 0;
+    GET_GAME_TIMER( ref currentGameTimer );
     I = 0;
     for ( I = 0; I < 59; I++ )
     {
@@ -28631,7 +28694,7 @@ void sub_264335()
         {
             if (NOT (g_U10133._fU520[I] == 0))
             {
-                if (g_U10133._fU520[I] < iVar2)
+                if (g_U10133._fU520[I] < currentGameTimer)
                 {
                     FLASH_BLIP( g_U10324[I]._fU32, 0 );
                     g_U10133._fU520[I] = 0;
@@ -28675,6 +28738,8 @@ void sub_264516()
     return;
 }
 
+// Trigger mission complete audio
+// Set player control to enabled
 void sub_264693()
 {
     if (CAN_START_MISSION_PASSED_TUNE())
@@ -28697,9 +28762,9 @@ void sub_264693()
         if (g_U9914._fU16)
         {
             g_U9914._fU16 = 0;
-            if (IS_PLAYER_PLAYING( sub_7201() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                SET_PLAYER_CONTROL( sub_7201(), 1 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
             }
         }
         return;
@@ -28737,7 +28802,7 @@ void sub_264693()
             return;
         }
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         return;
     }
@@ -28822,7 +28887,7 @@ void sub_265082()
             bVar6 = true;
         }
         bVar7 = false;
-        if (NOT (IS_PLAYER_PLAYING( sub_7201() )))
+        if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
             if ((NOT bVar6) AND (NOT bVar5))
             {
@@ -28883,7 +28948,7 @@ void sub_265082()
         }
         SET_TEXT_DRAW_BEFORE_FADE( 0 );
         PRINT_BIG( ref g_U9893._fU52, 5000, 2 );
-        SET_PLAYER_CONTROL( sub_7201(), 0 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
         DO_SCREEN_FADE_OUT( 500 );
         g_U9893._fU36 = 1;
         g_U9893._fU16 = 1;
@@ -28895,8 +28960,8 @@ void sub_265082()
             return;
         }
     }
-    CLEAR_WANTED_LEVEL( sub_7201() );
-    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_14963() );
+    CLEAR_WANTED_LEVEL( CurrentPlayerId() );
+    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
     sub_120095();
     uVar11 = sub_48070( g_U9893._fU40, g_U9893._fU44 );
     uVar12 = g_U26758[uVar11]._fU12;
@@ -28926,7 +28991,7 @@ void sub_265082()
         break;
         default:
         DO_SCREEN_FADE_IN( 500 );
-        SET_PLAYER_CONTROL( sub_7201(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         sub_23915( "main.sc - Replay requested on script that doesn't start at a start_point" );
         return;
     }
@@ -29457,20 +29522,20 @@ void sub_267618(unknown uParam0)
 
 void sub_269745(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
 {
-    if (IS_PLAYER_PLAYING( sub_7201() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (NOT (sub_269777( uParam0, uParam1, uParam2 )))
         {
-            if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+            if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
             {
-                WARP_CHAR_FROM_CAR_TO_COORD( sub_14963(), uParam0, uParam1, uParam2 );
+                WARP_CHAR_FROM_CAR_TO_COORD( CurrentPlayerChar(), uParam0, uParam1, uParam2 );
             }
             else
             {
-                SET_CHAR_COORDINATES( sub_14963(), uParam0, uParam1, uParam2 );
+                SET_CHAR_COORDINATES( CurrentPlayerChar(), uParam0, uParam1, uParam2 );
             }
         }
-        SET_CHAR_HEADING( sub_14963(), uParam3 );
+        SET_CHAR_HEADING( CurrentPlayerChar(), uParam3 );
         SET_GAME_CAM_HEADING( 0.00000000 );
     }
     return;
@@ -29514,15 +29579,15 @@ int sub_269829(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     uVar9 = GET_HASH_KEY( uParam6 );
     GET_INTERIOR_AT_COORDS( uParam0._fU0, uParam0._fU4, uParam0._fU8, ref uVar10 );
     LOAD_SCENE_FOR_ROOM_BY_KEY( uVar10, uVar9 );
-    if (IS_CHAR_IN_ANY_CAR( sub_14963() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        WARP_CHAR_FROM_CAR_TO_COORD( sub_14963(), uParam0._fU0, uParam0._fU4, uParam0._fU8 );
+        WARP_CHAR_FROM_CAR_TO_COORD( CurrentPlayerChar(), uParam0._fU0, uParam0._fU4, uParam0._fU8 );
     }
     else
     {
-        SET_CHAR_COORDINATES( sub_14963(), uParam0._fU0, uParam0._fU4, uParam0._fU8 );
+        SET_CHAR_COORDINATES( CurrentPlayerChar(), uParam0._fU0, uParam0._fU4, uParam0._fU8 );
     }
-    SET_ROOM_FOR_CHAR_BY_KEY( sub_14963(), uVar9 );
+    SET_ROOM_FOR_CHAR_BY_KEY( CurrentPlayerChar(), uVar9 );
     return 1;
 }
 

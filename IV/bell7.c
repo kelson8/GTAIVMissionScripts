@@ -190,9 +190,9 @@ void main()
     LOAD_ADDITIONAL_TEXT( "B6AUD", 6 );
     REGISTER_SCRIPT_WITH_AUDIO( 1 );
     FORCE_WEATHER( 1 );
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        sub_7665( 0, sub_3505(), "NIKO", 0 );
+        sub_7665( 0, CurrentPlayerChar(), "NIKO", 0 );
     }
     CREATE_OBJECT_NO_OFFSET( 185750165, -972.04000000, 1887.50300000, 23.09600000, ref l_U2293[0], 1 );
     CREATE_OBJECT_NO_OFFSET( -1220094820, -966.65200000, 1887.50300000, 23.09600000, ref l_U2293[1], 1 );
@@ -210,7 +210,7 @@ void main()
     l_U2378[1] = {-1562.81200000, 364.52500000, 23.14000000};
     l_U2385[1] = {270.00000000, 0.00000000, 90.00000000};
     ADD_SCENARIO_BLOCKING_AREA( -1005.14200000, 1844.74200000, 9.77060000, -944.46740000, 1908.51700000, 33.54560000 );
-    while (IS_PLAYER_PLAYING( sub_3435() ))
+    while (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (l_U2155)
         {
@@ -239,12 +239,12 @@ void main()
                 case 0:
                 PROCESS_MISSION_DELETION_LIST();
                 sub_9029( -1130.45000000, 414.64110000, 3.50000000, 5.00000000, -1127.47000000, 396.27150000, 3.37240000, 358.99530000 );
-                SET_CHAR_COORDINATES( sub_3505(), -1130.45000000, 414.64110000, 3.50000000 );
+                SET_CHAR_COORDINATES( CurrentPlayerChar(), -1130.45000000, 414.64110000, 3.50000000 );
                 CLEAR_AREA( -1130.45000000, 414.64110000, 3.50000000, 5.00000000, 1 );
                 CLEAR_AREA_OF_CHARS( -1130.45000000, 414.64110000, 3.50000000, 50.00000000 );
                 if (g_U9893._fU24)
                 {
-                    SET_PLAYER_CONTROL( sub_3435(), 0 );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                     START_CUTSCENE_NOW( "B_6" );
                     ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 }
@@ -285,41 +285,55 @@ void main()
                     WAIT( 0 );
                 }
                 FORCE_WEATHER_NOW( 1 );
-                SET_CHAR_COORDINATES( sub_3505(), -1130.45000000, 414.64110000, 3.50000000 );
-                SET_CHAR_HEADING( sub_3505(), 270.00000000 );
-                SET_CAM_BEHIND_PED( sub_3505() );
-                SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( sub_3505(), 0 );
+                SET_CHAR_COORDINATES( CurrentPlayerChar(), -1130.45000000, 414.64110000, 3.50000000 );
+                SET_CHAR_HEADING( CurrentPlayerChar(), 270.00000000 );
+                SET_CAM_BEHIND_PED( CurrentPlayerChar() );
+                SET_CHAR_WILL_FLY_THROUGH_WINDSCREEN( CurrentPlayerChar(), 0 );
                 sub_10995();
                 WAIT( 100 );
-                sub_11128( 19, ref l_U2302[0], -1130.21800000, 411.09190000, 3.50000000, 35.00000000 );
+
+                // sub_11128
+                CreateMissionCharacter( 19, ref l_U2302[0], -1130.21800000, 411.09190000, 3.50000000, 35.00000000 );
                 SET_CHAR_DECISION_MAKER( l_U2302[0], l_U2202 );
                 SET_COMBAT_DECISION_MAKER( l_U2302[0], l_U2203 );
                 SET_CHAR_RELATIONSHIP_GROUP( l_U2302[0], 0 );
                 SET_CHAR_WILL_MOVE_WHEN_INJURED( l_U2302[0], 0 );
                 SET_PED_DIES_WHEN_INJURED( l_U2302[0], 1 );
                 SET_GROUP_MEMBER( sub_12866(), l_U2302[0] );
+
                 sub_7665( 1, l_U2302[0], "BELL", 0 );
                 SET_CHAR_ACCURACY( l_U2302[0], 40 );
                 SET_CHAR_FIRE_DAMAGE_MULTIPLIER( l_U2302[0], 0.10000000 );
+
                 BLOCK_CHAR_AMBIENT_ANIMS( l_U2302[0], 1 );
+
                 sub_9029( -1127.74500000, 409.22050000, 3.37250000, 5.00000000, -1127.47000000, 396.27150000, 3.37240000, 358.99530000 );
                 CLEAR_AREA( -1127.74500000, 409.22050000, 3.37250000, 5.00000000, 1 );
-                CREATE_CAR( 886934177, -1127.74500000, 409.22050000, 3.37250000, ref l_U2341, 1 );
-                SET_VEH_HAS_STRONG_AXLES( l_U2341, 1 );
-                SET_CAR_COLOUR_COMBINATION( l_U2341, 1 );
-                SET_CAR_HEADING( l_U2341, 0.00000000 );
-                SET_CAR_COORDINATES( l_U2341, -1127.74500000, 409.22050000, 3.37250000 );
+
+                // Create and setup the vehicle
+                CREATE_CAR( 886934177, -1127.74500000, 409.22050000, 3.37250000, ref bellCar, 1 );
+                SET_VEH_HAS_STRONG_AXLES( bellCar, 1 );
+                SET_CAR_COLOUR_COMBINATION( bellCar, 1 );
+                SET_CAR_HEADING( bellCar, 0.00000000 );
+                SET_CAR_COORDINATES( bellCar, -1127.74500000, 409.22050000, 3.37250000 );
                 MARK_MODEL_AS_NO_LONGER_NEEDED( 886934177 );
+                //
+
+                // Set some global varaibles
                 sub_13190();
+
+                // Something to do with camera headings and destroying cameras
                 sub_13230( 1000 );
+
                 SETTIMERA( 0 );
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 break;
+
                 case 1:
                 if (IS_SCREEN_FADED_IN())
                 {
-                    MARK_CAR_AS_NO_LONGER_NEEDED( ref l_U2341 );
-                    SET_PLAYER_CONTROL( sub_3435(), 1 );
+                    MARK_CAR_AS_NO_LONGER_NEEDED( ref bellCar );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
                     l_U2248 = 0;
                     l_U2249 = 0;
                     l_U2158 = 0;
@@ -349,7 +363,7 @@ void main()
                     {
                         sub_20016( ref l_U120, -948.07500000, 1863.18300000, 21.57600000, 51.00000000 );
                     }
-                    if ((sub_20097()) AND ((sub_16236( sub_3505(), l_U2302[0] )) AND (NOT sub_13999())))
+                    if ((sub_20097()) AND ((sub_16236( CurrentPlayerChar(), l_U2302[0] )) AND (NOT sub_13999())))
                     {
                         if (NOT l_U2157)
                         {
@@ -407,7 +421,7 @@ void main()
                             l_U2157 = 0;
                         }
                     }
-                    else if ((IS_WANTED_LEVEL_GREATER( sub_3435(), 0 )) || (NOT (sub_16236( sub_3505(), l_U2302[0] ))))
+                    else if ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || (NOT (sub_16236( CurrentPlayerChar(), l_U2302[0] ))))
                     {
                         if (l_U2158)
                         {
@@ -424,7 +438,7 @@ void main()
             switch (ProtectedGet(l_U99))
             {
                 case 0:
-                SET_PLAYER_CONTROL( sub_3435(), 0 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                 DO_SCREEN_FADE_OUT( 1000 );
                 while (NOT IS_SCREEN_FADED_OUT())
                 {
@@ -626,7 +640,7 @@ void main()
                         GET_DRIVER_OF_CAR( iVar12, ref iVar11 );
                         if (DOES_CHAR_EXIST( iVar11 ))
                         {
-                            if (NOT (iVar11 == sub_3505()))
+                            if (NOT (iVar11 == CurrentPlayerChar()))
                             {
                                 GET_CAR_COORDINATES( iVar12, ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
                                 DELETE_CHAR( ref iVar11 );
@@ -637,7 +651,7 @@ void main()
                     }
                 }
                 sub_25946();
-                GET_CHAR_COORDINATES( sub_3505(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
+                GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
                 LOAD_SCENE( uVar4._fU0, uVar4._fU4, uVar4._fU8 );
                 DO_SCREEN_FADE_IN( 1000 );
                 while (NOT IS_SCREEN_FADED_IN())
@@ -650,9 +664,9 @@ void main()
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 break;
                 case 1:
-                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref l_U2341 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref bellCar );
                 }
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 break;
@@ -677,10 +691,10 @@ void main()
                     TASK_PERFORM_SEQUENCE( l_U2302[0], l_U2338 );
                     CLEAR_SEQUENCE_TASK( l_U2338 );
                 }
-                if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                 {
                     OPEN_SEQUENCE_TASK( ref l_U2338 );
-                    if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                     {
                         TASK_PAUSE( 0, 400 );
                         TASK_LEAVE_ANY_CAR( 0 );
@@ -696,7 +710,7 @@ void main()
                         TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U2302[1] );
                     }
                     CLOSE_SEQUENCE_TASK( l_U2338 );
-                    TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                    TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                     CLEAR_SEQUENCE_TASK( l_U2338 );
                 }
                 SETTIMERA( 0 );
@@ -763,9 +777,9 @@ void main()
                                     TASK_PERFORM_SEQUENCE( l_U2302[0], l_U2338 );
                                     CLEAR_SEQUENCE_TASK( l_U2338 );
                                 }
-                                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                                SET_CHAR_COORDINATES( sub_3505(), -972.16140000, 1873.36700000, 21.31830000 );
-                                SET_CHAR_HEADING( sub_3505(), 24.22100000 );
+                                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                                SET_CHAR_COORDINATES( CurrentPlayerChar(), -972.16140000, 1873.36700000, 21.31830000 );
+                                SET_CHAR_HEADING( CurrentPlayerChar(), 24.22100000 );
                                 OPEN_SEQUENCE_TASK( ref l_U2338 );
                                 TASK_PAUSE( 0, 1500 );
                                 if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
@@ -778,7 +792,7 @@ void main()
                                     TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U2302[1] );
                                 }
                                 CLOSE_SEQUENCE_TASK( l_U2338 );
-                                TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                                TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                                 CLEAR_SEQUENCE_TASK( l_U2338 );
                                 l_U2142 = 1;
                             }
@@ -833,12 +847,12 @@ void main()
                     TASK_PERFORM_SEQUENCE( l_U2302[0], l_U2338 );
                     CLEAR_SEQUENCE_TASK( l_U2338 );
                 }
-                CLEAR_CHAR_TASKS( sub_3505() );
+                CLEAR_CHAR_TASKS( CurrentPlayerChar() );
                 OPEN_SEQUENCE_TASK( ref l_U2338 );
                 TASK_PAUSE( 0, 1000 );
                 TASK_GO_STRAIGHT_TO_COORD( 0, -967.61110000, 1884.32600000, 22.36690000, 2, -1 );
                 CLOSE_SEQUENCE_TASK( l_U2338 );
-                TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                 CLEAR_SEQUENCE_TASK( l_U2338 );
                 SETTIMERA( 0 );
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
@@ -877,14 +891,14 @@ void main()
                     TASK_PERFORM_SEQUENCE( l_U2302[1], l_U2338 );
                     CLEAR_SEQUENCE_TASK( l_U2338 );
                 }
-                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                SET_CHAR_COORDINATES( sub_3505(), -967.99650000, 1878.52600000, 21.31830000 );
-                SET_CHAR_HEADING( sub_3505(), 0.47340000 );
+                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                SET_CHAR_COORDINATES( CurrentPlayerChar(), -967.99650000, 1878.52600000, 21.31830000 );
+                SET_CHAR_HEADING( CurrentPlayerChar(), 0.47340000 );
                 OPEN_SEQUENCE_TASK( ref l_U2338 );
                 TASK_PAUSE( 0, 500 );
                 TASK_GO_STRAIGHT_TO_COORD( 0, -967.61110000, 1884.32600000, 22.36690000, 2, -1 );
                 CLOSE_SEQUENCE_TASK( l_U2338 );
-                TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                 CLEAR_SEQUENCE_TASK( l_U2338 );
                 if (NOT (DOES_CAM_EXIST( l_U111 )))
                 {
@@ -1009,7 +1023,7 @@ void main()
                         TASK_PAUSE( 0, 500 );
                         TASK_GO_STRAIGHT_TO_COORD( 0, -968.63000000, 1891.53300000, 22.36410000, 2, -2 );
                         CLOSE_SEQUENCE_TASK( l_U2338 );
-                        TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                        TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                         CLEAR_SEQUENCE_TASK( l_U2338 );
                         SETTIMERA( 0 );
                         ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
@@ -1024,10 +1038,10 @@ void main()
                 }
                 break;
                 case 13:
-                if (IS_VEH_DRIVEABLE( l_U2341 ))
+                if (IS_VEH_DRIVEABLE( bellCar ))
                 {
-                    SET_CAR_HEADING( l_U2341, 352.76020000 );
-                    SET_CAR_COORDINATES( l_U2341, -972.44130000, 1860.11600000, 22.18810000 );
+                    SET_CAR_HEADING( bellCar, 352.76020000 );
+                    SET_CAR_COORDINATES( bellCar, -972.44130000, 1860.11600000, 22.18810000 );
                 }
                 if (DOES_OBJECT_EXIST( l_U2293[0] ))
                 {
@@ -1052,19 +1066,19 @@ void main()
                     SET_CHAR_COORDINATES( l_U2302[1], -972.42580000, 1896.43600000, 21.31600000 );
                     SET_CHAR_HEADING( l_U2302[1], 256.02770000 );
                 }
-                if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                 {
-                    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                    SET_CHAR_COORDINATES( sub_3505(), -970.97450000, 1896.47600000, 21.32220000 );
-                    SET_CHAR_HEADING( sub_3505(), 182.12400000 );
+                    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                    SET_CHAR_COORDINATES( CurrentPlayerChar(), -970.97450000, 1896.47600000, 21.32220000 );
+                    SET_CHAR_HEADING( CurrentPlayerChar(), 182.12400000 );
                 }
-                sub_27751( ref l_U2435, sub_3505(), 5.00000000, 3.00000000 );
+                sub_27751( ref l_U2435, CurrentPlayerChar(), 5.00000000, 3.00000000 );
                 SETTIMERA( 0 );
                 l_U2248 = 0;
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 break;
                 case 14:
-                sub_27751( ref l_U2435, sub_3505(), 5.00000000, 3.00000000 );
+                sub_27751( ref l_U2435, CurrentPlayerChar(), 5.00000000, 3.00000000 );
                 if (IS_SCREEN_FADED_IN())
                 {
                     if (l_U2248 > 1)
@@ -1149,8 +1163,8 @@ void main()
                         if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( l_U2305[0] )))
                         {
                             OPEN_SEQUENCE_TASK( ref l_U2338 );
-                            TASK_TURN_CHAR_TO_FACE_CHAR( 0, sub_3505() );
-                            TASK_AIM_GUN_AT_CHAR( 0, sub_3505(), 10000 );
+                            TASK_TURN_CHAR_TO_FACE_CHAR( 0, CurrentPlayerChar() );
+                            TASK_AIM_GUN_AT_CHAR( 0, CurrentPlayerChar(), 10000 );
                             CLOSE_SEQUENCE_TASK( l_U2338 );
                             TASK_PERFORM_SEQUENCE( l_U2305[0], l_U2338 );
                             CLEAR_SEQUENCE_TASK( l_U2338 );
@@ -1172,9 +1186,9 @@ void main()
                         if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( l_U2309[0] )))
                         {
                             OPEN_SEQUENCE_TASK( ref l_U2338 );
-                            TASK_TURN_CHAR_TO_FACE_CHAR( 0, sub_3505() );
+                            TASK_TURN_CHAR_TO_FACE_CHAR( 0, CurrentPlayerChar() );
                             TASK_PAUSE( 0, 500 );
-                            TASK_AIM_GUN_AT_CHAR( 0, sub_3505(), 10000 );
+                            TASK_AIM_GUN_AT_CHAR( 0, CurrentPlayerChar(), 10000 );
                             CLOSE_SEQUENCE_TASK( l_U2338 );
                             TASK_PERFORM_SEQUENCE( l_U2309[0], l_U2338 );
                             CLEAR_SEQUENCE_TASK( l_U2338 );
@@ -1206,7 +1220,7 @@ void main()
                         case 0:
                         if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( l_U2305[1] )))
                         {
-                            TASK_AIM_GUN_AT_CHAR( l_U2305[1], sub_3505(), 10000 );
+                            TASK_AIM_GUN_AT_CHAR( l_U2305[1], CurrentPlayerChar(), 10000 );
                             l_U2210[1]++;
                         }
                         break;
@@ -1220,7 +1234,7 @@ void main()
                         case 0:
                         if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( l_U2309[1] )))
                         {
-                            TASK_AIM_GUN_AT_CHAR( l_U2309[1], sub_3505(), 10000 );
+                            TASK_AIM_GUN_AT_CHAR( l_U2309[1], CurrentPlayerChar(), 10000 );
                             SETTIMERA( 0 );
                             l_U2214[1]++;
                         }
@@ -1238,9 +1252,9 @@ void main()
                 {
                     TASK_CLEAR_LOOK_AT( l_U2302[1] );
                 }
-                if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                 {
-                    TASK_CLEAR_LOOK_AT( sub_3505() );
+                    TASK_CLEAR_LOOK_AT( CurrentPlayerChar() );
                 }
                 if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                 {
@@ -1254,7 +1268,7 @@ void main()
                     SET_CAM_POS( l_U111, -970.56130000, 1901.14800000, 23.61746000 );
                     SET_CAM_ROT( l_U111, -8.17720200, -0.00000000, -174.55090000 );
                     SET_CAM_FOV( l_U111, 35.10003000 );
-                    sub_27751( ref l_U111, sub_3505(), 10.00000000, 10.00000000 );
+                    sub_27751( ref l_U111, CurrentPlayerChar(), 10.00000000, 10.00000000 );
                     ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 }
                 break;
@@ -1279,9 +1293,9 @@ void main()
                             bVar2 = false;
                         }
                     }
-                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                     {
-                        if (NOT (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] )))
+                        if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] )))
                         {
                             bVar2 = false;
                         }
@@ -1328,9 +1342,9 @@ void main()
                     {
                         TASK_CLEAR_LOOK_AT( l_U2302[1] );
                     }
-                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                     {
-                        TASK_CLEAR_LOOK_AT( sub_3505() );
+                        TASK_CLEAR_LOOK_AT( CurrentPlayerChar() );
                     }
                     if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
                     {
@@ -1340,9 +1354,9 @@ void main()
                     {
                         CLEAR_CHAR_TASKS_IMMEDIATELY( l_U2302[1] );
                     }
-                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                     {
-                        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
+                        CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
                     }
                     if (IS_VEH_DRIVEABLE( l_U2342[0] ))
                     {
@@ -1366,11 +1380,11 @@ void main()
                     }
                     if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                     {
-                        if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                        if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                         {
-                            if (NOT (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] )))
+                            if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] )))
                             {
-                                WARP_CHAR_INTO_CAR( sub_3505(), l_U2342[1] );
+                                WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U2342[1] );
                             }
                         }
                     }
@@ -1461,11 +1475,11 @@ void main()
                 }
                 if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                 {
-                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                     {
-                        if (NOT (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] )))
+                        if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] )))
                         {
-                            WARP_CHAR_INTO_CAR( sub_3505(), l_U2342[1] );
+                            WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U2342[1] );
                         }
                     }
                 }
@@ -1490,7 +1504,7 @@ void main()
                 {
                     sub_13409( 1000, 1, 0 );
                 }
-                SET_PLAYER_CONTROL( sub_3435(), 1 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
                 sub_9756( 5, 1 );
                 break;
             }
@@ -1533,9 +1547,9 @@ void main()
                                     {
                                         TASK_LOOK_AT_VEHICLE( l_U2302[1], l_U2345[1], 8000, 0 );
                                     }
-                                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                                     {
-                                        TASK_LOOK_AT_VEHICLE( sub_3505(), l_U2345[1], 8000, 0 );
+                                        TASK_LOOK_AT_VEHICLE( CurrentPlayerChar(), l_U2345[1], 8000, 0 );
                                     }
                                 }
                                 l_U2248++;
@@ -1575,13 +1589,13 @@ void main()
                                         TASK_PERFORM_SEQUENCE( l_U2302[1], l_U2338 );
                                         CLEAR_SEQUENCE_TASK( l_U2338 );
                                     }
-                                    SET_CHAR_COORDINATES( sub_3505(), -969.49690000, 1895.40300000, 21.33520000 );
-                                    SET_CHAR_HEADING( sub_3505(), 211.33360000 );
+                                    SET_CHAR_COORDINATES( CurrentPlayerChar(), -969.49690000, 1895.40300000, 21.33520000 );
+                                    SET_CHAR_HEADING( CurrentPlayerChar(), 211.33360000 );
                                     OPEN_SEQUENCE_TASK( ref l_U2338 );
                                     TASK_PAUSE( 0, 750 );
                                     TASK_ENTER_CAR_AS_DRIVER( 0, l_U2342[1], 4000 );
                                     CLOSE_SEQUENCE_TASK( l_U2338 );
-                                    TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                                    TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                                     CLEAR_SEQUENCE_TASK( l_U2338 );
                                 }
                                 l_U2248++;
@@ -1606,8 +1620,8 @@ void main()
                 SHUT_CAR_DOOR( l_U2342[1], 5 );
             }
             sub_39692( ref l_U2302[0] );
-            ALTER_WANTED_LEVEL_NO_DROP( sub_3435(), 2 );
-            APPLY_WANTED_LEVEL_CHANGE_NOW( sub_3435() );
+            ALTER_WANTED_LEVEL_NO_DROP( CurrentPlayerId(), 2 );
+            APPLY_WANTED_LEVEL_CHANGE_NOW( CurrentPlayerId() );
             switch (ProtectedGet(l_U99))
             {
                 case 0:
@@ -1685,13 +1699,13 @@ void main()
                 }
                 break;
                 case 2:
-                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref l_U2341 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref bellCar );
                 }
                 if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                 {
-                    if (IS_CHAR_SITTING_IN_CAR( sub_3505(), l_U2342[1] ))
+                    if (IS_CHAR_SITTING_IN_CAR( CurrentPlayerChar(), l_U2342[1] ))
                     {
                         if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                         {
@@ -1735,7 +1749,7 @@ void main()
                             SET_GROUP_MEMBER( sub_12866(), l_U2302[1] );
                         }
                     }
-                    if (NOT (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] )))
+                    if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] )))
                     {
                         if (NOT (DOES_BLIP_EXIST( l_U2181 )))
                         {
@@ -1756,7 +1770,7 @@ void main()
                     {
                         if (IS_PLAYBACK_GOING_ON_FOR_CAR( l_U2342[0] ))
                         {
-                            sub_56601( l_U2342[0], sub_3505(), ref l_U2274, 1065353216, 1084227584, 1101004800, 1123680256, 1073741824, 1065353216, 1060320051, 1 );
+                            sub_56601( l_U2342[0], CurrentPlayerChar(), ref l_U2274, 1065353216, 1084227584, 1101004800, 1123680256, 1073741824, 1065353216, 1060320051, 1 );
                             if (IS_CAR_IN_AREA_3D( l_U2342[0], -1550.67000000, 450.11430000, 18.47040000, -1533.53500000, 498.22690000, 34.91790000, 0 ))
                             {
                                 l_U2219[0]++;
@@ -1777,7 +1791,7 @@ void main()
                     {
                         if (IS_PLAYBACK_GOING_ON_FOR_CAR( l_U2342[0] ))
                         {
-                            sub_56601( l_U2342[0], sub_3505(), ref l_U2274, 1065353216, 1084227584, 1101004800, 1123680256, 1073741824, 1065353216, 1060320051, 1 );
+                            sub_56601( l_U2342[0], CurrentPlayerChar(), ref l_U2274, 1065353216, 1084227584, 1101004800, 1123680256, 1073741824, 1065353216, 1060320051, 1 );
                         }
                         else
                         {
@@ -1819,7 +1833,7 @@ void main()
                 switch (l_U2206[0])
                 {
                     case 0:
-                    if ((NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -971.99370000, 1890.00000000, 22.06370000, 11.03000000, 7.45000000, 7.44500000, 0 ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -966.25390000, 1880.01800000, 22.04220000, 11.03000000, 7.45000000, 7.44500000, 0 ))))
+                    if ((NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -971.99370000, 1890.00000000, 22.06370000, 11.03000000, 7.45000000, 7.44500000, 0 ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -966.25390000, 1880.01800000, 22.04220000, 11.03000000, 7.45000000, 7.44500000, 0 ))))
                     {
                         l_U2206[0]++;
                     }
@@ -1836,7 +1850,7 @@ void main()
                     switch (l_U2210[0])
                     {
                         case 0:
-                        TASK_COMBAT( l_U2305[0], sub_3505() );
+                        TASK_COMBAT( l_U2305[0], CurrentPlayerChar() );
                         l_U2210[0]++;
                         break;
                         default:
@@ -1866,7 +1880,7 @@ void main()
                                 {
                                     OPEN_SEQUENCE_TASK( ref l_U2338 );
                                     TASK_FOLLOW_NAV_MESH_TO_COORD( 0, uVar4._fU0, uVar4._fU4, uVar4._fU8, 4, -2, 4.00000000 );
-                                    TASK_COMBAT( 0, sub_3505() );
+                                    TASK_COMBAT( 0, CurrentPlayerChar() );
                                     CLOSE_SEQUENCE_TASK( l_U2338 );
                                     TASK_PERFORM_SEQUENCE( l_U2309[0], l_U2338 );
                                     CLEAR_SEQUENCE_TASK( l_U2338 );
@@ -1908,7 +1922,7 @@ void main()
                 switch (l_U2257)
                 {
                     case 0:
-                    if ((NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -971.99370000, 1890.00000000, 22.06370000, 11.03000000, 7.45000000, 7.44500000, 0 ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -966.25390000, 1880.01800000, 22.04220000, 11.03000000, 7.45000000, 7.44500000, 0 ))))
+                    if ((NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -971.99370000, 1890.00000000, 22.06370000, 11.03000000, 7.45000000, 7.44500000, 0 ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -966.25390000, 1880.01800000, 22.04220000, 11.03000000, 7.45000000, 7.44500000, 0 ))))
                     {
                         sub_61483( 1 );
                     }
@@ -1954,7 +1968,7 @@ void main()
                                     SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U2309[1], 0 );
                                     bVar2 = true;
                                 }
-                                else if ((NOT (IS_CHAR_ON_SCREEN( l_U2309[1] ))) AND ((NOT (IS_CHAR_ON_SCREEN( l_U2305[1] ))) AND ((NOT (IS_CAR_ON_SCREEN( l_U2345[1] ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( sub_3505(), l_U2345[1], 40.00000000, 40.00000000, 0 ))))))
+                                else if ((NOT (IS_CHAR_ON_SCREEN( l_U2309[1] ))) AND ((NOT (IS_CHAR_ON_SCREEN( l_U2305[1] ))) AND ((NOT (IS_CAR_ON_SCREEN( l_U2345[1] ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( CurrentPlayerChar(), l_U2345[1], 40.00000000, 40.00000000, 0 ))))))
                                 {
                                     if (sub_62339( l_U2345[1] ))
                                     {
@@ -1973,7 +1987,7 @@ void main()
                                     bVar2 = true;
                                 }
                             }
-                            else if ((NOT (IS_CAR_ON_SCREEN( l_U2345[1] ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( sub_3505(), l_U2345[1], 40.00000000, 40.00000000, 0 ))))
+                            else if ((NOT (IS_CAR_ON_SCREEN( l_U2345[1] ))) AND (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( CurrentPlayerChar(), l_U2345[1], 40.00000000, 40.00000000, 0 ))))
                             {
                                 if (NOT (IS_CHAR_INJURED( l_U2305[1] )))
                                 {
@@ -2057,7 +2071,7 @@ void main()
                                             fVar10 = 30.00000000;
                                             if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                                             {
-                                                if (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] ))
+                                                if (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] ))
                                                 {
                                                     GET_CAR_SPEED( l_U2342[1], ref fVar10 );
                                                 }
@@ -2085,7 +2099,7 @@ void main()
                                         fVar10 = 30.00000000;
                                         if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                                         {
-                                            if (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] ))
+                                            if (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] ))
                                             {
                                                 GET_CAR_SPEED( l_U2342[1], ref fVar10 );
                                                 fVar10 += 5.00000000;
@@ -2149,7 +2163,7 @@ void main()
                                 {
                                     TASK_LEAVE_ANY_CAR( 0 );
                                 }
-                                TASK_COMBAT( 0, sub_3505() );
+                                TASK_COMBAT( 0, CurrentPlayerChar() );
                                 CLOSE_SEQUENCE_TASK( l_U2338 );
                                 TASK_PERFORM_SEQUENCE( l_U2305[1], l_U2338 );
                                 CLEAR_SEQUENCE_TASK( l_U2338 );
@@ -2165,7 +2179,7 @@ void main()
                                 {
                                     TASK_LEAVE_ANY_CAR( 0 );
                                 }
-                                TASK_COMBAT( 0, sub_3505() );
+                                TASK_COMBAT( 0, CurrentPlayerChar() );
                                 CLOSE_SEQUENCE_TASK( l_U2338 );
                                 TASK_PERFORM_SEQUENCE( l_U2309[1], l_U2338 );
                                 CLEAR_SEQUENCE_TASK( l_U2338 );
@@ -2173,7 +2187,7 @@ void main()
                         }
                         if (NOT (IS_CHAR_INJURED( l_U2305[1] )))
                         {
-                            if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_2D( l_U2305[1], sub_3505(), 40.00000000, 40.00000000, 0 )))
+                            if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_2D( l_U2305[1], CurrentPlayerChar(), 40.00000000, 40.00000000, 0 )))
                             {
                                 sub_61483( 1 );
                             }
@@ -2292,7 +2306,7 @@ void main()
                 }
                 if ((IS_VEH_DRIVEABLE( l_U2342[1] )) AND (IS_VEH_DRIVEABLE( l_U2342[0] )))
                 {
-                    if ((NOT sub_83222()) AND ((l_U819 < 160000.00000000) AND ((sub_16236( sub_3505(), l_U2302[1] )) AND (NOT sub_13999()))))
+                    if ((NOT sub_83222()) AND ((l_U819 < 160000.00000000) AND ((sub_16236( CurrentPlayerChar(), l_U2302[1] )) AND (NOT sub_13999()))))
                     {
                         if (l_U819 > 25000.00000000)
                         {
@@ -2323,7 +2337,7 @@ void main()
                             }
                         }
                     }
-                    if ((NOT sub_83222()) AND ((sub_16236( sub_3505(), l_U2302[1] )) AND (NOT sub_13999())))
+                    if ((NOT sub_83222()) AND ((sub_16236( CurrentPlayerChar(), l_U2302[1] )) AND (NOT sub_13999())))
                     {
                         if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                         {
@@ -2365,7 +2379,7 @@ void main()
                             }
                         }
                     }
-                    if ((NOT sub_83222()) AND ((sub_16236( sub_3505(), l_U2302[1] )) AND (NOT sub_13999())))
+                    if ((NOT sub_83222()) AND ((sub_16236( CurrentPlayerChar(), l_U2302[1] )) AND (NOT sub_13999())))
                     {
                         if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                         {
@@ -2389,7 +2403,7 @@ void main()
                     }
                     if ((l_U819 < 160000.00000000) AND (l_U819 > 30000.00000000))
                     {
-                        if ((sub_16236( sub_3505(), l_U2302[1] )) AND (NOT sub_13999()))
+                        if ((sub_16236( CurrentPlayerChar(), l_U2302[1] )) AND (NOT sub_13999()))
                         {
                             if (IS_VEH_DRIVEABLE( l_U2345[1] ))
                             {
@@ -2411,7 +2425,7 @@ void main()
                     {
                         if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                         {
-                            if ((sub_16236( sub_3505(), l_U2302[1] )) AND (NOT sub_13999()))
+                            if ((sub_16236( CurrentPlayerChar(), l_U2302[1] )) AND (NOT sub_13999()))
                             {
                                 if ((l_U2284 > 10000.00000000) AND (IS_CHAR_SHOOTING( l_U2302[1] )))
                                 {
@@ -2426,7 +2440,7 @@ void main()
                 }
                 if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                 {
-                    if (NOT (sub_16236( sub_3505(), l_U2302[1] )))
+                    if (NOT (sub_16236( CurrentPlayerChar(), l_U2302[1] )))
                     {
                         if (sub_14021( l_U125 ))
                         {
@@ -2439,7 +2453,7 @@ void main()
                         }
                         if (NOT l_U2162)
                         {
-                            if (NOT (IS_CHAR_IN_ANY_CAR( sub_3505() )))
+                            if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
                             {
                                 SAY_AMBIENT_SPEECH( l_U2302[1], "GET_IN_CAR", 1, 0, 0 );
                                 l_U2162 = 1;
@@ -2453,7 +2467,7 @@ void main()
                 }
                 if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                 {
-                    if ((l_U2219[0] > 0) AND (IS_CHAR_IN_CAR( sub_3505(), l_U2342[1] )))
+                    if ((l_U2219[0] > 0) AND (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2342[1] )))
                     {
                         if (IS_CAR_IN_AREA_3D( l_U2342[1], -1550.67000000, 450.11430000, 18.47040000, -1533.53500000, 498.22690000, 34.91790000, 0 ))
                         {
@@ -2472,7 +2486,7 @@ void main()
                     sub_85454( "BL6_M10" );
                     if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                     {
-                        if ((IS_CHAR_ON_SCREEN( l_U2302[1] )) || (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[1], 30.00000000, 30.00000000, 30.00000000, 0 )))
+                        if ((IS_CHAR_ON_SCREEN( l_U2302[1] )) || (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[1], 30.00000000, 30.00000000, 30.00000000, 0 )))
                         {
                             sub_9756( 17, 0 );
                             l_U2172 = 1;
@@ -2520,7 +2534,7 @@ void main()
                 {
                     if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                     {
-                        if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[1], 150.00000000, 150.00000000, 100.00000000, 0 )))
+                        if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[1], 150.00000000, 150.00000000, 100.00000000, 0 )))
                         {
                             DELETE_CHAR( ref l_U2302[1] );
                             sub_85220();
@@ -2546,9 +2560,9 @@ void main()
                     {
                         if (IS_VEH_DRIVEABLE( l_U2342[0] ))
                         {
-                            if (IS_PLAYER_PLAYING( sub_3435() ))
+                            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                             {
-                                if (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( sub_3505(), l_U2342[0], 200.00000000, 200.00000000, 0 )))
+                                if (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( CurrentPlayerChar(), l_U2342[0], 200.00000000, 200.00000000, 0 )))
                                 {
                                     if (l_U2287 > 10000.00000000)
                                     {
@@ -2559,7 +2573,7 @@ void main()
                                         l_U2172 = 1;
                                         if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                                         {
-                                            if ((IS_CHAR_ON_SCREEN( l_U2302[1] )) || (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[1], 30.00000000, 30.00000000, 30.00000000, 0 )))
+                                            if ((IS_CHAR_ON_SCREEN( l_U2302[1] )) || (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[1], 30.00000000, 30.00000000, 30.00000000, 0 )))
                                             {
                                                 sub_9756( 17, 0 );
                                             }
@@ -2581,7 +2595,7 @@ void main()
                 }
                 if (IS_KEYBOARD_KEY_JUST_PRESSED( 36 ))
                 {
-                    SET_PLAYER_CONTROL( sub_3435(), 0 );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                     DO_SCREEN_FADE_OUT( 500 );
                     while (NOT IS_SCREEN_FADED_OUT())
                     {
@@ -2603,10 +2617,10 @@ void main()
                             WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U2302[1], l_U2342[1], 0 );
                         }
                     }
-                    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
+                    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
                     if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                     {
-                        WARP_CHAR_INTO_CAR( sub_3505(), l_U2342[1] );
+                        WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U2342[1] );
                     }
                     sub_9756( 6, 1 );
                 }
@@ -2715,7 +2729,7 @@ void main()
                                     {
                                         TASK_LEAVE_ANY_CAR( 0 );
                                     }
-                                    TASK_COMBAT( 0, sub_3505() );
+                                    TASK_COMBAT( 0, CurrentPlayerChar() );
                                     CLOSE_SEQUENCE_TASK( l_U2338 );
                                     TASK_PERFORM_SEQUENCE( iVar11, l_U2338 );
                                     CLEAR_SEQUENCE_TASK( l_U2338 );
@@ -2782,7 +2796,7 @@ void main()
                     {
                         WAIT( 0 );
                     }
-                    SET_PLAYER_CONTROL( sub_3435(), 0 );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                     CREATE_CAR( 2046537925, -1565.79600000, 515.08960000, 24.98540000, ref l_U2349[0], 1 );
                     SET_VEHICLE_QUATERNION( l_U2349[0], 0.00550000, -0.02070000, 0.70730000, -0.70660000 );
                     SET_CAR_ONLY_DAMAGED_BY_PLAYER( l_U2349[0], 1 );
@@ -2800,7 +2814,7 @@ void main()
                     SET_PED_DIES_WHEN_INJURED( l_U2313[0], 1 );
                     SET_CHAR_IS_TARGET_PRIORITY( l_U2313[0], 1 );
                     SET_CHAR_AS_ENEMY( l_U2313[0], 1 );
-                    GET_CHAR_COORDINATES( sub_3505(), ref vVar7.x, ref vVar7.y, ref vVar7.z );
+                    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar7.x, ref vVar7.y, ref vVar7.z );
                     if (IS_VEH_DRIVEABLE( l_U2342[0] ))
                     {
                         GET_CAR_COORDINATES( l_U2342[0], ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
@@ -2828,8 +2842,8 @@ void main()
                     }
                     if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                     {
-                        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                        WARP_CHAR_INTO_CAR( sub_3505(), l_U2342[1] );
+                        CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                        WARP_CHAR_INTO_CAR( CurrentPlayerChar(), l_U2342[1] );
                         if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                         {
                             CLEAR_CHAR_TASKS_IMMEDIATELY( l_U2302[1] );
@@ -2959,7 +2973,7 @@ void main()
                 {
                     case 0:
                     OPEN_SEQUENCE_TASK( ref l_U2338 );
-                    if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                     {
                         TASK_PAUSE( 0, 500 );
                         TASK_LEAVE_ANY_CAR( 0 );
@@ -2968,7 +2982,7 @@ void main()
                     TASK_ACHIEVE_HEADING( 0, 110.00000000 );
                     TASK_PLAY_ANIM( 0, "Boot_Withdraw", "missbell6", 4.00000000, 0, 0, 0, 1, -1 );
                     CLOSE_SEQUENCE_TASK( l_U2338 );
-                    TASK_PERFORM_SEQUENCE( sub_3505(), l_U2338 );
+                    TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U2338 );
                     CLEAR_SEQUENCE_TASK( l_U2338 );
                     l_U2222++;
                     break;
@@ -2999,9 +3013,9 @@ void main()
                 {
                     ProtectedSet(l_U99, 99);
                 }
-                if (IS_CHAR_PLAYING_ANIM( sub_3505(), "missbell6", "Boot_Withdraw" ))
+                if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "missbell6", "Boot_Withdraw" ))
                 {
-                    GET_CHAR_ANIM_CURRENT_TIME( sub_3505(), "missbell6", "Boot_Withdraw", ref fVar10 );
+                    GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "missbell6", "Boot_Withdraw", ref fVar10 );
                     if (fVar10 > 0.50000000)
                     {
                         ProtectedSet(l_U99, 99);
@@ -3056,10 +3070,10 @@ void main()
                     SET_CHAR_COMPONENT_VARIATION( l_U2302[1], 8, 1, 0 );
                     l_U2152 = 0;
                 }
-                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                SET_CHAR_COORDINATES( sub_3505(), -1541.94000000, 481.91960000, 22.04900000 );
-                SET_CHAR_HEADING( sub_3505(), 117.80000000 );
-                SET_CHAR_COMPONENT_VARIATION( sub_3505(), 3, 1, 0 );
+                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                SET_CHAR_COORDINATES( CurrentPlayerChar(), -1541.94000000, 481.91960000, 22.04900000 );
+                SET_CHAR_HEADING( CurrentPlayerChar(), 117.80000000 );
+                SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 3, 1, 0 );
                 l_U2153 = 0;
                 for ( I = 0; I < 2; I++ )
                 {
@@ -3088,7 +3102,7 @@ void main()
                     l_U2329[0] = nil;
                 }
                 CREATE_PICKUP_ROTATE( uVar13, 22, 200, l_U2378[0], l_U2385[0], ref l_U2329[0] );
-                SET_PLAYER_CONTROL( sub_3435(), 1 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
                 sub_13230( 0 );
                 l_U2246 = 0;
                 l_U2288 = 0.00000000;
@@ -3097,7 +3111,7 @@ void main()
             }
             break;
             case 14:
-            if (IS_CHAR_IN_AREA_3D( sub_3505(), -1550.77700000, 447.78250000, 5.51710000, -1528.47700000, 497.45750000, 35.41710000, 0 ))
+            if (IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -1550.77700000, 447.78250000, 5.51710000, -1528.47700000, 497.45750000, 35.41710000, 0 ))
             {
                 if (NOT l_U2177)
                 {
@@ -3115,11 +3129,11 @@ void main()
             switch (ProtectedGet(l_U99))
             {
                 case 0:
-                DONT_DISPATCH_COPS_FOR_PLAYER( sub_3435(), 1 );
+                DONT_DISPATCH_COPS_FOR_PLAYER( CurrentPlayerId(), 1 );
                 SET_WANTED_MULTIPLIER( 0.00000000 );
-                if (NOT (IS_WANTED_LEVEL_GREATER( sub_3435(), 3 )))
+                if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 3 )))
                 {
-                    ALTER_WANTED_LEVEL( sub_3435(), 3 );
+                    ALTER_WANTED_LEVEL( CurrentPlayerId(), 3 );
                 }
                 ALLOW_EMERGENCY_SERVICES( 0 );
                 CLEAR_PRINTS();
@@ -3227,7 +3241,7 @@ void main()
                         {
                             if (IS_KEYBOARD_KEY_PRESSED( 36 ))
                             {
-                                SET_CHAR_COORDINATES( sub_3505(), -1562.49300000, 367.41660000, 23.36160000 );
+                                SET_CHAR_COORDINATES( CurrentPlayerChar(), -1562.49300000, 367.41660000, 23.36160000 );
                                 if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
                                 {
                                     SET_CHAR_COORDINATES( l_U2302[0], -1563.49300000, 367.41660000, 23.36160000 );
@@ -3247,7 +3261,7 @@ void main()
                 {
                     if (IS_VEH_DRIVEABLE( l_U2356 ))
                     {
-                        if (IS_CHAR_IN_CAR( sub_3505(), l_U2356 ))
+                        if (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2356 ))
                         {
                             if (DOES_BLIP_EXIST( l_U2180 ))
                             {
@@ -3264,7 +3278,7 @@ void main()
             case 15:
             if (DOES_PICKUP_EXIST( l_U2329[1] ))
             {
-                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
                     REMOVE_PICKUP( l_U2329[1] );
                 }
@@ -3284,7 +3298,7 @@ void main()
             }
             if (NOT l_U2163)
             {
-                if (NOT (IS_WANTED_LEVEL_GREATER( sub_3435(), 0 )))
+                if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                 {
                     if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
                     {
@@ -3300,7 +3314,7 @@ void main()
             if (NOT l_U2175)
             {
                 bVar2 = false;
-                GET_CAR_CHAR_IS_USING( sub_3505(), ref iVar12 );
+                GET_CAR_CHAR_IS_USING( CurrentPlayerChar(), ref iVar12 );
                 if (DOES_VEHICLE_EXIST( iVar12 ))
                 {
                     if (NOT (iVar12 == l_U2356))
@@ -3309,7 +3323,7 @@ void main()
                     }
                     else if (NOT (IS_CAR_DEAD( l_U2356 )))
                     {
-                        if (IS_CHAR_SITTING_IN_CAR( sub_3505(), l_U2356 ))
+                        if (IS_CHAR_SITTING_IN_CAR( CurrentPlayerChar(), l_U2356 ))
                         {
                             bVar2 = true;
                         }
@@ -3380,23 +3394,23 @@ void main()
                 }
                 if (NOT l_U2173)
                 {
-                    STORE_WANTED_LEVEL( sub_3435(), ref I );
+                    STORE_WANTED_LEVEL( CurrentPlayerId(), ref I );
                     if (I < 3)
                     {
-                        ALTER_WANTED_LEVEL( sub_3435(), 3 );
+                        ALTER_WANTED_LEVEL( CurrentPlayerId(), 3 );
                     }
                 }
                 SET_WANTED_MULTIPLIER( 1.00000000 );
                 if (l_U2145)
                 {
-                    STORE_WANTED_LEVEL( sub_3435(), ref I );
+                    STORE_WANTED_LEVEL( CurrentPlayerId(), ref I );
                     if (I > 0)
                     {
                         I += -1;
                     }
-                    ALTER_WANTED_LEVEL( sub_3435(), I );
+                    ALTER_WANTED_LEVEL( CurrentPlayerId(), I );
                 }
-                DONT_DISPATCH_COPS_FOR_PLAYER( sub_3435(), 0 );
+                DONT_DISPATCH_COPS_FOR_PLAYER( CurrentPlayerId(), 0 );
                 if (DOES_BLIP_EXIST( l_U2180 ))
                 {
                     REMOVE_BLIP( l_U2180 );
@@ -3504,9 +3518,9 @@ void main()
                 {
                     if ((NOT (IS_CHAR_INJURED( l_U2302[1] ))) AND (NOT (IS_CHAR_INJURED( l_U2302[0] ))))
                     {
-                        if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                         {
-                            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref iVar12 );
+                            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref iVar12 );
                             GET_MAXIMUM_NUMBER_OF_PASSENGERS( iVar12, ref I );
                             if (I < 2)
                             {
@@ -3520,9 +3534,9 @@ void main()
                     }
                     if ((IS_CHAR_INJURED( l_U2302[1] )) AND (NOT (IS_CHAR_INJURED( l_U2302[0] ))))
                     {
-                        if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                         {
-                            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref iVar12 );
+                            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref iVar12 );
                             GET_MAXIMUM_NUMBER_OF_PASSENGERS( iVar12, ref I );
                             if (I < 1)
                             {
@@ -3535,14 +3549,14 @@ void main()
                         }
                     }
                 }
-                else if (NOT (IS_CHAR_IN_ANY_CAR( sub_3505() )))
+                else if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
                 {
                     l_U2156 = 0;
                 }
                 sub_117821();
                 if (NOT l_U2178)
                 {
-                    if (NOT (IS_WANTED_LEVEL_GREATER( sub_3435(), 0 )))
+                    if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                     {
                         if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
                         {
@@ -3565,7 +3579,7 @@ void main()
                     {
                         if (sub_17799( 1, 1 ))
                         {
-                            SET_PLAYER_CONTROL( sub_3435(), 0 );
+                            SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                             sub_9756( 9, 1 );
                         }
                     }
@@ -3588,11 +3602,11 @@ void main()
                             }
                         }
                         bVar2 = false;
-                        if ((sub_20097()) AND (sub_16236( sub_3505(), l_U2302[0] )))
+                        if ((sub_20097()) AND (sub_16236( CurrentPlayerChar(), l_U2302[0] )))
                         {
                             if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                             {
-                                if (sub_16236( sub_3505(), l_U2302[1] ))
+                                if (sub_16236( CurrentPlayerChar(), l_U2302[1] ))
                                 {
                                     bVar2 = true;
                                 }
@@ -3612,7 +3626,7 @@ void main()
                                     switch (l_U2248)
                                     {
                                         case 0:
-                                        STORE_WANTED_LEVEL( sub_3435(), ref I );
+                                        STORE_WANTED_LEVEL( CurrentPlayerId(), ref I );
                                         PRINTSTRING( "Bell6 wanted level = " );
                                         PRINTINT( I );
                                         PRINTSTRING( "\n" );
@@ -3633,7 +3647,7 @@ void main()
                                         l_U2248++;
                                         break;
                                         case 2:
-                                        if (NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -1565.43900000, 364.45320000, 23.09320000, 50.00000000, 50.00000000, 50.00000000, 0 )))
+                                        if (NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -1565.43900000, 364.45320000, 23.09320000, 50.00000000, 50.00000000, 50.00000000, 0 )))
                                         {
                                             l_U2291 = 0.00000000;
                                             l_U2248 = 0;
@@ -3682,7 +3696,7 @@ void main()
                                     }
                                     break;
                                     case 3:
-                                    if (NOT (IS_WANTED_LEVEL_GREATER( sub_3435(), 0 )))
+                                    if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                                     {
                                         l_U2248 = 0;
                                         l_U2249++;
@@ -3715,11 +3729,11 @@ void main()
                         {
                             sub_21906( ref l_U125, 1 );
                         }
-                        if (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -1153.14300000, 1422.83500000, 25.39600000, 100.00000000, 100.00000000, 40.00000000, 0 ))
+                        if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -1153.14300000, 1422.83500000, 25.39600000, 100.00000000, 100.00000000, 40.00000000, 0 ))
                         {
                             if (NOT l_U2148)
                             {
-                                if ((NOT (sub_14021( l_U125 ))) AND ((NOT sub_13999()) AND ((IS_WANTED_LEVEL_GREATER( sub_3435(), 0 )) AND (sub_16236( sub_3505(), l_U2302[0] )))))
+                                if ((NOT (sub_14021( l_U125 ))) AND ((NOT sub_13999()) AND ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) AND (sub_16236( CurrentPlayerChar(), l_U2302[0] )))))
                                 {
                                     if (sub_14294( "B6_WANTD", ref l_U125, 6, 1 ))
                                     {
@@ -3753,7 +3767,7 @@ void main()
                 SET_CAM_POS( l_U111, -1157.98000000, 1430.92000000, 24.40000000 );
                 SET_CAM_ROT( l_U111, 7.94000000, 0.00000000, -145.53000000 );
                 SET_CAM_FOV( l_U111, 45.00000000 );
-                sub_27751( ref l_U111, sub_3505(), 5.00000000, 5.00000000 );
+                sub_27751( ref l_U111, CurrentPlayerChar(), 5.00000000, 5.00000000 );
                 SET_CAM_ACTIVE( l_U111, 1 );
                 SET_CAM_PROPAGATE( l_U111, 1 );
                 ACTIVATE_SCRIPTED_CAMS( 1, 1 );
@@ -3844,9 +3858,9 @@ void main()
                 }
                 break;
                 case 99:
-                if (IS_PLAYER_PLAYING( sub_3435() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    SET_CHAR_COMPONENT_VARIATION( sub_3505(), 3, 0, 0 );
+                    SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 3, 0, 0 );
                 }
                 for ( I = 0; I < 2; I++ )
                 {
@@ -3949,87 +3963,87 @@ void main()
                             if (NOT IS_MESSAGE_BEING_DISPLAYED())
                             {
                                 SET_CHAR_PROOFS( l_U2302[1], 1, 1, 1, 1, 1 );
-                                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                                 {
-                                    SET_PLAYER_CONTROL( sub_3435(), 0 );
+                                    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                                 }
                                 DO_SCREEN_FADE_OUT( 1000 );
                                 while (NOT IS_SCREEN_FADED_OUT())
                                 {
                                     WAIT( 0 );
                                 }
-                                SET_PLAYER_CONTROL( sub_3435(), 0 );
+                                SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                                 sub_21813( 1, 1 );
                                 sub_4132( 0 );
-                                l_U2341 = nil;
-                                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                                bellCar = nil;
+                                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                                 {
-                                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref l_U2341 );
+                                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref bellCar );
                                 }
-                                if (NOT (DOES_VEHICLE_EXIST( l_U2341 )))
+                                if (NOT (DOES_VEHICLE_EXIST( bellCar )))
                                 {
-                                    GET_CAR_CHAR_IS_USING( sub_3505(), ref l_U2341 );
+                                    GET_CAR_CHAR_IS_USING( CurrentPlayerChar(), ref bellCar );
                                 }
-                                if (NOT (DOES_VEHICLE_EXIST( l_U2341 )))
+                                if (NOT (DOES_VEHICLE_EXIST( bellCar )))
                                 {
                                     if (IS_VEH_DRIVEABLE( l_U2342[1] ))
                                     {
-                                        l_U2341 = l_U2342[1];
+                                        bellCar = l_U2342[1];
                                     }
                                 }
-                                if (NOT (IS_VEH_DRIVEABLE( l_U2341 )))
+                                if (NOT (IS_VEH_DRIVEABLE( bellCar )))
                                 {
-                                    l_U2341 = nil;
+                                    bellCar = nil;
                                 }
-                                if (NOT (sub_133349( l_U2341 )))
+                                if (NOT (sub_133349( bellCar )))
                                 {
-                                    l_U2341 = nil;
+                                    bellCar = nil;
                                 }
-                                if (NOT (DOES_VEHICLE_EXIST( l_U2341 )))
+                                if (NOT (DOES_VEHICLE_EXIST( bellCar )))
                                 {
                                     REQUEST_MODEL( 1777363799 );
                                     while (NOT (HAS_MODEL_LOADED( 1777363799 )))
                                     {
                                         WAIT( 0 );
                                     }
-                                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                                     {
-                                        GET_CHAR_COORDINATES( sub_3505(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
+                                        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
                                     }
-                                    CREATE_CAR( 1777363799, uVar4._fU0, uVar4._fU4, uVar4._fU8, ref l_U2341, 1 );
+                                    CREATE_CAR( 1777363799, uVar4._fU0, uVar4._fU4, uVar4._fU8, ref bellCar, 1 );
                                 }
-                                if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                                if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                                 {
-                                    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
+                                    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
                                 }
                                 if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                                 {
                                     CLEAR_CHAR_TASKS_IMMEDIATELY( l_U2302[1] );
                                 }
-                                sub_18359( l_U2341 );
-                                if (IS_VEH_DRIVEABLE( l_U2341 ))
+                                sub_18359( bellCar );
+                                if (IS_VEH_DRIVEABLE( bellCar ))
                                 {
-                                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                                     {
-                                        WARP_CHAR_INTO_CAR( sub_3505(), l_U2341 );
+                                        WARP_CHAR_INTO_CAR( CurrentPlayerChar(), bellCar );
                                     }
                                     if (NOT (IS_CHAR_INJURED( l_U2302[1] )))
                                     {
-                                        WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U2302[1], l_U2341, 0 );
+                                        WARP_CHAR_INTO_CAR_AS_PASSENGER( l_U2302[1], bellCar, 0 );
                                     }
                                 }
-                                if (IS_VEH_DRIVEABLE( l_U2341 ))
+                                if (IS_VEH_DRIVEABLE( bellCar ))
                                 {
-                                    SET_CAR_ENGINE_ON( l_U2341, 1, 1 );
-                                    SET_CAR_HEADING( l_U2341, 88.00000000 );
-                                    SET_CAR_COORDINATES( l_U2341, -1141.76800000, 1387.32600000, 24.15470000 );
-                                    SET_CAR_ENGINE_ON( l_U2341, 1, 1 );
+                                    SET_CAR_ENGINE_ON( bellCar, 1, 1 );
+                                    SET_CAR_HEADING( bellCar, 88.00000000 );
+                                    SET_CAR_COORDINATES( bellCar, -1141.76800000, 1387.32600000, 24.15470000 );
+                                    SET_CAR_ENGINE_ON( bellCar, 1, 1 );
                                 }
                                 sub_133842();
                                 bVar2 = false;
                                 while (NOT bVar2)
                                 {
-                                    if (sub_9369( l_U2341 ))
+                                    if (sub_9369( bellCar ))
                                     {
                                         bVar2 = true;
                                     }
@@ -4038,10 +4052,10 @@ void main()
                                         WAIT( 0 );
                                     }
                                 }
-                                if (IS_VEH_DRIVEABLE( l_U2341 ))
+                                if (IS_VEH_DRIVEABLE( bellCar ))
                                 {
-                                    SET_CAR_FORWARD_SPEED( l_U2341, 5.00000000 );
-                                    TASK_CAR_DRIVE_TO_COORD( sub_3505(), l_U2341, -1154.67000000, 1390.22700000, 24.04940000, 5.00000000, 0, 0, 3, 2, 10 );
+                                    SET_CAR_FORWARD_SPEED( bellCar, 5.00000000 );
+                                    TASK_CAR_DRIVE_TO_COORD( CurrentPlayerChar(), bellCar, -1154.67000000, 1390.22700000, 24.04940000, 5.00000000, 0, 0, 3, 2, 10 );
                                 }
                                 CLEAR_AREA( -1154.67000000, 1390.22700000, 24.04940000, 50.00000000, 1 );
                                 LOAD_ALL_OBJECTS_NOW();
@@ -4075,7 +4089,7 @@ void main()
                 break;
                 case 1:
                 bVar2 = false;
-                GET_SCRIPT_TASK_STATUS( sub_3505(), 15, ref l_U2339 );
+                GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 15, ref l_U2339 );
                 if (l_U2339 == 7)
                 {
                     bVar2 = true;
@@ -4086,11 +4100,11 @@ void main()
                 }
                 if (bVar2)
                 {
-                    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+                    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
                     {
-                        if (IS_VEH_DRIVEABLE( l_U2341 ))
+                        if (IS_VEH_DRIVEABLE( bellCar ))
                         {
-                            TASK_CAR_TEMP_ACTION( sub_3505(), l_U2341, 6, 99999999 );
+                            TASK_CAR_TEMP_ACTION( CurrentPlayerChar(), bellCar, 6, 99999999 );
                         }
                     }
                     ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
@@ -4124,11 +4138,11 @@ void main()
                 case 99:
                 if (l_U102)
                 {
-                    if (IS_VEH_DRIVEABLE( l_U2341 ))
+                    if (IS_VEH_DRIVEABLE( bellCar ))
                     {
-                        SET_CAR_HEADING( l_U2341, 80.00000000 );
-                        SET_CAR_COORDINATES( l_U2341, -1154.67000000, 1390.22700000, 24.04940000 );
-                        sub_9369( l_U2341 );
+                        SET_CAR_HEADING( bellCar, 80.00000000 );
+                        SET_CAR_COORDINATES( bellCar, -1154.67000000, 1390.22700000, 24.04940000 );
+                        sub_9369( bellCar );
                     }
                 }
                 else
@@ -4140,10 +4154,10 @@ void main()
                 {
                     DELETE_CHAR( ref l_U2302[1] );
                 }
-                if (IS_PLAYER_PLAYING( sub_3435() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    CLEAR_CHAR_TASKS( sub_3505() );
-                    SET_PLAYER_CONTROL( sub_3435(), 1 );
+                    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+                    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
                 }
                 sub_3426();
                 break;
@@ -4557,12 +4571,12 @@ void sub_3299()
 
 void sub_3426()
 {
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (g_U9930 > 1)
         {
-            SET_PLAYER_MOOD_PISSED_OFF( sub_3435(), 150 );
-            SAY_AMBIENT_SPEECH( sub_3505(), "MISSION_FAIL_RAGE", 1, 1, 0 );
+            SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
+            SAY_AMBIENT_SPEECH( CurrentPlayerChar(), "MISSION_FAIL_RAGE", 1, 1, 0 );
         }
     }
     sub_3576();
@@ -4570,12 +4584,14 @@ void sub_3426()
     return;
 }
 
-void sub_3435()
+// sub_3435
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
-void sub_3505()
+// sub_3505
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -4605,7 +4621,7 @@ void sub_3599(unknown uParam0)
     {
         return;
     }
-    SET_PLAYER_MOOD_PISSED_OFF( sub_3435(), 150 );
+    SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
     CLEAR_HELP();
     sub_1339( uParam0 );
     return;
@@ -4657,9 +4673,9 @@ void sub_3689()
     SET_WANTED_MULTIPLIER( 1.00000000 );
     if (l_U98 > 6)
     {
-        if (IS_PLAYER_PLAYING( sub_3435() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_3505(), 3, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 3, 0, 0 );
         }
     }
     if (DOES_PICKUP_EXIST( l_U2329[0] ))
@@ -4717,10 +4733,10 @@ void sub_4132(boolean bParam0)
     sub_4147();
     l_U163 = 1;
     sub_4319();
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        FORCE_AIR_DRAG_MULT_FOR_PLAYERS_CAR( sub_3435(), 1.00000000 );
-        DONT_DISPATCH_COPS_FOR_PLAYER( sub_3435(), 0 );
+        FORCE_AIR_DRAG_MULT_FOR_PLAYERS_CAR( CurrentPlayerId(), 1.00000000 );
+        DONT_DISPATCH_COPS_FOR_PLAYER( CurrentPlayerId(), 0 );
         SET_CREATE_RANDOM_COPS( 1 );
     }
     MARK_MODEL_AS_NO_LONGER_NEEDED( sub_4489() );
@@ -4846,7 +4862,7 @@ void sub_4772(unknown uParam0)
         {
             if (NOT (IS_CHAR_INJURED( iVar4 )))
             {
-                if (NOT (iVar4 == sub_3505()))
+                if (NOT (iVar4 == CurrentPlayerChar()))
                 {
                     GET_CAR_SPEED( uParam0, ref fVar3 );
                     if (fVar3 < 8.00000000)
@@ -5278,7 +5294,7 @@ void sub_9029(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         if (NOT (IS_CAR_DEAD( uVar10 )))
         {
-            if (NOT (IS_CHAR_SITTING_IN_CAR( sub_3505(), uVar10 )))
+            if (NOT (IS_CHAR_SITTING_IN_CAR( CurrentPlayerChar(), uVar10 )))
             {
                 if (NOT (IS_CAR_A_MISSION_CAR( uVar10 )))
                 {
@@ -5482,11 +5498,11 @@ void sub_10995()
     unknown uVar3;
     unknown uVar4;
 
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (IS_SCREEN_FADED_OUT())
         {
-            GET_CHAR_COORDINATES( sub_3505(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+            GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
             LOAD_SCENE( uVar2._fU0, uVar2._fU4, uVar2._fU8 );
             WAIT( 0 );
         }
@@ -5494,7 +5510,9 @@ void sub_10995()
     return;
 }
 
-void sub_11128(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
+// I'm guessing this creates the mission character for this mission
+// void sub_11128(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
+void CreateMissionCharacter(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
 {
     CREATE_CHAR( 25, sub_10141( uParam0 ), uParam2, uParam3, uParam4, uParam1, 1 );
     SET_CHAR_HEADING( (uParam1^), uParam5 );
@@ -5727,8 +5745,8 @@ void sub_13409(int iParam0, unknown uParam1, boolean bParam2)
     CLEAR_HELP();
     SET_GAME_CAM_HEADING( 0.00000000 );
     SET_GAME_CAM_PITCH( 0.00000000 );
-    SET_CAM_BEHIND_PED( sub_3505() );
-    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_3505(), 0 );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
+    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 0 );
     if (sub_7035())
     {
         bVar5 = true;
@@ -5772,9 +5790,9 @@ void sub_13545()
     unknown uVar2;
     unknown uVar3;
 
-    if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar2 );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar2 );
         if (DOES_VEHICLE_EXIST( uVar2 ))
         {
             if (NOT (IS_CAR_DEAD( uVar2 )))
@@ -6011,7 +6029,7 @@ int sub_15387(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         if (sub_15487( uVar22[0], uVar22[1], uVar22[2], uParam11, uParam12, uParam13, uParam14, l_U123, uParam15, 0, 0, 0 ))
         {
-            if ((IS_WANTED_LEVEL_GREATER( sub_3435(), 0 )) AND (uParam16))
+            if ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) AND (uParam16))
             {
                 if ((DOES_BLIP_EXIST( l_U121 )) || (DOES_BLIP_EXIST( l_U120 )))
                 {
@@ -6078,7 +6096,7 @@ int sub_15387(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
                     SET_ROUTE( l_U121, 1 );
                 }
             }
-            if (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), uParam0, uParam1, uParam2, uParam3, uParam4, uParam5, uParam6 ))
+            if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), uParam0, uParam1, uParam2, uParam3, uParam4, uParam5, uParam6 ))
             {
                 iVar20 = 1;
                 for ( I = 0; I < 3; I++ )
@@ -6115,7 +6133,7 @@ int sub_15387(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             {
                 WAIT( 0 );
             }
-            CLEAR_WANTED_LEVEL( sub_3435() );
+            CLEAR_WANTED_LEVEL( CurrentPlayerId() );
             sub_18239( ref iVar26 );
             if (iVar26 == nil)
             {
@@ -6126,14 +6144,14 @@ int sub_15387(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
                 }
                 CREATE_CAR( 1264341792, uParam0, uParam1, uParam2, ref iVar26, 1 );
                 MARK_MODEL_AS_NO_LONGER_NEEDED( 1264341792 );
-                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                WARP_CHAR_INTO_CAR( sub_3505(), iVar26 );
+                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                WARP_CHAR_INTO_CAR( CurrentPlayerChar(), iVar26 );
                 sub_9504( iVar26 );
             }
             else if (IS_VEH_DRIVEABLE( iVar26 ))
             {
-                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
-                WARP_CHAR_INTO_CAR( sub_3505(), iVar26 );
+                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+                WARP_CHAR_INTO_CAR( CurrentPlayerChar(), iVar26 );
             }
             sub_18782( uParam0, uParam1, uParam2 );
             for ( I = 0; I < 3; I++ )
@@ -6301,9 +6319,9 @@ int sub_15487(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         for ( I = 0; I < 3; I++ )
         {
-            if (NOT (IS_CHAR_INJURED( sub_3505() )))
+            if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
             {
-                GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS( sub_3505(), 0.00000000, 1.00000000 + (TO_FLOAT( I )), 0.00000000, ref uVar32._fU0, ref uVar32._fU4, ref uVar32._fU8 );
+                GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS( CurrentPlayerChar(), 0.00000000, 1.00000000 + (TO_FLOAT( I )), 0.00000000, ref uVar32._fU0, ref uVar32._fU4, ref uVar32._fU8 );
                 if (NOT (IS_CHAR_INJURED( uVar24[I] )))
                 {
                     SET_CHAR_COORDINATES( uVar24[I], uVar32._fU0, uVar32._fU4, uVar32._fU8 );
@@ -6343,17 +6361,17 @@ int sub_15795(unknown uParam0, unknown uParam1, boolean bParam2)
             STORE_CAR_CHAR_IS_IN_NO_SAVE( uParam0, ref uVar5 );
             if (NOT (IS_CAR_DEAD( uVar5 )))
             {
-                if (IS_CHAR_SITTING_IN_CAR( sub_3505(), uVar5 ))
+                if (IS_CHAR_SITTING_IN_CAR( CurrentPlayerChar(), uVar5 ))
                 {
                     return 1;
                 }
             }
         }
-        else if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), uParam0, uParam1, uParam1, 3.00000000, 0 ))
+        else if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), uParam0, uParam1, uParam1, 3.00000000, 0 ))
         {
             if (bParam2)
             {
-                if (IS_CHAR_SITTING_IN_ANY_CAR( sub_3505() ))
+                if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
                     return 0;
                 }
@@ -6373,9 +6391,9 @@ int sub_15795(unknown uParam0, unknown uParam1, boolean bParam2)
 
 int sub_16203(unknown uParam0)
 {
-    if (IS_CHAR_SITTING_IN_ANY_CAR( sub_3505() ))
+    if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        if (sub_16236( sub_3505(), uParam0 ))
+        if (sub_16236( CurrentPlayerChar(), uParam0 ))
         {
             return 1;
         }
@@ -6458,9 +6476,9 @@ int sub_17799(boolean bParam0, boolean bParam1)
     }
     if (bParam1)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_CAR_UPRIGHT_VALUE( uVar4, ref fVar6 );
@@ -6473,31 +6491,31 @@ int sub_17799(boolean bParam0, boolean bParam1)
     }
     if (bParam0)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_DRIVER_OF_CAR( uVar4, ref iVar5 );
-                if (NOT (iVar5 == sub_3505()))
+                if (NOT (iVar5 == CurrentPlayerChar()))
                 {
                     return 0;
                 }
             }
         }
     }
-    if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_3505() )))
+        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() )))
         {
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( sub_3435() )))
+    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( CurrentPlayerId() )))
     {
         return 0;
     }
-    if (NOT (CAN_PLAYER_START_MISSION( sub_3435() )))
+    if (NOT (CAN_PLAYER_START_MISSION( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -6506,16 +6524,16 @@ int sub_17799(boolean bParam0, boolean bParam1)
 
 void sub_18239(unknown uParam0)
 {
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), uParam0 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), uParam0 );
         }
     }
     if (NOT (DOES_VEHICLE_EXIST( (uParam0^) )))
     {
-        GET_CAR_CHAR_IS_USING( sub_3505(), uParam0 );
+        GET_CAR_CHAR_IS_USING( CurrentPlayerChar(), uParam0 );
     }
     if (DOES_VEHICLE_EXIST( (uParam0^) ))
     {
@@ -6584,13 +6602,13 @@ void sub_18359(unknown uParam0)
 void sub_18782(unknown uParam0, unknown uParam1, float fParam2)
 {
     fParam2 += 1.00000000;
-    SET_CHAR_COORDINATES( sub_3505(), uParam0, uParam1, fParam2 );
+    SET_CHAR_COORDINATES( CurrentPlayerChar(), uParam0, uParam1, fParam2 );
     SET_GAME_CAM_HEADING( 0 );
     REQUEST_COLLISION_AT_POSN( uParam0, uParam1, fParam2 );
     LOAD_ALL_OBJECTS_NOW();
-    GET_CHAR_COORDINATES( sub_3505(), ref uParam0, ref uParam1, ref fParam2 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uParam0, ref uParam1, ref fParam2 );
     GET_GROUND_Z_FOR_3D_COORD( uParam0, uParam1, fParam2, ref fParam2 );
-    SET_CHAR_COORDINATES( sub_3505(), uParam0, uParam1, fParam2 );
+    SET_CHAR_COORDINATES( CurrentPlayerChar(), uParam0, uParam1, fParam2 );
     return;
 }
 
@@ -6600,7 +6618,7 @@ void sub_19115(unknown uParam0, unknown uParam1, unknown uParam2)
 
     if (NOT (sub_19140( uParam0, uParam1, uParam2, l_U122, 1120403456 )))
     {
-        if (NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), uParam0, uParam1, uParam2, 50.00000000, 50.00000000, 50.00000000, 0 )))
+        if (NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), uParam0, uParam1, uParam2, 50.00000000, 50.00000000, 50.00000000, 0 )))
         {
             GET_PLAYERS_LAST_CAR_NO_SAVE( ref uVar5 );
             if (DOES_VEHICLE_EXIST( uVar5 ))
@@ -6626,7 +6644,7 @@ int sub_19140(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 {
     if (sub_19157( uParam0, uParam1, uParam2, uParam3 ))
     {
-        if (NOT (LOCATE_CHAR_ANY_MEANS_2D( sub_3505(), uParam0, uParam1, uParam4, uParam4, 0 )))
+        if (NOT (LOCATE_CHAR_ANY_MEANS_2D( CurrentPlayerChar(), uParam0, uParam1, uParam4, uParam4, 0 )))
         {
             return 0;
         }
@@ -6685,11 +6703,11 @@ void sub_19495(unknown uParam0)
                     {
                         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, uVar4._fU0, uVar4._fU4, uVar4._fU8, 2, -2, 1.00000000 );
                     }
-                    if (NOT (sub_19705( uParam0, sub_3505(), 45.00000000 )))
+                    if (NOT (sub_19705( uParam0, CurrentPlayerChar(), 45.00000000 )))
                     {
-                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, sub_3505() );
+                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, CurrentPlayerChar() );
                     }
-                    TASK_LOOK_AT_CHAR( 0, sub_3505(), 2000, 0 );
+                    TASK_LOOK_AT_CHAR( 0, CurrentPlayerChar(), 2000, 0 );
                     CLOSE_SEQUENCE_TASK( uVar10 );
                     TASK_PERFORM_SEQUENCE( uParam0, uVar10 );
                     CLEAR_SEQUENCE_TASK( uVar10 );
@@ -6749,7 +6767,7 @@ int sub_20097()
     {
         return 0;
     }
-    if ((NOT (sub_20151( l_U131 ))) AND ((NOT l_U105) AND (IS_WANTED_LEVEL_GREATER( sub_3435(), 0 ))))
+    if ((NOT (sub_20151( l_U131 ))) AND ((NOT l_U105) AND (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 ))))
     {
         return 0;
     }
@@ -6891,16 +6909,16 @@ void sub_21813(boolean bParam0, boolean bParam1)
     SET_WIDESCREEN_BORDERS( 1 );
     if (bParam0)
     {
-        SET_PLAYER_CONTROL( sub_3435(), 0 );
-        if (NOT (IS_CHAR_IN_ANY_CAR( sub_3505() )))
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+        if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
         {
-            CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3505() );
+            CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
         }
-        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_3505(), 1 );
+        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 1 );
     }
     else
     {
-        SET_PLAYER_CONTROL_ADVANCED( sub_3435(), 0, 0, 0 );
+        SET_PLAYER_CONTROL_ADVANCED( CurrentPlayerId(), 0, 0, 0 );
     }
     sub_22135();
     return;
@@ -6940,12 +6958,12 @@ void sub_22135()
 {
     int iVar2;
 
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        GET_CHAR_PROP_INDEX( sub_3505(), 0, ref iVar2 );
+        GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, ref iVar2 );
         if (iVar2 == 2)
         {
-            CLEAR_CHAR_PROP( sub_3505(), 0 );
+            CLEAR_CHAR_PROP( CurrentPlayerChar(), 0 );
         }
     }
     return;
@@ -7387,7 +7405,7 @@ void sub_39692(unknown uParam0)
             l_U2129 = 0;
         }
     }
-    if ((iVar3 != 4) AND ((NOT sub_39860()) AND ((NOT (IS_CHAR_DEAD( (uParam0^) ))) AND ((IS_CHAR_IN_ANY_CAR( sub_3505() )) AND (IS_CONTROL_PRESSED( 0, 51 ))))))
+    if ((iVar3 != 4) AND ((NOT sub_39860()) AND ((NOT (IS_CHAR_DEAD( (uParam0^) ))) AND ((IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )) AND (IS_CONTROL_PRESSED( 0, 51 ))))))
     {
         if ((IS_CHAR_IN_ANY_CAR( (uParam0^) )) AND (NOT IS_HINT_RUNNING()))
         {
@@ -7469,9 +7487,9 @@ void sub_40613(boolean bParam0, unknown uParam1)
     l_U1070 = 0;
     l_U819 = 0.00000000;
     l_U164 = 0;
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        GET_CHAR_COORDINATES( sub_3505(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
         l_U1582._fU0 = uVar4._fU0 - 100.00000000;
         l_U1582._fU4 = uVar4._fU4 - 100.00000000;
         l_U1582._fU8 = uVar4._fU8 - 100.00000000;
@@ -7486,9 +7504,9 @@ void sub_40613(boolean bParam0, unknown uParam1)
     }
     sub_40954();
     l_U163 = 0;
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        DONT_DISPATCH_COPS_FOR_PLAYER( sub_3435(), 1 );
+        DONT_DISPATCH_COPS_FOR_PLAYER( CurrentPlayerId(), 1 );
         SET_CREATE_RANDOM_COPS( 0 );
     }
     sub_6022();
@@ -8665,7 +8683,7 @@ void sub_56601(unknown uParam0, unknown uParam1, unknown uParam2, float fParam3,
                                 {
                                     l_U828 = l_U829;
                                 }
-                                FORCE_AIR_DRAG_MULT_FOR_PLAYERS_CAR( sub_3435(), l_U828 );
+                                FORCE_AIR_DRAG_MULT_FOR_PLAYERS_CAR( CurrentPlayerId(), l_U828 );
                             }
                         }
                     }
@@ -8895,9 +8913,9 @@ int sub_63410(unknown uParam0, unknown uParam1, unknown uParam2)
 
     if (IS_VEH_DRIVEABLE( uParam0 ))
     {
-        if (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( sub_3505(), uParam0, uParam1, uParam1, 0 )))
+        if (NOT (LOCATE_CHAR_ANY_MEANS_CAR_2D( CurrentPlayerChar(), uParam0, uParam1, uParam1, 0 )))
         {
-            GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS( sub_3505(), 0.00000000, -20.00000000, 0.00000000, ref vVar5.x, ref vVar5.y, ref vVar5.z );
+            GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS( CurrentPlayerChar(), 0.00000000, -20.00000000, 0.00000000, ref vVar5.x, ref vVar5.y, ref vVar5.z );
             GET_CLOSEST_CAR_NODE( vVar5.x, vVar5.y, vVar5.z, ref vVar5.x, ref vVar5.y, ref vVar5.z );
             if (NOT (IS_CAR_ON_SCREEN( uParam0 )))
             {
@@ -8905,9 +8923,9 @@ int sub_63410(unknown uParam0, unknown uParam1, unknown uParam2)
                 {
                     if (NOT (IS_POINT_OBSCURED_BY_A_MISSION_ENTITY( vVar5.x, vVar5.y, vVar5.z, 5.00000000, 5.00000000, 5.00000000 )))
                     {
-                        if (NOT (sub_63615( vVar5, sub_3505() )))
+                        if (NOT (sub_63615( vVar5, CurrentPlayerChar() )))
                         {
-                            GET_CHAR_COORDINATES( sub_3505(), ref vVar8.x, ref vVar8.y, ref vVar8.z );
+                            GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar8.x, ref vVar8.y, ref vVar8.z );
                             uVar11 = {vVar8 - vVar5};
                             GET_HEADING_FROM_VECTOR_2D( uVar11._fU0, uVar11._fU4, ref uVar14 );
                             SET_CAR_HEADING( uParam0, uVar14 );
@@ -8974,9 +8992,9 @@ void sub_65406(unknown uParam0, float fParam1)
         {
             sub_40954();
             l_U163 = 0;
-            if (IS_PLAYER_PLAYING( sub_3435() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                GET_CHAR_COORDINATES( sub_3505(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
+                GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
                 CLEAR_AREA( uVar6._fU0, uVar6._fU4, uVar6._fU8, 1000.00000000, 1 );
                 PRINTSTRING( "UPDATE_UBER_PLAYBACK - called massive clear area! \n" );
             }
@@ -9007,9 +9025,9 @@ void sub_65406(unknown uParam0, float fParam1)
         {
             if (IS_PLAYBACK_GOING_ON_FOR_CAR( uParam0 ))
             {
-                if (IS_PLAYER_PLAYING( sub_3435() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    if (sub_58266( sub_3505(), uParam0 ))
+                    if (sub_58266( CurrentPlayerChar(), uParam0 ))
                     {
                         l_U152 = 1;
                     }
@@ -9085,11 +9103,11 @@ void sub_65406(unknown uParam0, float fParam1)
         }
         if (l_U146)
         {
-            if (IS_PLAYER_PLAYING( sub_3435() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref l_U1736 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref l_U1736 );
                     GET_CAR_COORDINATES( l_U1736, ref l_U1576._fU0, ref l_U1576._fU4, ref l_U1576._fU8 );
                     GET_VEHICLE_QUATERNION( l_U1736, ref l_U571, ref l_U572, ref l_U573, ref l_U574 );
                 }
@@ -9193,10 +9211,10 @@ void sub_66430(unknown uParam0, unknown uParam1)
     {
         if (NOT (IS_CAR_DEAD( uParam0 )))
         {
-            if (IS_PLAYER_PLAYING( sub_3435() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
                 GET_CAR_COORDINATES( uParam0, ref vVar4.x, ref vVar4.y, ref vVar4.z );
-                GET_CHAR_COORDINATES( sub_3505(), ref vVar7.x, ref vVar7.y, ref vVar7.z );
+                GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar7.x, ref vVar7.y, ref vVar7.z );
                 uVar10 = {vVar4 - vVar7};
                 if ((VMAG2( uVar10 )) > (uParam1 * uParam1))
                 {
@@ -9251,7 +9269,7 @@ void sub_66785(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
         if (NOT (sub_66815( uParam0, uParam3, 150.00000000 )))
         {
             bVar6 = true;
-            if (IS_PLAYER_PLAYING( sub_3435() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
                 GET_PLAYERS_LAST_CAR_NO_SAVE( ref uVar7 );
                 if (DOES_VEHICLE_EXIST( uVar7 ))
@@ -9291,9 +9309,9 @@ int sub_66815(vector vParam0, unknown uParam3, float fParam4)
                 GET_GAME_VIEWPORT_ID( ref uVar7 );
                 if (CAM_IS_SPHERE_VISIBLE( uVar7, vParam0.x, vParam0.y, vParam0.z, uParam3 ))
                 {
-                    if (IS_PLAYER_PLAYING( sub_3435() ))
+                    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                     {
-                        GET_CHAR_COORDINATES( sub_3505(), ref vVar8.x, ref vVar8.y, ref vVar8.z );
+                        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar8.x, ref vVar8.y, ref vVar8.z );
                         uVar11 = {vVar8 - vParam0};
                         if (((VMAG( uVar11 )) - uParam3) < fParam4)
                         {
@@ -9572,14 +9590,14 @@ void sub_67288(unknown uParam0, unknown uParam1)
                         {
                             if (NOT (IS_CHAR_INJURED( uVar6 )))
                             {
-                                if (IS_PLAYER_PLAYING( sub_3435() ))
+                                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                                 {
-                                    if ((NOT l_U147) AND ((NOT l_U135) AND ((NOT l_U138) AND (IS_CHAR_TOUCHING_VEHICLE( sub_3505(), l_U1594[I] )))))
+                                    if ((NOT l_U147) AND ((NOT l_U135) AND ((NOT l_U138) AND (IS_CHAR_TOUCHING_VEHICLE( CurrentPlayerChar(), l_U1594[I] )))))
                                     {
-                                        if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                                        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                                         {
                                             bVar16 = false;
-                                            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar7 );
+                                            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar7 );
                                             if (NOT (sub_70628( l_U1594[I], uVar7 )))
                                             {
                                                 bVar16 = true;
@@ -10071,11 +10089,11 @@ void sub_72434(unknown uParam0)
     iVar5 = iVar4 + 15;
     if (l_U1742 > 4000.00000000)
     {
-        if (IS_PLAYER_PLAYING( sub_3435() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+            if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
             {
-                STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar6 );
+                STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar6 );
             }
             for ( I = 0; I < 75; I++ )
             {
@@ -10147,16 +10165,16 @@ void sub_72998(unknown uParam0)
 
     iVar4 = l_U1067 - 5;
     iVar5 = iVar4 + 15;
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         switch (l_U1740)
         {
             case 0:
             if (l_U1743 > 3000.00000000)
             {
-                if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar6 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar6 );
                 }
                 for ( I = 0; I < 75; I++ )
                 {
@@ -10594,14 +10612,14 @@ void sub_74465(unknown uParam0, unknown uParam1)
                             {
                                 if (NOT (IS_CHAR_INJURED( uVar5 )))
                                 {
-                                    if (IS_PLAYER_PLAYING( sub_3435() ))
+                                    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                                     {
-                                        if ((NOT l_U135) AND ((NOT l_U138) AND (IS_CHAR_TOUCHING_VEHICLE( sub_3505(), l_U1714[I] ))))
+                                        if ((NOT l_U135) AND ((NOT l_U138) AND (IS_CHAR_TOUCHING_VEHICLE( CurrentPlayerChar(), l_U1714[I] ))))
                                         {
-                                            if (IS_CHAR_IN_ANY_CAR( sub_3505() ))
+                                            if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                                             {
                                                 bVar15 = false;
-                                                STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar6 );
+                                                STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar6 );
                                                 if (NOT (sub_76621( l_U1714[I], uVar6, 45.00000000 )))
                                                 {
                                                     bVar15 = true;
@@ -10926,12 +10944,12 @@ int sub_78846(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_3435() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_14133( "\n player is not playing" );
         return 0;
     }
-    if ((NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_3505() ))) AND (IS_CHAR_IN_ANY_CAR( sub_3505() )))
+    if ((NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))) AND (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
     {
         sub_14133( "\n player is in middle of getting in/out of a car" );
         return 0;
@@ -11067,7 +11085,7 @@ int sub_79418()
     unknown uVar3;
 
     bVar2 = false;
-    if (NOT (IS_PLAYER_PLAYING( sub_3435() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_14133( "\n PHONE SCREEN CHECK - player is not playing." );
         return 0;
@@ -11087,11 +11105,11 @@ int sub_79418()
         sub_14133( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_3435() )))
+    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))
     {
-        if (NOT (IS_CHAR_IN_ANY_CAR( sub_3505() )))
+        if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
         {
-            GET_SCRIPT_TASK_STATUS( sub_3505(), 53, ref uVar3 );
+            GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 53, ref uVar3 );
             switch (uVar3)
             {
                 case 7:
@@ -11100,7 +11118,7 @@ int sub_79418()
                 return 0;
                 break;
                 default:
-                if (NOT (IS_CHAR_IN_WATER( sub_3505() )))
+                if (NOT (IS_CHAR_IN_WATER( CurrentPlayerChar() )))
                 {
                     bVar2 = true;
                 }
@@ -11118,7 +11136,7 @@ int sub_79418()
         sub_14133( "\n PHONE CHECK - CODE_WANTS_MOBILE_PHONE_REMOVED() is returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( sub_3435() )))
+    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() )))
     {
         sub_14133( "\n PHONE CHECK - IS_PLAYER_SCRIPT_CONTROL_ON is returning FALSE." );
         return 0;
@@ -11325,7 +11343,7 @@ int sub_82829(boolean bParam0)
     }
     if (bParam0)
     {
-        GET_SCRIPT_TASK_STATUS( sub_3505(), 53, ref uVar3 );
+        GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 53, ref uVar3 );
         switch (uVar3)
         {
             case 7:
@@ -11611,7 +11629,7 @@ void sub_91859()
                     SET_CHAR_SPHERE_DEFENSIVE_AREA( l_U2302[0], -1539.32800000, 458.42520000, 22.58250000, 7.00000000 );
                     if (NOT sub_13999())
                     {
-                        if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[0], sub_3505(), 30.00000000, 30.00000000, 30.00000000, 0 ))
+                        if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[0], CurrentPlayerChar(), 30.00000000, 30.00000000, 30.00000000, 0 ))
                         {
                             sub_14294( "B6_CLOSE", ref l_U125, 6, 1 );
                             l_U2281 = 0.00000000;
@@ -11682,7 +11700,7 @@ void sub_91859()
                     l_U2164 = 1;
                     if (NOT sub_13999())
                     {
-                        if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[0], sub_3505(), 30.00000000, 30.00000000, 30.00000000, 0 ))
+                        if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[0], CurrentPlayerChar(), 30.00000000, 30.00000000, 30.00000000, 0 ))
                         {
                             sub_14294( "B6_CLOSE", ref l_U125, 6, 1 );
                             l_U2281 = 0.00000000;
@@ -11715,7 +11733,7 @@ void sub_91859()
                             {
                                 if (LOCATE_CHAR_ANY_MEANS_CAR_3D( l_U2302[0], l_U2356, 20.00000000, 20.00000000, 20.00000000, 0 ))
                                 {
-                                    if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                                    if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                                     {
                                         if (NOT sub_13999())
                                         {
@@ -11736,7 +11754,7 @@ void sub_91859()
                                 }
                             }
                         }
-                        if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[0], sub_3505(), 10.00000000, 10.00000000, 10.00000000, 0 )))
+                        if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[0], CurrentPlayerChar(), 10.00000000, 10.00000000, 10.00000000, 0 )))
                         {
                             GET_SCRIPT_TASK_STATUS( l_U2302[0], 27, ref l_U2339 );
                             if (NOT (l_U2339 == 7))
@@ -11776,7 +11794,7 @@ void sub_91859()
                         {
                             if (LOCATE_CAR_3D( l_U2356, -1565.43900000, 364.45320000, 23.09320000, 0.50000000, 0.50000000, 2.00000000, 0 ))
                             {
-                                if (NOT (IS_CHAR_IN_CAR( sub_3505(), l_U2356 )))
+                                if (NOT (IS_CHAR_IN_CAR( CurrentPlayerChar(), l_U2356 )))
                                 {
                                     GET_SCRIPT_TASK_STATUS( l_U2302[0], 29, ref l_U2339 );
                                     if (l_U2339 == 7)
@@ -11803,7 +11821,7 @@ void sub_91859()
                         GET_SCRIPT_TASK_STATUS( l_U2302[0], 29, ref l_U2339 );
                         if (l_U2339 == 7)
                         {
-                            if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                            if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                             {
                                 if (sub_14294( "B6_ROCKT", ref l_U125, 6, 1 ))
                                 {
@@ -11903,7 +11921,7 @@ void sub_91859()
                     }
                     else if (NOT (sub_93225( l_U2375, l_U2302[1] )))
                     {
-                        if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[1], sub_3505(), 10.00000000, 10.00000000, 10.00000000, 0 )))
+                        if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( l_U2302[1], CurrentPlayerChar(), 10.00000000, 10.00000000, 10.00000000, 0 )))
                         {
                             GET_SCRIPT_TASK_STATUS( l_U2302[1], 27, ref l_U2339 );
                             if (NOT (l_U2339 == 7))
@@ -11942,9 +11960,9 @@ void sub_91859()
         {
             if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
             {
-                if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 25.00000000, 25.00000000, 10.00000000, 0 )))
+                if (NOT (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 25.00000000, 25.00000000, 10.00000000, 0 )))
                 {
-                    if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                    if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                     {
                         if (l_U2281 > 30000.00000000)
                         {
@@ -11997,7 +12015,7 @@ void sub_93194(unknown uParam0, unknown uParam1, unknown uParam2)
         {
             if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
             {
-                if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                 {
                     if (l_U2283 > 30000.00000000)
                     {
@@ -12024,9 +12042,9 @@ int sub_93225(vector vParam0, unknown uParam3)
     unknown uVar16;
     unknown uVar17;
 
-    if (NOT (IS_CHAR_INJURED( sub_3505() )))
+    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_3505(), ref vVar6.x, ref vVar6.y, ref vVar6.z );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref vVar6.x, ref vVar6.y, ref vVar6.z );
     }
     if (NOT (IS_CHAR_INJURED( uParam3 )))
     {
@@ -12263,7 +12281,7 @@ void sub_97758()
     switch (l_U2223[1])
     {
         case 0:
-        if ((IS_CHAR_IN_AREA_3D( sub_3505(), -1544.09800000, 445.95330000, 19.04530000, -1534.39800000, 463.47830000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 2)))
+        if ((IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -1544.09800000, 445.95330000, 19.04530000, -1534.39800000, 463.47830000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 2)))
         {
             l_U2230[0] = 99;
             l_U2230[1] = 99;
@@ -12326,7 +12344,7 @@ void sub_97758()
         {
             if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
             {
-                if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                 {
                     if (sub_14294( "B6_COPS", ref l_U125, 6, 1 ))
                     {
@@ -12454,7 +12472,7 @@ void sub_97758()
     switch (l_U2223[2])
     {
         case 0:
-        if ((IS_CHAR_IN_AREA_3D( sub_3505(), -1544.19800000, 445.67830000, 19.04530000, -1534.39800000, 442.05330000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 3)))
+        if ((IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -1544.19800000, 445.67830000, 19.04530000, -1534.39800000, 442.05330000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 3)))
         {
             l_U2230[0] = 99;
             l_U2230[1] = 99;
@@ -12628,7 +12646,7 @@ void sub_97758()
     switch (l_U2223[3])
     {
         case 0:
-        if ((IS_CHAR_IN_AREA_3D( sub_3505(), -1544.57300000, 439.02830000, 19.04530000, -1534.39800000, 442.05330000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 5)))
+        if ((IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -1544.57300000, 439.02830000, 19.04530000, -1534.39800000, 442.05330000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 5)))
         {
             l_U2230[0] = 99;
             l_U2230[1] = 99;
@@ -12805,7 +12823,7 @@ void sub_97758()
     switch (l_U2223[4])
     {
         case 0:
-        if ((IS_CHAR_IN_AREA_3D( sub_3505(), -1544.57300000, 437.07830000, 19.04530000, -1534.39800000, 430.80330000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 7)))
+        if ((IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -1544.57300000, 437.07830000, 19.04530000, -1534.39800000, 430.80330000, 24.24530000, 0 )) || ((l_U2288 > 30000.00000000) || (l_U2246 >= 7)))
         {
             l_U2230[0] = 99;
             l_U2230[1] = 99;
@@ -12917,7 +12935,7 @@ void sub_97758()
                 SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U2313[8], 0 );
                 GET_CHAR_COORDINATES( l_U2313[8], ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
                 SET_CHAR_SPHERE_DEFENSIVE_AREA( l_U2313[8], -1539.10800000, 448.88510000, 22.11320000, 10.00000000 );
-                TASK_COMBAT( l_U2313[8], sub_3505() );
+                TASK_COMBAT( l_U2313[8], CurrentPlayerChar() );
                 l_U2230[8]++;
             }
         }
@@ -13036,7 +13054,7 @@ void sub_97758()
                 SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U2313[10], 0 );
                 GET_CHAR_COORDINATES( l_U2313[10], ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
                 SET_CHAR_SPHERE_DEFENSIVE_AREA( l_U2313[10], -1539.10800000, 448.88510000, 22.11320000, 10.00000000 );
-                TASK_COMBAT( l_U2313[10], sub_3505() );
+                TASK_COMBAT( l_U2313[10], CurrentPlayerChar() );
                 l_U2230[10]++;
             }
         }
@@ -13139,7 +13157,7 @@ void sub_97758()
     switch (l_U2223[5])
     {
         case 0:
-        if ((IS_CHAR_IN_AREA_3D( sub_3505(), -1568.41500000, 350.45500000, 12.90670000, -1543.74000000, 380.20500000, 32.38170000, 0 )) || ((l_U2288 > 120000.00000000) || (l_U2246 >= 12)))
+        if ((IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -1568.41500000, 350.45500000, 12.90670000, -1543.74000000, 380.20500000, 32.38170000, 0 )) || ((l_U2288 > 120000.00000000) || (l_U2246 >= 12)))
         {
             l_U2230[0] = 99;
             l_U2230[1] = 99;
@@ -13160,7 +13178,7 @@ void sub_97758()
         break;
         case 1:
         bVar5 = false;
-        if (LOCATE_CHAR_ANY_MEANS_3D( sub_3505(), -1558.60200000, 367.16940000, 23.35610000, 12.00000000, 12.00000000, 8.00000000, 0 ))
+        if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), -1558.60200000, 367.16940000, 23.35610000, 12.00000000, 12.00000000, 8.00000000, 0 ))
         {
             bVar5 = true;
         }
@@ -13230,7 +13248,7 @@ void sub_97758()
         {
             if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
             {
-                if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                 {
                     if (sub_14294( "B6_COPS", ref l_U125, 6, 1 ))
                     {
@@ -13386,7 +13404,7 @@ void sub_97758()
                 SET_CHAR_WILL_DO_DRIVEBYS( l_U2313[13], 1 );
                 SET_CHAR_WILL_LEAVE_CAR_IN_COMBAT( l_U2313[13], 0 );
                 SET_SENSE_RANGE( l_U2313[13], 100.00000000 );
-                TASK_COMBAT( l_U2313[13], sub_3505() );
+                TASK_COMBAT( l_U2313[13], CurrentPlayerChar() );
                 l_U2230[13]++;
             }
             else
@@ -13426,7 +13444,7 @@ void sub_97758()
                 SET_CHAR_WILL_DO_DRIVEBYS( l_U2313[14], 1 );
                 SET_CHAR_WILL_LEAVE_CAR_IN_COMBAT( l_U2313[14], 0 );
                 SET_SENSE_RANGE( l_U2313[14], 100.00000000 );
-                TASK_COMBAT( l_U2313[14], sub_3505() );
+                TASK_COMBAT( l_U2313[14], CurrentPlayerChar() );
                 l_U2230[14]++;
             }
             else
@@ -13554,7 +13572,7 @@ void sub_110760()
         {
             REMOVE_BLIP( l_U2201 );
         }
-        DONT_DISPATCH_COPS_FOR_PLAYER( sub_3435(), 0 );
+        DONT_DISPATCH_COPS_FOR_PLAYER( CurrentPlayerId(), 0 );
         l_U2173 = 1;
     }
     return Result;
@@ -13647,7 +13665,7 @@ void sub_113290()
             {
                 if (NOT (IS_CHAR_INJURED( l_U2302[0] )))
                 {
-                    if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( sub_3505(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
+                    if (LOCATE_CHAR_ANY_MEANS_CHAR_3D( CurrentPlayerChar(), l_U2302[0], 40.00000000, 40.00000000, 40.00000000, 0 ))
                     {
                         if (sub_27303( "B6_FDIE", l_U2247, 1, ref l_U125, 6, 1 ))
                         {
@@ -13833,7 +13851,7 @@ void sub_120741()
     WAIT( 2000 );
     sub_120765();
     TRIGGER_MISSION_COMPLETE_AUDIO( 66 );
-    CLEAR_WANTED_LEVEL( sub_3435() );
+    CLEAR_WANTED_LEVEL( CurrentPlayerId() );
     sub_3689();
     return;
 }
@@ -13987,11 +14005,11 @@ void sub_120884(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, 
     }
     if ((iVar7 == 12) AND (iParam0 == 0))
     {
-        SET_PLAYER_MOOD_PISSED_OFF( sub_3435(), 150 );
+        SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
     }
     else
     {
-        SET_PLAYER_MOOD_NORMAL( sub_3435() );
+        SET_PLAYER_MOOD_NORMAL( CurrentPlayerId() );
     }
     sub_2524();
     bVar27 = true;
@@ -14302,7 +14320,7 @@ void sub_122530(unknown uParam0, unknown uParam1, unknown uParam2, unknown uPara
 
 void sub_122541(unknown uParam0)
 {
-    ADD_SCORE( sub_3435(), uParam0 );
+    ADD_SCORE( CurrentPlayerId(), uParam0 );
     sub_122566( uParam0 );
     return;
 }
@@ -15717,10 +15735,10 @@ void sub_133842()
     unknown uVar4;
     unknown uVar5;
 
-    if (IS_PLAYER_PLAYING( sub_3435() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        CLEAR_ROOM_FOR_CHAR( sub_3505() );
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_3505(), ref uVar2 );
+        CLEAR_ROOM_FOR_CHAR( CurrentPlayerChar() );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar2 );
         if (NOT (IS_CAR_DEAD( uVar2 )))
         {
             CLEAR_ROOM_FOR_CAR( uVar2 );
