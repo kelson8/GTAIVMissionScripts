@@ -117,7 +117,11 @@ void main()
     l_U1322 = 0;
     l_U1353 = 0;
     l_U1354 = 0;
-    l_U1355 = 1;
+
+    // l_U1355 is Possibly iCURRENT_BALL_NUMBER
+
+    iCURRENT_BALL_NUMBER = 1;
+
     l_U1356 = -1;
     l_U1357 = 0;
     l_U1358 = 0;
@@ -234,8 +238,8 @@ void main()
         switch (l_U2145)
         {
             case 0:
-            SET_PLAYER_CONTROL( sub_2203(), 0 );
-            CLEAR_CHAR_TASKS( sub_2397() );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+            CLEAR_CHAR_TASKS( CurrentPlayerChar() );
             if (IS_THIS_PRINT_BEING_DISPLAYED( "TEN_PIN_18", 0, 0, 0, 0, -1, -1, -1, -1, -1, -1 ))
             {
                 CLEAR_THIS_PRINT( "TEN_PIN_18" );
@@ -340,11 +344,11 @@ void sub_1881()
             {
                 SET_ANIM_GROUP_FOR_CHAR( l_U1296, l_U438 );
             }
-            if (IS_PLAYER_PLAYING( sub_2203() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
                 if (NOT (IS_CHAR_INJURED( l_U1296 )))
                 {
-                    SET_GROUP_MEMBER( sub_2264(), l_U1296 );
+                    SET_GROUP_MEMBER( CurrentPlayerGroup(), l_U1296 );
                     SET_DONT_ACTIVATE_RAGDOLL_FROM_PLAYER_IMPACT( l_U1296, 0 );
                 }
             }
@@ -358,18 +362,18 @@ void sub_1881()
     {
         DETACH_OBJECT( l_U244[0], 1 );
     }
-    DETACH_PED( sub_2397(), 1 );
+    DETACH_PED( CurrentPlayerChar(), 1 );
     if (DOES_CHAR_EXIST( l_U617[l_U264]._fU0 ))
     {
         if (NOT (IS_CHAR_INJURED( l_U617[l_U264]._fU0 )))
         {
             if (IS_CHAR_PLAYING_ANIM( l_U617[l_U264]._fU0, "MINI_BOWLING", "IDLE01" ))
             {
-                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_2397() );
+                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
             }
             else
             {
-                CLEAR_CHAR_TASKS( sub_2397() );
+                CLEAR_CHAR_TASKS( CurrentPlayerChar() );
             }
         }
     }
@@ -509,12 +513,14 @@ void sub_1881()
     return;
 }
 
-void sub_2203()
+// sub_2203
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
-void sub_2264()
+// sub_2264
+void CurrentPlayerGroup()
 {
     unknown Result;
 
@@ -522,7 +528,8 @@ void sub_2264()
     return Result;
 }
 
-void sub_2397()
+// sub_2397
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -673,8 +680,8 @@ int sub_4334()
 
 void sub_4560()
 {
-    GET_GROUP_SIZE( sub_2264(), ref l_U1366, ref l_U1367 );
-    GET_GROUP_MEMBER( sub_2264(), 0, ref l_U1296 );
+    GET_GROUP_SIZE( CurrentPlayerGroup(), ref l_U1366, ref l_U1367 );
+    GET_GROUP_MEMBER( CurrentPlayerGroup(), 0, ref l_U1296 );
     if (NOT (IS_CHAR_DEAD( l_U1296 )))
     {
         REMOVE_CHAR_FROM_GROUP( l_U1296 );
@@ -719,6 +726,7 @@ int sub_4707()
     return 0;
 }
 
+// Setting the bowling textures
 void sub_5218()
 {
     l_U1390 = GET_TEXTURE_FROM_STREAMED_TXD( "bowling", "SCOREBOARD" );
@@ -852,7 +860,7 @@ void sub_6538()
     {
         if (I == 0)
         {
-            l_U617[I]._fU0 = sub_2397();
+            l_U617[I]._fU0 = CurrentPlayerChar();
         }
         else if (I == 1)
         {
@@ -888,6 +896,7 @@ int sub_6625(unknown uParam0)
     return 1;
 }
 
+// Set the room to be the bowling room and request the interior models
 void sub_6806()
 {
     unknown uVar2;
@@ -895,8 +904,8 @@ void sub_6806()
     unknown uVar4;
 
     REQUEST_INTERIOR_MODELS( -2110245943, "Bowl_GtaMloRoom" );
-    GET_CHAR_COORDINATES( sub_2397(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
-    SET_ROOM_FOR_CHAR_BY_NAME( sub_2397(), "Bowl_GtaMloRoom" );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+    SET_ROOM_FOR_CHAR_BY_NAME( CurrentPlayerChar(), "Bowl_GtaMloRoom" );
     GET_INTERIOR_AT_COORDS( uVar2._fU0, uVar2._fU4, uVar2._fU8, ref l_U266 );
     return;
 }
@@ -947,6 +956,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * 1.56700000, 9.09800000 + l_U434, 0.00000000 - l_U436, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U312 = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, -12.28800000 + l_U434, 0.00000000 - l_U436, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -956,6 +966,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * 1.56700000, -12.28800000 + l_U434, 0.00000000 - l_U436, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[1] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 - fVar5, -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -965,6 +976,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 + fVar5), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[2] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 + fVar5, -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -974,6 +986,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 - fVar5), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[3] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 - (fVar5 * 2.00000000), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -983,6 +996,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 + (fVar5 * 2.00000000)), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[4] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -992,6 +1006,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * 1.56700000, -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[5] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 + (fVar5 * 2.00000000), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -1001,6 +1016,8 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 - (fVar5 * 2.00000000)), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[6] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 - (fVar5 * 3.00000000), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -1010,6 +1027,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 + (fVar5 * 3.00000000)), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[7] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 - fVar5, -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -1019,6 +1037,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 + fVar5), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[8] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 + fVar5, -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -1028,6 +1047,7 @@ void sub_7080()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.56700000 - fVar5), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         }
         l_U353[9] = {uVar2._fU0, uVar2._fU4, uVar2._fU8};
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000 + (fVar5 * 3.00000000), -12.28800000 + l_U434, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -1072,6 +1092,7 @@ void sub_8950()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -2.80000000, 0.00000000, 0.00000000, ref l_U285._fU0, ref l_U285._fU4, ref l_U285._fU8 );
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -2.80000000, -3.00000000, 0.00000000, ref l_U288._fU0, ref l_U288._fU4, ref l_U288._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.10000000 - l_U435, -12.28800000 + l_U434, 0.30000000 - l_U436, ref l_U270._fU0, ref l_U270._fU4, ref l_U270._fU8 );
@@ -1080,6 +1101,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.20000000 - l_U435), -12.28800000 + l_U434, 0.30000000 - l_U436, ref l_U270._fU0, ref l_U270._fU4, ref l_U270._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.25000000, -0.50000000, 0.00000000, ref l_U273._fU0, ref l_U273._fU4, ref l_U273._fU8 );
@@ -1089,6 +1111,7 @@ void sub_8950()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.60000000, -0.50000000, 0.00000000, ref l_U273._fU0, ref l_U273._fU4, ref l_U273._fU8 );
         }
         GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 0.00000000, 0.40000000, -0.35000000, ref l_U267._fU0, ref l_U267._fU4, ref l_U267._fU8 );
+        
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, -15.08800000 + l_U434, 2.00000000 - l_U436, ref l_U512._fU0, ref l_U512._fU4, ref l_U512._fU8 );
@@ -1097,6 +1120,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, -15.08800000 + l_U434, 2.00000000 - l_U436, ref l_U512._fU0, ref l_U512._fU4, ref l_U512._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 0.40000000 + l_U435, -12.28800000 + l_U434, 0.00000000 - l_U436, ref l_U279._fU0, ref l_U279._fU4, ref l_U279._fU8 );
@@ -1105,6 +1129,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (2.00000000 + l_U435), -12.28800000 + l_U434, 0.00000000 - l_U436, ref l_U279._fU0, ref l_U279._fU4, ref l_U279._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 2.00000000 + l_U435, -12.28800000 + l_U434, 0.00000000 - l_U436, ref l_U282._fU0, ref l_U282._fU4, ref l_U282._fU8 );
@@ -1113,6 +1138,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (0.40000000 + l_U435), -12.28800000 + l_U434, 0.00000000 - l_U436, ref l_U282._fU0, ref l_U282._fU4, ref l_U282._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, 0.00000000, 0.00000000, ref l_U291._fU0, ref l_U291._fU4, ref l_U291._fU8 );
@@ -1121,6 +1147,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, 0.00000000, 0.00000000, ref l_U291._fU0, ref l_U291._fU4, ref l_U291._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, 9.50200000 + l_U434, 0.79700000 - l_U436, ref l_U294._fU0, ref l_U294._fU4, ref l_U294._fU8 );
@@ -1129,6 +1156,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, 9.50200000 + l_U434, 0.79700000 - l_U436, ref l_U294._fU0, ref l_U294._fU4, ref l_U294._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, 9.64200000 + l_U434, 0.79700000 - l_U436, ref l_U297._fU0, ref l_U297._fU4, ref l_U297._fU8 );
@@ -1137,6 +1165,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, 9.64200000 + l_U434, 0.79700000 - l_U436, ref l_U297._fU0, ref l_U297._fU4, ref l_U297._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, 11.34200000 + l_U434, 0.79700000 - l_U436, ref l_U300._fU0, ref l_U300._fU4, ref l_U300._fU8 );
@@ -1145,6 +1174,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, 11.34200000 + l_U434, 0.79700000 - l_U436, ref l_U300._fU0, ref l_U300._fU4, ref l_U300._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, -12.08800000 + l_U434, 1.50000000 - l_U436, ref l_U276._fU0, ref l_U276._fU4, ref l_U276._fU8 );
@@ -1153,6 +1183,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.00000000 * (1.75000000 + l_U435), -12.08800000 + l_U434, 1.50000000 - l_U436, ref l_U276._fU0, ref l_U276._fU4, ref l_U276._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.57000000, -2.08000000, 1.95000000, ref l_U524._fU0, ref l_U524._fU4, ref l_U524._fU8 );
@@ -1163,6 +1194,7 @@ void sub_8950()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.57000000, -2.08000000, 1.95000000, ref l_U524._fU0, ref l_U524._fU4, ref l_U524._fU8 );
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.60000000, 1.60000000, 3.10000000, ref l_U527._fU0, ref l_U527._fU4, ref l_U527._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 2.45000000, 2.70000000, -0.40000000, ref l_U303._fU0, ref l_U303._fU4, ref l_U303._fU8 );
@@ -1173,6 +1205,7 @@ void sub_8950()
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -0.75000000, 2.70000000, -0.40000000, ref l_U303._fU0, ref l_U303._fU4, ref l_U303._fU8 );
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -2.45000000, 2.70000000, -0.40000000, ref l_U306._fU0, ref l_U306._fU4, ref l_U306._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, 21.40000000, -0.10000000, ref l_U1299._fU0, ref l_U1299._fU4, ref l_U1299._fU8 );
@@ -1181,6 +1214,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, 21.40000000, -0.10000000, ref l_U1299._fU0, ref l_U1299._fU4, ref l_U1299._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.56700000, -1.00000000, 2.00000000, ref l_U2111._fU0, ref l_U2111._fU4, ref l_U2111._fU8 );
@@ -1189,6 +1223,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.56700000, -1.00000000, 2.00000000, ref l_U2111._fU0, ref l_U2111._fU4, ref l_U2111._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 1.57500000, -0.91500000, 2.01500000, ref l_U2114._fU0, ref l_U2114._fU4, ref l_U2114._fU8 );
@@ -1197,6 +1232,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.59050000, -0.91500000, 2.01500000, ref l_U2114._fU0, ref l_U2114._fU4, ref l_U2114._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], 0.70999990, -2.17000000, 1.18000000, ref l_U515._fU0, ref l_U515._fU4, ref l_U515._fU8 );
@@ -1205,6 +1241,7 @@ void sub_8950()
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.90000000, -2.74000000, 1.27000000, ref l_U515._fU0, ref l_U515._fU4, ref l_U515._fU8 );
         }
+
         if (l_U309)
         {
             GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U256[0], -1.10000000, 0.72000000, 0.00000000, ref l_U518._fU0, ref l_U518._fU4, ref l_U518._fU8 );
@@ -1217,6 +1254,7 @@ void sub_8950()
     return;
 }
 
+// Create objects
 void sub_11696()
 {
     CREATE_OBJECT( -890350484, l_U294._fU0, l_U294._fU4, l_U294._fU8, ref l_U256[1], 1 );
@@ -1275,22 +1313,26 @@ void sub_11987()
     return;
 }
 
+// Possibly create the bowling balls
 void sub_12331()
 {
-    GET_CHAR_COORDINATES( sub_2397(), ref l_U276._fU0, ref l_U276._fU4, ref l_U276._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref l_U276._fU0, ref l_U276._fU4, ref l_U276._fU8 );
     l_U276._fU8 += 1.50000000;
+
     CREATE_OBJECT( -190707996, l_U276._fU0, l_U276._fU4, l_U276._fU8, ref l_U256[3], 1 );
     SET_OBJECT_HEADING( l_U256[3], l_U311 );
     SET_OBJECT_COLLISION( l_U256[3], 0 );
     SET_OBJECT_VISIBLE( l_U256[3], 0 );
     FREEZE_OBJECT_POSITION( l_U256[3], 1 );
     ADD_OBJECT_TO_INTERIOR_ROOM_BY_NAME( l_U256[3], "Bowl_GtaMloRoom" );
+
     CREATE_OBJECT( -190707996, l_U276._fU0, l_U276._fU4, l_U276._fU8, ref l_U256[4], 1 );
     SET_OBJECT_HEADING( l_U256[4], l_U311 );
     SET_OBJECT_COLLISION( l_U256[4], 0 );
     SET_OBJECT_VISIBLE( l_U256[4], 0 );
     FREEZE_OBJECT_POSITION( l_U256[4], 1 );
     ADD_OBJECT_TO_INTERIOR_ROOM_BY_NAME( l_U256[4], "Bowl_GtaMloRoom" );
+
     CREATE_OBJECT( -190707996, l_U276._fU0, l_U276._fU4, l_U276._fU8, ref l_U256[5], 1 );
     SET_OBJECT_HEADING( l_U256[5], l_U311 );
     SET_OBJECT_COLLISION( l_U256[5], 0 );
@@ -1309,6 +1351,7 @@ void sub_12824()
     SET_OBJECT_VISIBLE( l_U2117, 0 );
     FREEZE_OBJECT_POSITION( l_U2117, 1 );
     ADD_OBJECT_TO_INTERIOR_ROOM_BY_NAME( l_U2117, "Bowl_GtaMloRoom" );
+    
     CREATE_OBJECT( 1666643886, l_U2114._fU0, l_U2114._fU4, l_U2114._fU8, ref l_U265, 1 );
     SET_OBJECT_HEADING( l_U265, l_U311 );
     SET_OBJECT_COLLISION( l_U265, 0 );
@@ -2312,7 +2355,7 @@ void sub_19191()
         {
             if (IS_CHAR_INJURED( l_U1296 ))
             {
-                if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U1296, sub_2397(), 0 ))
+                if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U1296, CurrentPlayerChar(), 0 ))
                 {
                     sub_18788( 5 );
                     l_U2071 = 1;
@@ -2325,7 +2368,7 @@ void sub_19191()
                 l_U2146 = 27;
                 l_U2099 = 1;
             }
-            else if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U1296, sub_2397(), 0 ))
+            else if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U1296, CurrentPlayerChar(), 0 ))
             {
                 CLEAR_CHAR_LAST_DAMAGE_ENTITY( l_U1296 );
                 sub_18788( 3 );
@@ -2342,7 +2385,7 @@ void sub_19376()
 {
     float fVar2;
 
-    GET_CHAR_COORDINATES( sub_2397(), ref l_U350._fU0, ref l_U350._fU4, ref l_U350._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref l_U350._fU0, ref l_U350._fU4, ref l_U350._fU8 );
     GET_DISTANCE_BETWEEN_COORDS_2D( l_U270._fU0, l_U270._fU4, l_U350._fU0, l_U350._fU4, ref fVar2 );
     if (NOT l_U2099)
     {
@@ -2603,11 +2646,11 @@ void sub_21495()
                     if (l_U2077)
                     {
                         l_U2147 = 8;
-                        l_U1355 = 1;
+                        iCURRENT_BALL_NUMBER = 1;
                     }
                     else
                     {
-                        l_U1355 = 2;
+                        iCURRENT_BALL_NUMBER = 2;
                         l_U2147 = 0;
                     }
                 }
@@ -2746,7 +2789,7 @@ void sub_21495()
             {
                 sub_23305();
                 sub_23355();
-                l_U1355 = 1;
+                iCURRENT_BALL_NUMBER = 1;
                 l_U2077 = 0;
             }
             if (DOES_OBJECT_EXIST( l_U256[1] ))
@@ -3288,7 +3331,7 @@ void sub_26386()
         l_U2146 = 31;
         break;
         case 31:
-        l_U1364 = l_U1355;
+        l_U1364 = iCURRENT_BALL_NUMBER;
         l_U2148 = 0;
         l_U437 = 1;
         l_U2092 = 0;
@@ -3307,9 +3350,9 @@ void sub_26386()
                     {
                         SET_OBJECT_COLLISION( l_U244[0], 1 );
                         ATTACH_OBJECT_TO_PED( l_U244[0], l_U617[l_U264]._fU0, 1232, l_U1370, l_U1373, 0 );
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_2397(), "MINI_BOWLING", "IDLE_RELAXED" )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "MINI_BOWLING", "IDLE_RELAXED" )))
                         {
-                            TASK_PLAY_ANIM( sub_2397(), "IDLE_RELAXED", "MINI_BOWLING", 8.00000000, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), "IDLE_RELAXED", "MINI_BOWLING", 8.00000000, 0, 0, 0, 0, -1 );
                         }
                         FREEZE_OBJECT_POSITION( l_U244[0], 0 );
                     }
@@ -3444,7 +3487,7 @@ void sub_26386()
                         {
                             if (l_U264 == 0)
                             {
-                                SET_PLAYER_CONTROL( sub_2203(), 0 );
+                                SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                             }
                             sub_39302();
                             if (l_U264 == 0)
@@ -3670,7 +3713,7 @@ void sub_26386()
             {
                 if (NOT (IS_CHAR_INJURED( l_U617[l_U264]._fU0 )))
                 {
-                    GET_SCRIPT_TASK_STATUS( sub_2397(), 29, ref l_U2102 );
+                    GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 29, ref l_U2102 );
                     if (l_U2102 == 7)
                     {
                         GET_GROUND_Z_FOR_3D_COORD( l_U273._fU0, l_U273._fU4, l_U273._fU8, ref uVar14 );
@@ -3985,19 +4028,19 @@ void sub_26386()
         SETTIMERA( 0 );;
         break;
         case 11:
-        if (l_U1355 == 1)
+        if (iCURRENT_BALL_NUMBER == 1)
         {
             l_U1360 = 1;
             sub_59410();
             l_U2146 = 10;
         }
-        if (l_U1355 == 2)
+        if (iCURRENT_BALL_NUMBER == 2)
         {
             sub_59515();
             sub_59692();
             l_U2146 = 10;
         }
-        if ((l_U1355 != 2) AND (l_U1355 != 1))
+        if ((iCURRENT_BALL_NUMBER != 2) AND (iCURRENT_BALL_NUMBER != 1))
         {
             SCRIPT_ASSERT( "iCURRENT_BALL_NUMBER IS INCORRECT: S0_AI_BOWLING " );
             l_U2146 = 28;
@@ -4458,7 +4501,7 @@ void sub_26386()
             DELETE_OBJECT( ref l_U244[0] );
             l_U244[0] = nil;
         }
-        SET_PLAYER_CONTROL( sub_2203(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         l_U2146 = 28;
         break;
         case 29:
@@ -5681,7 +5724,7 @@ void sub_40919()
     {
         if (l_U2133 == 0)
         {
-            SAY_AMBIENT_SPEECH( sub_2397(), "BOWLING_HECKLE", 0, 1, 0 );
+            SAY_AMBIENT_SPEECH( CurrentPlayerChar(), "BOWLING_HECKLE", 0, 1, 0 );
         }
         else
         {
@@ -5696,7 +5739,7 @@ void sub_41359()
 {
     if (l_U2124 == 0)
     {
-        GET_SCRIPT_TASK_STATUS( sub_2397(), 29, ref l_U2102 );
+        GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 29, ref l_U2102 );
         if (l_U2102 == 7)
         {
             if (NOT (IS_CAM_ACTIVE( l_U506 )))
@@ -6158,7 +6201,7 @@ void sub_47908()
 
     Result = 0;
     GET_OBJECT_COORDINATES( l_U256[0], ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
-    GET_CHAR_COORDINATES( sub_2397(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
     GET_DISTANCE_BETWEEN_COORDS_2D( uVar5._fU0, uVar5._fU4, uVar2._fU0, uVar2._fU4, ref fVar8 );
     if (l_U309)
     {
@@ -8734,11 +8777,11 @@ void sub_72178()
         {
             if (IS_CHAR_PLAYING_ANIM( l_U617[l_U264]._fU0, "MINI_BOWLING", "CELEB_c" ))
             {
-                CLEAR_CHAR_TASKS_IMMEDIATELY( sub_2397() );
+                CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
             }
             else
             {
-                CLEAR_CHAR_TASKS( sub_2397() );
+                CLEAR_CHAR_TASKS( CurrentPlayerChar() );
             }
             bVar3 = true;
             l_U1385 = 0;
@@ -9082,7 +9125,7 @@ void sub_76105(unknown uParam0)
         iVar3 = ProtectedGet(g_U64808[uParam0]._fU8);
         if (iVar3 > 0)
         {
-            sub_76174( 2, iVar3 );
+            Possibly Flow_Achievements_Game_Progress_Made( 2, iVar3 );
             g_U64808[uParam0]._fU0 = 1;
             return;
         }
@@ -9090,7 +9133,9 @@ void sub_76105(unknown uParam0)
     return;
 }
 
-void sub_76174(unknown uParam0, int iParam1)
+// Possibly Flow_Achievements_Game_Progress_Made
+// Old: sub_76174
+void Possibly Flow_Achievements_Game_Progress_Made(unknown uParam0, int iParam1)
 {
     g_U32871[uParam0]._fU4 += iParam1;
     if (g_U32871[uParam0]._fU4 > g_U32871[uParam0]._fU0)

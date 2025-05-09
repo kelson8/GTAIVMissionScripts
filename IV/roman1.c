@@ -3,51 +3,71 @@ void main()
     l_U0 = -1;
     l_U12 = 0;
     l_U13 = 1;
+
     l_U14 = 3;
     l_U16 = 0;
     l_U33 = -1;
+
     l_U37 = 0;
     l_U38 = 1;
     l_U39 = 1;
+
     l_U47 = 150.00000000;
     l_U137 = 0;
     l_U138 = 150.00000000;
+
     l_U188 = 0;
     l_U489 = 0;
     l_U497 = 0;
+
     l_U498 = 0;
     l_U499 = 0;
     l_U500 = 0;
+
     l_U501 = 0;
     l_U502 = 0;
     l_U503 = 0;
+
     l_U504 = 0;
     l_U505 = 0;
     l_U506 = 0;
+
     l_U507 = 1;
-    l_U508 = 0;
+    
+    // Seems to be mobile radio station flag
+    // l_U508 = mobileRadioStationFlag
+    mobileRadioStationFlag = 0;
     l_U509 = 0;
+
     l_U510 = 0;
+
     l_U511 = {903.04500000, -504.24800000, 16.35800000};
     l_U514 = {765.15260000, -178.91510000, 4.90710000};
     l_U517 = {768.52840000, -247.59770000, 4.81640000};
     l_U520 = {896.00000000, -504.00000000, 15.00000000};
+
     if (HAS_DEATHARREST_EXECUTED())
     {
         sub_276();
         sub_2386();
     }
+
     SET_MISSION_FLAG( 1 );
     WAIT( 0 );
+
     FREEZE_RADIO_STATION( "VLADIVOSTOK" );
     FORCE_RADIO_TRACK( "VLADIVOSTOK", "RADIO_STATION_VLADIVOSTOK_INTRO_TRACK", 2, 9 );
     FORCE_INITIAL_PLAYER_STATION( "VLADIVOSTOK" );
+
     DESTROY_ALL_CAMS();
     CLEAR_AREA( 756.77450000, -214.40330000, 4.50000000, 2000.00000000, 1 );
+
     SET_NO_RESPRAYS( 1 );
+
     l_U503 = 1;
     SUPPRESS_FADE_IN_AFTER_DEATH_ARREST( 1 );
     SWITCH_GARBAGE_TRUCKS( 0 );
+
     if (DOES_VEHICLE_EXIST( romansCar ))
     {
         if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
@@ -60,34 +80,49 @@ void main()
         }
         DELETE_CAR( ref romansCar );
     }
+
     if (DOES_CHAR_EXIST( l_U524 ))
     {
         DELETE_CHAR( ref l_U524 );
     }
+
     LOAD_ADDITIONAL_TEXT( "ROMAN1", 0 );
     LOAD_ADDITIONAL_TEXT( "R1AUD", 6 );
+
     sub_3979( "R1AUD" );
     sub_4106( 0, CurrentPlayerChar(), "NIKO", 0 );
+
+    // Setup the player
     SET_CHAR_COORDINATES_NO_OFFSET( CurrentPlayerChar(), 758.47020000, -216.85040000, 4.81880000 );
     REMOVE_ALL_CHAR_WEAPONS( CurrentPlayerChar() );
     SET_CHAR_HEALTH( CurrentPlayerChar(), 200 );
     ADD_ARMOUR_TO_CHAR( CurrentPlayerChar(), 0 );
     STORE_SCORE( CurrentPlayerId(), ref l_U493 );
+
     l_U493 *= -1;
     ADD_SCORE( CurrentPlayerId(), l_U493 );
     CLEAR_WANTED_LEVEL( CurrentPlayerId() );
+    //
+
+    // Override the players restart
     if (NOT g_U0)
     {
         OVERRIDE_NEXT_RESTART( 758.47020000, -216.85040000, 4.81880000, 0.00000000 );
     }
+
     SET_PLAYER_MOOD_NORMAL( CurrentPlayerId() );
+
     SET_WANTED_MULTIPLIER( 0.10000000 );
     SET_TIME_OF_DAY( 5, 15 );
+
     FORCE_WEATHER_NOW( 0 );
     REQUEST_IPL( "Shipintro" );
+
     LOAD_ALL_OBJECTS_NOW();
     CLEAR_PRINTS();
+
     sub_4491();
+
     while (true)
     {
         WAIT( 0 );
@@ -733,7 +768,7 @@ void sub_4491()
         {
             WAIT( 0 );
             SET_TIME_OF_DAY( 5, 15 );
-            if (NOT l_U508)
+            if (NOT mobileRadioStationFlag)
             {
                 if (GET_CUTSCENE_AUDIO_TIME_MS() >= 124500)
                 {
@@ -741,7 +776,7 @@ void sub_4491()
                     // Possibly a way to set a mobile radio station
                     RETUNE_RADIO_TO_STATION_NAME( "VLADIVOSTOK" );
                     SET_MOBILE_PHONE_RADIO_STATE( 1 );
-                    l_U508 = 1;
+                    mobileRadioStationFlag = 1;
                 }
             }
             if (NOT l_U509)

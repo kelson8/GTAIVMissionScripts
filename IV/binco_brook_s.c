@@ -85,7 +85,7 @@ void main()
                 {
                     GET_INTERIOR_AT_COORDS( l_U1389._fU0, l_U1389._fU4, l_U1389._fU8, ref l_U1334 );
                 }
-                else if (((sub_11537( sub_516(), l_U1335 )) AND (LOCATE_CHAR_ON_FOOT_3D( sub_516(), l_U1389._fU0 + l_U1348._fU0, l_U1389._fU4 + l_U1348._fU4, l_U1389._fU8 + l_U1348._fU8, l_U1351._fU0, l_U1351._fU4, l_U1351._fU8, 0 ))) || (LOCATE_CHAR_ON_FOOT_3D( sub_516(), l_U1345._fU0, l_U1345._fU4, l_U1345._fU8, 1.60000000, 1.60000000, 2.00000000, 0 )))
+                else if (((sub_11537( CurrentPlayerChar(), l_U1335 )) AND (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), l_U1389._fU0 + l_U1348._fU0, l_U1389._fU4 + l_U1348._fU4, l_U1389._fU8 + l_U1348._fU8, l_U1351._fU0, l_U1351._fU4, l_U1351._fU8, 0 ))) || (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), l_U1345._fU0, l_U1345._fU4, l_U1345._fU8, 1.60000000, 1.60000000, 2.00000000, 0 )))
                 {
                     if (sub_11609( l_U1335, l_U1389 ))
                     {
@@ -126,7 +126,7 @@ void main()
                     {
                         for ( l_U1384 = 0; l_U1384 < 31; l_U1384++ )
                         {
-                            if ((NOT (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "SHOP_H_EXIT" ))) AND (LOCATE_CHAR_ON_FOOT_3D( sub_516(), l_U283[l_U1384]._fU8._fU0, l_U283[l_U1384]._fU8._fU4, l_U283[l_U1384]._fU8._fU8, l_U283[l_U1384]._fU32._fU0, l_U283[l_U1384]._fU32._fU4, l_U283[l_U1384]._fU32._fU8, 0 )))
+                            if ((NOT (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "SHOP_H_EXIT" ))) AND (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), l_U283[l_U1384]._fU8._fU0, l_U283[l_U1384]._fU8._fU4, l_U283[l_U1384]._fU8._fU8, l_U283[l_U1384]._fU32._fU0, l_U283[l_U1384]._fU32._fU4, l_U283[l_U1384]._fU32._fU8, 0 )))
                             {
                                 if (NOT (sub_19576( ref g_U8380, ProtectedGet(l_U1327), ref l_U1329 )))
                                 {
@@ -255,7 +255,7 @@ void main()
                     }
                     if ((g_U15654[57]) AND (NOT g_U8354))
                     {
-                        if (NOT (sub_11537( sub_516(), l_U1335 )))
+                        if (NOT (sub_11537( CurrentPlayerChar(), l_U1335 )))
                         {
                             PRINT_HELP( "SHOP_H_EXIT" );
                             g_U8354 = 1;
@@ -350,12 +350,12 @@ void sub_376()
     REMOVE_DECISION_MAKER( l_U1332 );
     REMOVE_DECISION_MAKER( l_U1333 );
     REMOVE_ANIMS( "clothing" );
-    if (NOT (IS_CHAR_DEAD( sub_516() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        FREEZE_CHAR_POSITION( sub_516(), 0 );
-        if ((l_U1323) AND (IS_PLAYER_PLAYING( sub_583() )))
+        FREEZE_CHAR_POSITION( CurrentPlayerChar(), 0 );
+        if ((l_U1323) AND (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
-            SET_PLAYER_CONTROL( sub_583(), 1 );
+            SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
             l_U1323 = 0;
         }
     }
@@ -381,7 +381,8 @@ void sub_396()
     return;
 }
 
-void sub_516()
+// sub_516
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -389,7 +390,8 @@ void sub_516()
     return Result;
 }
 
-void sub_583()
+// sub_583
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -412,7 +414,7 @@ void sub_675(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3,
     {
         if (g_U8228)
         {
-            sub_1129( sub_516(), l_U178 );
+            sub_1129( CurrentPlayerChar(), l_U178 );
             sub_2314();
             g_U8228 = 0;
         }
@@ -471,7 +473,7 @@ void sub_749(int iParam0, string sParam1)
             }
             if (l_U2)
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_583(), 1 );
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 1 );
                 l_U2 = 0;
             }
             if (l_U0)
@@ -524,19 +526,19 @@ void sub_1129(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             {
                 if (uParam1._fU0 < 0)
                 {
-                    CLEAR_CHAR_PROP( sub_516(), 0 );
+                    CLEAR_CHAR_PROP( CurrentPlayerChar(), 0 );
                 }
                 else
                 {
-                    SET_CHAR_PROP_INDEX( sub_516(), 0, uParam1._fU0 );
+                    SET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, uParam1._fU0 );
                 }
             }
             else
             {
                 CLEAR_CHAR_PROP( uParam0, 0 );
-                if (((GET_CHAR_TEXTURE_VARIATION( sub_516(), 8 )) != 0) || ((GET_CHAR_DRAWABLE_VARIATION( sub_516(), 8 )) != 1))
+                if (((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 8 )) != 0) || ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 8 )) != 1))
                 {
-                    SET_CHAR_COMPONENT_VARIATION( sub_516(), 8, 1, 0 );
+                    SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 8, 1, 0 );
                 }
             }
         }
@@ -544,7 +546,7 @@ void sub_1129(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         {
             if (uParam1._fU4 < 0)
             {
-                CLEAR_CHAR_PROP( sub_516(), 1 );
+                CLEAR_CHAR_PROP( CurrentPlayerChar(), 1 );
             }
             else
             {
@@ -597,8 +599,8 @@ void sub_1158(unknown uParam0, int iParam1, boolean bParam2)
         GET_CHAR_PROP_INDEX( uParam0, 0, iParam1 + 0 );
         if (iParam1->_fU0 == -1)
         {
-            iVar5 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 8 );
-            iVar6 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 8 );
+            iVar5 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 8 );
+            iVar6 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 8 );
             if ((iVar6 == 0) AND (iVar5 == 1))
             {
                 iParam1->_fU0 = 10;
@@ -672,13 +674,13 @@ void sub_2357()
         for ( I = 0; I < iVar3; I++ )
         {
             GET_GROUP_MEMBER( sub_2366(), I, ref uVar5 );
-            if ((IS_PLAYER_PLAYING( sub_583() )) AND (NOT (IS_CHAR_INJURED( uVar5 ))))
+            if ((IS_PLAYER_PLAYING( CurrentPlayerId() )) AND (NOT (IS_CHAR_INJURED( uVar5 ))))
             {
                 if (NOT (IS_CHAR_IN_ANY_CAR( uVar5 )))
                 {
                     CLEAR_CHAR_TASKS( uVar5 );
                     SET_NEXT_DESIRED_MOVE_STATE( 2 );
-                    TASK_GOTO_CHAR_OFFSET( uVar5, sub_516(), -1, 2.50000000, 0.00000000 );
+                    TASK_GOTO_CHAR_OFFSET( uVar5, CurrentPlayerChar(), -1, 2.50000000, 0.00000000 );
                 }
             }
         }
@@ -701,7 +703,7 @@ void sub_2774()
     sub_6681();
     sub_8914();
     sub_9540();
-    sub_1158( sub_516(), ref l_U178, 0 );
+    sub_1158( CurrentPlayerChar(), ref l_U178, 0 );
     StrCopy( ref g_U8380, "blank", 16 );
     if (g_U8356)
     {
@@ -1006,7 +1008,7 @@ void sub_10278()
     SET_CHAR_SPHERE_DEFENSIVE_AREA( l_U1330, 888.82510000, -447.78480000, 15.86010000, 2.00000000 );
     g_U8357 = 0;
     sub_10827( "" );
-    sub_10954( 0, sub_516(), "NIKO", 0 );
+    sub_10954( 0, CurrentPlayerChar(), "NIKO", 0 );
     sub_10954( 1, l_U1330, "SHOP_GIRL", 0 );
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
     return;
@@ -1119,7 +1121,7 @@ int sub_11609(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     unknown uVar8;
     float fVar9;
 
-    if (sub_11537( sub_516(), uParam0 ))
+    if (sub_11537( CurrentPlayerChar(), uParam0 ))
     {
         REQUEST_ANIMS( "clothing" );
         if (NOT (HAVE_ANIMS_LOADED( "clothing" )))
@@ -1134,7 +1136,7 @@ int sub_11609(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     }
     else if (HAVE_ANIMS_LOADED( "clothing" ))
     {
-        GET_CHAR_COORDINATES( sub_516(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
         GET_DISTANCE_BETWEEN_COORDS_2D( uVar6._fU0, uVar6._fU4, uParam1._fU0, uParam1._fU4, ref fVar9 );
         if (fVar9 > 15.00000000)
         {
@@ -1167,11 +1169,11 @@ int sub_11933()
     {
         vVar2 = {-6.60000000, 0.50000000, 0};
         vVar5 = {5.50000000, 5.75000000, 2.50000000};
-        if ((LOCATE_CHAR_ON_FOOT_3D( sub_516(), l_U1389._fU0 + vVar2.x, l_U1389._fU4 + vVar2.y, l_U1389._fU8 + vVar2.z, vVar5.x + 2.50000000, vVar5.y + 2.50000000, vVar5.z + 2.50000000, 0 )) AND (sub_11537( sub_516(), l_U1335 )))
+        if ((LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), l_U1389._fU0 + vVar2.x, l_U1389._fU4 + vVar2.y, l_U1389._fU8 + vVar2.z, vVar5.x + 2.50000000, vVar5.y + 2.50000000, vVar5.z + 2.50000000, 0 )) AND (sub_11537( CurrentPlayerChar(), l_U1335 )))
         {
             if (sub_11537( l_U1330, l_U1335 ))
             {
-                if ((IS_WANTED_LEVEL_GREATER( sub_583(), 0 )) || (IS_CHAR_IN_ANY_CAR( sub_516() )))
+                if ((IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )) || (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
                 {
                     if (NOT l_U1406)
                     {
@@ -1191,7 +1193,7 @@ int sub_11933()
                     }
                     return 0;
                 }
-                else if (LOCATE_CHAR_ON_FOOT_3D( sub_516(), l_U1389._fU0 + vVar2.x, l_U1389._fU4 + vVar2.y, l_U1389._fU8 + vVar2.z, vVar5.x, vVar5.y, vVar5.z, 0 ))
+                else if (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), l_U1389._fU0 + vVar2.x, l_U1389._fU4 + vVar2.y, l_U1389._fU8 + vVar2.z, vVar5.x, vVar5.y, vVar5.z, 0 ))
                 {
                     if (NOT l_U1406)
                     {
@@ -1203,13 +1205,13 @@ int sub_11933()
                         }
                     }
                 }
-                if ((l_U1405) || (IS_CHAR_SHOOTING( sub_516() )))
+                if ((l_U1405) || (IS_CHAR_SHOOTING( CurrentPlayerChar() )))
                 {
                     if (sub_14604( l_U1330, 91 ))
                     {
                         sub_12166( 4, ref l_U1362, 0, ref l_U1330 );
                         CLEAR_CHAR_TASKS( l_U1330 );
-                        TASK_COMBAT( l_U1330, sub_516() );
+                        TASK_COMBAT( l_U1330, CurrentPlayerChar() );
                         l_U1405 = 1;
                         WAIT( 500 );
                         PLAY_SOUND_FROM_POSITION( -1, "SHOP_ALARMS_BELL", l_U1389 );
@@ -1232,14 +1234,14 @@ int sub_11933()
                     else if ((iVar8 > (l_U1381 + 2500)) || (sub_14604( l_U1330, 34 )))
                     {
                         CLEAR_CHAR_TASKS( l_U1330 );
-                        TASK_TURN_CHAR_TO_FACE_CHAR( l_U1330, sub_516() );
+                        TASK_TURN_CHAR_TO_FACE_CHAR( l_U1330, CurrentPlayerChar() );
                         GET_GAME_TIMER( ref l_U1382 );
                     }
-                    if ((IS_PLAYER_FREE_AIMING_AT_CHAR( sub_583(), l_U1330 )) || (IS_PLAYER_TARGETTING_CHAR( sub_583(), l_U1330 )))
+                    if ((IS_PLAYER_FREE_AIMING_AT_CHAR( CurrentPlayerId(), l_U1330 )) || (IS_PLAYER_TARGETTING_CHAR( CurrentPlayerId(), l_U1330 )))
                     {
                         if (NOT l_U1408)
                         {
-                            if (IS_CHAR_ARMED( sub_516(), 4 ))
+                            if (IS_CHAR_ARMED( CurrentPlayerChar(), 4 ))
                             {
                                 sub_12166( 7, ref l_U1362, 0, ref l_U1330 );
                             }
@@ -1255,7 +1257,7 @@ int sub_11933()
                         l_U1408 = 0;
                     }
                 }
-                if ((NOT l_U1409) AND (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U1330, sub_516(), 0 )))
+                if ((NOT l_U1409) AND (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U1330, CurrentPlayerChar(), 0 )))
                 {
                     sub_12166( 0, ref l_U1362, 0, ref l_U1330 );
                     l_U1409 = 1;
@@ -1266,7 +1268,7 @@ int sub_11933()
             {
                 if (NOT (sub_11537( l_U1330, l_U1335 )))
                 {
-                    if (sub_11537( sub_516(), l_U1335 ))
+                    if (sub_11537( CurrentPlayerChar(), l_U1335 ))
                     {
                         CLEAR_HELP();
                         PRINT_HELP( "SHOP_H_EMPTY" );
@@ -1294,7 +1296,7 @@ int sub_11933()
                 }
             }
         }
-        if ((sub_15520( sub_516(), l_U1330 )) >= 25.00000000)
+        if ((sub_15520( CurrentPlayerChar(), l_U1330 )) >= 25.00000000)
         {
             if (NOT (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "CLO_CANT" )))
             {
@@ -1390,7 +1392,7 @@ void sub_12166(int iParam0, unknown uParam1, int iParam2, unknown uParam3)
     }
     if (NOT (IS_CHAR_DEAD( (uParam3^) )))
     {
-        TASK_TURN_CHAR_TO_FACE_CHAR( (uParam3^), sub_516() );
+        TASK_TURN_CHAR_TO_FACE_CHAR( (uParam3^), CurrentPlayerChar() );
     }
     if ((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "finale1c" )) >= 1)
     {
@@ -1437,7 +1439,7 @@ void sub_12166(int iParam0, unknown uParam1, int iParam2, unknown uParam3)
     }
     if (NOT (IS_CHAR_INJURED( (uParam3^) )))
     {
-        TASK_TURN_CHAR_TO_FACE_CHAR( (uParam3^), sub_516() );
+        TASK_TURN_CHAR_TO_FACE_CHAR( (uParam3^), CurrentPlayerChar() );
     }
     sub_10320( "  * PLAY_SHOP_ASST_SPEECH(''" );
     sub_10320( ref cVar6 );
@@ -1716,7 +1718,7 @@ int sub_16036()
             if (NOT IS_SCREEN_FADING_OUT())
             {
                 DO_SCREEN_FADE_OUT( 125 );
-                SET_PLAYER_CONTROL( sub_583(), 0 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                 l_U1323 = 1;
             }
         }
@@ -1734,17 +1736,17 @@ int sub_16036()
                     }
                 }
             }
-            CLEAR_CHAR_TASKS_IMMEDIATELY( sub_516() );
-            TASK_TOGGLE_DUCK( sub_516(), 0 );
-            SET_CHAR_COORDINATES( sub_516(), l_U1345._fU0, l_U1345._fU4, 14.86010000 );
-            SET_CHAR_HEADING( sub_516(), 90.00000000 );
+            CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+            TASK_TOGGLE_DUCK( CurrentPlayerChar(), 0 );
+            SET_CHAR_COORDINATES( CurrentPlayerChar(), l_U1345._fU0, l_U1345._fU4, 14.86010000 );
+            SET_CHAR_HEADING( CurrentPlayerChar(), 90.00000000 );
             OPEN_SEQUENCE_TASK( ref l_U1395 );
             TASK_PAUSE( 0, 500 );
             TASK_GO_STRAIGHT_TO_COORD( 0, 889.04720000, -442.97040000, l_U1345._fU8, 2, -1 );
             TASK_PAUSE( 0, 250 );
             TASK_START_SCENARIO_AT_POSITION( 0, "Scenario_Standing", 889.04720000 + l_U1394, -442.97040000, l_U1345._fU8, 90.00000000 );
             CLOSE_SEQUENCE_TASK( l_U1395 );
-            TASK_PERFORM_SEQUENCE( sub_516(), l_U1395 );
+            TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U1395 );
             CLEAR_SEQUENCE_TASK( l_U1395 );
             REQUEST_INTERIOR_MODELS( -1997562918, l_U1335 );
             while (NOT (HAVE_ANIMS_LOADED( "clothing" )))
@@ -1794,9 +1796,9 @@ int sub_16036()
         case 1:
         if (NOT (IS_SPECIFIC_CAM_INTERPOLATING( l_U1396[2] )))
         {
-            CLEAR_CHAR_TASKS_IMMEDIATELY( sub_516() );
-            SET_CHAR_COORDINATES( sub_516(), 888.64090000, -442.92180000, 14.85120000 );
-            SET_CHAR_HEADING( sub_516(), 90.00000000 );
+            CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+            SET_CHAR_COORDINATES( CurrentPlayerChar(), 888.64090000, -442.92180000, 14.85120000 );
+            SET_CHAR_HEADING( CurrentPlayerChar(), 90.00000000 );
             GET_GAME_CAM( ref uVar8 );
             GET_CAM_POS( uVar8, ref uVar9._fU0, ref uVar9._fU4, ref uVar9._fU8 );
             GET_CAM_ROT( uVar8, ref uVar12._fU0, ref uVar12._fU4, ref uVar12._fU8 );
@@ -1809,7 +1811,7 @@ int sub_16036()
             SET_CAM_ACTIVE( l_U1400[1], 1 );
             SET_CAM_PROPAGATE( l_U1400[2], 1 );
             SET_CAM_INTERP_STYLE_CORE( l_U1400[2], l_U1400[0], l_U1400[1], 10000, 0 );
-            SET_ROOM_FOR_CHAR_BY_NAME( sub_516(), l_U1335 );
+            SET_ROOM_FOR_CHAR_BY_NAME( CurrentPlayerChar(), l_U1335 );
             PRINT_HELP( "SHOP_CS_02" );
             l_U200 = 4;
         }
@@ -1818,7 +1820,7 @@ int sub_16036()
         if (NOT (IS_SPECIFIC_CAM_INTERPOLATING( l_U1400[2] )))
         {
             SET_INTERP_FROM_SCRIPT_TO_GAME( 1, 500 );
-            CLEAR_CHAR_TASKS( sub_516() );
+            CLEAR_CHAR_TASKS( CurrentPlayerChar() );
             INCREMENT_INT_STAT_NO_MESSAGE( 373, 1 );
             l_U200 = 6;
         }
@@ -1832,9 +1834,9 @@ int sub_16036()
                 WAIT( 0 );
             }
         }
-        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_516() );
-        SET_CHAR_COORDINATES( sub_516(), 889.04720000, -442.97040000, 14.86010000 );
-        SET_CHAR_HEADING( sub_516(), 90.00000000 );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+        SET_CHAR_COORDINATES( CurrentPlayerChar(), 889.04720000, -442.97040000, 14.86010000 );
+        SET_CHAR_HEADING( CurrentPlayerChar(), 90.00000000 );
         CLEAR_PRINTS();
         CLEAR_HELP();
         if (IS_SCREEN_FADED_OUT())
@@ -1842,7 +1844,7 @@ int sub_16036()
             DO_SCREEN_FADE_IN( 125 );
         }
         SET_INTERP_FROM_GAME_TO_SCRIPT( 0, 0 );
-        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_516() );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
         l_U200 = 6;
         break;
         case 6:
@@ -1862,8 +1864,8 @@ int sub_16036()
         sub_18990( ref l_U1368 );
         SET_STATE_OF_CLOSEST_DOOR_OF_TYPE( 377940039, 892.30000000, -444.40000000, 16.10000000, 0, 0.00000000 );
         SET_STATE_OF_CLOSEST_DOOR_OF_TYPE( -532546678, 892.30000000, -441.40000000, 16.10000000, 0, 0.00000000 );
-        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_516(), 0 );
-        SET_PLAYER_CONTROL( sub_583(), 1 );
+        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 0 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         l_U1323 = 0;
         SET_GAME_CAM_HEADING( 0.00000000 );
         if ((g_U8356) AND (NOT g_U8355))
@@ -1945,7 +1947,7 @@ int sub_16548(unknown uParam0, unknown uParam1, unknown uParam2)
         return 1;
         break;
         case 2:
-        GET_CHAR_COORDINATES( sub_516(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar5._fU0, ref uVar5._fU4, ref uVar5._fU8 );
         switch (sub_16688( uVar5 ))
         {
             case 0:
@@ -2102,10 +2104,10 @@ int sub_20038(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         {
             uVar32 = (uParam7^)[0];
         }
-        sub_1158( sub_516(), ref l_U178, 0 );
+        sub_1158( CurrentPlayerChar(), ref l_U178, 0 );
         sub_25303( uVar32 );
-        SET_PLAYER_CONTROL( sub_583(), 0 );
-        TASK_PLAY_ANIM( sub_516(), "examine shoes", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+        TASK_PLAY_ANIM( CurrentPlayerChar(), "examine shoes", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
         if (NOT g_U8378)
         {
             PRINT_WITH_NUMBER_NOW( sub_25937( uVar32, 3, 0 ), iParam8, 7500, 1 );
@@ -2133,17 +2135,17 @@ int sub_20038(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 
 int sub_20064(int iParam0, unknown uParam1)
 {
-    if (IS_PLAYER_PLAYING( sub_583() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (IS_SCREEN_FADED_IN())
         {
-            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( sub_583() )))
+            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
             {
-                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_583() )))))
+                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))))
                 {
                     if (NOT sub_20160())
                     {
-                        if ((GET_OBJECT_PED_IS_HOLDING( sub_516() )) == nil)
+                        if ((GET_OBJECT_PED_IS_HOLDING( CurrentPlayerChar() )) == nil)
                         {
                             if (g_U9172 <= iParam0)
                             {
@@ -2227,7 +2229,7 @@ int sub_20445(unknown uParam0, string sParam1, unknown uParam2)
         {
             if (NOT l_U2)
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_583(), 0 );
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 0 );
                 l_U2 = 1;
             }
             g_U9172 = uParam0;
@@ -2349,7 +2351,7 @@ int sub_21403(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             DO_SCREEN_FADE_OUT( 0 );
             if (sub_21512( uParam9, ref uVar13 ))
             {
-                PLAY_SOUND_FROM_PED( -1, sub_24395( uVar13 ), sub_516() );
+                PLAY_SOUND_FROM_PED( -1, sub_24395( uVar13 ), CurrentPlayerChar() );
             }
         }
         return 0;
@@ -2367,10 +2369,10 @@ int sub_21403(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             }
         }
     }
-    CLEAR_CHAR_TASKS_IMMEDIATELY( sub_516() );
-    SET_CHAR_COORDINATES( sub_516(), uParam4._fU0, uParam4._fU4, uParam4._fU8 );
-    SET_CHAR_HEADING( sub_516(), uParam7 );
-    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_516(), 1 );
+    CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+    SET_CHAR_COORDINATES( CurrentPlayerChar(), uParam4._fU0, uParam4._fU4, uParam4._fU8 );
+    SET_CHAR_HEADING( CurrentPlayerChar(), uParam7 );
+    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 1 );
     CLEAR_AREA_OF_OBJECTS( uParam4._fU0, uParam4._fU4, uParam4._fU8, 5.00000000 );
     l_U197 = 0;
     return 1;
@@ -2571,8 +2573,8 @@ void sub_21597(unknown uParam0)
     int iVar7;
     boolean bVar8;
 
-    iVar3 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 1 );
-    iVar4 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 1 );
+    iVar3 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 1 );
+    iVar4 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 1 );
     bVar8 = false;
     for ( I = 0; I < 45; I++ )
     {
@@ -2794,8 +2796,8 @@ void sub_23304(unknown uParam0)
     int iVar7;
     boolean bVar8;
 
-    iVar3 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 2 );
-    iVar4 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 2 );
+    iVar3 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 2 );
+    iVar4 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 2 );
     bVar8 = false;
     for ( I = 0; I < 26; I++ )
     {
@@ -2979,11 +2981,11 @@ void sub_25303(unknown uParam0)
     int iVar6;
 
     sub_25316( uParam0, ref iVar3, ref iVar4 );
-    iVar5 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 5 );
-    iVar6 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 5 );
+    iVar5 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 5 );
+    iVar6 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 5 );
     if ((iVar6 != iVar4) || (iVar5 != iVar3))
     {
-        SET_CHAR_COMPONENT_VARIATION( sub_516(), 5, iVar3, iVar4 );
+        SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 5, iVar3, iVar4 );
     }
     return;
 }
@@ -3381,9 +3383,9 @@ void sub_28392(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     SET_CAM_ACTIVE( (uParam3^), 1 );
     SET_CAM_NEAR_DOF( (uParam3^), 0.50000000 );
     SET_CAM_FAR_DOF( (uParam3^), 5.00000000 );
-    FREEZE_CHAR_POSITION( sub_516(), 0 );
-    SET_PLAYER_CONTROL( sub_583(), 0 );
-    SET_EVERYONE_IGNORE_PLAYER( sub_583(), 1 );
+    FREEZE_CHAR_POSITION( CurrentPlayerChar(), 0 );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+    SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 1 );
     SET_CAM_PROPAGATE( (uParam3^), 1 );
     ACTIVATE_SCRIPTED_CAMS( 1, 1 );
     GET_GAME_TIMER( uParam5 );
@@ -3421,14 +3423,14 @@ void sub_28635(unknown uParam0)
         for ( I = 0; I < iVar4; I++ )
         {
             GET_GROUP_MEMBER( sub_2366(), I, ref uVar10 );
-            if ((IS_PLAYER_PLAYING( sub_583() )) AND (NOT (IS_CHAR_INJURED( uVar10 ))))
+            if ((IS_PLAYER_PLAYING( CurrentPlayerId() )) AND (NOT (IS_CHAR_INJURED( uVar10 ))))
             {
                 vVar11 = {0.00000000, 0.00000000, 0.00000000};
                 fVar14 = 0.00000000;
                 sub_28760( uParam0, I, ref vVar11, ref fVar14 );
                 SET_CHAR_COORDINATES( uVar10, vVar11.x, vVar11.y, vVar11.z );
                 SET_CHAR_HEADING( uVar10, fVar14 );
-                TASK_LOOK_AT_CHAR( uVar10, sub_516(), -1, 0 );
+                TASK_LOOK_AT_CHAR( uVar10, CurrentPlayerChar(), -1, 0 );
                 TASK_START_SCENARIO_AT_POSITION( uVar10, "Scenario_Standing", vVar11, fVar14 );
             }
         }
@@ -3485,7 +3487,7 @@ void sub_28760(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
         }
         break;
         case 2:
-        GET_CHAR_COORDINATES( sub_516(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar6._fU0, ref uVar6._fU4, ref uVar6._fU8 );
         switch (sub_16688( uVar6 ))
         {
             case 0:
@@ -3605,9 +3607,9 @@ int sub_30344(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         {
             WAIT( 0 );
         }
-        sub_1158( sub_516(), ref l_U178, 0 );
+        sub_1158( CurrentPlayerChar(), ref l_U178, 0 );
         sub_30878( uParam7 );
-        TASK_PLAY_ANIM( sub_516(), "examine legs", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+        TASK_PLAY_ANIM( CurrentPlayerChar(), "examine legs", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
         if (NOT g_U8378)
         {
             PRINT_WITH_NUMBER_NOW( "BUY_TROUSERS", iParam8, 7500, 1 );
@@ -3633,11 +3635,11 @@ void sub_30878(unknown uParam0)
     int iVar6;
 
     sub_23372( uParam0, ref iVar3, ref iVar4 );
-    iVar5 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 2 );
-    iVar6 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 2 );
+    iVar5 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 2 );
+    iVar6 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 2 );
     if ((iVar6 != iVar4) || (iVar5 != iVar3))
     {
-        SET_CHAR_COMPONENT_VARIATION( sub_516(), 2, iVar3, iVar4 );
+        SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 2, iVar3, iVar4 );
     }
     return;
 }
@@ -3692,9 +3694,9 @@ int sub_31410(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         {
             WAIT( 0 );
         }
-        sub_1158( sub_516(), ref l_U178, 0 );
+        sub_1158( CurrentPlayerChar(), ref l_U178, 0 );
         sub_33116( uParam7 );
-        TASK_PLAY_ANIM( sub_516(), "examine shirt", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+        TASK_PLAY_ANIM( CurrentPlayerChar(), "examine shirt", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
         if (NOT g_U8378)
         {
             PRINT_WITH_NUMBER_NOW( sub_31552( uParam7, 3, 0 ), iParam8, 7500, 1 );
@@ -3900,11 +3902,11 @@ void sub_33116(unknown uParam0)
     int iVar6;
 
     sub_21667( uParam0, ref iVar3, ref iVar4 );
-    iVar5 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 1 );
-    iVar6 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 1 );
+    iVar5 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 1 );
+    iVar6 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 1 );
     if ((iVar6 != iVar4) || (iVar5 != iVar3))
     {
-        SET_CHAR_COMPONENT_VARIATION( sub_516(), 1, iVar3, iVar4 );
+        SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 1, iVar3, iVar4 );
     }
     return;
 }
@@ -3958,10 +3960,10 @@ int sub_33586(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         {
             uVar23 = l_U1307[0];
         }
-        sub_1158( sub_516(), ref l_U178, 0 );
+        sub_1158( CurrentPlayerChar(), ref l_U178, 0 );
         sub_34043( uVar23 );
-        SET_PLAYER_CONTROL( sub_583(), 0 );
-        TASK_PLAY_ANIM( sub_516(), "Examine Hat_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+        TASK_PLAY_ANIM( CurrentPlayerChar(), "Examine Hat_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
         if (NOT g_U8378)
         {
             PRINT_WITH_NUMBER_NOW( sub_34655( uVar23, 3, 0 ), iParam7, 7500, 1 );
@@ -3996,28 +3998,28 @@ void sub_34043(int iParam0)
     {
         sub_34043( -1 );
         sub_34068( -1 );
-        if (((GET_CHAR_TEXTURE_VARIATION( sub_516(), 8 )) != 0) || ((GET_CHAR_DRAWABLE_VARIATION( sub_516(), 8 )) != 1))
+        if (((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 8 )) != 0) || ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 8 )) != 1))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_516(), 8, 1, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 8, 1, 0 );
         }
     }
     else
     {
         sub_34323( iParam0, ref iVar3 );
-        GET_CHAR_PROP_INDEX( sub_516(), 0, ref iVar4 );
-        if (((GET_CHAR_TEXTURE_VARIATION( sub_516(), 8 )) != 0) || ((GET_CHAR_DRAWABLE_VARIATION( sub_516(), 8 )) != 0))
+        GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, ref iVar4 );
+        if (((GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 8 )) != 0) || ((GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 8 )) != 0))
         {
-            SET_CHAR_COMPONENT_VARIATION( sub_516(), 8, 0, 0 );
+            SET_CHAR_COMPONENT_VARIATION( CurrentPlayerChar(), 8, 0, 0 );
         }
         if (iVar4 != iVar3)
         {
             if (iVar3 < 0)
             {
-                CLEAR_CHAR_PROP( sub_516(), 0 );
+                CLEAR_CHAR_PROP( CurrentPlayerChar(), 0 );
             }
             else
             {
-                SET_CHAR_PROP_INDEX( sub_516(), 0, iVar3 );
+                SET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, iVar3 );
             }
         }
     }
@@ -4030,16 +4032,16 @@ void sub_34068(unknown uParam0)
     int iVar4;
 
     sub_34080( uParam0, ref iVar3 );
-    GET_CHAR_PROP_INDEX( sub_516(), 1, ref iVar4 );
+    GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 1, ref iVar4 );
     if (iVar4 != iVar3)
     {
         if (iVar3 < 0)
         {
-            CLEAR_CHAR_PROP( sub_516(), 1 );
+            CLEAR_CHAR_PROP( CurrentPlayerChar(), 1 );
         }
         else
         {
-            SET_CHAR_PROP_INDEX( sub_516(), 1, iVar3 );
+            SET_CHAR_PROP_INDEX( CurrentPlayerChar(), 1, iVar3 );
         }
     }
     return;
@@ -4224,10 +4226,10 @@ int sub_35746(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         {
             uVar23 = l_U1310[0];
         }
-        sub_1158( sub_516(), ref l_U178, 0 );
+        sub_1158( CurrentPlayerChar(), ref l_U178, 0 );
         sub_34068( uVar23 );
-        SET_PLAYER_CONTROL( sub_583(), 0 );
-        TASK_PLAY_ANIM( sub_516(), "Examine Glasses_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+        TASK_PLAY_ANIM( CurrentPlayerChar(), "Examine Glasses_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
         if (NOT g_U8378)
         {
             PRINT_WITH_NUMBER_NOW( sub_36290( uVar23, 3, 0 ), iParam7, 7500, 1 );
@@ -4338,11 +4340,11 @@ int sub_37968(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 {
     int iVar48;
 
-    if ((sub_14604( sub_516(), 88 )) AND (sub_14604( sub_516(), 80 )))
+    if ((sub_14604( CurrentPlayerChar(), 88 )) AND (sub_14604( CurrentPlayerChar(), 80 )))
     {
         if (TIMERA() > iParam33)
         {
-            TASK_PLAY_ANIM( sub_516(), "examine shirt", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+            TASK_PLAY_ANIM( CurrentPlayerChar(), "examine shirt", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
             GENERATE_RANDOM_INT_IN_RANGE( 7500, 10000, ref iParam33 );
         }
     }
@@ -4365,7 +4367,7 @@ int sub_37968(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     }
     if (sub_38249())
     {
-        if ((NOT sub_38329()) AND (NOT (IS_SCORE_GREATER( sub_583(), iVar48 - 1 ))))
+        if ((NOT sub_38329()) AND (NOT (IS_SCORE_GREATER( CurrentPlayerId(), iVar48 - 1 ))))
         {
             CLEAR_PRINTS();
             PRINT_HELP( sub_31552( uParam0._fU76, 0, 0 ) );
@@ -4478,7 +4480,7 @@ int sub_38458(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             {
                 if (sub_21512( g_U8220, ref uVar10 ))
                 {
-                    PLAY_SOUND_FROM_PED( -1, sub_24395( uVar10 ), sub_516() );
+                    PLAY_SOUND_FROM_PED( -1, sub_24395( uVar10 ), CurrentPlayerChar() );
                 }
             }
         }
@@ -4494,11 +4496,11 @@ int sub_38458(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     sub_749( 5, "BLANK" );
     sub_749( 2, uParam3 );
     sub_749( 2, "BLANK" );
-    CLEAR_CHAR_TASKS( sub_516() );
-    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_516(), 0 );
+    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+    HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 0 );
     if (bParam5)
     {
-        sub_1129( sub_516(), l_U178 );
+        sub_1129( CurrentPlayerChar(), l_U178 );
     }
     GET_GAME_TIMER( ref iVar11 );
     INCREMENT_INT_STAT_NO_MESSAGE( 50, iVar11 - (uParam6^) );
@@ -4517,16 +4519,16 @@ int sub_38458(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     (uParam6^) = 0;
     REGISTER_STRING_FOR_FRONTEND_STAT( 668, sub_38831() );
     CLEAR_PRINTS();
-    SET_CAM_BEHIND_PED( sub_516() );
-    FREEZE_CHAR_POSITION( sub_516(), 0 );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
+    FREEZE_CHAR_POSITION( CurrentPlayerChar(), 0 );
     sub_2314();
     g_U8228 = 0;
     if (IS_SCREEN_FADED_OUT())
     {
         DO_SCREEN_FADE_IN( 0 );
     }
-    SET_PLAYER_CONTROL( sub_583(), 1 );
-    SET_EVERYONE_IGNORE_PLAYER( sub_583(), 0 );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
+    SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 0 );
     sub_970();
     ACTIVATE_SCRIPTED_CAMS( 0, 0 );
     sub_18990( uParam0 );
@@ -4545,6 +4547,7 @@ int sub_38458(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     return 1;
 }
 
+// Possibly: GET_NAME_FAVOURITE_SHOP
 string sub_38831()
 {
     if (CAN_THE_STAT_HAVE_STRING( 668 ))
@@ -4758,7 +4761,7 @@ int sub_41109()
 void sub_41477(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
 {
     INCREMENT_INT_STAT_NO_MESSAGE( 92, iParam2 );
-    ADD_SCORE( sub_583(), -1 * iParam2 );
+    ADD_SCORE( CurrentPlayerId(), -1 * iParam2 );
     g_U8229[uParam1] = 1;
     switch (iParam0)
     {
@@ -4793,7 +4796,7 @@ int sub_41789(unknown uParam0)
             return 1;
         }
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_583() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_749( 5, uParam0 );
         return 1;
@@ -4817,7 +4820,7 @@ int sub_42128(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     }
     if (sub_38249())
     {
-        if ((NOT sub_38329()) AND (NOT (IS_SCORE_GREATER( sub_583(), iVar48 - 1 ))))
+        if ((NOT sub_38329()) AND (NOT (IS_SCORE_GREATER( CurrentPlayerId(), iVar48 - 1 ))))
         {
             CLEAR_PRINTS();
             PRINT_HELP( "HELP_POOR_L" );
@@ -4892,11 +4895,11 @@ int sub_42128(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         PRINT_WITH_NUMBER( "BUY_TROUSERS_A", iVar48, 7500, 1 );
     };;;;
-    if ((sub_14604( sub_516(), 88 )) AND (sub_14604( sub_516(), 80 )))
+    if ((sub_14604( CurrentPlayerChar(), 88 )) AND (sub_14604( CurrentPlayerChar(), 80 )))
     {
         if (TIMERA() > iParam33)
         {
-            TASK_PLAY_ANIM( sub_516(), "examine legs", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+            TASK_PLAY_ANIM( CurrentPlayerChar(), "examine legs", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
             GENERATE_RANDOM_INT_IN_RANGE( 7500, 10000, ref iParam33 );
         }
     }
@@ -4911,7 +4914,7 @@ int sub_42128(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 void sub_42765(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
 {
     INCREMENT_INT_STAT_NO_MESSAGE( 92, iParam2 );
-    ADD_SCORE( sub_583(), -1 * iParam2 );
+    ADD_SCORE( CurrentPlayerId(), -1 * iParam2 );
     g_U8275[uParam1] = 1;
     switch (iParam0)
     {
@@ -5033,7 +5036,7 @@ int sub_43597(unknown uParam0, int iParam1, unknown uParam2, unknown uParam3, un
                 (uParam2^) = iVar17;
                 return 1;
             }
-            else if (NOT (IS_SCORE_GREATER( sub_583(), iVar17 - 1 )))
+            else if (NOT (IS_SCORE_GREATER( CurrentPlayerId(), iVar17 - 1 )))
             {
                 CLEAR_PRINTS();
                 PRINT_HELP( "HELP_POOR_F" );
@@ -5082,11 +5085,11 @@ int sub_43597(unknown uParam0, int iParam1, unknown uParam2, unknown uParam3, un
     {
         PRINT_WITH_NUMBER( sub_25937( uVar16, 3, 0 ), iVar17, 7500, 1 );
     };;;;;;
-    if ((sub_14604( sub_516(), 88 )) AND (sub_14604( sub_516(), 80 )))
+    if ((sub_14604( CurrentPlayerChar(), 88 )) AND (sub_14604( CurrentPlayerChar(), 80 )))
     {
         if (TIMERA() > iParam1)
         {
-            TASK_PLAY_ANIM( sub_516(), "examine shoes", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+            TASK_PLAY_ANIM( CurrentPlayerChar(), "examine shoes", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
             GENERATE_RANDOM_INT_IN_RANGE( 7500, 10000, ref iParam1 );
         }
     }
@@ -5107,8 +5110,8 @@ void sub_43608(unknown uParam0)
     int iVar7;
     boolean bVar8;
 
-    iVar3 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 5 );
-    iVar4 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 5 );
+    iVar3 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 5 );
+    iVar4 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 5 );
     bVar8 = false;
     for ( I = 0; I < 20; I++ )
     {
@@ -5187,7 +5190,7 @@ void sub_44207(boolean bParam0, unknown uParam1)
 void sub_44873(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
 {
     INCREMENT_INT_STAT_NO_MESSAGE( 92, iParam2 );
-    ADD_SCORE( sub_583(), -1 * iParam2 );
+    ADD_SCORE( CurrentPlayerId(), -1 * iParam2 );
     g_U8302[uParam1] = 1;
     switch (iParam0)
     {
@@ -5309,7 +5312,7 @@ int sub_45915(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             l_U1323 = 0;
             return 1;
         }
-        else if (NOT (IS_SCORE_GREATER( sub_583(), iVar10 - 1 )))
+        else if (NOT (IS_SCORE_GREATER( CurrentPlayerId(), iVar10 - 1 )))
         {
             CLEAR_PRINTS();
             PRINT_HELP( "HELP_POOR_H" );
@@ -5337,11 +5340,11 @@ int sub_45915(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         PRINT_WITH_NUMBER( sub_34655( uVar11, 3, 0 ), iVar10, 7500, 1 );
     };;;;;;
-    if ((sub_14604( sub_516(), 88 )) AND (sub_14604( sub_516(), 80 )))
+    if ((sub_14604( CurrentPlayerChar(), 88 )) AND (sub_14604( CurrentPlayerChar(), 80 )))
     {
         if (TIMERA() > l_U1379)
         {
-            TASK_PLAY_ANIM( sub_516(), "Examine Hat_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+            TASK_PLAY_ANIM( CurrentPlayerChar(), "Examine Hat_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
             GENERATE_RANDOM_INT_IN_RANGE( 7500, 10000, ref l_U1379 );
         }
     }
@@ -5362,7 +5365,7 @@ void sub_46078(unknown uParam0)
     int iVar7;
     int iVar8;
 
-    GET_CHAR_PROP_INDEX( sub_516(), 0, ref iVar3 );
+    GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 0, ref iVar3 );
     (uParam0^) = 4;
     bVar6 = false;
     for ( I = -1; I <= 4; I++ )
@@ -5379,8 +5382,8 @@ void sub_46078(unknown uParam0)
     }
     if ((uParam0^) == -1)
     {
-        iVar7 = GET_CHAR_DRAWABLE_VARIATION( sub_516(), 8 );
-        iVar8 = GET_CHAR_TEXTURE_VARIATION( sub_516(), 8 );
+        iVar7 = GET_CHAR_DRAWABLE_VARIATION( CurrentPlayerChar(), 8 );
+        iVar8 = GET_CHAR_TEXTURE_VARIATION( CurrentPlayerChar(), 8 );
         if ((iVar8 == 0) AND (iVar7 == 1))
         {
             (uParam0^) = 3;
@@ -5412,11 +5415,11 @@ int sub_46527(boolean bParam0)
                     switch (l_U1418)
                     {
                         case 1:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU56 )))
                         {
                             CLEAR_HELP();
                             CLEAR_PRINTS();
-                            TASK_PLAY_ANIM( sub_516(), l_U202[0]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[0]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             if (NOT (DOES_OBJECT_EXIST( l_U1413 )))
                             {
                                 CREATE_OBJECT( -1555357815, l_U283[5]._fU56._fU0 + 0.50000000, l_U283[5]._fU56._fU4, l_U283[5]._fU56._fU8, ref l_U1413, 1 );
@@ -5431,21 +5434,21 @@ int sub_46527(boolean bParam0)
                         }
                         break;
                         case 2:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[0]._fU64)
                             {
                                 sub_34043( -1 );
-                                ATTACH_OBJECT_TO_PED( l_U1414, sub_516(), 1232, l_U202[0]._fU24, l_U202[0]._fU36, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1414, CurrentPlayerChar(), 1232, l_U202[0]._fU24, l_U202[0]._fU36, 0 );
                                 l_U1418 = 3;
                             }
                         }
                         break;
                         case 3:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[0]._fU68)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1414 ))
@@ -5457,28 +5460,28 @@ int sub_46527(boolean bParam0)
                         }
                         break;
                         case 4:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU56 )))
                         {
                             sub_34043( -1 );
-                            TASK_PLAY_ANIM( sub_516(), l_U202[1]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[1]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             l_U1418 = 5;
                         }
                         break;
                         case 5:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[1]._fU72)
                             {
-                                ATTACH_OBJECT_TO_PED( l_U1413, sub_516(), 1219, l_U202[1]._fU0, l_U202[1]._fU12, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1413, CurrentPlayerChar(), 1219, l_U202[1]._fU0, l_U202[1]._fU12, 0 );
                                 l_U1418 = 6;
                             }
                         }
                         break;
                         case 6:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[1]._fU76)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1413 ))
@@ -5491,7 +5494,7 @@ int sub_46527(boolean bParam0)
                         }
                         break;
                         case 7:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU52 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU52 )))
                         {
                             if (DOES_OBJECT_EXIST( l_U1413 ))
                             {
@@ -5510,11 +5513,11 @@ int sub_46527(boolean bParam0)
                     switch (l_U1418)
                     {
                         case 1:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU56 )))
                         {
                             CLEAR_HELP();
                             CLEAR_PRINTS();
-                            TASK_PLAY_ANIM( sub_516(), l_U202[1]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[1]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             if (NOT (DOES_OBJECT_EXIST( l_U1413 )))
                             {
                                 CREATE_OBJECT( -1555357815, l_U283[5]._fU56._fU0 + 0.50000000, l_U283[5]._fU56._fU4, l_U283[5]._fU56._fU8, ref l_U1413, 1 );
@@ -5529,21 +5532,21 @@ int sub_46527(boolean bParam0)
                         }
                         break;
                         case 2:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[1]._fU64)
                             {
                                 sub_34043( -1 );
-                                ATTACH_OBJECT_TO_PED( l_U1413, sub_516(), 1232, l_U202[1]._fU24, l_U202[1]._fU36, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1413, CurrentPlayerChar(), 1232, l_U202[1]._fU24, l_U202[1]._fU36, 0 );
                                 l_U1418 = 3;
                             }
                         }
                         break;
                         case 3:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[1]._fU68)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1413 ))
@@ -5555,28 +5558,28 @@ int sub_46527(boolean bParam0)
                         }
                         break;
                         case 4:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU56 )))
                         {
                             sub_34043( -1 );
-                            TASK_PLAY_ANIM( sub_516(), l_U202[0]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[0]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             l_U1418 = 5;
                         }
                         break;
                         case 5:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[0]._fU72)
                             {
-                                ATTACH_OBJECT_TO_PED( l_U1414, sub_516(), 1219, l_U202[0]._fU0, l_U202[0]._fU12, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1414, CurrentPlayerChar(), 1219, l_U202[0]._fU0, l_U202[0]._fU12, 0 );
                                 l_U1418 = 6;
                             }
                         }
                         break;
                         case 6:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[0]._fU76)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1414 ))
@@ -5589,7 +5592,7 @@ int sub_46527(boolean bParam0)
                         }
                         break;
                         case 7:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU52 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU52 )))
                         {
                             if (DOES_OBJECT_EXIST( l_U1413 ))
                             {
@@ -5632,11 +5635,11 @@ int sub_46527(boolean bParam0)
                 switch (l_U1419)
                 {
                     case 1:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU48 )))
                     {
                         CLEAR_HELP();
                         CLEAR_PRINTS();
-                        TASK_PLAY_ANIM( sub_516(), l_U202[0]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[0]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         if (NOT (DOES_OBJECT_EXIST( l_U1413 )))
                         {
                             CREATE_OBJECT( -1555357815, l_U283[5]._fU56._fU0 + 0.50000000, l_U283[5]._fU56._fU4, l_U283[5]._fU56._fU8, ref l_U1413, 1 );
@@ -5651,21 +5654,21 @@ int sub_46527(boolean bParam0)
                     }
                     break;
                     case 2:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[0]._fU64)
                         {
                             sub_34043( -1 );
-                            ATTACH_OBJECT_TO_PED( l_U1414, sub_516(), 1219, l_U202[0]._fU0, l_U202[0]._fU12, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1414, CurrentPlayerChar(), 1219, l_U202[0]._fU0, l_U202[0]._fU12, 0 );
                             l_U1419 = 3;
                         }
                     }
                     break;
                     case 3:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[0]._fU68)
                         {
                             if (DOES_OBJECT_EXIST( l_U1414 ))
@@ -5677,28 +5680,28 @@ int sub_46527(boolean bParam0)
                     }
                     break;
                     case 4:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU48 )))
                     {
                         sub_34043( -1 );
-                        TASK_PLAY_ANIM( sub_516(), l_U202[1]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[1]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         l_U1419 = 5;
                     }
                     break;
                     case 5:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[0]._fU72)
                         {
-                            ATTACH_OBJECT_TO_PED( l_U1413, sub_516(), 1232, l_U202[1]._fU24, l_U202[1]._fU36, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1413, CurrentPlayerChar(), 1232, l_U202[1]._fU24, l_U202[1]._fU36, 0 );
                             l_U1419 = 6;
                         }
                     }
                     break;
                     case 6:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[0]._fU76)
                         {
                             if (DOES_OBJECT_EXIST( l_U1413 ))
@@ -5711,7 +5714,7 @@ int sub_46527(boolean bParam0)
                     }
                     break;
                     case 7:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU60 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU60 )))
                     {
                         if (DOES_OBJECT_EXIST( l_U1413 ))
                         {
@@ -5730,11 +5733,11 @@ int sub_46527(boolean bParam0)
                 switch (l_U1419)
                 {
                     case 1:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU48 )))
                     {
                         CLEAR_HELP();
                         CLEAR_PRINTS();
-                        TASK_PLAY_ANIM( sub_516(), l_U202[1]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[1]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         if (NOT (DOES_OBJECT_EXIST( l_U1413 )))
                         {
                             CREATE_OBJECT( -1555357815, l_U283[5]._fU56._fU0 + 0.50000000, l_U283[5]._fU56._fU4, l_U283[5]._fU56._fU8, ref l_U1413, 1 );
@@ -5749,21 +5752,21 @@ int sub_46527(boolean bParam0)
                     }
                     break;
                     case 2:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[1]._fU64)
                         {
                             sub_34043( -1 );
-                            ATTACH_OBJECT_TO_PED( l_U1413, sub_516(), 1219, l_U202[1]._fU0, l_U202[1]._fU12, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1413, CurrentPlayerChar(), 1219, l_U202[1]._fU0, l_U202[1]._fU12, 0 );
                             l_U1419 = 3;
                         }
                     }
                     break;
                     case 3:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[1]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[1]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[1]._fU68)
                         {
                             if (DOES_OBJECT_EXIST( l_U1413 ))
@@ -5775,28 +5778,28 @@ int sub_46527(boolean bParam0)
                     }
                     break;
                     case 4:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[1]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[1]._fU48 )))
                     {
                         sub_34043( -1 );
-                        TASK_PLAY_ANIM( sub_516(), l_U202[0]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[0]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         l_U1419 = 5;
                     }
                     break;
                     case 5:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[1]._fU72)
                         {
-                            ATTACH_OBJECT_TO_PED( l_U1414, sub_516(), 1232, l_U202[0]._fU24, l_U202[0]._fU36, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1414, CurrentPlayerChar(), 1232, l_U202[0]._fU24, l_U202[0]._fU36, 0 );
                             l_U1419 = 6;
                         }
                     }
                     break;
                     case 6:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[0]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[0]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[1]._fU76)
                         {
                             if (DOES_OBJECT_EXIST( l_U1414 ))
@@ -5809,7 +5812,7 @@ int sub_46527(boolean bParam0)
                     }
                     break;
                     case 7:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[0]._fU60 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[0]._fU60 )))
                     {
                         if (DOES_OBJECT_EXIST( l_U1413 ))
                         {
@@ -5864,7 +5867,7 @@ int sub_51763(unknown uParam0, unknown uParam1, unknown uParam2)
 void sub_52140(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
 {
     INCREMENT_INT_STAT_NO_MESSAGE( 92, iParam2 );
-    ADD_SCORE( sub_583(), -1 * iParam2 );
+    ADD_SCORE( CurrentPlayerId(), -1 * iParam2 );
     g_U8323[uParam1] = 1;
     switch (iParam0)
     {
@@ -5991,7 +5994,7 @@ int sub_52920(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             l_U1323 = 0;
             return 1;
         }
-        else if (NOT (IS_SCORE_GREATER( sub_583(), iVar10 - 1 )))
+        else if (NOT (IS_SCORE_GREATER( CurrentPlayerId(), iVar10 - 1 )))
         {
             CLEAR_PRINTS();
             PRINT_HELP( "HELP_POOR_G" );
@@ -6030,11 +6033,11 @@ int sub_52920(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         PRINT_WITH_NUMBER( sub_36290( uVar11, 3, 0 ), iVar10, 7500, 1 );
     };;;;;;
-    if ((sub_14604( sub_516(), 88 )) AND (sub_14604( sub_516(), 80 )))
+    if ((sub_14604( CurrentPlayerChar(), 88 )) AND (sub_14604( CurrentPlayerChar(), 80 )))
     {
         if (TIMERA() > l_U1379)
         {
-            TASK_PLAY_ANIM( sub_516(), "Examine Glasses_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
+            TASK_PLAY_ANIM( CurrentPlayerChar(), "Examine Glasses_b", "clothing", 4.00000000, 0, 0, 0, 0, -1 );
             GENERATE_RANDOM_INT_IN_RANGE( 7500, 10000, ref l_U1379 );
         }
     }
@@ -6053,7 +6056,7 @@ void sub_53083(unknown uParam0)
     int iVar5;
     boolean bVar6;
 
-    GET_CHAR_PROP_INDEX( sub_516(), 1, ref iVar3 );
+    GET_CHAR_PROP_INDEX( CurrentPlayerChar(), 1, ref iVar3 );
     bVar6 = false;
     for ( I = -1; I <= 3; I++ )
     {
@@ -6114,11 +6117,11 @@ int sub_53738(boolean bParam0)
                     switch (l_U1418)
                     {
                         case 1:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU56 )))
                         {
                             CLEAR_HELP();
                             CLEAR_PRINTS();
-                            TASK_PLAY_ANIM( sub_516(), l_U202[2]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[2]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             if (NOT (DOES_OBJECT_EXIST( l_U1416 )))
                             {
                                 CREATE_OBJECT( 1257247272, l_U283[4]._fU56._fU0 + 0.50000000, l_U283[4]._fU56._fU4, l_U283[4]._fU56._fU8, ref l_U1416, 1 );
@@ -6133,21 +6136,21 @@ int sub_53738(boolean bParam0)
                         }
                         break;
                         case 2:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[2]._fU64)
                             {
                                 sub_34068( -1 );
-                                ATTACH_OBJECT_TO_PED( l_U1416, sub_516(), 1232, l_U202[2]._fU24, l_U202[2]._fU36, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1416, CurrentPlayerChar(), 1232, l_U202[2]._fU24, l_U202[2]._fU36, 0 );
                                 l_U1418 = 3;
                             }
                         }
                         break;
                         case 3:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[2]._fU68)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1416 ))
@@ -6160,27 +6163,27 @@ int sub_53738(boolean bParam0)
                         }
                         break;
                         case 4:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU56 )))
                         {
-                            TASK_PLAY_ANIM( sub_516(), l_U202[2]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[2]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             l_U1418 = 5;
                         }
                         break;
                         case 5:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[2]._fU72)
                             {
-                                ATTACH_OBJECT_TO_PED( l_U1415, sub_516(), 1219, l_U202[2]._fU0, l_U202[2]._fU12, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1415, CurrentPlayerChar(), 1219, l_U202[2]._fU0, l_U202[2]._fU12, 0 );
                                 l_U1418 = 6;
                             }
                         }
                         break;
                         case 6:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[2]._fU76)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1415 ))
@@ -6193,7 +6196,7 @@ int sub_53738(boolean bParam0)
                         }
                         break;
                         case 7:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU52 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU52 )))
                         {
                             if (DOES_OBJECT_EXIST( l_U1415 ))
                             {
@@ -6212,11 +6215,11 @@ int sub_53738(boolean bParam0)
                     switch (l_U1418)
                     {
                         case 1:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU56 )))
                         {
                             CLEAR_HELP();
                             CLEAR_PRINTS();
-                            TASK_PLAY_ANIM( sub_516(), l_U202[3]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[3]._fU56, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             if (NOT (DOES_OBJECT_EXIST( l_U1415 )))
                             {
                                 CREATE_OBJECT( 2084697291, l_U283[4]._fU56._fU0 - 0.50000000, l_U283[4]._fU56._fU4, l_U283[4]._fU56._fU8, ref l_U1415, 1 );
@@ -6231,21 +6234,21 @@ int sub_53738(boolean bParam0)
                         }
                         break;
                         case 2:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[3]._fU64)
                             {
                                 sub_34068( -1 );
-                                ATTACH_OBJECT_TO_PED( l_U1415, sub_516(), 1232, l_U202[3]._fU24, l_U202[3]._fU36, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1415, CurrentPlayerChar(), 1232, l_U202[3]._fU24, l_U202[3]._fU36, 0 );
                                 l_U1418 = 3;
                             }
                         }
                         break;
                         case 3:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU56 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU56 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU56, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU56, ref l_U1417 );
                             if (l_U1417 >= l_U202[3]._fU68)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1415 ))
@@ -6258,27 +6261,27 @@ int sub_53738(boolean bParam0)
                         }
                         break;
                         case 4:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU56 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU56 )))
                         {
-                            TASK_PLAY_ANIM( sub_516(), l_U202[3]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                            TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[3]._fU52, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                             l_U1418 = 5;
                         }
                         break;
                         case 5:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[3]._fU72)
                             {
-                                ATTACH_OBJECT_TO_PED( l_U1416, sub_516(), 1219, l_U202[3]._fU0, l_U202[3]._fU12, 0 );
+                                ATTACH_OBJECT_TO_PED( l_U1416, CurrentPlayerChar(), 1219, l_U202[3]._fU0, l_U202[3]._fU12, 0 );
                                 l_U1418 = 6;
                             }
                         }
                         break;
                         case 6:
-                        if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU52 ))
+                        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU52 ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU52, ref l_U1417 );
+                            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU52, ref l_U1417 );
                             if (l_U1417 >= l_U202[3]._fU76)
                             {
                                 if (DOES_OBJECT_EXIST( l_U1416 ))
@@ -6291,7 +6294,7 @@ int sub_53738(boolean bParam0)
                         }
                         break;
                         case 7:
-                        if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU52 )))
+                        if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU52 )))
                         {
                             if (DOES_OBJECT_EXIST( l_U1415 ))
                             {
@@ -6334,11 +6337,11 @@ int sub_53738(boolean bParam0)
                 switch (l_U1419)
                 {
                     case 1:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU48 )))
                     {
                         CLEAR_HELP();
                         CLEAR_PRINTS();
-                        TASK_PLAY_ANIM( sub_516(), l_U202[2]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[2]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         if (NOT (DOES_OBJECT_EXIST( l_U1415 )))
                         {
                             CREATE_OBJECT( 2084697291, l_U283[4]._fU56._fU0 - 0.50000000, l_U283[4]._fU56._fU4, l_U283[4]._fU56._fU8, ref l_U1415, 1 );
@@ -6353,21 +6356,21 @@ int sub_53738(boolean bParam0)
                     }
                     break;
                     case 2:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[2]._fU64)
                         {
                             sub_34068( -1 );
-                            ATTACH_OBJECT_TO_PED( l_U1416, sub_516(), 1219, l_U202[2]._fU0, l_U202[2]._fU12, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1416, CurrentPlayerChar(), 1219, l_U202[2]._fU0, l_U202[2]._fU12, 0 );
                             l_U1419 = 3;
                         }
                     }
                     break;
                     case 3:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[2]._fU68)
                         {
                             if (DOES_OBJECT_EXIST( l_U1416 ))
@@ -6379,28 +6382,28 @@ int sub_53738(boolean bParam0)
                     }
                     break;
                     case 4:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU48 )))
                     {
                         sub_34068( -1 );
-                        TASK_PLAY_ANIM( sub_516(), l_U202[2]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[2]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         l_U1419 = 5;
                     }
                     break;
                     case 5:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[2]._fU72)
                         {
-                            ATTACH_OBJECT_TO_PED( l_U1415, sub_516(), 1232, l_U202[2]._fU24, l_U202[2]._fU36, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1415, CurrentPlayerChar(), 1232, l_U202[2]._fU24, l_U202[2]._fU36, 0 );
                             l_U1419 = 6;
                         }
                     }
                     break;
                     case 6:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[2]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[2]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[2]._fU76)
                         {
                             if (DOES_OBJECT_EXIST( l_U1415 ))
@@ -6413,7 +6416,7 @@ int sub_53738(boolean bParam0)
                     }
                     break;
                     case 7:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[2]._fU60 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[2]._fU60 )))
                     {
                         if (DOES_OBJECT_EXIST( l_U1415 ))
                         {
@@ -6432,11 +6435,11 @@ int sub_53738(boolean bParam0)
                 switch (l_U1419)
                 {
                     case 1:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU48 )))
                     {
                         CLEAR_HELP();
                         CLEAR_PRINTS();
-                        TASK_PLAY_ANIM( sub_516(), l_U202[3]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[3]._fU48, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         if (NOT (DOES_OBJECT_EXIST( l_U1415 )))
                         {
                             CREATE_OBJECT( 2084697291, l_U283[4]._fU56._fU0 - 0.50000000, l_U283[4]._fU56._fU4, l_U283[4]._fU56._fU8, ref l_U1415, 1 );
@@ -6451,21 +6454,21 @@ int sub_53738(boolean bParam0)
                     }
                     break;
                     case 2:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[3]._fU64)
                         {
                             sub_34068( -1 );
-                            ATTACH_OBJECT_TO_PED( l_U1415, sub_516(), 1219, l_U202[3]._fU0, l_U202[3]._fU12, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1415, CurrentPlayerChar(), 1219, l_U202[3]._fU0, l_U202[3]._fU12, 0 );
                             l_U1419 = 3;
                         }
                     }
                     break;
                     case 3:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU48 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU48 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU48, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU48, ref l_U1417 );
                         if (l_U1417 >= l_U202[3]._fU68)
                         {
                             if (DOES_OBJECT_EXIST( l_U1415 ))
@@ -6477,28 +6480,28 @@ int sub_53738(boolean bParam0)
                     }
                     break;
                     case 4:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU48 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU48 )))
                     {
                         sub_34068( -1 );
-                        TASK_PLAY_ANIM( sub_516(), l_U202[3]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
+                        TASK_PLAY_ANIM( CurrentPlayerChar(), l_U202[3]._fU60, "clothing", l_U1385, 0, 0, 0, 0, -1 );
                         l_U1419 = 5;
                     }
                     break;
                     case 5:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[3]._fU72)
                         {
-                            ATTACH_OBJECT_TO_PED( l_U1416, sub_516(), 1232, l_U202[3]._fU24, l_U202[3]._fU36, 0 );
+                            ATTACH_OBJECT_TO_PED( l_U1416, CurrentPlayerChar(), 1232, l_U202[3]._fU24, l_U202[3]._fU36, 0 );
                             l_U1419 = 6;
                         }
                     }
                     break;
                     case 6:
-                    if (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU60 ))
+                    if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU60 ))
                     {
-                        GET_CHAR_ANIM_CURRENT_TIME( sub_516(), "clothing", l_U202[3]._fU60, ref l_U1417 );
+                        GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), "clothing", l_U202[3]._fU60, ref l_U1417 );
                         if (l_U1417 >= l_U202[3]._fU76)
                         {
                             if (DOES_OBJECT_EXIST( l_U1416 ))
@@ -6511,7 +6514,7 @@ int sub_53738(boolean bParam0)
                     }
                     break;
                     case 7:
-                    if (NOT (IS_CHAR_PLAYING_ANIM( sub_516(), "clothing", l_U202[3]._fU60 )))
+                    if (NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), "clothing", l_U202[3]._fU60 )))
                     {
                         if (DOES_OBJECT_EXIST( l_U1415 ))
                         {
@@ -6566,7 +6569,7 @@ int sub_58974(unknown uParam0, unknown uParam1, unknown uParam2)
 void sub_59351(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
 {
     INCREMENT_INT_STAT_NO_MESSAGE( 92, iParam2 );
-    ADD_SCORE( sub_583(), -1 * iParam2 );
+    ADD_SCORE( CurrentPlayerId(), -1 * iParam2 );
     g_U8328[uParam1] = 1;
     switch (iParam0)
     {

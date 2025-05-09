@@ -80,12 +80,13 @@ void main()
             {
                 GET_INTERIOR_AT_COORDS( 1188.08600000, -665.16560000, 15.53800000, ref l_U292 );
                 GET_INTERIOR_AT_COORDS( -587.44020000, 66.77700000, 4.91530000, ref l_U291 );
-                GET_INTERIOR_FROM_CHAR( sub_810(), ref l_U290 );
+                GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref l_U290 );
                 if (NOT (l_U290 == nil))
                 {
                     if ((l_U290 == l_U292) || (l_U290 == l_U291))
                     {
                         CLEAR_HELP();
+                        // TEN_PIN_49 = Walk up to the desk to start bowling.
                         PRINT_HELP( "TEN_PIN_49" );
                         g_U9373 = 1;
                     }
@@ -97,7 +98,7 @@ void main()
                 {
                     if (l_U252 == 0)
                     {
-                        if (NOT sub_978())
+                        if (NOT IsMichelle1Running())
                         {
                             g_U65003 = 0;
                         }
@@ -107,13 +108,15 @@ void main()
                         }
                         if (DOES_OBJECT_EXIST( l_U288 ))
                         {
-                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, -0.60000000, 0.00000000, 0.00000000, ref l_U261._fU0, ref l_U261._fU4, ref l_U261._fU8 );
-                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, -1.60000000, 2.60000000, 1.50000000, ref l_U264._fU0, ref l_U264._fU4, ref l_U264._fU8 );
-                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, -3.80000000, 36.40000000, -1.00000000, ref l_U267._fU0, ref l_U267._fU4, ref l_U267._fU8 );
-                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, 21.20000000, 16.80000000, 1.00000000, ref l_U270._fU0, ref l_U270._fU4, ref l_U270._fU8 );
+                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, -0.60000000, 0.00000000, 0.00000000, ref l_U261.x, ref l_U261.y, ref l_U261.z );
+                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, -1.60000000, 2.60000000, 1.50000000, ref l_U264.x, ref l_U264.y, ref l_U264.z );
+                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, -3.80000000, 36.40000000, -1.00000000, ref l_U267.x, ref l_U267.y, ref l_U267.z );
+                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U288, 21.20000000, 16.80000000, 1.00000000, ref l_U270.x, ref l_U270.y, ref l_U270.z );
                             GET_OBJECT_HEADING( l_U288, ref l_U276 );
                         }
-                        SWITCH_PED_PATHS_OFF( l_U267._fU0, l_U267._fU4, l_U267._fU8, l_U270._fU0, l_U270._fU4, l_U270._fU8 );
+                        SWITCH_PED_PATHS_OFF( l_U267.x, l_U267.y, l_U267.z, l_U270.x, l_U270.y, l_U270.z );
+
+                        // Seems to possibly load the BOWL gxt text 3: 0xA9E5223D = Just take any empty available lane.
                         sub_1340( "BOWL", 3 );
                         l_U289 = -799229885;
                         l_U252 = 1;
@@ -124,7 +127,7 @@ void main()
                         {
                             if (NOT (DOES_CHAR_EXIST( l_U286 )))
                             {
-                                CREATE_CHAR( 4, l_U289, l_U261._fU0, l_U261._fU4, l_U261._fU8, ref l_U286, 1 );
+                                CREATE_CHAR( 4, l_U289, l_U261.x, l_U261.y, l_U261.z, ref l_U286, 1 );
                                 SET_CHAR_WILL_COWER_INSTEAD_OF_FLEEING( l_U286, 1 );
                                 SET_CHAR_HEADING( l_U286, l_U276 );
                                 SET_ROOM_FOR_CHAR_BY_NAME( l_U286, "Bowl_GtaMloRoom" );
@@ -150,15 +153,17 @@ void main()
     return;
 }
 
+// Switch ped paths on in unknown area, possibly somewhere in the bowling alley?
 void sub_490()
 {
     g_U9371 = 0;
-    SWITCH_PED_PATHS_ON( l_U267._fU0, l_U267._fU4, l_U267._fU8, l_U270._fU0, l_U270._fU4, l_U270._fU8 );
+    SWITCH_PED_PATHS_ON( l_U267.x, l_U267.y, l_U267.z, l_U270.x, l_U270.y, l_U270.z );
     TERMINATE_THIS_SCRIPT();
     return;
 }
 
-void sub_810()
+// sub_810
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -166,7 +171,8 @@ void sub_810()
     return Result;
 }
 
-void sub_978()
+// sub_978
+void IsMichelle1Running()
 {
     int Result;
 
@@ -215,6 +221,7 @@ int sub_1376()
     return 0;
 }
 
+// Load and wait on the model
 int sub_1511()
 {
     REQUEST_MODEL( l_U289 );
@@ -230,6 +237,7 @@ void sub_1708()
     boolean bVar2;
 
     bVar2 = true;
+
     sub_1720();
     sub_1793();
     sub_1920();
@@ -237,12 +245,13 @@ void sub_1708()
     sub_2474();
     sub_2693();
     sub_2912();
+
     switch (l_U301)
     {
         case 0:
         if (NOT g_U9371)
         {
-            if (sub_978())
+            if (IsMichelle1Running())
             {
                 if (g_U64576 == 0)
                 {
@@ -277,7 +286,7 @@ void sub_1708()
             {
                 bVar2 = false;
             }
-            if (NOT (IS_WANTED_LEVEL_GREATER( sub_2341(), 0 )))
+            if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
             {
                 l_U281 = 0;
             }
@@ -295,13 +304,13 @@ void sub_1708()
                         }
                     }
                 }
-                if (LOCATE_CHAR_ON_FOOT_3D( sub_810(), l_U264._fU0, l_U264._fU4, l_U264._fU8, 1.50000000, 1.50000000, 1.50000000, 0 ))
+                if (LOCATE_CHAR_ON_FOOT_3D( CurrentPlayerChar(), l_U264.x, l_U264.y, l_U264.z, 1.50000000, 1.50000000, 1.50000000, 0 ))
                 {
                     if (l_U282 == 1)
                     {
                         l_U282 = 0;
                     }
-                    if (NOT (IS_WANTED_LEVEL_GREATER( sub_2341(), 0 )))
+                    if (NOT (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 )))
                     {
                         if (NOT l_U280)
                         {
@@ -309,12 +318,12 @@ void sub_1708()
                             {
                                 if (NOT (IS_CHAR_INJURED( l_U286 )))
                                 {
-                                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U286, sub_810() );
+                                    TASK_TURN_CHAR_TO_FACE_CHAR( l_U286, CurrentPlayerChar() );
                                     if (sub_4251( 2, 0 ))
                                     {
                                         if (l_U278 == 1)
                                         {
-                                            if (IS_SCORE_GREATER( sub_2341(), l_U257 ))
+                                            if (IS_SCORE_GREATER( CurrentPlayerId(), l_U257 ))
                                             {
                                                 if (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "TEN_PIN_48" ))
                                                 {
@@ -327,7 +336,7 @@ void sub_1708()
                                         {
                                             if (l_U258 == 0)
                                             {
-                                                if (NOT sub_978())
+                                                if (NOT IsMichelle1Running())
                                                 {
                                                     if (NOT IS_MESSAGE_BEING_DISPLAYED())
                                                     {
@@ -361,9 +370,9 @@ void sub_1708()
                                     {
                                         if (IS_CONTROL_JUST_PRESSED( 2, 23 ))
                                         {
-                                            if (NOT sub_978())
+                                            if (NOT IsMichelle1Running())
                                             {
-                                                if (IS_SCORE_GREATER( sub_2341(), l_U257 ))
+                                                if (IS_SCORE_GREATER( CurrentPlayerId(), l_U257 ))
                                                 {
                                                     PRINT_HELP_FOREVER( "TEN_PIN_45" );
                                                     l_U280 = 1;
@@ -416,7 +425,7 @@ void sub_1708()
                 {
                     if (NOT (IS_CHAR_INJURED( l_U286 )))
                     {
-                        TASK_LOOK_AT_CHAR( l_U286, sub_810(), -2, 1 );
+                        TASK_LOOK_AT_CHAR( l_U286, CurrentPlayerChar(), -2, 1 );
                     }
                 }
                 CLEAR_THIS_PRINT( "TEN_PIN_07" );
@@ -435,7 +444,7 @@ void sub_1708()
         }
         break;
         case 1:
-        if (NOT sub_978())
+        if (NOT IsMichelle1Running())
         {
             if (sub_4251( 2, 0 ))
             {
@@ -452,7 +461,7 @@ void sub_1708()
                             }
                         }
                         sub_5767();
-                        sub_6528( l_U257 );
+                        RemovePlayerMoney( l_U257 );
                         l_U301 = 2;
                         PRINT_NOW( "TEN_PIN_18", 6000, 4 );
                         CLEAR_HELP();
@@ -467,7 +476,7 @@ void sub_1708()
                             }
                         }
                         sub_5767();
-                        sub_6528( l_U257 );
+                        RemovePlayerMoney( l_U257 );
                         g_U9372 = 1;
                         l_U301 = 2;
                         PRINT_NOW( "TEN_PIN_18", 6000, 4 );
@@ -494,7 +503,7 @@ void sub_1708()
         PRINT_NOW( "TEN_PIN_18", 6000, 4 );
         g_U9372 = 1;
         l_U301 = 2;;
-        if (NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_810(), l_U264._fU0, l_U264._fU4, l_U264._fU8, 1.50000000, 1.50000000, 1.50000000, 0 )))
+        if (NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U264.x, l_U264.y, l_U264.z, 1.50000000, 1.50000000, 1.50000000, 0 )))
         {
             if ((IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "TEN_PIN_48" )) || (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( "TEN_PIN_45" )))
             {
@@ -505,6 +514,7 @@ void sub_1708()
             l_U280 = 0;
         }
         break;
+
         case 2:
         sub_7093();
         g_U9371 = 1;
@@ -514,8 +524,9 @@ void sub_1708()
         }
         l_U301 = 3;
         break;
+
         case 3:
-        if (NOT sub_978())
+        if (NOT IsMichelle1Running())
         {
             if (g_U9371 == 0)
             {
@@ -537,7 +548,7 @@ void sub_1720()
 {
     if (l_U279 == 1)
     {
-        if (NOT sub_978())
+        if (NOT IsMichelle1Running())
         {
             CLEAR_HELP();
             g_U9371 = 0;
@@ -551,7 +562,7 @@ void sub_1720()
 
 void sub_1793()
 {
-    if (sub_978())
+    if (IsMichelle1Running())
     {
         if (l_U255 == 0)
         {
@@ -631,9 +642,9 @@ void sub_2160()
         {
             if (NOT (IS_CHAR_DEAD( l_U286 )))
             {
-                if (NOT sub_978())
+                if (NOT IsMichelle1Running())
                 {
-                    if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U286, sub_810(), 0 ))
+                    if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U286, CurrentPlayerChar(), 0 ))
                     {
                         sub_2250();
                         sub_490();
@@ -641,7 +652,7 @@ void sub_2160()
                 }
                 else if (NOT g_U65003)
                 {
-                    if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U286, sub_810(), 0 ))
+                    if (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U286, CurrentPlayerChar(), 0 ))
                     {
                         sub_2250();
                         g_U65003 = 1;
@@ -654,6 +665,8 @@ void sub_2160()
     return;
 }
 
+// Remove blip, clear char tasks, if chars are not injured make them flee the player char.
+// Make all random peds flee the player, I'm guessing this happens if I cause mayhem.
 void sub_2250()
 {
     if (DOES_BLIP_EXIST( l_U295 ))
@@ -663,15 +676,16 @@ void sub_2250()
     CLEAR_CHAR_TASKS( l_U286 );
     if (NOT (IS_CHAR_INJURED( l_U286 )))
     {
-        TASK_SMART_FLEE_CHAR( l_U286, sub_810(), 100.00000000, -1 );
+        TASK_SMART_FLEE_CHAR( l_U286, CurrentPlayerChar(), 100.00000000, -1 );
     }
-    SET_ALL_RANDOM_PEDS_FLEE( sub_2341(), 1 );
+    SET_ALL_RANDOM_PEDS_FLEE( CurrentPlayerId(), 1 );
     CLEAR_HELP();
     CLEAR_PRINTS();
     return;
 }
 
-void sub_2341()
+// sub_2341
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -684,13 +698,13 @@ void sub_2474()
         {
             if (NOT (IS_CHAR_DEAD( l_U286 )))
             {
-                GET_INTERIOR_AT_COORDS( l_U261._fU0, l_U261._fU4, l_U261._fU8, ref l_U293 );
-                GET_INTERIOR_FROM_CHAR( sub_810(), ref l_U294 );
+                GET_INTERIOR_AT_COORDS( l_U261.x, l_U261.y, l_U261.z, ref l_U293 );
+                GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref l_U294 );
                 if (l_U294 == l_U293)
                 {
-                    if (NOT sub_978())
+                    if (NOT IsMichelle1Running())
                     {
-                        if (IS_CHAR_IN_ANY_CAR( sub_810() ))
+                        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                         {
                             sub_2250();
                             sub_490();
@@ -698,7 +712,7 @@ void sub_2474()
                     }
                     else if (NOT g_U65003)
                     {
-                        if (IS_CHAR_IN_ANY_CAR( sub_810() ))
+                        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                         {
                             sub_2250();
                             g_U65003 = 1;
@@ -720,13 +734,13 @@ void sub_2693()
         {
             if (NOT (IS_CHAR_DEAD( l_U286 )))
             {
-                GET_INTERIOR_AT_COORDS( l_U261._fU0, l_U261._fU4, l_U261._fU8, ref l_U293 );
-                GET_INTERIOR_FROM_CHAR( sub_810(), ref l_U294 );
+                GET_INTERIOR_AT_COORDS( l_U261.x, l_U261.y, l_U261.z, ref l_U293 );
+                GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref l_U294 );
                 if (l_U294 == l_U293)
                 {
-                    if (NOT sub_978())
+                    if (NOT IsMichelle1Running())
                     {
-                        if (IS_CHAR_SHOOTING( sub_810() ))
+                        if (IS_CHAR_SHOOTING( CurrentPlayerChar() ))
                         {
                             sub_2250();
                             sub_490();
@@ -734,7 +748,7 @@ void sub_2693()
                     }
                     else if (NOT g_U65003)
                     {
-                        if (IS_CHAR_SHOOTING( sub_810() ))
+                        if (IS_CHAR_SHOOTING( CurrentPlayerChar() ))
                         {
                             sub_2250();
                             g_U65003 = 1;
@@ -758,7 +772,7 @@ void sub_2912()
             {
                 if (l_U290 == l_U291)
                 {
-                    if (IS_CHAR_IN_AREA_3D( sub_810(), -575.27670000, 64.99840000, 3.00000000, -600.65080000, 47.15970000, 7.00000000, 0 ))
+                    if (IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), -575.27670000, 64.99840000, 3.00000000, -600.65080000, 47.15970000, 7.00000000, 0 ))
                     {
                         SAY_AMBIENT_SPEECH( l_U286, "BOWL_MONKEY", 0, 0, 2 );
                         l_U282 = 1;
@@ -766,7 +780,7 @@ void sub_2912()
                 }
                 if (l_U290 == l_U292)
                 {
-                    if (IS_CHAR_IN_AREA_3D( sub_810(), 1185.75700000, -677.22860000, 10.00000000, 1168.07700000, -651.59310000, 18.00000000, 0 ))
+                    if (IS_CHAR_IN_AREA_3D( CurrentPlayerChar(), 1185.75700000, -677.22860000, 10.00000000, 1168.07700000, -651.59310000, 18.00000000, 0 ))
                     {
                         SAY_AMBIENT_SPEECH( l_U286, "BOWL_MONKEY", 0, 0, 2 );
                         l_U282 = 1;
@@ -882,17 +896,17 @@ int sub_3492(int iParam0, int iParam1)
 
 int sub_4251(int iParam0, unknown uParam1)
 {
-    if (IS_PLAYER_PLAYING( sub_2341() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (IS_SCREEN_FADED_IN())
         {
-            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( sub_2341() )))
+            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
             {
-                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_2341() )))))
+                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))))
                 {
                     if (NOT sub_4347())
                     {
-                        if ((GET_OBJECT_PED_IS_HOLDING( sub_810() )) == nil)
+                        if ((GET_OBJECT_PED_IS_HOLDING( CurrentPlayerChar() )) == nil)
                         {
                             if (g_U9172 <= iParam0)
                             {
@@ -1068,14 +1082,16 @@ int sub_6395()
     return 0;
 }
 
-int sub_6528(int iParam0)
+// Set player money, seems to negate the money
+// sub_6528
+int RemovePlayerMoney(int amountToDecrement)
 {
     int iVar3;
 
-    STORE_SCORE( sub_2341(), ref iVar3 );
-    if (iVar3 >= iParam0)
+    STORE_SCORE( CurrentPlayerId(), ref iVar3 );
+    if (iVar3 >= amountToDecrement)
     {
-        ADD_SCORE( sub_2341(), -iParam0 );
+        ADD_SCORE( CurrentPlayerId(), -amountToDecrement );
         return 1;
         break;
     }
@@ -1084,14 +1100,16 @@ int sub_6528(int iParam0)
 
 void sub_7093()
 {
-    if (sub_7102())
+    if (IsDwayneBackupRunning())
     {
         g_U64921 = 1;
     }
     return;
 }
 
-int sub_7102()
+
+// sub_7102
+int IsDwayneBackupRunning()
 {
     if ((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "dwayne_backup" )) >= 1)
     {

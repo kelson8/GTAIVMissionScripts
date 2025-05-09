@@ -20,8 +20,10 @@ void main()
     cellphone3Dstructure._fU508 = 0;
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
     g_U555 = 1;
+
     PRINTSTRING( "\n cellphone3Dstructure.multipleChoiceNumber is " );
     PRINTINT( cellphone3Dstructure._fU424 );
+    
     if (HAS_DEATHARREST_EXECUTED())
     {
         sub_197( ref l_U147, 1 );
@@ -136,7 +138,7 @@ void main()
         switch (cellphone3Dstructure._fU0)
         {
             case 1000:
-            if ((NOT bVar2) AND ((NOT cellphone3Dstructure._fU376) AND (cellphone3Dstructure._fU48)))
+            if ((NOT bVar2) AND ((NOT cellphone3Dstructure.overrideCellphoneChecks) AND (cellphone3Dstructure._fU48)))
             {
                 PLAY_AUDIO_EVENT( "MOBILE_PRERING" );
                 bVar2 = true;
@@ -165,7 +167,7 @@ void main()
             {
                 if (NOT l_U253)
                 {
-                    if ((cellphone3Dstructure._fU532) || (cellphone3Dstructure._fU376))
+                    if ((cellphone3Dstructure._fU532) || (cellphone3Dstructure.overrideCellphoneChecks))
                     {
                         if (TIMERB() >= cellphone3Dstructure._fU80)
                         {
@@ -266,7 +268,7 @@ void main()
                             }
                         }
                     }
-                    else if (cellphone3Dstructure._fU368)
+                    else if (cellphone3Dstructure.missionAnsweredPhone)
                     {
                         if (NOT cellphone3Dstructure._fU372)
                         {
@@ -292,7 +294,7 @@ void main()
                                 STOP_MOBILE_PHONE_RINGING();
                                 SETTIMERA( 0 );
                                 INCREMENT_INT_STAT_NO_MESSAGE( 301, 1 );
-                                cellphone3Dstructure._fU368 = 0;
+                                cellphone3Dstructure.missionAnsweredPhone = 0;
                                 g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 3;
                                 sub_1007( "\n------------------------------------------" );
                                 sub_1007( "\n callStatus = CALL_IN_CALL" );
@@ -384,7 +386,7 @@ void main()
                 sub_5169( 1009 );
                 cellphone3Dstructure._fU420 = 0;
             }
-            if (NOT cellphone3Dstructure._fU376)
+            if (NOT cellphone3Dstructure.overrideCellphoneChecks)
             {
                 switch (sub_18147( cellphone3Dstructure._fU524 ))
                 {
@@ -533,7 +535,7 @@ void main()
             if (sub_16939( ref l_U147, 1 ))
             {
                 cellphone3Dstructure._fU372 = 0;
-                cellphone3Dstructure._fU368 = 0;
+                cellphone3Dstructure.missionAnsweredPhone = 0;
                 cellphone3Dstructure._fU56 = 0;
                 cellphone3Dstructure._fU0 = 1000;
                 switch (g_U15946[cellphone3Dstructure._fU60]._fU132._fU24)
@@ -587,7 +589,7 @@ void main()
                 DESTROY_MOBILE_PHONE();
                 UNREGISTER_SCRIPT_WITH_AUDIO();
                 cellphone3Dstructure._fU532 = 0;
-                cellphone3Dstructure._fU376 = 0;
+                cellphone3Dstructure.overrideCellphoneChecks = 0;
                 cellphone3Dstructure._fU380 = 1;
                 cellphone3Dstructure._fU384 = 0;
                 g_U8394 = 0;
@@ -950,12 +952,12 @@ int sub_4054()
         sub_1007( "\n PHONE SCREEN CHECK - player has been summoned into another session." );
         return 0;
     }
-    if (cellphone3Dstructure._fU376)
+    if (cellphone3Dstructure.overrideCellphoneChecks)
     {
         sub_1007( "\n PHONE CHECK - .cellphone3Dstructure.overrideCellphoneChecks is returning TRUE" );
         return 1;
     }
-    if ((cellphone3Dstructure._fU104) || (cellphone3Dstructure._fU100))
+    if ((cellphone3Dstructure.hideCellphone) || (cellphone3Dstructure.disableCellphone))
     {
         sub_1007( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
@@ -1742,7 +1744,7 @@ void sub_10214(int iParam0, unknown uParam1, unknown uParam2, int iParam3)
     }
     if (iParam0->_fU116 != 1678728908)
     {
-        sub_6641( 0, 0, ref iParam0->_fU0[1], uParam2, ref iParam0->_fU100->_fU0, ref iParam0->_fU100->_fU4, 0.00000000, 1.00000000, 0, 0, 0, 0, cellphone3Dstructure._fU564, 1 );
+        sub_6641( 0, 0, ref iParam0->_fU0[1], uParam2, ref iParam0->disableCellphone->_fU0, ref iParam0->disableCellphone->_fU4, 0.00000000, 1.00000000, 0, 0, 0, 0, cellphone3Dstructure._fU564, 1 );
     }
     if (iParam0->_fU128 != 1678728908)
     {
@@ -1938,7 +1940,7 @@ void sub_12861(unknown uParam0, unknown uParam1)
 {
     unknown uVar4;
 
-    if (((cellphone3Dstructure._fU0 == 1005) || (NOT cellphone3Dstructure._fU376)) AND (uParam1))
+    if (((cellphone3Dstructure._fU0 == 1005) || (NOT cellphone3Dstructure.overrideCellphoneChecks)) AND (uParam1))
     {
         uVar4 = GET_SOUND_ID();
         if (cellphone3Dstructure._fU0 == 1005)
@@ -2881,12 +2883,12 @@ int sub_22223(unknown uParam0, unknown uParam1, boolean bParam2)
         {
             return sub_22331( uVar23, ref cVar5, uParam1, 0, ref uVar14, ref uVar14, "", 0, bParam2, 1, 1, 0, 0, 0 );
         }
-        if ((NOT cellphone3Dstructure._fU368) == 1)
+        if ((NOT cellphone3Dstructure.missionAnsweredPhone) == 1)
         {
             StrCopy( ref cellphone3Dstructure._fU224[0], uParam1, 16 );
             StrCopy( ref cellphone3Dstructure._fU224[1], uParam0, 16 );
             sub_23387( uVar23, ref cellphone3Dstructure._fU176 );
-            cellphone3Dstructure._fU368 = 1;
+            cellphone3Dstructure.missionAnsweredPhone = 1;
             return 1;
         }
     }
@@ -2941,7 +2943,7 @@ int sub_22331(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
         case 1:
-        if (cellphone3Dstructure._fU368)
+        if (cellphone3Dstructure.missionAnsweredPhone)
         {
             if ((NOT bParam8) || (cellphone3Dstructure._fU372))
             {
@@ -2956,7 +2958,7 @@ int sub_22331(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
                 g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
             }
         }
-        cellphone3Dstructure._fU368 = 1;
+        cellphone3Dstructure.missionAnsweredPhone = 1;
         cellphone3Dstructure._fU372 = bParam8;
         uParam0 = cellphone3Dstructure._fU60;
         break;
@@ -2969,7 +2971,7 @@ int sub_22331(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         cellphone3Dstructure._fU52 = 1;
         cellphone3Dstructure._fU56 = 1;
         cellphone3Dstructure._fU372 = 1;
-        cellphone3Dstructure._fU368 = 1;
+        cellphone3Dstructure.missionAnsweredPhone = 1;
         g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
     }
@@ -2980,7 +2982,7 @@ int sub_22331(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     sub_23387( uParam0, ref cellphone3Dstructure._fU176 );
     sub_24768( ref cellphone3Dstructure._fU160 );
     cellphone3Dstructure._fU380 = uParam10;
-    cellphone3Dstructure._fU376 = bParam11;
+    cellphone3Dstructure.overrideCellphoneChecks = bParam11;
     cellphone3Dstructure._fU420 = uParam12;
     cellphone3Dstructure._fU424 = -1;
     cellphone3Dstructure._fU364 = uParam3;
@@ -3499,12 +3501,12 @@ int sub_28513(unknown uParam0, unknown uParam1, boolean bParam2)
     {
         return sub_22331( uVar14, uParam0, uParam1, 0, ref uVar5, ref uVar5, "", 0, bParam2, 1, 1, 0, 0, 0 );
     }
-    if (NOT cellphone3Dstructure._fU368)
+    if (NOT cellphone3Dstructure.missionAnsweredPhone)
     {
         StrCopy( ref cellphone3Dstructure._fU224[0], uParam1, 16 );
         cellphone3Dstructure._fU224[1] = {(uParam0^)[0]};
         sub_23387( uVar14, ref cellphone3Dstructure._fU176 );
-        cellphone3Dstructure._fU368 = 1;
+        cellphone3Dstructure.missionAnsweredPhone = 1;
         return 1;
     }
     return 0;

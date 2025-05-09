@@ -101,7 +101,7 @@ void main()
     while (true)
     {
         WAIT( 0 );
-        if (IS_PLAYER_PLAYING( sub_328() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
             // l_U102 = l_U102
             switch (l_U102)
@@ -144,7 +144,8 @@ void sub_297()
     return;
 }
 
-void sub_328()
+// sub_328
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -381,7 +382,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_PLAYING( sub_328() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_900( "\n player is not playing" );
         return 0;
@@ -411,8 +412,10 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         cellphone3Dstructure._fU48 = 1;
         g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
+
         case 1:
         // g_U91 = cellphone3Dstructure
+
         if (cellphone3Dstructure._fU368)
         {
             if ((NOT bParam8) || (cellphone3Dstructure._fU372))
@@ -421,6 +424,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
                 return 0;
             }
         }
+
         if (cellphone3Dstructure._fU60 != -1)
         {
             if ((g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 != 4) AND (g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 != 5))
@@ -432,6 +436,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         cellphone3Dstructure._fU372 = bParam8;
         uParam0 = cellphone3Dstructure._fU60;
         break;
+
         case 2:
         if ((NOT bParam11) AND (NOT sub_1393()))
         {
@@ -445,27 +450,34 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
     }
+
     if (IS_SCRIPTED_CONVERSATION_ONGOING())
     {
         ABORT_SCRIPTED_CONVERSATION( 0 );
     }
+
     sub_2765( uParam0, ref cellphone3Dstructure._fU176 );
     sub_4146( ref cellphone3Dstructure._fU160 );
+
     cellphone3Dstructure._fU380 = uParam10;
     cellphone3Dstructure._fU376 = bParam11;
     cellphone3Dstructure._fU420 = uParam12;
     cellphone3Dstructure._fU424 = -1;
     cellphone3Dstructure._fU364 = uParam3;
+
     StrCopy( ref cellphone3Dstructure._fU144, uParam2, 16 );
+
     for ( I = 0; I <= (g_U8499 - 1); I++ )
     {
         StrCopy( ref g_U8499[I], "END", 16 );
     }
+
     for ( I = 0; I <= ((uParam1^) - 1); I++ )
     {
         g_U8499[I] = {(uParam1^)[I]};
         sub_4386( "\n Telling phone we want to play these labels ", ref (uParam1^)[I] );
     }
+
     for ( I = 0; I <= (cellphone3Dstructure._fU260 - 1); I++ )
     {
         if (I < (uParam4^))
@@ -477,6 +489,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
             StrCopy( ref cellphone3Dstructure._fU260[I], "", 16 );
         }
     }
+
     for ( I = 0; I <= (cellphone3Dstructure._fU312 - 1); I++ )
     {
         if (I < (uParam5^))
@@ -488,6 +501,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
             StrCopy( ref cellphone3Dstructure._fU312[I], "", 16 );
         }
     }
+    
     StrCopy( ref cellphone3Dstructure._fU208, uParam6, 16 );
     cellphone3Dstructure._fU80 = uParam7;
     cellphone3Dstructure._fU384 = 0;
@@ -537,7 +551,7 @@ int sub_1450()
     unknown uVar3;
 
     bVar2 = false;
-    if (NOT (IS_PLAYER_PLAYING( sub_328() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
     {
         sub_900( "\n PHONE SCREEN CHECK - player is not playing." );
         return 0;
@@ -560,7 +574,7 @@ int sub_1450()
         sub_900( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_328() )))
+    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))
     {
         if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
         {
@@ -591,7 +605,7 @@ int sub_1450()
         sub_900( "\n PHONE CHECK - CODE_WANTS_MOBILE_PHONE_REMOVED() is returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( sub_328() )))
+    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() )))
     {
         sub_900( "\n PHONE CHECK - IS_PLAYER_SCRIPT_CONTROL_ON is returning FALSE." );
         return 0;
@@ -800,6 +814,7 @@ int sub_4777(unknown uParam0, unknown uParam1, boolean bParam2)
         {
             StrCopy( ref cellphone3Dstructure._fU224[0], uParam1, 16 );
             StrCopy( ref cellphone3Dstructure._fU224[1], uParam0, 16 );
+            // _fU176 might be the phone contact, from looking at sub_2765
             sub_2765( uVar23, ref cellphone3Dstructure._fU176 );
             cellphone3Dstructure._fU368 = 1;
             return 1;
@@ -2084,9 +2099,9 @@ void sub_15221(int iParam0)
                     {
                         if (LOCATE_CHAR_ON_FOOT_CHAR_3D( paramedicPed, CurrentPlayerChar(), 1.50000000, 1.50000000, 10.00000000, 0 ))
                         {
-                            if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_328() ))
+                            if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() ))
                             {
-                                if (IS_SCORE_GREATER( sub_328(), sub_15510() ))
+                                if (IS_SCORE_GREATER( CurrentPlayerId(), sub_15510() ))
                                 {
                                     if (l_U130 == 0)
                                     {
@@ -2096,7 +2111,7 @@ void sub_15221(int iParam0)
                                     {
                                         SAY_AMBIENT_SPEECH_WITH_VOICE( paramedicPed, "EMERG_MEDIC_HEALS_P", "M_Y_PMEDIC_BLACK", 1, 1, 0 );
                                     }
-                                    SET_PLAYER_CONTROL( sub_328(), 0 );
+                                    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
                                     l_U106 = 3;
                                 }
                                 else if (NOT (IS_GROUP_MEMBER( paramedicPed, sub_15659() )))
@@ -2150,7 +2165,7 @@ void sub_15221(int iParam0)
                     }
                     break;
                     case 5:
-                    ADD_SCORE( sub_328(), -sub_15510() );
+                    ADD_SCORE( CurrentPlayerId(), -sub_15510() );
                     INCREMENT_INT_STAT( 102, sub_15510() );
                     SET_CHAR_MONEY( paramedicPed, sub_15510() );
                     SET_CHAR_HEALTH( CurrentPlayerChar(), sub_16719() );
@@ -2162,7 +2177,7 @@ void sub_15221(int iParam0)
                     case 6:
                     if (NOT (IS_CHAR_PLAYING_ANIM( paramedicPed, "Missemergencycall", "Medic_health_inject" )))
                     {
-                        SET_PLAYER_CONTROL( sub_328(), 1 );
+                        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
                         if (IS_GROUP_MEMBER( paramedicPed, sub_15659() ))
                         {
                             REMOVE_CHAR_FROM_GROUP( paramedicPed );
@@ -2188,7 +2203,7 @@ int sub_15397()
             GET_CHAR_HEALTH( CurrentPlayerChar(), ref l_U111 );
             if (LOCATE_CHAR_ON_FOOT_CHAR_3D( paramedicPed, CurrentPlayerChar(), 40.00000000, 40.00000000, 40.00000000, 0 ))
             {
-                if ((IS_SCORE_GREATER( sub_328(), sub_15510() )) AND (l_U111 < 175))
+                if ((IS_SCORE_GREATER( CurrentPlayerId(), sub_15510() )) AND (l_U111 < 175))
                 {
                     return 1;
                 }
@@ -2218,11 +2233,11 @@ int sub_15955()
 {
     if (NOT (IS_CHAR_INJURED( paramedicPed )))
     {
-        if (IS_PLAYER_FREE_AIMING_AT_CHAR( sub_328(), paramedicPed ))
+        if (IS_PLAYER_FREE_AIMING_AT_CHAR( CurrentPlayerId(), paramedicPed ))
         {
             return 1;
         }
-        if (IS_PLAYER_TARGETTING_CHAR( sub_328(), paramedicPed ))
+        if (IS_PLAYER_TARGETTING_CHAR( CurrentPlayerId(), paramedicPed ))
         {
             return 1;
         }
