@@ -11,7 +11,7 @@ I have slightly modified these scripts and labeled some items in them:
 * spcellphonemain.c - Mostly label items, rename g_U91 to cellphone3Dstructure, found in debug print lines.
 * webcraplist.c
 
-I have a list of GTA IV natives and trying to figure out what they do and have some examples for them in the ```Natives.md``` file located in the root of this repo. 
+I have a list of GTA IV natives and trying to figure out what they do and have some examples for them in the ```Natives.md``` file located in the Guides/IV folder in this repo.
 
 # Credits
 The original project is located here:
