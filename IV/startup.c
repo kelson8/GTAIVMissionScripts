@@ -1,7 +1,8 @@
 void main()
 {
-    unknown uVar2;
-    string sVar3;
+
+    Player currentPlayer;
+    string scriptToStart;
 
     l_U4 = 0;
     l_U5 = 1;
@@ -94,7 +95,10 @@ void main()
     g_U8707 = 0;
     g_U9050 = 0;
     g_U9051 = 0;
+    
+    // Cable car global
     g_U9052 = 0;
+
     g_U9053 = 1;
     g_U9054 = 0;
     g_U9055 = 0;
@@ -414,96 +418,120 @@ void main()
     g_U65035 = 0;
     g_U65040 = 0;
     g_U65041 = 0;
+
     if (IS_NETWORK_SESSION())
     {
-        CREATE_PLAYER( 0, -2000.00000000 + (sub_2931( -0.25000000, 0.25000000 )), -2000.00000000 + (sub_2931( -0.25000000, 0.25000000 )), 240.00000000 + (sub_2931( -0.25000000, 0.25000000 )), ref uVar2 );
+        CREATE_PLAYER( 0, -2000.00000000 + (GetRandomFloatWithRange( -0.25000000, 0.25000000 )), -2000.00000000 + (GetRandomFloatWithRange( -0.25000000, 0.25000000 )), 240.00000000 + (GetRandomFloatWithRange( -0.25000000, 0.25000000 )), ref currentPlayer );
         sub_3024( GET_PLAYER_ID(), 0 );
     }
+
     else
     {
+        // Reset some globals
         sub_3384();
+
         sub_3559( 0, 756.77450000, -214.40330000, 4.82230000, 0, 0, g_U9386 );
-        sub_3919( uVar2 );
-        SET_PLAYER_CONTROL( uVar2, 0 );
+        CreateAndSetPlayerCoords( currentPlayer );
+        SET_PLAYER_CONTROL( currentPlayer, 0 );
         g_U9937 = 0;
         sub_4072();
         sub_5246();
     }
+
     sub_8623();
     sub_12404();
+
     StrCopy( ref g_U9921, "ERROR", 16 );
     StrCopy( ref g_U9926, "", 16 );
+
     g_U9930 = 0;
     g_U9931 = -1;
+
     DEBUG_OFF();
     WAIT( 0 );
-    sVar3 = "main";
+
+    // If not running a network session, run regular main.
+    scriptToStart = "main";
+
+    // If running a network session, run network_main
     if (IS_NETWORK_SESSION())
     {
-        sVar3 = "network_main";
+        scriptToStart = "network_main";
     }
-    REQUEST_SCRIPT( sVar3 );
-    while (NOT (HAS_SCRIPT_LOADED( sVar3 )))
+
+    // Request the script, wait on it, start it and mark as no longer needed.
+    REQUEST_SCRIPT( scriptToStart );
+    while (NOT (HAS_SCRIPT_LOADED( scriptToStart )))
     {
         WAIT( 0 );
     }
-    START_NEW_SCRIPT( sVar3, 1024 );
-    MARK_SCRIPT_AS_NO_LONGER_NEEDED( sVar3 );
+    START_NEW_SCRIPT( scriptToStart, 1024 );
+    MARK_SCRIPT_AS_NO_LONGER_NEEDED( scriptToStart );
     return;
 }
 
-void sub_2931(unknown uParam0, unknown Result)
+// sub_2931
+void GetRandomFloatWithRange(float value1, float Result)
 {
-    GENERATE_RANDOM_FLOAT_IN_RANGE( uParam0, Result, ref Result );
+    GENERATE_RANDOM_FLOAT_IN_RANGE( value1, Result, ref Result );
     return Result;
 }
 
-void sub_3024(unknown uParam0, boolean bParam1)
+// Set player control for network
+// bParam1 seems to run setControl on the SET_PLAYER_CONTROL_FOR_NETWORK native.
+void sub_3024(Player currentPlayer, boolean bParam1)
 {
-    SET_PLAYER_CONTROL_FOR_NETWORK( sub_3035( uParam0 ), bParam1, 0 );
+    SET_PLAYER_CONTROL_FOR_NETWORK( CurrentPlayerId( currentPlayer ), bParam1, 0 );
+
     if (bParam1)
     {
-        if (NOT (IS_CHAR_VISIBLE( sub_3080( uParam0 ) )))
+        if (NOT (IS_CHAR_VISIBLE( GetCharFromValue( currentPlayer ) )))
         {
-            SET_CHAR_VISIBLE( sub_3080( uParam0 ), 1 );
+            SET_CHAR_VISIBLE( GetCharFromValue( currentPlayer ), 1 );
         }
-        if (NOT (IS_CHAR_IN_ANY_CAR( sub_3080( uParam0 ) )))
+        if (NOT (IS_CHAR_IN_ANY_CAR( GetCharFromValue( currentPlayer ) )))
         {
-            SET_CHAR_COLLISION( sub_3080( uParam0 ), 1 );
+            SET_CHAR_COLLISION( GetCharFromValue( currentPlayer ), 1 );
         }
-        FREEZE_CHAR_POSITION( sub_3080( uParam0 ), 0 );
-        SET_CHAR_NEVER_TARGETTED( sub_3080( uParam0 ), 0 );
-        SET_PLAYER_INVINCIBLE( sub_3035( uParam0 ), 0 );
+        FREEZE_CHAR_POSITION( GetCharFromValue( currentPlayer ), 0 );
+        SET_CHAR_NEVER_TARGETTED( GetCharFromValue( currentPlayer ), 0 );
+        SET_PLAYER_INVINCIBLE( CurrentPlayerId( currentPlayer ), 0 );
     }
-    else if (IS_CHAR_VISIBLE( sub_3080( uParam0 ) ))
+
+    else if (IS_CHAR_VISIBLE( GetCharFromValue( currentPlayer ) ))
     {
-        SET_CHAR_VISIBLE( sub_3080( uParam0 ), 0 );
+        SET_CHAR_VISIBLE( GetCharFromValue( currentPlayer ), 0 );
     }
-    SET_CHAR_COLLISION( sub_3080( uParam0 ), 0 );
-    FREEZE_CHAR_POSITION( sub_3080( uParam0 ), 1 );
-    SET_CHAR_NEVER_TARGETTED( sub_3080( uParam0 ), 1 );
-    SET_PLAYER_INVINCIBLE( sub_3035( uParam0 ), 1 );
-    REMOVE_PTFX_FROM_PED( sub_3080( uParam0 ) );
-    if (NOT (IS_CHAR_FATALLY_INJURED( sub_3080( uParam0 ) )))
+
+    SET_CHAR_COLLISION( GetCharFromValue( currentPlayer ), 0 );
+    FREEZE_CHAR_POSITION( GetCharFromValue( currentPlayer ), 1 );
+    SET_CHAR_NEVER_TARGETTED( GetCharFromValue( currentPlayer ), 1 );
+    SET_PLAYER_INVINCIBLE( CurrentPlayerId( currentPlayer ), 1 );
+    REMOVE_PTFX_FROM_PED( GetCharFromValue( currentPlayer ) );
+
+    if (NOT (IS_CHAR_FATALLY_INJURED( GetCharFromValue( currentPlayer ) )))
     {
-        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_3080( uParam0 ) );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( GetCharFromValue( currentPlayer ) );
     }
     return;
 }
 
-void sub_3035(unknown uParam0)
+// sub_3035
+void CurrentPlayerId(unknown uParam0)
 {
     return CONVERT_INT_TO_PLAYERINDEX( uParam0 );
 }
 
-void sub_3080(unknown uParam0)
+// sub_3080
+void GetCharFromValue(int playerChar)
 {
-    unknown Result;
+    int Result;
 
-    GET_PLAYER_CHAR( CONVERT_INT_TO_PLAYERINDEX( uParam0 ), ref Result );
+    GET_PLAYER_CHAR( CONVERT_INT_TO_PLAYERINDEX( playerChar ), ref Result );
     return Result;
 }
 
+// Rest some globals
 void sub_3384()
 {
     int I;
@@ -522,7 +550,7 @@ void sub_3384()
     return;
 }
 
-void sub_3559(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6)
+void sub_3559(int iParam0, float posX, float posY, float posZ, unknown uParam4, unknown uParam5, unknown uParam6)
 {
     if (iParam0 > 49)
     {
@@ -532,9 +560,9 @@ void sub_3559(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
     {
         sub_3644( "Main_Missions: Store_Contact_Point(): Contact Point ID already setup" );
     }
-    g_U9387[iParam0]._fU0._fU0 = uParam1;
-    g_U9387[iParam0]._fU0._fU4 = uParam2;
-    g_U9387[iParam0]._fU0._fU8 = uParam3;
+    g_U9387[iParam0]._fU0._fU0 = posX;
+    g_U9387[iParam0]._fU0._fU4 = posY;
+    g_U9387[iParam0]._fU0._fU8 = posZ;
     g_U9387[iParam0]._fU12 = uParam6;
     g_U9387[iParam0]._fU16 = uParam4;
     g_U9387[iParam0]._fU20 = uParam5;
@@ -548,23 +576,33 @@ void sub_3644(unknown uParam0)
     return;
 }
 
-void sub_3919(unknown uParam0)
+// Create player, set their coordinates to something set in this global: g_U9387
+// sub_3919
+void CreateAndSetPlayerCoords(Player playerToCreate)
 {
-    unknown uVar3;
+    Vector3 playerCoords;
+    // Unused
     unknown uVar4;
     unknown uVar5;
-    float fVar6;
 
-    uVar3 = {g_U9387[0]._fU0};
-    fVar6 = 93.53270000;
+    float playerHeading;
+
+    playerCoords = {g_U9387[0]._fU0};
+    playerHeading = 93.53270000;
+
+    // This seems to only be set to 1 by this in main.c: sub_196012
+    // May be g_allow_net_saves?
     g_U19 = 0;
-    CREATE_PLAYER( 0, uVar3._fU0, uVar3._fU4, uVar3._fU8, ref uParam0 );
-    SET_CHAR_COORDINATES( sub_3974(), uVar3._fU0, uVar3._fU4, uVar3._fU8 );
-    SET_CHAR_HEADING( sub_3974(), fVar6 );
+    CREATE_PLAYER( 0, playerCoords.x, playerCoords.y, playerCoords.z, ref playerToCreate );
+    SET_CHAR_COORDINATES( CurrentPlayerChar(), playerCoords.x, playerCoords.y, playerCoords.z );
+    SET_CHAR_HEADING( CurrentPlayerChar(), playerHeading );
     return;
 }
 
-void sub_3974()
+// Why is there two of these?
+// Oh, sub_3080 takes a parameter for the Char.
+// sub_3974
+void CurrentPlayerChar()
 {
     unknown Result;
 

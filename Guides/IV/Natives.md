@@ -320,6 +320,7 @@ Some of these were obtained from "void sub_9436()" in ray2.c in TLAD, didn't mea
 18. SET_CAR_CAN_BE_VISIBLY_DAMAGED(int &vehicleHandle, int toggle)- Toggle the car being able to be visibly damaged, 1 is on 0 is off.
 19. SET_CAN_BURST_CAR_TYRES(int vehicleHandle, int toggle) - Toggle the car being able to burst tires, 1 is on, 0 is off.
 20. CREATE_MISSION_TRAIN(int trainType, float trainX, float trainY, float trainZ, int trainDirection, &trainHandle) - Create a train with the specified train type, coords, direction can be either 1 or 0, and trainHandle takes a reference to an int
+21. SET_NEEDS_TO_BE_HOTWIRED(int vehicleHandle, bool toggle) - Set the engine to need to be hotwired to get in.
 
 </details>
 

@@ -6874,7 +6874,7 @@ void sub_54130(int iParam0, boolean bParam1, boolean bParam2, boolean bParam3, u
     }
     if ((iVar7 == 12) AND (iParam0 == 0))
     {
-        SET_PLAYER_MOOD_PISSED_OFF( sub_3643(), 150 );
+        SET_PLAYER_MOOD_PISSED_OFF( CurrentPlayerId(), 150 );
     }
     else
     {

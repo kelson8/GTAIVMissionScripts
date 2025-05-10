@@ -1302,6 +1302,7 @@ void sub_7086()
     return;
 }
 
+// This has a lot of debug widgets.
 void sub_7925()
 {
     INIT_DEBUG_WIDGETS();
@@ -7617,6 +7618,9 @@ int sub_55578(int iParam0)
                 SET_PHONE_HUD_ITEM( 1, ref cVar5, iVar4 );
             }
             g_U91._fU520 = 1;
+
+            // This might help figure out what g_U91._fU404 is, since these are globals I can change it in the whole project.
+            // _fU404 might be smsStatus
             PLAY_AUDIO_EVENT( "MOBILE_PHONE_SMS_RECIEVE" );
             if (g_U555 == 9)
             {

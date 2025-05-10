@@ -131,6 +131,8 @@ void main()
         }
 
         sub_264693();
+
+        // Contains apartment setup and a lot of other items.
         sub_265082();
 
         if (GET_GFWL_IS_RETURNING_TO_SINGLE_PLAYER())
@@ -223,25 +225,31 @@ void sub_432(unknown uParam0)
     sub_1634( uParam0 );
     sub_2610();
     sub_2691();
+
     sub_2748();
     sub_2807();
     sub_2866();
     sub_2973();
+
     sub_3178();
     sub_3270();
     sub_5048();
     sub_5160();
+
     sub_5227();
     sub_5264();
     sub_5429();
     sub_5684();
+
     sub_5777();
     sub_5970();
     sub_6031();
     sub_6090();
+
     sub_6149();
     sub_6208();
     sub_6275();
+    
     sub_6311();
     sub_6374();
     g_U34284 = -1;
@@ -7886,6 +7894,8 @@ void sub_79389(unknown uParam0, unknown uParam1)
     {
         return;
     }
+
+    // Looks like the different phones in use I think, like when Niko gets the phone upgraded.
     if ((COMPARE_STRING( uParam0, "MF6_BUN" )) || ((COMPARE_STRING( uParam0, "MF6_BOFF" )) || ((COMPARE_STRING( uParam0, "MF6_BNR" )) || (COMPARE_STRING( uParam0, "MF6_BMSG" )))))
     {
         sub_79460( "BADGER" );
@@ -8218,11 +8228,12 @@ void sub_82482(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     int iVar6;
 
     iVar6 = 7;
-    sub_82504( uParam0, uParam1, uParam2, uParam3, iVar6 );
+    Text_Player( uParam0, uParam1, uParam2, uParam3, iVar6 );
     return;
 }
 
-void sub_82504(int iParam0, unknown uParam1, unknown uParam2, int iParam3, unknown uParam4)
+// sub_82504
+void Text_Player(int iParam0, unknown uParam1, unknown uParam2, int iParam3, unknown uParam4)
 {
     int iVar7;
     int iVar8;
@@ -8529,6 +8540,7 @@ int sub_84589(int iParam0)
     return 0;
 }
 
+// Possibly something to do with money?
 int sub_84619()
 {
     if (g_U15654[8])
@@ -8541,7 +8553,7 @@ int sub_84619()
 void sub_84841(unknown uParam0)
 {
     g_U22274[uParam0]._fU500._fU28 = sub_84850();
-    g_U22274[uParam0]._fU500._fU32 = sub_85133( uParam0 );
+    g_U22274[uParam0]._fU500._fU32 = Find_Appropriate_Dropoff( uParam0 );
     return;
 }
 
@@ -8596,9 +8608,10 @@ int sub_84850()
     return 0;
 }
 
-int sub_85133(unknown uParam0)
+// sub_85133
+int Find_Appropriate_Dropoff(unknown friendId)
 {
-    switch (uParam0)
+    switch (friendId)
     {
         case 0:
         if (g_U9731[0]._fU0)
@@ -9339,7 +9352,7 @@ void sub_90924(unknown uParam0, unknown uParam1)
         g_U10981[uParam1]._fU144._fU44 = 1;
         g_U10981[uParam1]._fU28 = 1;
         sub_87630( uParam0, 0 );
-        sub_93077( 1, uParam0 );
+        Trigger_Additional_Code( 1, uParam0 );
         g_U10981[uParam1]._fU144._fU48 = 1;
         return;
     }
@@ -9428,7 +9441,7 @@ void sub_90924(unknown uParam0, unknown uParam1)
             iVar6 = g_U22274[uParam0]._fU104;
             uVar8 = g_U10981[uParam1]._fU144._fU144;
             sub_82376( iVar6 );
-            sub_82504( iVar6, uParam0, uVar8, 0, 2 );
+            Text_Player( iVar6, uParam0, uVar8, 0, 2 );
             return;
         }
     }
@@ -9648,7 +9661,8 @@ void sub_92915()
     return g_U91._fU504;
 }
 
-void sub_93077(int iParam0, int iParam1)
+// sub_93077
+void Trigger_Additional_Code(int iParam0, int iParam1)
 {
     int iVar4;
     int iVar5;
@@ -12791,7 +12805,7 @@ void sub_119213(unknown uParam0)
     uVar3 = g_U22274[uParam0]._fU108;
     uVar4 = sub_119241( uParam0 );
     sub_82376( uVar3 );
-    sub_82504( uVar3, uParam0, uVar4, 5000, 3 );
+    Text_Player( uVar3, uParam0, uVar4, 5000, 3 );
     return;
 }
 
@@ -12823,7 +12837,7 @@ void sub_119485(unknown uParam0)
     uVar3 = g_U22274[uParam0]._fU104;
     uVar4 = sub_119532( uParam0 );
     sub_82376( uVar3 );
-    sub_82504( uVar3, uParam0, uVar4, 5000, 4 );
+    Text_Player( uVar3, uParam0, uVar4, 5000, 4 );
     iVar5 = 300000;
     if (g_U0)
     {
@@ -17271,6 +17285,8 @@ void sub_169778(unknown uParam0)
     return sub_87823( uParam0, "FCRDCAU", "PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER", "PLACEHOLDER", "HF_STRP" );
 }
 
+// I think this runs a lot of game functions
+// uses sub_173764 a lot
 void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
 {
     boolean bVar5;
@@ -17657,6 +17673,7 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
             }
             g_U10981[uParam1]._fU36 = 0;
             break;
+
             case 47:
             sub_173764( "ONEOFF PHONE_PLAYER TIME VECTOR REPEAT QUICK" );
             if (sub_181840( (uParam2^)[iVar7]._fU4._fU4, uParam1, ref (uParam2^)[iVar7]._fU4._fU40, ref (uParam2^)[iVar7]._fU4._fU56, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU32, (uParam2^)[iVar7]._fU4._fU36, iVar10, 0, 1 ))
@@ -17665,12 +17682,14 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
             }
             g_U10981[uParam1]._fU36 = 0;
             break;
+
             case 48:
             sub_173764( "AMBIENT PHONECALL" );
             sub_188709( (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU28 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 49:
             sub_173764( "KILL AMBIENT PHONECALL" );
             if (sub_188854( (uParam2^)[iVar7]._fU4._fU20 ))
@@ -17678,18 +17697,21 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar6 = true;
             }
             break;
+
             case 50:
             sub_173764( "CHAT PHONECALL" );
             sub_188994( (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 51:
             sub_173764( "KILL CHAT PHONECALL" );
             sub_189139( (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 52:
             sub_173764( "END OF MISSION PHONECALL WALL" );
             if (NOT sub_189276())
@@ -17698,18 +17720,21 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar5 = true;
             }
             break;
+
             case 53:
             sub_173764( "TXTMSG PLAYER AMBIENT" );
             sub_82482( (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU4, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 54:
             sub_173764( "TXTMSG PLAYER AMBIENT CODE" );
-            sub_82504( (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU4, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU32 );
+            Text_Player( (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU4, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU32 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 55:
             sub_173764( "TXTMSG PLAYER AMBIENT WAIT" );
             if (sub_189596( (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU4, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 ))
@@ -17717,6 +17742,7 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar6 = true;
             }
             break;
+
             case 56:
             sub_173764( "TXTMSG PLAYER AMBIENT WAIT CODE" );
             if (sub_189618( (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU4, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU32 ))
@@ -17724,48 +17750,56 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar6 = true;
             }
             break;
+
             case 57:
             sub_173764( "KILL TXTMSG" );
             sub_109477( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 58:
             sub_173764( "PROC_REMINDER_TXTS" );
             sub_190101( uParam1, (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU4, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 59:
             sub_173764( "ACTIVATE AMBIENT EMAIL" );
             sub_190360( (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 60:
             sub_173764( "ADD_FRIEND_ACTIVITY" );
             sub_190812( uParam0, (uParam2^)[iVar7]._fU4._fU8 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 61:
             sub_173764( "ALLOW_FRIEND_ACTIVITIES" );
             sub_190990( uParam0, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU32 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 62:
             sub_173764( "DISALLOW_FRIEND_ACTIVITIES" );
             sub_191557( uParam0 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 63:
             sub_173764( "ADD_SPECIAL_ACTION" );
             sub_191672( uParam0, (uParam2^)[iVar7]._fU4._fU8 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 64:
             sub_173764( "ALLOW_SPECIAL_ACTIONS" );
             sub_191805( uParam1, (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24, (uParam2^)[iVar7]._fU4._fU28, (uParam2^)[iVar7]._fU4._fU32 );
@@ -17778,18 +17812,21 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 66:
             sub_173764( "DISALLOW_SPECIAL_ACTIONS" );
             sub_192179( uParam1 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 67:
             sub_173764( "CONTACT_ON_NEXT_MISSION" );
             sub_192287( uParam1, (uParam2^)[iVar7]._fU4._fU4 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 70:
             sub_173764( "PAUSE_STRAND_EXTRAS" );
             if (sub_192391( (uParam2^)[iVar7]._fU4._fU20, (uParam2^)[iVar7]._fU4._fU24 ))
@@ -17798,12 +17835,14 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar5 = true;
             }
             break;
+
             case 71:
             sub_173764( "UNPAUSE_STRAND_EXTRAS" );
             sub_193232( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 68:
             sub_173764( "PAUSE_STRAND" );
             if (sub_193699( (uParam2^)[iVar7]._fU4._fU20 ))
@@ -17812,30 +17851,35 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar5 = true;
             }
             break;
+
             case 69:
             sub_173764( "UNPAUSE_STRAND" );
             sub_193849( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 72:
             sub_173764( "ALLOW_HOSPITAL_PICKUP" );
             sub_193942( uParam0, (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 73:
             sub_173764( "ACTIVATE_BODY_SEARCHING" );
             sub_194040();
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 74:
             sub_173764( "ACTIVATE_MAP_AREA" );
             sub_194104( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 75:
             sub_173764( "MAP_AREA_WALL" );
             if (sub_194488( (uParam2^)[iVar7]._fU4._fU20 ))
@@ -17843,138 +17887,161 @@ void sub_172485(unknown uParam0, unknown uParam1, unknown uParam2)
                 bVar6 = true;
             }
             break;
+
             case 76:
             sub_173764( "ACTIVATE_MAP_BLIP_GROUP" );
             sub_194571( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 77:
             sub_173764( "ACTIVATE_SAVE_HOUSE" );
             sub_194677( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 78:
             sub_173764( "DEACTIVATE_SAVE_HOUSE" );
             sub_195201( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 79:
             sub_173764( "ACTIVATE_PICKUP_POINT" );
             sub_195575( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 80:
             sub_173764( "DEACTIVATE_PICKUP_POINT" );
             sub_195657( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 81:
             sub_173764( "ACTIVATE_DROPOFF_POINT" );
             sub_195738( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 82:
             sub_173764( "DEACTIVATE_DROPOFF_POINT" );
             sub_195821( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 83:
             sub_173764( "ACTIVATE_HAIL_TAXI" );
             sub_195887();
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 84:
             sub_173764( "UNLOCK_GUNSHOP" );
             sub_195949();
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 85:
             sub_173764( "ALLOW_NETWORK_SAVES" );
             sub_196012();
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 86:
             sub_173764( "ACTIVATE_SPRAYSHOPS" );
             sub_196071();
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 87:
             sub_173764( "ACTIVATE_CARGEN" );
             sub_196141( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 88:
             sub_173764( "DECEASED_ON_POLICE_COMPUTER" );
             sub_196280( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 89:
             sub_173764( "MISSING_ON_POLICE_COMPUTER" );
             sub_197311( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 90:
             sub_173764( "ARRESTED_ON_POLICE_COMPUTER" );
             sub_198352( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 91:
             sub_173764( "ALIVE_ON_POLICE_COMPUTER" );
             sub_199341( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 92:
             sub_173764( "DECEASED_ON_LCPD_WEB" );
             sub_200488( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 93:
             sub_173764( "MISSING_ON_LCPD_WEB" );
             sub_200566( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 94:
             sub_173764( "ARRESTED_ON_LCPD_WEB" );
             sub_200645( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 95:
             sub_173764( "ALIVE_ON_LCPD_WEB" );
             sub_200721( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 96:
             sub_173764( "ADD_DATE_TO_WEBSITE" );
             sub_200799( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+
             case 97:
             sub_173764( "UNLOCK_NEWS_BLOCK" );
             sub_200907( (uParam2^)[iVar7]._fU4._fU20 );
             bVar6 = true;
             bVar5 = true;
             break;
+            
             case 98:
             sub_173764( "UNLOCK_RADIO_STORY" );
             sub_203584( (uParam2^)[iVar7]._fU4._fU20 );
@@ -19871,7 +19938,7 @@ int sub_189618(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, u
     }
     if (NOT g_U63988._fU12[iParam0]._fU0)
     {
-        sub_82504( iParam0, uParam1, uParam2, uParam3, uParam4 );
+        Text_Player( iParam0, uParam1, uParam2, uParam3, uParam4 );
         g_U63988._fU12[iParam0]._fU8 = 1;
     }
     return 0;
@@ -26281,14 +26348,15 @@ void sub_249764(unknown uParam0)
 
 void sub_249822()
 {
-    if (sub_249831())
+    if (IsRomanTaxiRunning())
     {
         g_U64926 = 1;
     }
     return;
 }
 
-int sub_249831()
+// sub_249831
+int IsRomanTaxiRunning()
 {
     if ((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "roman_taxi" )) >= 1)
     {
@@ -26299,14 +26367,15 @@ int sub_249831()
 
 void sub_249906()
 {
-    if (sub_249915())
+    if (IsJacobGunCarRunning())
     {
         g_U64925 = 1;
     }
     return;
 }
 
-int sub_249915()
+// sub_249915
+int IsJacobGunCarRunning()
 {
     if ((GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "jacob_gun_car" )) >= 1)
     {
@@ -26317,7 +26386,7 @@ int sub_249915()
 
 void sub_250003()
 {
-    if (sub_249831())
+    if (IsRomanTaxiRunning())
     {
         g_U64927 = 1;
     }
@@ -27655,7 +27724,7 @@ void sub_257602()
                             g_U63988._fU12[I]._fU0 = 0;
                             sub_52331();
                             sub_87630( g_U63988._fU12[I]._fU12, 0 );
-                            sub_93077( g_U63988._fU12[I]._fU28, g_U63988._fU12[I]._fU12 );
+                            Trigger_Additional_Code( g_U63988._fU12[I]._fU28, g_U63988._fU12[I]._fU12 );
                         }
                     }
                 }
@@ -28757,7 +28826,7 @@ void sub_264693()
     if (g_U9914._fU4)
     {
         g_U9914._fU4 = 0;
-        sub_93077( g_U9914._fU24, 57 );
+        Trigger_Additional_Code( g_U9914._fU24, 57 );
         g_U9914._fU24 = 7;
         if (g_U9914._fU16)
         {
@@ -28843,7 +28912,7 @@ void sub_265082()
 
     iVar2 = 0;
     GET_GAME_TIMER( ref iVar2 );
-    sVar3 = "replayHelp";
+    replayHelpScript = "replayHelp";
     if (g_U9893._fU20)
     {
         if (g_U9893._fU32)
@@ -28876,17 +28945,21 @@ void sub_265082()
                 bVar4 = true;
             }
         }
+
         bVar5 = false;
         if ((NOT (GET_TIME_SINCE_LAST_ARREST() == -1)) AND (GET_TIME_SINCE_LAST_ARREST() < 10000))
         {
             bVar5 = true;
         }
+
         bVar6 = false;
         if ((NOT (GET_TIME_SINCE_LAST_DEATH() == -1)) AND (GET_TIME_SINCE_LAST_DEATH() < 10000))
         {
             bVar6 = true;
         }
+
         bVar7 = false;
+
         if (NOT (IS_PLAYER_PLAYING( CurrentPlayerId() )))
         {
             if ((NOT bVar6) AND (NOT bVar5))
@@ -28894,11 +28967,14 @@ void sub_265082()
                 bVar7 = true;
             }
         }
+
         bVar8 = false;
+
         if (NOT IS_SCREEN_FADED_IN())
         {
             bVar8 = true;
         }
+
         if ((bVar4) AND ((NOT sub_258263()) AND ((NOT sub_95498()) AND ((NOT bVar8) AND ((NOT bVar7) AND (NOT g_U10978))))))
         {
             if (g_U9893._fU48 == 0)
@@ -28906,16 +28982,17 @@ void sub_265082()
                 g_U9893._fU48 = iVar2 + 500;
                 return;
             }
+
             if (NOT g_U9893._fU0)
             {
-                if (NOT (HAS_SCRIPT_LOADED( sVar3 )))
+                if (NOT (HAS_SCRIPT_LOADED( replayHelpScript )))
                 {
-                    REQUEST_SCRIPT( sVar3 );
+                    REQUEST_SCRIPT( replayHelpScript );
                 }
                 else
                 {
-                    START_NEW_SCRIPT( sVar3, 1024 );
-                    MARK_SCRIPT_AS_NO_LONGER_NEEDED( sVar3 );
+                    START_NEW_SCRIPT( replayHelpScript, 1024 );
+                    MARK_SCRIPT_AS_NO_LONGER_NEEDED( replayHelpScript );
                     g_U9893._fU0 = 1;
                 }
             }
@@ -28975,10 +29052,13 @@ void sub_265082()
         {
             return;
         }
+
         iVar14 = g_U26758[uVar11]._fU16;
         uVar15 = {g_U9387[iVar14]._fU0};
-        sub_269745( uVar15._fU0, uVar15._fU4, uVar15._fU8, 0.00000000 );
+
+        WarpPlayerToCoords( uVar15._fU0, uVar15._fU4, uVar15._fU8, 0.00000000 );
         CLEAR_AREA_OF_CHARS( uVar15._fU0, uVar15._fU4, uVar15._fU8, 100.00000000 );
+
         g_U9893._fU20 = 1;
         break;
         case 1:
@@ -29249,89 +29329,95 @@ int sub_267353()
     {
         return 1;
     }
-    sub_267403();
+    Advance_Sequence_To_The_Replay_Mission_Gather_Sequence_Variables();
     return 0;
 }
 
-void sub_267403()
+
+// sub_267403 
+// Found name in debug line
+void Advance_Sequence_To_The_Replay_Mission_Gather_Sequence_Variables()
 {
     switch (g_U9893._fU40)
     {
         case 0:
-        sub_267618( ref g_U34285 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U34285 );
         break;
         case 1:
-        sub_267618( ref g_U41566 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U41566 );
         break;
         case 2:
-        sub_267618( ref g_U42287 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U42287 );
         break;
         case 3:
-        sub_267618( ref g_U42608 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U42608 );
         break;
         case 4:
-        sub_267618( ref g_U44209 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U44209 );
         break;
         case 5:
-        sub_267618( ref g_U45410 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U45410 );
         break;
         case 6:
-        sub_267618( ref g_U45811 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U45811 );
         break;
         case 7:
-        sub_267618( ref g_U46852 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U46852 );
         break;
         case 8:
-        sub_267618( ref g_U49013 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U49013 );
         break;
         case 9:
-        sub_267618( ref g_U51654 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U51654 );
         break;
         case 10:
-        sub_267618( ref g_U52935 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U52935 );
         break;
         case 11:
-        sub_267618( ref g_U53176 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U53176 );
         break;
         case 12:
-        sub_267618( ref g_U55257 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U55257 );
         break;
         case 13:
-        sub_267618( ref g_U56058 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U56058 );
         break;
         case 14:
-        sub_267618( ref g_U58219 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U58219 );
         break;
         case 15:
-        sub_267618( ref g_U58940 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U58940 );
         break;
         case 16:
-        sub_267618( ref g_U60701 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U60701 );
         break;
         case 17:
-        sub_267618( ref g_U61262 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U61262 );
         break;
         case 18:
-        sub_267618( ref g_U61423 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U61423 );
         break;
         case 19:
-        sub_267618( ref g_U61984 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U61984 );
         break;
         case 20:
-        sub_267618( ref g_U62545 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U62545 );
         break;
         case 21:
-        sub_267618( ref g_U63346 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U63346 );
         break;
         case 22:
-        sub_267618( ref g_U63747 );
+        Advance_Sequence_To_The_Replay_Mission( ref g_U63747 );
         break;
         default: sub_23915( "Advance_Sequence_To_The_Replay_Mission_Gather_Sequence_Variables(): Illegal strand" );
     }
     return;
 }
 
-void sub_267618(unknown uParam0)
+
+// sub_267618
+// Seems to be setting a lot of globals in sub_267403, found name in debug line
+void Advance_Sequence_To_The_Replay_Mission(unknown uParam0)
 {
     boolean bVar3;
     boolean bVar4;
@@ -29520,47 +29606,50 @@ void sub_267618(unknown uParam0)
     return;
 }
 
-void sub_269745(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
+
+// sub_269745
+void WarpPlayerToCoords(float posX, float posY, float posZ, float heading)
 {
     if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        if (NOT (sub_269777( uParam0, uParam1, uParam2 )))
+        if (NOT (sub_269777( posX, posY, posZ )))
         {
             if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
             {
-                WARP_CHAR_FROM_CAR_TO_COORD( CurrentPlayerChar(), uParam0, uParam1, uParam2 );
+                WARP_CHAR_FROM_CAR_TO_COORD( CurrentPlayerChar(), posX, posY, posZ );
             }
             else
             {
-                SET_CHAR_COORDINATES( CurrentPlayerChar(), uParam0, uParam1, uParam2 );
+                SET_CHAR_COORDINATES( CurrentPlayerChar(), posX, posY, posZ );
             }
         }
-        SET_CHAR_HEADING( CurrentPlayerChar(), uParam3 );
+        SET_CHAR_HEADING( CurrentPlayerChar(), heading );
         SET_GAME_CAM_HEADING( 0.00000000 );
     }
     return;
 }
 
-int sub_269777(unknown uParam0, unknown uParam1, unknown uParam2)
+// I think these are the apartment locations
+int sub_269777(float posX, float posY, float posZ)
 {
-    LOAD_SCENE( uParam0, uParam1, uParam2 );
-    if (sub_269829( uParam0, uParam1, uParam2, g_U9943[0]._fU20, "shitholerm" ))
+    LOAD_SCENE( posX, posY, posZ );
+    if (sub_269829( posX, posY, posZ, g_U9943[0]._fU20, "shitholerm" ))
     {
         return 1;
     }
-    if (sub_269829( uParam0, uParam1, uParam2, g_U9943[1]._fU20, "bronxsaveroom01" ))
+    if (sub_269829( posX, posY, posZ, g_U9943[1]._fU20, "bronxsaveroom01" ))
     {
         return 1;
     }
-    if (sub_269829( uParam0, uParam1, uParam2, g_U9943[2]._fU20, "loftrm1" ))
+    if (sub_269829( posX, posY, posZ, g_U9943[2]._fU20, "loftrm1" ))
     {
         return 1;
     }
-    if (sub_269829( uParam0, uParam1, uParam2, g_U9943[3]._fU20, "JersSaveApt" ))
+    if (sub_269829( posX, posY, posZ, g_U9943[3]._fU20, "JersSaveApt" ))
     {
         return 1;
     }
-    if (sub_269829( uParam0, uParam1, uParam2, g_U9943[4]._fU20, "PlayXroom" ))
+    if (sub_269829( posX, posY, posZ, g_U9943[4]._fU20, "PlayXroom" ))
     {
         return 1;
     }
@@ -29604,18 +29693,18 @@ int sub_270384()
 {
     if (g_U13391[g_U9893._fU40]._fU0._fU0 == 0)
     {
-        sub_267403();
+        Advance_Sequence_To_The_Replay_Mission_Gather_Sequence_Variables();
         return 1;
     }
     if (NOT (g_U13391[g_U9893._fU40]._fU0._fU0 == 1))
     {
         g_U9893._fU28 = 1;
-        sub_267403();
+        Advance_Sequence_To_The_Replay_Mission_Gather_Sequence_Variables();
     }
     if (g_U13391[g_U9893._fU40]._fU0._fU0 == 1)
     {
         sub_54189( g_U9893._fU40 );
-        sub_267403();
+        Advance_Sequence_To_The_Replay_Mission_Gather_Sequence_Variables();
     }
     return 0;
 }
@@ -29803,7 +29892,7 @@ void sub_270540()
     }
     if (bVar6)
     {
-        sub_269745( vVar2.x, vVar2.y, vVar2.z, fVar5 );
+        WarpPlayerToCoords( vVar2.x, vVar2.y, vVar2.z, fVar5 );
         CLEAR_AREA_OF_CHARS( vVar2.x, vVar2.y, vVar2.z, 100.00000000 );
         return;
     }

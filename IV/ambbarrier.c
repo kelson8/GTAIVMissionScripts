@@ -5,11 +5,11 @@ void main()
     unknown uVar4;
     unknown uVar5;
 
-    l_U2 = 270.00000000;
-    l_U3 = 0.00000000;
-    l_U7 = {3.97000000, -0.10100000, 0.45800000};
-    l_U10 = {-3.97000000, -0.17800000, 0.45800000};
-    l_U13 = {-3.80000000, 1.72500000, -0.62500000};
+    fSecurityDudeHeadingOffset = 270.00000000;
+    fCurrentAngle = 0.00000000;
+    vRightArmOffset = {3.97000000, -0.10100000, 0.45800000};
+    vLeftArmOffset = {-3.97000000, -0.17800000, 0.45800000};
+    vSecurityDudeOffset = {-3.80000000, 1.72500000, -0.62500000};
     l_U16 = 0;
     PRINTSTRING( "AMBIENT BARRIER SCRIPT STARTED \n" );
     while (NOT (DOES_OBJECT_EXIST( l_U21 )))
@@ -33,21 +33,23 @@ void main()
     ADD_TO_WIDGET_COMBO( "OPENING" );
     ADD_TO_WIDGET_COMBO( "WAITING_TO_PASS" );
     ADD_TO_WIDGET_COMBO( "CLOSING" );
-    FINISH_WIDGET_COMBO( "iState", ref l_U0 );
-    ADD_WIDGET_SLIDER( "iProgress", ref l_U1, 0, 99, 1 );
-    ADD_WIDGET_FLOAT_SLIDER( "vRightArmOffset.x", ref l_U7._fU0, -90.00000000, 90.00000000, 0.01000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vRightArmOffset.y", ref l_U7._fU4, -90.00000000, 90.00000000, 0.01000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vRightArmOffset.z", ref l_U7._fU8, -90.00000000, 90.00000000, 0.01000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vLeftArmOffset.x", ref l_U10._fU0, -90.00000000, 90.00000000, 0.01000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vLeftArmOffset.y", ref l_U10._fU4, -90.00000000, 90.00000000, 0.01000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vLeftArmOffset.z", ref l_U10._fU8, -90.00000000, 90.00000000, 0.01000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vSecurityDudeOffset.x", ref l_U13._fU0, -999.90000000, 999.90000000, 0.10000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vSecurityDudeOffset.y", ref l_U13._fU4, -999.90000000, 999.90000000, 0.10000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "vSecurityDudeOffset.z", ref l_U13._fU8, -999.90000000, 999.90000000, 0.10000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "fSecurityDudeHeadingOffset", ref l_U2, 0.00000000, 360.00000000, 1.00000000 );
-    ADD_WIDGET_FLOAT_SLIDER( "fCurrentAngle", ref l_U3, 0.00000000, 180.00000000, 0.01000000 );
+
+    FINISH_WIDGET_COMBO( "iState", ref iState );
+    ADD_WIDGET_SLIDER( "iProgress", ref iProgress, 0, 99, 1 );
+    ADD_WIDGET_FLOAT_SLIDER( "vRightArmOffset.x", ref vRightArmOffset.x, -90.00000000, 90.00000000, 0.01000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vRightArmOffset.y", ref vRightArmOffset.y, -90.00000000, 90.00000000, 0.01000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vRightArmOffset.z", ref vRightArmOffset.z, -90.00000000, 90.00000000, 0.01000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vLeftArmOffset.x", ref vRightArmOffset.x, -90.00000000, 90.00000000, 0.01000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vLeftArmOffset.y", ref vRightArmOffset.y, -90.00000000, 90.00000000, 0.01000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vLeftArmOffset.z", ref vRightArmOffset.z, -90.00000000, 90.00000000, 0.01000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vSecurityDudeOffset.x", ref vSecurityDudeOffset.x, -999.90000000, 999.90000000, 0.10000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vSecurityDudeOffset.y", ref vSecurityDudeOffset.y, -999.90000000, 999.90000000, 0.10000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "vSecurityDudeOffset.z", ref vSecurityDudeOffset.z, -999.90000000, 999.90000000, 0.10000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "fSecurityDudeHeadingOffset", ref fSecurityDudeHeadingOffset, 0.00000000, 360.00000000, 1.00000000 );
+    ADD_WIDGET_FLOAT_SLIDER( "fCurrentAngle", ref fCurrentAngle, 0.00000000, 180.00000000, 0.01000000 );
     END_WIDGET_GROUP();
     sub_978( 0 );
+    
     while (true)
     {
         if (DOES_OBJECT_EXIST( l_U21 ))
@@ -74,15 +76,15 @@ void main()
                         }
                     }
                 }
-                switch (l_U0)
+                switch (iState)
                 {
                     case 0:
-                    switch (l_U1)
+                    switch (iProgress)
                     {
                         case 0:
                         REQUEST_MODEL( -869586478 );
                         REQUEST_MODEL( -1046467484 );
-                        l_U1++;
+                        iProgress++;
                         break;
                         case 1:
                         if ((HAS_MODEL_LOADED( -1046467484 )) AND (HAS_MODEL_LOADED( -869586478 )))
@@ -93,10 +95,10 @@ void main()
                     }
                     break;
                     case 1:
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, l_U7._fU0, l_U7._fU4, l_U7._fU8, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, vRightArmOffset.x, vRightArmOffset.y, vRightArmOffset.z, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
                     CREATE_OBJECT_NO_OFFSET( -1046467484, uVar2._fU0, uVar2._fU4, uVar2._fU8, ref l_U4, 1 );
                     SET_OBJECT_DYNAMIC( l_U4, 1 );
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, l_U10._fU0, l_U10._fU4, l_U10._fU8, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, vRightArmOffset.x, vRightArmOffset.y, vRightArmOffset.z, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
                     CREATE_OBJECT_NO_OFFSET( -869586478, uVar2._fU0, uVar2._fU4, uVar2._fU8, ref l_U5, 1 );
                     SET_OBJECT_DYNAMIC( l_U5, 1 );
                     GET_OBJECT_HEADING( l_U21, ref l_U17 );
@@ -114,12 +116,12 @@ void main()
                     case 2:
                     if (NOT (sub_1779( l_U4 )))
                     {
-                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, l_U7._fU0, l_U7._fU4, l_U7._fU8, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, vRightArmOffset.x, vRightArmOffset.y, vRightArmOffset.z, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
                         SET_OBJECT_COORDINATES( l_U4, uVar2._fU0, uVar2._fU4, uVar2._fU8 );
                     }
                     if (NOT (sub_1779( l_U5 )))
                     {
-                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, l_U10._fU0, l_U10._fU4, l_U10._fU8, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, vRightArmOffset.x, vRightArmOffset.y, vRightArmOffset.z, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
                         SET_OBJECT_COORDINATES( l_U5, uVar2._fU0, uVar2._fU4, uVar2._fU8 );
                     }
                     GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U21, 0.00000000, -4.00000000, 0.00000000, ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
@@ -151,17 +153,17 @@ void main()
                     break;
                     case 3:
                     GET_FRAME_TIME( ref l_U17 );
-                    l_U3 += (84.00000000 / 5.00000000) * l_U17;
+                    fCurrentAngle += (84.00000000 / 5.00000000) * l_U17;
                     GET_OBJECT_HEADING( l_U21, ref l_U17 );
                     if (NOT (sub_1779( l_U5 )))
                     {
-                        SET_OBJECT_ROTATION( l_U5, 0.00000000, l_U3 * -1.00000000, l_U17 );
+                        SET_OBJECT_ROTATION( l_U5, 0.00000000, fCurrentAngle * -1.00000000, l_U17 );
                     }
                     if (NOT (sub_1779( l_U4 )))
                     {
-                        SET_OBJECT_ROTATION( l_U4, 0.00000000, l_U3, l_U17 );
+                        SET_OBJECT_ROTATION( l_U4, 0.00000000, fCurrentAngle, l_U17 );
                     }
-                    if (l_U3 > 84.00000000)
+                    if (fCurrentAngle > 84.00000000)
                     {
                         sub_978( 4 );
                     }
@@ -181,17 +183,17 @@ void main()
                     break;
                     case 5:
                     GET_FRAME_TIME( ref l_U17 );
-                    l_U3 -= (84.00000000 / 5.00000000) * l_U17;
+                    fCurrentAngle -= (84.00000000 / 5.00000000) * l_U17;
                     GET_OBJECT_HEADING( l_U21, ref l_U17 );
                     if (NOT (sub_1779( l_U5 )))
                     {
-                        SET_OBJECT_ROTATION( l_U5, 0.00000000, l_U3 * -1.00000000, l_U17 );
+                        SET_OBJECT_ROTATION( l_U5, 0.00000000, fCurrentAngle * -1.00000000, l_U17 );
                     }
                     if (NOT (sub_1779( l_U4 )))
                     {
-                        SET_OBJECT_ROTATION( l_U4, 0.00000000, l_U3, l_U17 );
+                        SET_OBJECT_ROTATION( l_U4, 0.00000000, fCurrentAngle, l_U17 );
                     }
-                    if (l_U3 <= 0.00000000)
+                    if (fCurrentAngle <= 0.00000000)
                     {
                         sub_978( 2 );
                     }
@@ -214,10 +216,10 @@ void main()
 
 void sub_978(int iParam0)
 {
-    if (NOT (l_U0 == iParam0))
+    if (NOT (iState == iParam0))
     {
-        l_U0 = iParam0;
-        l_U1 = 0;
+        iState = iParam0;
+        iProgress = 0;
     }
     return;
 }

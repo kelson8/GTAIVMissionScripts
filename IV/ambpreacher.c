@@ -14,20 +14,20 @@ void main()
         sub_79();
     }
     WAIT( 0 );
-    l_U113 = l_U287;
-    if (DOES_CHAR_EXIST( l_U113 ))
+    preacherPed = l_U287;
+    if (DOES_CHAR_EXIST( preacherPed ))
     {
-        if (NOT (IS_CHAR_DEAD( l_U113 )))
+        if (NOT (IS_CHAR_DEAD( preacherPed )))
         {
-            SET_CHAR_HEADING( l_U113, 270 );
-            SET_PED_WITH_BRAIN_CAN_BE_CONVERTED_TO_DUMMY_PED( l_U113, 1 );
+            SET_CHAR_HEADING( preacherPed, 270 );
+            SET_PED_WITH_BRAIN_CAN_BE_CONVERTED_TO_DUMMY_PED( preacherPed, 1 );
         }
     }
     if (NOT g_U8673)
     {
-        if (NOT (IS_CHAR_DEAD( l_U113 )))
+        if (NOT (IS_CHAR_DEAD( preacherPed )))
         {
-            GET_CHAR_COORDINATES( l_U113, ref l_U128._fU0, ref l_U128._fU4, ref l_U128._fU8 );
+            GET_CHAR_COORDINATES( preacherPed, ref l_U128._fU0, ref l_U128._fU4, ref l_U128._fU8 );
             g_U8673 = 1;
             l_U105 = 1;
         }
@@ -48,7 +48,9 @@ void main()
             switch (l_U102)
             {
                 case 0:
-                sub_468();
+                // Preacher rants
+                PreacherRants();
+
                 break;
                 case 1:
                 sub_3371();
@@ -64,11 +66,11 @@ void main()
     }
     if (l_U105)
     {
-        if (DOES_CHAR_EXIST( l_U113 ))
+        if (DOES_CHAR_EXIST( preacherPed ))
         {
-            if (NOT (IS_CHAR_DEAD( l_U113 )))
+            if (NOT (IS_CHAR_DEAD( preacherPed )))
             {
-                SET_PED_WITH_BRAIN_CAN_BE_CONVERTED_TO_DUMMY_PED( l_U113, 1 );
+                SET_PED_WITH_BRAIN_CAN_BE_CONVERTED_TO_DUMMY_PED( preacherPed, 1 );
             }
         }
         g_U8673 = 0;
@@ -79,11 +81,11 @@ void main()
 
 void sub_79()
 {
-    if (NOT (IS_CHAR_DEAD( l_U113 )))
+    if (NOT (IS_CHAR_DEAD( preacherPed )))
     {
-        CLEAR_CHAR_SECONDARY_TASK( l_U113 );
+        CLEAR_CHAR_SECONDARY_TASK( preacherPed );
     }
-    MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U113 );
+    MARK_CHAR_AS_NO_LONGER_NEEDED( ref preacherPed );
     REMOVE_BLIP( l_U120 );
     TERMINATE_THIS_SCRIPT();
     return;
@@ -91,11 +93,11 @@ void sub_79()
 
 int sub_349()
 {
-    if (DOES_CHAR_EXIST( l_U113 ))
+    if (DOES_CHAR_EXIST( preacherPed ))
     {
-        if (NOT (IS_CHAR_INJURED( l_U113 )))
+        if (NOT (IS_CHAR_INJURED( preacherPed )))
         {
-            if (NOT (IS_CHAR_IN_ANY_CAR( l_U113 )))
+            if (NOT (IS_CHAR_IN_ANY_CAR( preacherPed )))
             {
                 if (NOT g_U10978)
                 {
@@ -107,7 +109,8 @@ int sub_349()
     return 0;
 }
 
-void sub_468()
+// sub_468
+void PreacherRants()
 {
     l_U156[0][0] = "RANT_A_01";
     l_U156[0][1] = "RANT_A_02";
@@ -248,28 +251,30 @@ void sub_3371()
 
     if (NOT (l_U103 == 4))
     {
-        if ((IS_PED_IN_COMBAT( l_U113 )) || (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( l_U113, sub_3398(), 0 )))
+        if ((IS_PED_IN_COMBAT( preacherPed )) || (HAS_CHAR_BEEN_DAMAGED_BY_CHAR( preacherPed, sub_3398(), 0 )))
         {
-            TASK_SMART_FLEE_CHAR_PREFERRING_PAVEMENTS( l_U113, sub_3398(), 300, -1 );
+            TASK_SMART_FLEE_CHAR_PREFERRING_PAVEMENTS( preacherPed, sub_3398(), 300, -1 );
             l_U103 = 4;
         }
     }
+
     switch (l_U103)
     {
         case 0:
-        GET_CHAR_COORDINATES( l_U113, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-        TASK_TURN_CHAR_TO_FACE_COORD( l_U113, 584.00000000, 1403.59600000, 11.00000000 );
-        GET_GAME_TIMER( ref l_U151 );
-        l_U152 = l_U151 - l_U150;
-        if (l_U152 >= 10000)
+        GET_CHAR_COORDINATES( preacherPed, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+        TASK_TURN_CHAR_TO_FACE_COORD( preacherPed, 584.00000000, 1403.59600000, 11.00000000 );
+
+        GET_GAME_TIMER( ref currentGameTimer );
+        newGameTimer = currentGameTimer - l_U150;
+        if (newGameTimer >= 10000)
         {
-            BLOCK_CHAR_AMBIENT_ANIMS( l_U113, 1 );
+            BLOCK_CHAR_AMBIENT_ANIMS( preacherPed, 1 );
             GENERATE_RANDOM_INT_IN_RANGE( 0, 5, ref l_U153 );
             if (NOT (l_U153 == l_U154))
             {
                 l_U155 = 0;
                 l_U154 = l_U153;
-                SAY_AMBIENT_SPEECH( l_U113, l_U156[l_U153][l_U155], 1, 1, 2 );
+                SAY_AMBIENT_SPEECH( preacherPed, l_U156[l_U153][l_U155], 1, 1, 2 );
                 l_U103 = 1;
             }
         }
@@ -278,22 +283,26 @@ void sub_3371()
             sub_3740( I );
         }
         break;
+
         case 1:
-        BLOCK_CHAR_AMBIENT_ANIMS( l_U113, 1 );
+        BLOCK_CHAR_AMBIENT_ANIMS( preacherPed, 1 );
         uVar2 = nil;
         GET_CLOSEST_CHAR( l_U131._fU0, l_U131._fU4, l_U131._fU8, 5.00000000, 1, 1, ref uVar2 );
+
         if ((NOT (IS_CHAR_DEAD( l_U114[0] ))) AND (DOES_CHAR_EXIST( l_U114[0] )))
         {
-            if ((NOT (IS_CHAR_DEAD( l_U113 ))) AND (DOES_CHAR_EXIST( l_U113 )))
+            if ((NOT (IS_CHAR_DEAD( preacherPed ))) AND (DOES_CHAR_EXIST( preacherPed )))
             {
-                TASK_GO_TO_CHAR( l_U113, l_U114[0], -1, 3.50000000 );
+                TASK_GO_TO_CHAR( preacherPed, l_U114[0], -1, 3.50000000 );
             }
         }
-        else if ((NOT (IS_CHAR_DEAD( l_U113 ))) AND (DOES_CHAR_EXIST( l_U113 )))
+
+        else if ((NOT (IS_CHAR_DEAD( preacherPed ))) AND (DOES_CHAR_EXIST( preacherPed )))
         {
-            TASK_TURN_CHAR_TO_FACE_COORD( l_U113, 584.00000000, 1403.59600000, 11.00000000 );
+            TASK_TURN_CHAR_TO_FACE_COORD( preacherPed, 584.00000000, 1403.59600000, 11.00000000 );
         }
-        if (NOT (IS_AMBIENT_SPEECH_PLAYING( l_U113 )))
+
+        if (NOT (IS_AMBIENT_SPEECH_PLAYING( preacherPed )))
         {
             l_U155++;
             if (l_U155 >= 25)
@@ -303,15 +312,17 @@ void sub_3371()
             }
             else
             {
-                SAY_AMBIENT_SPEECH( l_U113, l_U156[l_U153][l_U155], 1, 1, 2 );
+                SAY_AMBIENT_SPEECH( preacherPed, l_U156[l_U153][l_U155], 1, 1, 2 );
             }
         }
         break;
+
         case 5: break;
     }
+
     if ((l_U103 == 3) || ((l_U103 == 2) || (l_U103 == 1)))
     {
-        sub_4160( ref l_U113 );
+        sub_4160( ref preacherPed );
     }
     return;
 }
@@ -402,7 +413,7 @@ void sub_4160(unknown uParam0)
                 {
                     SAY_AMBIENT_SPEECH( l_U114[I], "GENERIC_FUCK_OFF", 1, 1, 2 );
                 }
-                if (IS_CHAR_INJURED( l_U113 ))
+                if (IS_CHAR_INJURED( preacherPed ))
                 {
                     SAY_AMBIENT_SPEECH( l_U114[I], "GANG_FIGHT_CHEER", 1, 1, 2 );
                     sub_3740( I );
@@ -427,7 +438,7 @@ void sub_4160(unknown uParam0)
 
 void sub_4760(unknown uParam0, unknown uParam1)
 {
-    GET_CHAR_COORDINATES( l_U113, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+    GET_CHAR_COORDINATES( preacherPed, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
     BEGIN_CHAR_SEARCH_CRITERIA();
     SEARCH_CRITERIA_REJECT_PEDS_WITH_FLAG_TRUE( 26 );
     SEARCH_CRITERIA_REJECT_PEDS_WITH_FLAG_TRUE( 27 );
@@ -446,12 +457,12 @@ void sub_4760(unknown uParam0, unknown uParam1)
                 SET_CHAR_AS_MISSION_CHAR( (uParam0^) );
                 if ((NOT (IS_CHAR_DEAD( (uParam0^) ))) AND (DOES_CHAR_EXIST( (uParam0^) )))
                 {
-                    if ((NOT (IS_CHAR_DEAD( (uParam0^) ))) AND (DOES_CHAR_EXIST( l_U113 )))
+                    if ((NOT (IS_CHAR_DEAD( (uParam0^) ))) AND (DOES_CHAR_EXIST( preacherPed )))
                     {
                         OPEN_SEQUENCE_TASK( ref l_U127 );
                         SET_NEXT_DESIRED_MOVE_STATE( 2 );
-                        TASK_GO_TO_CHAR( 0, l_U113, -1, 4.00000000 );
-                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, l_U113 );
+                        TASK_GO_TO_CHAR( 0, preacherPed, -1, 4.00000000 );
+                        TASK_TURN_CHAR_TO_FACE_CHAR( 0, preacherPed );
                         CLOSE_SEQUENCE_TASK( l_U127 );
                         TASK_PERFORM_SEQUENCE( (uParam0^), l_U127 );
                         CLEAR_SEQUENCE_TASK( l_U127 );

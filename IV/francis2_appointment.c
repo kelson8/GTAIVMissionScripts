@@ -32,7 +32,10 @@ void main()
     THIS_SCRIPT_SHOULD_BE_SAVED();
     l_U502 = 35;
     l_U503 = 11;
+
+    // TODO Figure out these coordinates and label this.
     l_U522 = {80.30060000, -677.84530000, 15.76750000};
+
     l_U530 = 0;
     l_U531 = 0;
     l_U551 = 0;
@@ -43,7 +46,7 @@ void main()
     {
         if (ALLOW_ONE_TIME_ONLY_COMMANDS_TO_RUN())
         {
-            sub_265();
+            RunDebugCommands();
         }
         if (l_U559 == 0)
         {
@@ -57,31 +60,55 @@ void main()
     return;
 }
 
-void sub_265()
+// I labeled this debug item, not sure what it was originally named.
+// sub_265
+void RunDebugCommands()
 {
-    l_U491 = 0;
-    l_U492 = 0;
-    l_U493 = 0;
-    l_U494 = 0;
-    l_U495 = 0;
-    l_U496 = 0;
-    l_U497 = 0;
-    l_U498 = 0;
+    // l_U491 = quitCallFrancisPass
+    quitCallFrancisPass = 0;
+    // l_U492 = busyOnMission
+    busyOnMission = 0;
+
+    // Warp to Lawyers Office
+    // l_U493 = warpToLawyersOffice
+    warpToLawyersOffice = 0;
+
+    // Warp to Clothes shop
+    // l_U494 = warpToClothesShop
+    warpToLawyersOffice = 0;
+    
+    // l_U495 = givePlayerSuit
+    givePlayerSuit = 0;
+
+    // l_U496 = advancedTimeToBlipOn
+    advancedTimeToBlipOn = 0;
+    // l_U497 = advancedTimeToAppointment
+    advancedTimeToAppointment = 0;
+
+    // l_U498 = advancedTimeToFailure
+    advancedTimeToFailure = 0;
+
     l_U490 = CREATE_WIDGET_GROUP( "Francis2 - Appointment" );
-    ADD_WIDGET_TOGGLE( "Quit? (calls Francis_Pass)", ref l_U491 );
-    ADD_WIDGET_TOGGLE( "Busy? (as if onMission)", ref l_U492 );
-    ADD_WIDGET_TOGGLE( "Give player suit?", ref l_U495 );
-    ADD_WIDGET_TOGGLE( "Warp to Lawyers Office", ref l_U493 );
-    ADD_WIDGET_TOGGLE( "Warp to Clothes Shop", ref l_U494 );
+    ADD_WIDGET_TOGGLE( "Quit? (calls Francis_Pass)", ref quitCallFrancisPass );
+    ADD_WIDGET_TOGGLE( "Busy? (as if onMission)", ref busyOnMission );
+    ADD_WIDGET_TOGGLE( "Give player suit?", ref givePlayerSuit );
+
+    ADD_WIDGET_TOGGLE( "Warp to Lawyers Office", ref warpToLawyersOffice );
+    ADD_WIDGET_TOGGLE( "Warp to Clothes Shop", ref warpToLawyersOffice );
+
     ADD_WIDGET_READ_ONLY( "Blip On (hours)", ref l_U508._fU8._fU0 );
     ADD_WIDGET_READ_ONLY( "Blip On (mins)", ref l_U508._fU8._fU4 );
-    ADD_WIDGET_TOGGLE( "Advance Time To Blip On", ref l_U496 );
+
+    ADD_WIDGET_TOGGLE( "Advance Time To Blip On", ref advancedTimeToBlipOn );
+
     ADD_WIDGET_READ_ONLY( "Appointment (hours)", ref l_U504._fU8._fU0 );
     ADD_WIDGET_READ_ONLY( "Appointment (mins)", ref l_U504._fU8._fU4 );
-    ADD_WIDGET_TOGGLE( "Advance Time To Appointment", ref l_U497 );
+    ADD_WIDGET_TOGGLE( "Advance Time To Appointment", ref advancedTimeToAppointment );
+
     ADD_WIDGET_READ_ONLY( "Fail (hours)", ref l_U516._fU8._fU0 );
     ADD_WIDGET_READ_ONLY( "Fail (mins)", ref l_U516._fU8._fU4 );
-    ADD_WIDGET_TOGGLE( "Advance Time To Failure", ref l_U498 );
+
+    ADD_WIDGET_TOGGLE( "Advance Time To Failure", ref advancedTimeToFailure );
     END_WIDGET_GROUP();
     return;
 }
@@ -552,11 +579,11 @@ void sub_3622()
 
 void sub_3670()
 {
-    if (l_U491)
+    if (quitCallFrancisPass)
     {
         sub_3689();
     }
-    if (l_U495)
+    if (givePlayerSuit)
     {
         if (IS_PLAYER_PLAYING( sub_3622() ))
         {
@@ -566,10 +593,11 @@ void sub_3670()
             SET_CHAR_COMPONENT_VARIATION( sub_899(), 4, 0, 0 );
             SET_CHAR_PROP_INDEX( sub_899(), 0, -1 );
             SET_CHAR_PROP_INDEX( sub_899(), 1, -1 );
-            l_U495 = 0;
+            givePlayerSuit = 0;
         }
     }
-    if (l_U493)
+
+    if (warpToLawyersOffice)
     {
         if (IS_PLAYER_PLAYING( sub_3622() ))
         {
@@ -584,10 +612,11 @@ void sub_3670()
             }
             SET_CHAR_HEADING( sub_899(), 180.00000000 );
             SET_GAME_CAM_HEADING( 0.00000000 );
-            l_U493 = 0;
+            warpToLawyersOffice = 0;
         }
     }
-    if (l_U494)
+
+    if (warpToLawyersOffice)
     {
         if (IS_PLAYER_PLAYING( sub_3622() ))
         {
@@ -602,24 +631,28 @@ void sub_3670()
             }
             SET_CHAR_HEADING( sub_899(), 115.00000000 );
             SET_GAME_CAM_HEADING( 0.00000000 );
-            l_U494 = 0;
+            warpToLawyersOffice = 0;
         }
     }
-    if (l_U496)
+
+    if (advancedTimeToBlipOn)
     {
         sub_17225( ref l_U508 );
-        l_U496 = 0;
+        advancedTimeToBlipOn = 0;
     }
-    if (l_U497)
+
+    if (advancedTimeToAppointment)
     {
         sub_17225( ref l_U504 );
-        l_U497 = 0;
+        advancedTimeToAppointment = 0;
     }
-    if (l_U498)
+
+    if (advancedTimeToFailure)
     {
         sub_17225( ref l_U516 );
-        l_U498 = 0;
+        advancedTimeToFailure = 0;
     }
+
     return;
 }
 
@@ -2734,10 +2767,12 @@ int sub_17617(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     int iVar8;
     int iVar9;
 
+    // _fU8._fU4 seems to be something to do with the time here?
     if (uParam0._fU8._fU4 == -1)
     {
         return 1;
     }
+    
     iVar6 = 0;
     iVar7 = 0;
     GET_CURRENT_DATE( ref iVar6, ref iVar7 );
@@ -4297,13 +4332,13 @@ void sub_27502()
         CLEAR_HELP();
         l_U500 = 0;
     }
-    if ((l_U492) || (g_U10978))
+    if ((busyOnMission) || (g_U10978))
     {
         if (sub_17617( l_U504 ))
         {
             l_U531 = 0;
             l_U530 = 5;
-            l_U492 = 0;
+            busyOnMission = 0;
             return;
         }
     }
@@ -4313,7 +4348,7 @@ void sub_27502()
         {
             l_U531 = 0;
             l_U530 = 4;
-            l_U492 = 0;
+            busyOnMission = 0;
             return;
         }
     }

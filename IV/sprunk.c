@@ -1,98 +1,120 @@
+// TODO Figure out how to use this, make a sprunk animation and heal the player in GTA Connected.
+// Quite sure l_U142 is vendingMachineObject, rename if incorrect.
+// l_U138 seems to be another object, I wonder if that is the sprunk can? I think this one is sprunkCanObject
+
+// l_U114 = currentAnimTime
+
+
 void main()
 {
     l_U0 = 0;
     l_U1 = 0;
     l_U105 = 0.40000000;
     l_U106 = 0;
-    l_U110 = 0;
-    l_U112 = 0;
-    l_U113 = 0;
+    currentPlayerWeapon = 0;
+    // I think this one is iVendingMachineSwitchState
+    // l_U112
+    iVendingMachineSwitchState = 0;
+    // I think this one is iDrinkSwitchState
+    // l_U113
+    iDrinkSwitchState = 0;
     l_U125 = -1;
-    l_U132 = "buy_drink";
-    l_U133 = "AMB@sprunk_plyr";
+    buyDrinkAnim = "buy_drink";
+    // l_U133
+    drinkAnimSet = "AMB@sprunk_plyr";
     l_U137 = -1218270655;
     if (HAS_DEATHARREST_EXECUTED())
     {
-        sub_119();
+        CleanupSprunkScript();
     }
-    sub_615( l_U142 );
+    sub_615( vendingMachineObject );
+
     while (true)
     {
         WAIT( 0 );
-        if (IS_PLAYER_PLAYING( sub_480() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            if (DOES_OBJECT_EXIST( l_U142 ))
+            if (DOES_OBJECT_EXIST( vendingMachineObject ))
             {
-                if (IS_OBJECT_UPRIGHT( l_U142, 5 ))
+                if (IS_OBJECT_UPRIGHT( vendingMachineObject, 5 ))
                 {
-                    if (IS_OBJECT_WITHIN_BRAIN_ACTIVATION_RANGE( l_U142 ))
+                    if (IS_OBJECT_WITHIN_BRAIN_ACTIVATION_RANGE( vendingMachineObject ))
                     {
-                        switch (l_U112)
+                        switch (iVendingMachineSwitchState)
                         {
                             case 0:
-                            if (HAVE_ANIMS_LOADED( l_U133 ))
+                            if (HAVE_ANIMS_LOADED( drinkAnimSet ))
                             {
-                                if (LOCATE_CHAR_ANY_MEANS_3D( sub_1002(), l_U120._fU0, l_U120._fU4, l_U120._fU8, 1.50000000, 1.50000000, 1.50000000, 0 ))
+                                if (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U120._fU0, l_U120._fU4, l_U120._fU8, 1.50000000, 1.50000000, 1.50000000, 0 ))
                                 {
-                                    if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_480() ))
+                                    if (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() ))
                                     {
-                                        if (IS_CHAR_ON_FOOT( sub_1002() ))
+                                        if (IS_CHAR_ON_FOOT( CurrentPlayerChar() ))
                                         {
-                                            GET_INTERIOR_FROM_CHAR( sub_1002(), ref l_U139 );
-                                            GET_KEY_FOR_CHAR_IN_ROOM( sub_1002(), ref l_U127 );
-                                            GET_ROOM_KEY_FROM_OBJECT( l_U142, ref l_U126 );
-                                            GET_GAME_VIEWPORT_ID( ref l_U141 );
-                                            if ((l_U126 != -1) AND (l_U126 != 0))
+                                            GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref currentPlayerInterior );
+                                            GET_KEY_FOR_CHAR_IN_ROOM( CurrentPlayerChar(), ref currentPlayerRoomKey );
+                                            GET_ROOM_KEY_FROM_OBJECT( vendingMachineObject, ref currentObjectRoomKey );
+                                            GET_GAME_VIEWPORT_ID( ref objectViewportId );
+                                            if ((currentObjectRoomKey != -1) AND (currentObjectRoomKey != 0))
                                             {
-                                                GET_KEY_FOR_VIEWPORT_IN_ROOM( l_U141, ref l_U128 );
+                                                GET_KEY_FOR_VIEWPORT_IN_ROOM( objectViewportId, ref currentViewportRoomKey );
                                             }
                                             else
                                             {
-                                                l_U128 = l_U126;
+                                                currentViewportRoomKey = currentObjectRoomKey;
                                             }
-                                            if ((l_U127 != -1) AND (l_U127 != 0))
+                                            if ((currentPlayerRoomKey != -1) AND (currentPlayerRoomKey != 0))
                                             {
                                                 GET_INTERIOR_AT_COORDS( l_U117._fU0, l_U117._fU4, l_U117._fU8, ref l_U140 );
                                             }
                                             else
                                             {
-                                                l_U126 = l_U127;
-                                                l_U140 = l_U139;
+                                                currentObjectRoomKey = currentPlayerRoomKey;
+                                                l_U140 = currentPlayerInterior;
                                             }
-                                            if (l_U127 == l_U126)
+
+                                            if (currentPlayerRoomKey == currentObjectRoomKey)
                                             {
-                                                if (l_U139 == l_U140)
+                                                if (currentPlayerInterior == l_U140)
                                                 {
                                                     sub_806();
-                                                    if (l_U128 == l_U126)
+
+                                                    if (currentViewportRoomKey == currentObjectRoomKey)
                                                     {
                                                         if (sub_1368( 2, 0 ))
                                                         {
-                                                            if (sub_1658( 2, l_U135, 0 ))
+                                                            if (IS_CONTEXT_BUTTON_PRESSED( 2, sprunkContextButton, 0 ))
                                                             {
-                                                                if (IS_SCORE_GREATER( sub_480(), 1 ))
+                                                                if (IS_SCORE_GREATER( CurrentPlayerId(), 1 ))
                                                                 {
+                                                                    // What is this object?
                                                                     if (HAS_MODEL_LOADED( l_U137 ))
                                                                     {
-                                                                        CREATE_OBJECT( l_U137, l_U120._fU0, l_U120._fU4 + 0.60000000, l_U120._fU8, ref l_U138, 1 );
+                                                                        CREATE_OBJECT( l_U137, l_U120._fU0, l_U120._fU4 + 0.60000000, l_U120._fU8, ref sprunkCanObject, 1 );
                                                                     }
-                                                                    REMOVE_PED_HELMET( sub_1002(), 1 );
-                                                                    if (l_U127 != 0)
+
+                                                                    // Remove player helmet
+                                                                    REMOVE_PED_HELMET( CurrentPlayerChar(), 1 );
+                                                                    if (currentPlayerRoomKey != 0)
                                                                     {
-                                                                        if (l_U127 != -1)
+                                                                        if (currentPlayerRoomKey != -1)
                                                                         {
-                                                                            ADD_OBJECT_TO_INTERIOR_ROOM_BY_KEY( l_U138, l_U127 );
+                                                                            ADD_OBJECT_TO_INTERIOR_ROOM_BY_KEY( sprunkCanObject, currentPlayerRoomKey );
                                                                         }
                                                                     }
-                                                                    if (DOES_OBJECT_EXIST( l_U138 ))
+
+                                                                    if (DOES_OBJECT_EXIST( sprunkCanObject ))
                                                                     {
-                                                                        SET_OBJECT_VISIBLE( l_U138, 0 );
+                                                                        SET_OBJECT_VISIBLE( sprunkCanObject, 0 );
                                                                     }
-                                                                    l_U112 = 1;
+                                                                    iVendingMachineSwitchState = 1;
                                                                 }
+
+                                                                // Show a failed transaction message
+                                                                // FAIL_TRAN = You don't have enough cash.
                                                                 else
                                                                 {
-                                                                    sub_2471( "FAIL_TRAN", 3000, 0 );
+                                                                    PrintAndAddMessageToBrief( "FAIL_TRAN", 3000, 0 );
                                                                 }
                                                             }
                                                         }
@@ -108,24 +130,28 @@ void main()
                                                         sub_200( 2, "classprunk_act" );
                                                     }
                                                 }
+
                                                 else
                                                 {
                                                     sub_200( 2, "sprunk_act" );
                                                     sub_200( 2, "classprunk_act" );
                                                 }
                                             }
+
                                             else
                                             {
                                                 sub_200( 2, "sprunk_act" );
                                                 sub_200( 2, "classprunk_act" );
                                             }
                                         }
+
                                         else
                                         {
                                             sub_200( 2, "sprunk_act" );
                                             sub_200( 2, "classprunk_act" );
                                         }
                                     }
+
                                     else
                                     {
                                         sub_200( 2, "sprunk_act" );
@@ -138,83 +164,94 @@ void main()
                                     sub_200( 2, "classprunk_act" );
                                 }
                             }
+
                             else
                             {
                                 sub_200( 2, "sprunk_act" );
                                 sub_200( 2, "classprunk_act" );
                             }
                             break;
+
                             case 1:
-                            sub_2914( l_U142 );
+                            // Seems to run the main code for the vending machine.
+                            sub_2914( vendingMachineObject );
                             break;
+
                             case 3:
+                            // Reset player weapon back to fists.
                             sub_5027();
+
+                            // Another game timer, possibly name this oldGameTimer
                             GET_GAME_TIMER( ref l_U129 );
-                            l_U112 = 2;
+                            iVendingMachineSwitchState = 2;
                             break;
+
                             case 2:
                             GET_GAME_TIMER( ref l_U130 );
                             l_U131 = l_U130 - l_U129;
                             if (l_U131 > 1000)
                             {
-                                l_U112 = 0;
+                                iVendingMachineSwitchState = 0;
                             }
                             break;
+
                             case 4: break;
                         }
                     }
-                    else if (l_U112 == 1)
+                    else if (iVendingMachineSwitchState == 1)
                     {
-                        if (IS_PLAYER_PLAYING( sub_480() ))
+                        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                         {
-                            CLEAR_CHAR_TASKS( sub_1002() );
-                            sub_3033( 1 );
+                            CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+                            TogglePlayerControl( 1 );
                         }
                     }
-                    sub_119();;
+                    CleanupSprunkScript();
                 }
-                else if (l_U112 == 1)
+                else if (iVendingMachineSwitchState == 1)
                 {
-                    if (IS_PLAYER_PLAYING( sub_480() ))
+                    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                     {
-                        CLEAR_CHAR_TASKS( sub_1002() );
-                        sub_3033( 1 );
+                        CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+                        TogglePlayerControl( 1 );
                     }
                 }
-                sub_119();;
+                CleanupSprunkScript();
             }
-            else if (l_U112 == 1)
+            else if (iVendingMachineSwitchState == 1)
             {
-                if (IS_PLAYER_PLAYING( sub_480() ))
+                if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
                 {
-                    CLEAR_CHAR_TASKS( sub_1002() );
-                    sub_3033( 1 );
+                    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+                    TogglePlayerControl( 1 );
                 }
             }
-            sub_119();;
+            CleanupSprunkScript();
         }
-        else if (l_U112 == 1)
+        else if (iVendingMachineSwitchState == 1)
         {
-            if (IS_PLAYER_PLAYING( sub_480() ))
+            if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
             {
-                CLEAR_CHAR_TASKS( sub_1002() );
-                sub_3033( 1 );
+                CLEAR_CHAR_TASKS( CurrentPlayerChar() );
+                TogglePlayerControl( 1 );
             }
         }
-        sub_119();;
+        CleanupSprunkScript();
     }
     return;
 }
 
-void sub_119()
+// sub_119
+// Detach the object, mark as no longer needed and terminate the script
+void CleanupSprunkScript()
 {
-    if (DOES_OBJECT_EXIST( l_U138 ))
+    if (DOES_OBJECT_EXIST( sprunkCanObject ))
     {
-        if (IS_OBJECT_ATTACHED( l_U138 ))
+        if (IS_OBJECT_ATTACHED( sprunkCanObject ))
         {
-            DETACH_OBJECT( l_U138, 1 );
+            DETACH_OBJECT( sprunkCanObject, 1 );
         }
-        MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U138 );
+        MARK_OBJECT_AS_NO_LONGER_NEEDED( ref sprunkCanObject );
     }
     sub_200( 2, "sprunk_act" );
     sub_200( 2, "classprunk_act" );
@@ -222,22 +259,31 @@ void sub_119()
     return;
 }
 
+// Seems to show a continue and possibly cancel button
+// Possibly CAN_USE_CONTEXT_BUTTON? Unknown though
+// iParam0 is set to 2, what is this? Seems to be setting this global: g_U9172
+// sParam1 seems to be a help message that this is showing, like "sprunk_act", and "classprunk_act".
+// if (IS_THIS_HELP_MESSAGE_WITH_STRING_BEING_DISPLAYED( sParam1, sVar4 ))
 void sub_200(int iParam0, string sParam1)
 {
     string sVar4;
 
     if (USING_STANDARD_CONTROLS())
     {
+        // CNTBUT1 = ~PAD_LB~
         sVar4 = "CNTBUT1";
     }
     else
     {
+        // CNTBUT2 = ~PAD_LT~
         sVar4 = "CNTBUT2";
     }
+
     if (IS_STRING_NULL( sParam1 ))
     {
         sParam1 = "NULL";
     }
+
     else if (DOES_TEXT_LABEL_EXIST( sParam1 ))
     {
         if ((GET_LENGTH_OF_STRING_WITH_THIS_TEXT_LABEL( sParam1 )) == 0)
@@ -249,6 +295,7 @@ void sub_200(int iParam0, string sParam1)
     {
         sParam1 = "NULL";
     }
+
     if (NOT (IS_STRING_NULL( sParam1 )))
     {
         if (COMPARE_STRING( sParam1, ref g_U9174 ))
@@ -262,43 +309,52 @@ void sub_200(int iParam0, string sParam1)
                 l_U104 = 0;
                 if (l_U102)
                 {
-                    sub_427();
+                    // Reset globals:
+                    //    cellphone3Dstructure.disableCellphone = 0;
+                    //    cellphone3Dstructure.hideCellPhone = 0;
+                    ResetPhoneGlobalsForSprunk();
                     l_U102 = 0;
                 }
             }
-            if (l_U103)
+
+            if (canPlayerCarryNonMissionObjects)
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_480(), 1 );
-                l_U103 = 0;
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 1 );
+                canPlayerCarryNonMissionObjects = 0;
             }
-            if (l_U101)
+
+            if (isSprunkHeapMessageDisplayed)
             {
                 if (IS_THIS_HELP_MESSAGE_WITH_STRING_BEING_DISPLAYED( sParam1, sVar4 ))
                 {
                     CLEAR_HELP();
                 }
-                l_U101 = 0;
+                isSprunkHeapMessageDisplayed = 0;
             }
         }
     }
+
     return;
 }
 
-void sub_427()
+// I had g_U91 labled in my Globals.md file as cellphone3Dstructure from finding it in the debug lines.
+// sub_427
+void ResetPhoneGlobalsForSprunk()
 {
-    g_U91._fU100 = 0;
-    g_U91._fU104 = 0;
+    cellphone3Dstructure.disableCellphone = 0;
+    cellphone3Dstructure.hideCellPhone = 0;
     return;
 }
 
-void sub_480()
+// sub_480
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
 void sub_615(unknown uParam0)
 {
-    REQUEST_ANIMS( l_U133 );
+    REQUEST_ANIMS( drinkAnimSet );
     REQUEST_MODEL( l_U137 );
     while (NOT (HAS_MODEL_LOADED( l_U137 )))
     {
@@ -321,13 +377,15 @@ void sub_679()
     return;
 }
 
+// Seems to set the sprunk context button
 void sub_806()
 {
-    l_U135 = "sprunk_act";
+    sprunkContextButton = "sprunk_act";
     return;
 }
 
-void sub_1002()
+// sub_1002
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -337,17 +395,17 @@ void sub_1002()
 
 int sub_1368(int iParam0, unknown uParam1)
 {
-    if (IS_PLAYER_PLAYING( sub_480() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
         if (IS_SCREEN_FADED_IN())
         {
-            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( sub_480() )))
+            if ((iParam0 == 5) || (IS_PLAYER_CONTROL_ON( CurrentPlayerId() )))
             {
-                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_480() )))))
+                if (((g_U9202) AND (uParam1)) || ((iParam0 == 4) || ((iParam0 == 5) || (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerId() )))))
                 {
                     if (NOT sub_1464())
                     {
-                        if ((GET_OBJECT_PED_IS_HOLDING( sub_1002() )) == nil)
+                        if ((GET_OBJECT_PED_IS_HOLDING( CurrentPlayerChar() )) == nil)
                         {
                             if (g_U9172 <= iParam0)
                             {
@@ -386,16 +444,18 @@ int sub_1560(boolean bParam0, unknown uParam1)
 {
     if (bParam0)
     {
-        g_U91._fU104 = 1;
+        cellphone3Dstructure.hideCellPhone = 1;
     }
     if ((g_U555 != 9) AND (uParam1))
     {
-        g_U91._fU100 = 1;
+        cellphone3Dstructure.disableCellphone = 1;
     }
     return 1;
 }
 
-int sub_1658(unknown uParam0, string sParam1, unknown uParam2)
+// sub_1658
+// Name obtained from debug string below
+int IS_CONTEXT_BUTTON_PRESSED(unknown uParam0, string sParam1, unknown uParam2)
 {
     string sVar5;
     string sVar6;
@@ -429,15 +489,16 @@ int sub_1658(unknown uParam0, string sParam1, unknown uParam2)
     {
         if ((IS_CONTROL_PRESSED( 2, 23 )) || ((IS_THIS_HELP_MESSAGE_WITH_STRING_BEING_DISPLAYED( sParam1, sVar5 )) || (NOT IS_HELP_MESSAGE_BEING_DISPLAYED())))
         {
-            if (NOT l_U103)
+            if (NOT canPlayerCarryNonMissionObjects)
             {
-                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( sub_480(), 0 );
-                l_U103 = 1;
+                ALLOW_PLAYER_TO_CARRY_NON_MISSION_OBJECTS( CurrentPlayerId(), 0 );
+                canPlayerCarryNonMissionObjects = 1;
             }
             g_U9172 = uParam0;
             l_U104 = 1;
             StrCopy( ref g_U9174, sParam1, 16 );
             g_U9178 = GET_ID_OF_THIS_THREAD();
+
             if (IS_CONTROL_PRESSED( 2, 23 ))
             {
                 sub_1939();
@@ -462,18 +523,18 @@ int sub_1658(unknown uParam0, string sParam1, unknown uParam2)
                         if (NOT IS_HELP_MESSAGE_BEING_DISPLAYED())
                         {
                             PRINT_HELP_FOREVER_WITH_STRING( sParam1, sVar5 );
-                            l_U101 = 1;
+                            isSprunkHeapMessageDisplayed = 1;
                         }
                     }
                 }
             }
         }
-        else if (l_U101)
+        else if (isSprunkHeapMessageDisplayed)
         {
             if (IS_THIS_HELP_MESSAGE_WITH_STRING_BEING_DISPLAYED( sParam1, sVar6 ))
             {
                 CLEAR_HELP();
-                l_U101 = 0;
+                isSprunkHeapMessageDisplayed = 0;
             }
         }
     }
@@ -489,7 +550,10 @@ void sub_1939()
     return sub_1560( 1, 1 );
 }
 
-int sub_2471(unknown uParam0, unknown uParam1, unknown uParam2)
+// sub_2471
+// First, check if a message is not being displayed.
+// Add next message to briefs, print the string now.
+int PrintAndAddMessageToBrief(unknown uParam0, unknown uParam1, unknown uParam2)
 {
     if (NOT IS_MESSAGE_BEING_DISPLAYED())
     {
@@ -500,170 +564,225 @@ int sub_2471(unknown uParam0, unknown uParam1, unknown uParam2)
     return 0;
 }
 
-void sub_2914(unknown uParam0)
+// Seems to run the animations, and the main functions to this.
+void sub_2914(int object)
 {
-    switch (l_U113)
+    switch (iDrinkSwitchState)
     {
         case 0:
-        if (IS_PLAYER_PLAYING( sub_480() ))
+
+        // Disable player control first
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            sub_3033( 0 );
+            TogglePlayerControl( 0 );
         }
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -1.18000000, 0.00000000, ref l_U120._fU0, ref l_U120._fU4, ref l_U120._fU8 );
-        TASK_CHAR_SLIDE_TO_COORD_HDG_RATE( sub_1002(), l_U120._fU0, l_U120._fU4, l_U120._fU8, l_U123, 1.00000000, 270.00000000 );
-        l_U113 = 1;
+
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( object, 0.00000000, -1.18000000, 0.00000000, ref l_U120._fU0, ref l_U120._fU4, ref l_U120._fU8 );
+        TASK_CHAR_SLIDE_TO_COORD_HDG_RATE( CurrentPlayerChar(), l_U120._fU0, l_U120._fU4, l_U120._fU8, l_U123, 1.00000000, 270.00000000 );
+        iDrinkSwitchState = 1;
         break;
+
         case 1:
         if (sub_3192())
         {
-            l_U113 = 9;
+            iDrinkSwitchState = 9;
         }
-        GET_SCRIPT_TASK_STATUS( sub_1002(), 68, ref l_U134 );
-        if (l_U134 == 7)
+       
+        GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 68, ref scriptTaskStatus );
+        
+        if (scriptTaskStatus == 7)
         {
-            l_U113 = 2;
+            iDrinkSwitchState = 2;
         }
         break;
+
         case 2:
         sub_3411();
-        l_U134 = 0;
-        l_U113 = 3;
+        scriptTaskStatus = 0;
+        iDrinkSwitchState = 3;
         break;
+
         case 3:
-        l_U113 = 4;
+        iDrinkSwitchState = 4;
         break;
+
         case 4:
-        TASK_PLAY_ANIM( sub_1002(), l_U132, l_U133, 8.00000000, 0, 0, 0, 1, -2 );
-        l_U134 = 0;
-        l_U113 = 5;
+        TASK_PLAY_ANIM( CurrentPlayerChar(), buyDrinkAnim, drinkAnimSet, 8.00000000, 0, 0, 0, 1, -2 );
+        scriptTaskStatus = 0;
+        iDrinkSwitchState = 5;
         break;
+
         case 5:
-        if (IS_CHAR_PLAYING_ANIM( sub_1002(), l_U133, l_U132 ))
+        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), drinkAnimSet, buyDrinkAnim ))
         {
-            GET_CHAR_ANIM_CURRENT_TIME( sub_1002(), l_U133, l_U132, ref l_U114 );
+            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), drinkAnimSet, buyDrinkAnim, ref currentAnimTime );
         }
-        else if (DOES_OBJECT_EXIST( l_U138 ))
+
+        else if (DOES_OBJECT_EXIST( sprunkCanObject ))
         {
-            if (IS_OBJECT_ATTACHED( l_U138 ))
+            if (IS_OBJECT_ATTACHED( sprunkCanObject ))
             {
-                DETACH_OBJECT( l_U138, 1 );
+                DETACH_OBJECT( sprunkCanObject, 1 );
             }
-            DELETE_OBJECT( ref l_U138 );
+            DELETE_OBJECT( ref sprunkCanObject );
         }
-        l_U113 = 9;;
-        if (l_U114 > 0.64700000)
+        iDrinkSwitchState = 9;
+
+        if (currentAnimTime > 0.64700000)
         {
-            if (DOES_OBJECT_EXIST( l_U138 ))
+            if (DOES_OBJECT_EXIST( sprunkCanObject ))
             {
-                if (NOT (IS_OBJECT_ATTACHED( l_U138 )))
+                if (NOT (IS_OBJECT_ATTACHED( sprunkCanObject )))
                 {
-                    ATTACH_OBJECT_TO_PED( l_U138, sub_1002(), 1232, 0.20000000, 0, -0.02000000, 0.04000000, -0.20000000, 2.28000000, 0 );
+                    ATTACH_OBJECT_TO_PED( sprunkCanObject, CurrentPlayerChar(), 1232, 0.20000000, 0, -0.02000000, 0.04000000, -0.20000000, 2.28000000, 0 );
                 }
-                SET_OBJECT_VISIBLE( l_U138, 1 );
-                l_U113 = 6;
+                SET_OBJECT_VISIBLE( sprunkCanObject, 1 );
+                iDrinkSwitchState = 6;
             }
         }
         break;
+
         case 6:
-        if (IS_CHAR_PLAYING_ANIM( sub_1002(), l_U133, l_U132 ))
+        
+        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), drinkAnimSet, buyDrinkAnim ))
         {
-            GET_CHAR_ANIM_CURRENT_TIME( sub_1002(), l_U133, l_U132, ref l_U114 );
+            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), drinkAnimSet, buyDrinkAnim, ref currentAnimTime );
         }
-        if ((NOT (IS_CHAR_PLAYING_ANIM( sub_1002(), l_U133, l_U132 ))) || (l_U114 > 0.98000000))
+
+        // 
+        if ((NOT (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), drinkAnimSet, buyDrinkAnim ))) || (currentAnimTime > 0.98000000))
         {
-            TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( sub_1002(), "PARTIAL_DRINK", l_U133, 1.00000000, 0, 0, 0, 0, -2 );
-            sub_3033( 1 );
-            ADD_SCORE( sub_480(), -1 );
+            // Play the drink animation
+            TASK_PLAY_ANIM_SECONDARY_UPPER_BODY( CurrentPlayerChar(), "PARTIAL_DRINK", drinkAnimSet, 1.00000000, 0, 0, 0, 0, -2 );
+            TogglePlayerControl( 1 );
+
+            ADD_SCORE( CurrentPlayerId(), -1 );
             INCREMENT_INT_STAT_NO_MESSAGE( 374, 1 );
-            sub_4024( 0, 1 );
-            SET_CHAR_HEALTH( sub_1002(), sub_4434() );
-            sub_4520();
-            l_U113 = 7;
+
+            // 0 = Stat {SPRUNK_BOUGHT}, 1 = Amount to increment
+            IncrementStatValues( 0, 1 );
+            SET_CHAR_HEALTH( CurrentPlayerChar(), NewPlayerHealth() );
+            
+            // Possibly incorrect name, but this should remove the blood and stuff from the player. 
+            CleanupPlayerClothes();
+            iDrinkSwitchState = 7;
         }
         break;
+
         case 7:
-        if (IS_CHAR_PLAYING_ANIM( sub_1002(), l_U133, "PARTIAL_DRINK" ))
+
+        // If the player is playing the animation, get the current time of it
+        if (IS_CHAR_PLAYING_ANIM( CurrentPlayerChar(), drinkAnimSet, "PARTIAL_DRINK" ))
         {
-            GET_CHAR_ANIM_CURRENT_TIME( sub_1002(), l_U133, "PARTIAL_DRINK", ref l_U114 );
+            GET_CHAR_ANIM_CURRENT_TIME( CurrentPlayerChar(), drinkAnimSet, "PARTIAL_DRINK", ref currentAnimTime );
         }
-        else if (DOES_OBJECT_EXIST( l_U138 ))
+
+        // If the sprunk can and object are attached, detach and delete them.
+        else if (DOES_OBJECT_EXIST( sprunkCanObject ))
         {
-            if (IS_OBJECT_ATTACHED( l_U138 ))
+            if (IS_OBJECT_ATTACHED( sprunkCanObject ))
             {
-                DETACH_OBJECT( l_U138, 1 );
+                DETACH_OBJECT( sprunkCanObject, 1 );
             }
-            DELETE_OBJECT( ref l_U138 );
+            DELETE_OBJECT( ref sprunkCanObject );
         }
-        l_U113 = 9;;
-        if (l_U114 > 0.87000000)
+        iDrinkSwitchState = 9;
+
+        // If the current anim time is greater then this value, and the sprunk can object exists.
+        // If the sprunk can object is attached, detach it, mark it as no longer needed, and set sprunkCanObject to null.
+        // Clear the player tasks
+        if (currentAnimTime > 0.87000000)
         {
-            if (DOES_OBJECT_EXIST( l_U138 ))
+            if (DOES_OBJECT_EXIST( sprunkCanObject ))
             {
-                if (IS_OBJECT_ATTACHED( l_U138 ))
+                if (IS_OBJECT_ATTACHED( sprunkCanObject ))
                 {
-                    DETACH_OBJECT( l_U138, 1 );
+                    DETACH_OBJECT( sprunkCanObject, 1 );
                 }
-                MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U138 );
-                l_U138 = nil;
+                MARK_OBJECT_AS_NO_LONGER_NEEDED( ref sprunkCanObject );
+                sprunkCanObject = nil;
+
+                // Unsure what to name this, I think there is other timer values also.
                 GET_GAME_TIMER( ref l_U129 );
+
                 if (NOT (IS_CONTROL_PRESSED( 2, 2 )))
                 {
-                    CLEAR_CHAR_TASKS( sub_1002() );
+                    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
                 }
-                l_U113 = 8;
+                iDrinkSwitchState = 8;
             }
         }
         break;
+
+        // Possible debug function was here, this only switches into the last option.
         case 8:
-        l_U113 = 9;
+        iDrinkSwitchState = 9;
         break;
+        
+        // If the sprunk can exists, delete and detach object
+        // Enable player controls
         case 9:
-        if (DOES_OBJECT_EXIST( l_U138 ))
+        if (DOES_OBJECT_EXIST( sprunkCanObject ))
         {
-            if (IS_OBJECT_ATTACHED( l_U138 ))
+            if (IS_OBJECT_ATTACHED( sprunkCanObject ))
             {
-                DETACH_OBJECT( l_U138, 1 );
+                DETACH_OBJECT( sprunkCanObject, 1 );
             }
-            DELETE_OBJECT( ref l_U138 );
+            DELETE_OBJECT( ref sprunkCanObject );
         }
-        if (IS_PLAYER_PLAYING( sub_480() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            sub_3033( 1 );
+            TogglePlayerControl( 1 );
         }
+
         sub_200( 2, "sprunk_act" );
         sub_200( 2, "classprunk_act" );
-        l_U113 = 0;
+
+        iDrinkSwitchState = 0;
+
         GET_GAME_TIMER( ref l_U129 );
-        l_U112 = 3;
+        iVendingMachineSwitchState = 3;
         break;
     }
     return;
 }
 
-void sub_3033(int iParam0)
+// sub_3033
+void TogglePlayerControl(int toggle)
 {
-    if (iParam0 == 0)
+    if (toggle == 0)
     {
-        SET_PLAYER_CONTROL( sub_480(), 0 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
     }
     else
     {
-        SET_PLAYER_CONTROL( sub_480(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     }
     return;
 }
 
+// I think this is for if the player walks away from the vending machine or cancels? Seems to jump to bottom of animation switch.
+// In use here: sub_2914
 int sub_3192()
 {
-    if ((sub_3240()) || ((IS_BUTTON_PRESSED( 0, 16 )) || ((IS_BUTTON_PRESSED( 0, 15 )) || ((IS_BUTTON_PRESSED( 0, 14 )) || (IS_BUTTON_PRESSED( 0, 17 ))))))
+    if ((sub_3240()) 
+    // 16 = Q
+    // 15 = TAB
+    // 14 = BACKSPACE
+    // 17 = W
+    || ((IS_BUTTON_PRESSED( 0, 16 )) 
+    || ((IS_BUTTON_PRESSED( 0, 15 )) 
+    || ((IS_BUTTON_PRESSED( 0, 14 ))
+     || (IS_BUTTON_PRESSED( 0, 17 ))))))
     {
-        CLEAR_CHAR_TASKS_IMMEDIATELY( sub_1002() );
-        SET_PLAYER_CONTROL( sub_480(), 1 );
+        CLEAR_CHAR_TASKS_IMMEDIATELY( CurrentPlayerChar() );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
         return 1;
     }
     return 0;
 }
 
+// Position of analogue sticks? I wonder what this is for.
 int sub_3240()
 {
     int iVar2;
@@ -685,29 +804,31 @@ int sub_3240()
 
 void sub_3411()
 {
-    if (NOT (IS_CHAR_DEAD( sub_1002() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CURRENT_CHAR_WEAPON( sub_1002(), ref l_U110 );
-        if (l_U110 == 46)
+        GET_CURRENT_CHAR_WEAPON( CurrentPlayerChar(), ref currentPlayerWeapon );
+        if (currentPlayerWeapon == 46)
         {
-            REMOVE_WEAPON_FROM_CHAR( sub_1002(), 46 );
-            SET_CURRENT_CHAR_WEAPON( sub_1002(), 0, 1 );
+            REMOVE_WEAPON_FROM_CHAR( CurrentPlayerChar(), 46 );
+            SET_CURRENT_CHAR_WEAPON( CurrentPlayerChar(), 0, 1 );
         }
-        if (l_U110 != 0)
+        if (currentPlayerWeapon != 0)
         {
-            SET_CURRENT_CHAR_WEAPON( sub_1002(), 0, 1 );
+            SET_CURRENT_CHAR_WEAPON( CurrentPlayerChar(), 0, 1 );
         }
     }
     return;
 }
 
-void sub_4024(unknown uParam0, unknown uParam1)
+// sub_4024
+void IncrementStatValues(int stat, int incrementValue)
 {
-    sub_4045( uParam0, uParam1, 0.00000000, "" );
+    UpdateStatValues( stat, incrementValue, 0.00000000, "" );
     return;
 }
 
-void sub_4045(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
+// sub_4045
+void UpdateStatValues(int stat, int incrementValue, unknown uParam2, unknown uParam3)
 {
     unknown uVar6;
     unknown uVar7;
@@ -726,47 +847,49 @@ void sub_4045(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     unknown uVar20;
     unknown uVar21;
 
-    switch (uParam0)
+    switch (stat)
     {
         case 0:
-        PLAYSTATS_INT( "SPRUNK_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "SPRUNK_BOUGHT", incrementValue );
         break;
+
         case 1:
-        PLAYSTATS_INT( "HOTDOG_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "HOTDOG_BOUGHT", incrementValue );
         break;
         case 2:
-        PLAYSTATS_INT( "NUTS_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "NUTS_BOUGHT", incrementValue );
         break;
         case 3:
-        PLAYSTATS_INT( "BURGERS_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "BURGERS_BOUGHT", incrementValue );
         break;
         case 7:
-        PLAYSTATS_INT( "DONATE_BEGGAR", uParam1 );
+        PLAYSTATS_INT( "DONATE_BEGGAR", incrementValue );
         break;
         case 8:
-        PLAYSTATS_INT( "DONATE_BUSKER", uParam1 );
+        PLAYSTATS_INT( "DONATE_BUSKER", incrementValue );
         break;
         case 4:
-        PLAYSTATS_INT( "BSHOT_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "BSHOT_BOUGHT", incrementValue );
         break;
         case 5:
-        PLAYSTATS_INT( "CBELL_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "CBELL_BOUGHT", incrementValue );
         break;
         case 6:
-        PLAYSTATS_INT( "CAFE_BOUGHT", uParam1 );
+        PLAYSTATS_INT( "CAFE_BOUGHT", incrementValue );
         break;
         case 9: break;
     }
     return;
 }
 
-void sub_4434()
+// sub_4434
+void NewPlayerHealth()
 {
     int Result;
 
-    if (NOT (IS_CHAR_DEAD( sub_1002() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_HEALTH( sub_1002(), ref Result );
+        GET_CHAR_HEALTH( CurrentPlayerChar(), ref Result );
         if (Result <= 150)
         {
             Result += 50;
@@ -779,28 +902,30 @@ void sub_4434()
     return Result;
 }
 
-void sub_4520()
+// Reset damange on the ped, I guess cleanup the blood or something?
+// sub_4520
+void CleanupPlayerClothes()
 {
-    if (NOT (IS_CHAR_DEAD( sub_1002() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        RESET_VISIBLE_PED_DAMAGE( sub_1002() );
+        RESET_VISIBLE_PED_DAMAGE( CurrentPlayerChar() );
     }
     return;
 }
 
 void sub_5027()
 {
-    if (NOT (IS_CHAR_DEAD( sub_1002() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        if (l_U110 != 0)
+        if (currentPlayerWeapon != 0)
         {
-            if (l_U110 != 46)
+            if (currentPlayerWeapon != 46)
             {
-                SET_CURRENT_CHAR_WEAPON( sub_1002(), l_U110, 0 );
+                SET_CURRENT_CHAR_WEAPON( CurrentPlayerChar(), currentPlayerWeapon, 0 );
             }
             else
             {
-                REMOVE_WEAPON_FROM_CHAR( sub_1002(), 46 );
+                REMOVE_WEAPON_FROM_CHAR( CurrentPlayerChar(), 46 );
             }
         }
     }

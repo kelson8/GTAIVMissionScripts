@@ -11,14 +11,14 @@ void main()
     l_U16 = 0.00000000;
     l_U19 = 1845915705;
     l_U20 = -631715616;
-    l_U21 = 1;
+    bOpenChurchDoors = 1;
     if (g_U9156)
     {
-        l_U21 = 1;
+        bOpenChurchDoors = 1;
     }
     else
     {
-        l_U21 = 0;
+        bOpenChurchDoors = 0;
     }
     while (true)
     {
@@ -80,7 +80,7 @@ void sub_506()
 {
     if (g_U9156)
     {
-        if (l_U21)
+        if (bOpenChurchDoors)
         {
             FREEZE_OBJECT_POSITION( l_U17, 0 );
             FREEZE_OBJECT_POSITION( l_U18, 0 );
@@ -91,10 +91,10 @@ void sub_506()
             SET_OBJECT_HEADING( l_U18, l_U16 );
             FREEZE_OBJECT_POSITION( l_U18, 1 );
             sub_452( "bOpenChurchDoors\n" );
-            l_U21 = 0;
+            bOpenChurchDoors = 0;
         }
     }
-    else if (l_U21)
+    else if (bOpenChurchDoors)
     {
         ;
     }
@@ -112,7 +112,7 @@ void sub_506()
                 SET_OBJECT_COORDINATES( l_U18, l_U5._fU0, l_U5._fU4, l_U5._fU8 );
                 SET_OBJECT_HEADING( l_U18, l_U8 );
                 FREEZE_OBJECT_POSITION( l_U18, 1 );
-                l_U21 = 1;
+                bOpenChurchDoors = 1;
                 sub_452( "bOpenChurchDoors = FALSE\n" );
             }
         }

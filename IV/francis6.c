@@ -118,6 +118,8 @@ void main()
     l_U675 = sub_8240( "FM6AUD", "FM6_FEND2" );
     while (NOT (IS_CHAR_INJURED( sub_2845() )))
     {
+
+        // This must create all the chars and vehicles, there is so much code in here.
         sub_8506();
         switch (l_U98)
         {
@@ -249,28 +251,34 @@ void main()
                 SET_CAR_HEADING( l_U852, 180.00000000 );
                 CHANGE_CAR_COLOUR( l_U852, 0, 0 );
                 SET_CAR_IN_CUTSCENE( l_U852, 1 );
+
                 CREATE_CAR( 1777363799, -268.29110000, -278.46880000, 14.06130000, ref l_U853[0], 1 );
                 SET_CAR_HEADING( l_U853[0], 180.00000000 );
                 LOCK_CAR_DOORS( l_U853[0], 3 );
                 CHANGE_CAR_COLOUR( l_U853[0], 0, 0 );
                 SET_CAR_IN_CUTSCENE( l_U853[0], 1 );
+
                 CREATE_CAR( 1777363799, -268.29120000, -272.03300000, 14.15120000, ref l_U853[1], 1 );
                 SET_CAR_HEADING( l_U853[1], 180.00000000 );
                 LOCK_CAR_DOORS( l_U853[1], 3 );
                 CHANGE_CAR_COLOUR( l_U853[1], 0, 0 );
                 SET_CAR_IN_CUTSCENE( l_U853[1], 1 );
+
                 CREATE_CAR( -1150599089, -258.65630000, -266.27210000, 14.00590000, ref l_U857, 1 );
                 SET_CAR_HEADING( l_U857, 0.00000000 );
                 SET_CAR_ONLY_DAMAGED_BY_PLAYER( l_U857, 1 );
                 CHANGE_CAR_COLOUR( l_U857, 70, 70 );
                 SET_CAR_IN_CUTSCENE( l_U857, 1 );
                 MARK_MODEL_AS_NO_LONGER_NEEDED( -1150599089 );
+
                 GET_TIME_OF_DAY( ref iVar15, ref uVar16 );
+
                 iVar15++;
                 if (iVar15 > 23)
                 {
                     iVar15 = 0;
                 }
+
                 SET_TIME_OF_DAY( iVar15, 1 );
                 CLEAR_AREA( -277.07000000, -284.08000000, 15.95000000, 20.00000000, 1 );
                 CLEAR_WANTED_LEVEL( sub_2775() );
@@ -278,6 +286,7 @@ void main()
                 SETTIMERA( 0 );
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 break;
+
                 case 1:
                 if ((TIMERA() > 5000) || (sub_20857()))
                 {
@@ -285,6 +294,7 @@ void main()
                     ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 }
                 break;
+
                 case 2:
                 SET_PLAYER_CONTROL( sub_2775(), 0 );
                 if (sub_4122())
@@ -297,6 +307,7 @@ void main()
                 }
                 ProtectedSet(l_U99, ProtectedGet(l_U99) + 1);
                 break;
+
                 case 3:
                 if (HAS_CUTSCENE_LOADED())
                 {
@@ -315,12 +326,14 @@ void main()
                     ProtectedSet(l_U99, 99);
                 }
                 break;
+
                 case 99:
                 g_U9156 = 0;
                 sub_7949( 5, 1 );
                 break;
             }
             break;
+
             case 5:
             switch (ProtectedGet(l_U99))
             {
@@ -334,64 +347,81 @@ void main()
                 SWITCH_ROADS_OFF( -271.21430000, -330.99300000, 0.00000000, -250.47060000, -225.14970000, 50.00000000 );
                 SWITCH_PED_PATHS_OFF( -279.20290000, -317.81370000, 0.00000000, -249.55540000, -236.05600000, 50.00000000 );
                 SWITCH_PED_PATHS_OFF( -254.56280000, -279.58340000, 0.00000000, -250.38780000, -273.53340000, 50.00000000 );
+
                 ADD_SCENARIO_BLOCKING_AREA( -284.44550000, -294.95770000, 0.00000000, -269.62050000, -269.98270000, 50.00000000 );
+
+                // Unknown, possible PS3/360 leftover
                 # -sub_C1FFC0-0xc214c8( 2, ref l_U580 );
                 # -sub_C1FFC0-0xc214c8( 3, ref l_U581 );
+
                 LOAD_COMBAT_DECISION_MAKER( 8, ref l_U582 );
                 LOAD_COMBAT_DECISION_MAKER( 8, ref l_U583 );
                 SET_DECISION_MAKER_ATTRIBUTE_TARGET_INJURED_REACTION( l_U583, 0 );
                 SET_DECISION_MAKER_ATTRIBUTE_TARGET_INJURED_REACTION( l_U582, 0 );
+
                 REQUEST_MODEL( 1777363799 );
                 REQUEST_MODEL( 627094268 );
                 REQUEST_MODEL( -1150599089 );
                 REQUEST_MODEL( -322343873 );
                 REQUEST_MODEL( -503930010 );
+
                 GET_WEAPONTYPE_MODEL( 7, ref l_U683[0] );
                 REQUEST_MODEL( l_U683[0] );
                 GET_WEAPONTYPE_MODEL( 12, ref l_U683[1] );
                 REQUEST_MODEL( l_U683[1] );
                 GET_WEAPONTYPE_MODEL( 10, ref l_U683[2] );
                 REQUEST_MODEL( l_U683[2] );
+
                 sub_21897( 13 );
                 LOAD_ALL_OBJECTS_NOW();
+
                 while ((NOT (sub_22728( 13 ))) || ((NOT (HAS_MODEL_LOADED( l_U683[2] ))) || ((NOT (HAS_MODEL_LOADED( l_U683[1] ))) || ((NOT (HAS_MODEL_LOADED( l_U683[0] ))) || ((NOT (HAS_MODEL_LOADED( -503930010 ))) || ((NOT (HAS_MODEL_LOADED( -322343873 ))) || ((NOT (HAS_MODEL_LOADED( -1150599089 ))) || ((NOT (HAS_MODEL_LOADED( 627094268 ))) || (NOT (HAS_MODEL_LOADED( 1777363799 )))))))))))
                 {
                     WAIT( 0 );
                 }
+
                 if (DOES_VEHICLE_EXIST( l_U852 ))
                 {
                     DELETE_CAR( ref l_U852 );
                 }
+
                 if (DOES_VEHICLE_EXIST( l_U853[0] ))
                 {
                     DELETE_CAR( ref l_U853[0] );
                 }
+
                 if (DOES_VEHICLE_EXIST( l_U853[1] ))
                 {
                     DELETE_CAR( ref l_U853[1] );
                 }
+
                 if (DOES_VEHICLE_EXIST( l_U856 ))
                 {
                     DELETE_CAR( ref l_U856 );
                 }
+
                 if (DOES_VEHICLE_EXIST( l_U857 ))
                 {
                     DELETE_CAR( ref l_U857 );
                 }
+
                 SUPPRESS_CAR_MODEL( 627094268 );
                 CREATE_CAR( 627094268, -268.16810000, -286.43270000, 13.76730000, ref l_U852, 1 );
                 SET_CAR_HEADING( l_U852, 180.00000000 );
                 CHANGE_CAR_COLOUR( l_U852, 0, 0 );
                 LOCK_CAR_DOORS( l_U852, 3 );
+
                 sub_3703( l_U852 );
                 CREATE_OBJECT( 453461275, 836.63830000, -269.97310000, 20.31680000, ref l_U687, 1 );
                 sub_23064();
                 FREEZE_OBJECT_POSITION( l_U687, 1 );
+
                 SET_CAR_COORDINATES( l_U852, -268.16810000, -286.43270000, 13.76730000 );
                 APPLY_FORCE_TO_CAR( l_U852, 1, 0.00000000, 0.00000000, -1.00000000, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 0 );
                 SET_CAN_BURST_CAR_TYRES( l_U852, 0 );
                 SET_VEH_HAS_STRONG_AXLES( l_U852, 1 );
                 CREATE_CAR( 1777363799, -268.29110000, -278.46880000, 14.06130000, ref l_U853[0], 1 );
+
                 SET_CAR_HEADING( l_U853[0], 180.00000000 );
                 LOCK_CAR_DOORS( l_U853[0], 3 );
                 CHANGE_CAR_COLOUR( l_U853[0], 0, 0 );
@@ -402,6 +432,7 @@ void main()
                 SET_CAR_COORDINATES( l_U853[0], -268.29110000, -278.46880000, 14.06130000 );
                 APPLY_FORCE_TO_CAR( l_U853[0], 1, 0.00000000, 0.00000000, -1.00000000, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 0 );
                 SET_CAN_BURST_CAR_TYRES( l_U853[0], 0 );
+
                 CREATE_CAR( 1777363799, -268.29120000, -272.03300000, 14.15120000, ref l_U853[1], 1 );
                 SET_CAR_HEADING( l_U853[1], 180.00000000 );
                 LOCK_CAR_DOORS( l_U853[1], 3 );
@@ -413,85 +444,110 @@ void main()
                 SET_CAR_COORDINATES( l_U853[1], -268.29120000, -272.03300000, 14.15120000 );
                 APPLY_FORCE_TO_CAR( l_U853[1], 1, 0.00000000, 0.00000000, -1.00000000, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 0 );
                 SET_CAN_BURST_CAR_TYRES( l_U853[1], 0 );
+
                 MARK_MODEL_AS_NO_LONGER_NEEDED( 1777363799 );
                 sub_24193( 13, ref l_U709, -279.24300000, -281.03730000, 14.61450000, 300.00000000 );
+
                 SET_CHAR_DECISION_MAKER( l_U709, l_U580 );
                 SET_COMBAT_DECISION_MAKER( l_U709, l_U582 );
                 GIVE_WEAPON_TO_CHAR( l_U709, 7, 30000, 0 );
+
                 SET_CHAR_WILL_USE_COVER( l_U709, 1 );
                 SET_CHAR_WILL_MOVE_WHEN_INJURED( l_U709, 0 );
                 SET_PED_DIES_WHEN_INJURED( l_U709, 1 );
+
                 SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U709, 1 );
                 SET_CHAR_NEVER_TARGETTED( l_U709, 1 );
                 SET_CHAR_MAX_HEALTH( l_U709, 2000 );
+
                 SET_CHAR_HEALTH( l_U709, 2000 );
                 SET_CHAR_SUFFERS_CRITICAL_HITS( l_U709, 0 );
                 SET_CHAR_RELATIONSHIP_GROUP( l_U709, 0 );
+
                 UNLOCK_RAGDOLL( l_U709, 0 );
                 HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( l_U709, 1 );
                 SET_CHAR_FIRE_DAMAGE_MULTIPLIER( l_U709, 0.20000000 );
+
                 SET_CHAR_ACCURACY( l_U709, 10 );
+
                 SET_CHAR_COMPONENT_VARIATION( l_U709, 1, 1, 0 );
                 SET_CHAR_COMPONENT_VARIATION( l_U709, 2, 1, 0 );
                 SET_CHAR_COMPONENT_VARIATION( l_U709, 3, 0, 0 );
                 SET_CHAR_COMPONENT_VARIATION( l_U709, 5, 1, 0 );
                 SET_CHAR_COMPONENT_VARIATION( l_U709, 8, 0, 0 );
+
                 SET_CHAR_COORDINATES( sub_2845(), -278.78770000, -282.47440000, 14.58600000 );
                 SET_CHAR_HEADING( sub_2845(), 329.00000000 );
+
                 CLEAR_CHAR_TASKS_IMMEDIATELY( sub_2845() );
+
                 SET_PLAYER_CONTROL( sub_2775(), 1 );
                 CLEAR_WANTED_LEVEL( sub_2775() );
                 SET_CAM_BEHIND_PED( sub_2845() );
+
                 DONT_DISPATCH_COPS_FOR_PLAYER( sub_2775(), 1 );
                 SET_CHAR_DUCKING( sub_2845(), 1 );
+
                 if (HAS_CHAR_GOT_WEAPON( sub_2845(), 7 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 7, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 9 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 9, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 10 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 10, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 11 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 11, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 12 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 12, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 14 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 14, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 15 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 15, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 16 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 16, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 17 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 17, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 18 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 18, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 19 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 19, 1 );
                 }
+
                 else if (HAS_CHAR_GOT_WEAPON( sub_2845(), 20 ))
                 {
                     SET_CURRENT_CHAR_WEAPON( sub_2845(), 20, 1 );
-                };;;;;;;;;;;;
+                }
+
                 WAIT( 500 );
                 l_U562 = 0;
                 while (NOT l_U562)
@@ -533,65 +589,85 @@ void main()
                 {
                     FREEZE_CAR_POSITION( l_U852, 1 );
                 }
+
                 if (NOT (IS_CAR_DEAD( l_U853[0] )))
                 {
                     FREEZE_CAR_POSITION( l_U853[0], 1 );
                 }
+
                 if (NOT (IS_CAR_DEAD( l_U853[1] )))
                 {
                     FREEZE_CAR_POSITION( l_U853[1], 1 );
                 }
+
                 CREATE_CAR( -1150599089, -258.51360000, -275.88310000, 14.00590000, ref l_U856, 1 );
                 SET_CAR_HEADING( l_U856, 0.00000000 );
                 SET_CAR_ONLY_DAMAGED_BY_PLAYER( l_U856, 1 );
                 CHANGE_CAR_COLOUR( l_U856, 31, 31 );
+
                 CREATE_CAR( -1150599089, -258.65630000, -266.27210000, 14.00590000, ref l_U857, 1 );
                 SET_CAR_HEADING( l_U857, 0.00000000 );
                 SET_CAR_ONLY_DAMAGED_BY_PLAYER( l_U857, 1 );
                 CHANGE_CAR_COLOUR( l_U857, 70, 70 );
+
                 CREATE_CAR( -322343873, -265.23060000, -256.25720000, 13.61200000, ref l_U847[0], 1 );
                 SET_CAR_HEADING( l_U847[0], 55.89100000 );
                 CHANGE_CAR_COLOUR( l_U847[0], 0, 0 );
                 SET_EXTRA_CAR_COLOURS( l_U847[0], 8, 0 );
+
                 SET_RELATIONSHIP( 5, 0, 23 );
                 SET_RELATIONSHIP( 5, 23, 0 );
                 SET_RELATIONSHIP( 1, 23, 23 );
+
                 CREATE_CHAR_INSIDE_CAR( l_U847[0], 26, -503930010, ref l_U688[0] );
                 SET_CHAR_COMPONENT_VARIATION( l_U688[0], 0, 0, 0 );
                 SET_CHAR_COMPONENT_VARIATION( l_U688[0], 1, 0, 3 );
                 SET_CHAR_COMPONENT_VARIATION( l_U688[0], 2, 0, 0 );
+
                 GIVE_WEAPON_TO_CHAR( l_U688[0], 12, 30000, 0 );
                 SET_CURRENT_CHAR_WEAPON( l_U688[0], 12, 1 );
+
                 SET_CHAR_DECISION_MAKER( l_U688[0], l_U580 );
                 SET_COMBAT_DECISION_MAKER( l_U688[0], l_U583 );
+
                 SET_CHAR_ONLY_DAMAGED_BY_RELATIONSHIP_GROUP( l_U688[0], 1, 0 );
                 SET_CHAR_WILL_USE_COVER( l_U688[0], 1 );
                 SET_CHAR_RELATIONSHIP_GROUP( l_U688[0], 23 );
                 SET_CHAR_WILL_MOVE_WHEN_INJURED( l_U688[0], 0 );
+
                 ADD_BLIP_FOR_CHAR( l_U688[0], ref l_U532[0] );
                 SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U688[0], 1 );
+
                 sub_27653( ref l_U688[0], ref l_U630 );
+
                 SET_PED_DIES_WHEN_INJURED( l_U688[0], 1 );
                 SET_CHAR_IS_TARGET_PRIORITY( l_U688[0], 1 );
                 SET_CHAR_ACCURACY( l_U688[0], 15 );
                 SET_CHAR_AS_ENEMY( l_U688[0], 1 );
+
                 CREATE_CHAR_AS_PASSENGER( l_U847[0], 26, -503930010, 0, ref l_U688[1] );
+
                 SET_CHAR_COMPONENT_VARIATION( l_U688[1], 0, 1, 0 );
                 SET_CHAR_COMPONENT_VARIATION( l_U688[1], 1, 1, 1 );
                 SET_CHAR_COMPONENT_VARIATION( l_U688[1], 2, 0, 1 );
+
                 GIVE_WEAPON_TO_CHAR( l_U688[1], 7, 30000, 0 );
                 SET_CURRENT_CHAR_WEAPON( l_U688[1], 7, 1 );
+
                 SET_CHAR_ONLY_DAMAGED_BY_RELATIONSHIP_GROUP( l_U688[1], 1, 0 );
                 SET_CHAR_DECISION_MAKER( l_U688[1], l_U580 );
                 SET_COMBAT_DECISION_MAKER( l_U688[1], l_U583 );
                 SET_CHAR_WILL_USE_COVER( l_U688[1], 1 );
+
                 SET_CHAR_RELATIONSHIP_GROUP( l_U688[1], 23 );
                 SET_CHAR_WILL_MOVE_WHEN_INJURED( l_U688[1], 0 );
                 ADD_BLIP_FOR_CHAR( l_U688[1], ref l_U532[1] );
+
                 SET_BLOCKING_OF_NON_TEMPORARY_EVENTS( l_U688[1], 1 );
                 sub_27653( ref l_U688[1], ref l_U630 );
                 SET_PED_DIES_WHEN_INJURED( l_U688[1], 1 );
                 SET_CHAR_IS_TARGET_PRIORITY( l_U688[1], 1 );
+
                 SET_CHAR_ACCURACY( l_U688[1], 20 );
                 SET_CHAR_AS_ENEMY( l_U688[1], 1 );
                 CREATE_CHAR_AS_PASSENGER( l_U847[0], 26, -503930010, 1, ref l_U688[2] );

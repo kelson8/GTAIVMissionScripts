@@ -208,6 +208,8 @@ void main()
                         {
                             STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_708(), ref l_U72 );
                         }
+
+                        // Looks like this cleans up the script if the TV is destroyed.
                         if (HAS_OBJECT_BEEN_DAMAGED( l_U80 ))
                         {
                             CLEAR_HELP();
@@ -370,7 +372,10 @@ void main()
                         {
                             HIDE_HUD_AND_RADAR_THIS_FRAME();
                         }
+
+                        // Draw the movie and a few other things for this.
                         sub_5757();
+
                         if (NOT l_U66)
                         {
                             if (NOT l_U79)
@@ -789,6 +794,7 @@ void main()
     return;
 }
 
+// Cleanup script
 void sub_128()
 {
     int I;
@@ -1070,6 +1076,7 @@ void sub_5757()
     return;
 }
 
+// I think this might disable the TV cameras
 void sub_8442(unknown uParam0)
 {
     if (l_U28)

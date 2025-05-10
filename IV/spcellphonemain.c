@@ -15,7 +15,8 @@ void main()
     l_U0 = 225;
     l_U957 = 1;
     l_U1075 = 0;
-    l_U1109 = GET_CURRENT_LANGUAGE();
+
+    getCurrentLanguage = GET_CURRENT_LANGUAGE();
     cellphone3Dstructure._fU380 = 1;
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
     if (HAS_DEATHARREST_EXECUTED())
@@ -575,11 +576,13 @@ void main()
                             case 1:
                             if (cellphone3Dstructure._fU524)
                             {
+                                // CP_NAV_NO = No
                                 sub_48299( 1, "CP_NAV_NO", ref l_U1, ref l_U39, ref l_U226, 0 );
                                 cellphone3Dstructure._fU524 = 0;
                             }
                             else
                             {
+                                // CP_NAV_YES = Yes
                                 sub_48299( 1, "CP_NAV_YES", ref l_U1, ref l_U39, ref l_U226, 0 );
                                 cellphone3Dstructure._fU524 = 1;
                             }
@@ -672,9 +675,11 @@ void main()
                     case 0:
                     sub_44866( ref l_U1, ref l_U226, ref l_U39 );
                     break;
+
                     case 1:
                     sub_45816( ref l_U1, ref l_U226, ref l_U39 );
                     break;
+
                     case 6:
                     cellphone3Dstructure._fU400 = cellphone3Dstructure._fU396;
                     cellphone3Dstructure._fU396 = l_U1._fU60;
@@ -1066,7 +1071,7 @@ void main()
                 {
                     sub_69();
                     cellphone3Dstructure._fU0 = 1000;
-                    sub_8531( ref l_U960 );
+                    ReleaseAndMarkTxdAsNotNeeded( ref l_U960 );
                     DESTROY_MOBILE_PHONE();
                     STOP_MOBILE_PHONE_RINGING();
                     UNREGISTER_SCRIPT_WITH_AUDIO();
@@ -1078,7 +1083,7 @@ void main()
         else
         {
             sub_69();
-            sub_8531( ref l_U960 );
+            ReleaseAndMarkTxdAsNotNeeded( ref l_U960 );
             STOP_MOBILE_PHONE_RINGING();
             UNREGISTER_SCRIPT_WITH_AUDIO();
             TERMINATE_THIS_SCRIPT();
@@ -1582,6 +1587,7 @@ int sub_5052(int iParam0)
     return 0;
 }
 
+// Cell phone options such for Singleplayer and Multiplayer.
 void sub_5077(unknown uParam0, unknown uParam1)
 {
     switch (uParam1)
@@ -1642,7 +1648,7 @@ void sub_5509()
         }
         break;
     }
-    if (sub_5724( ref l_U1109 ))
+    if (sub_5724( ref getCurrentLanguage ))
     {
         sub_5784( ref l_U1, ref l_U39, -1 );
         l_U985._fU116 = 1678728908;
@@ -1665,12 +1671,16 @@ void sub_5509()
         switch (cellphone3Dstructure._fU404)
         {
             case 1015:
+            // Read
             StrCopy( ref cVar6, "CP_NAV_READ", 16 );
             break;
+
             default:
+            // Menu
             StrCopy( ref cVar6, "CP_NAV_MENU", 16 );
             break;
         }
+
         if (l_U1100)
         {
             sub_24323( 0, g_U481._fU0[15], 0.15000000, 0.80000000, 0.20000000, 0.10000000 );
@@ -1679,35 +1689,43 @@ void sub_5509()
                 sub_24323( 0, g_U481._fU0[16], 0.35000000, 0.80000000, 0.10000000, 0.10000000 );
             }
         }
+
         else if (l_U1101)
         {
             sub_24323( 0, g_U481._fU0[16], 0.10000000, 0.80000000, 0.10000000, 0.10000000 );
         }
+
         if (cellphone3Dstructure._fU572)
         {
             sub_24323( 0, g_U481._fU0[17], 0.84500000, 0.25000000, 0.45000000, 0.20000000 );
         }
+
         if (cellphone3Dstructure._fU540)
         {
             sub_16367( 0, 0, ref l_U985._fU0[4], "CP_SLEEPMODE", 0.50000000, 0.30000000, 0.05000000, 0.95000000, 2, 0, 0, 0, 0, 1 );
         }
+
         sub_26759( ref l_U985, "CP_NAV_EXIT", ref cVar6, ref l_U972 );
         break;
         case 1003:
         sub_24251( 1, l_U972, 1, 0 );
+
         if (cellphone3Dstructure._fU40 == 2)
         {
             sub_25286( 0, 0.50000000, 0.49000000, 0.90000000, 0.72000000, l_U972._fU8 );
         }
+
         if (l_U1090 != 0)
         {
             sub_16367( 0, 5, ref l_U985._fU0[0], ref cellphone3Dstructure._fU128, 0.90000000, 0.70000000, 0.10000000, 0.90000000, 1, 0, 0, 0, 0, 1 );
         }
+
         sub_26759( ref l_U985, "BLANK", "BLANK", ref l_U972 );
         if (cellphone3Dstructure._fU52 == 1)
         {
             sub_25556( 0 );
         }
+
         break;
         case 1014: if (l_U1039)
         {
@@ -1805,6 +1823,7 @@ void sub_5509()
         }
         sub_26759( ref l_U985, ref cVar2, ref cVar6, ref l_U972 );
         break;
+
         case 1015:
         case 1019:
         case 1038:
@@ -1819,6 +1838,8 @@ void sub_5509()
         StrCopy( ref cVar6, "BLANK", 16 );
         StrCopy( ref cVar2, "CP_NAV_BACK", 16 );
         sub_24251( 1, l_U972, 1, 0 );
+
+        // I think this might be a part of the phone handling that can change the settings and stuff on the phone.
         switch (cellphone3Dstructure._fU0)
         {
             case 1015:
@@ -1856,6 +1877,7 @@ void sub_5509()
         sub_26759( ref l_U985, ref cVar2, ref cVar6, ref l_U972 );
         sub_29096( ref l_U1, ref l_U972, l_U1._fU60 );
         break;
+
         case 1020:
         sub_24251( 1, l_U972, 1, 0 );
         if (l_U1103)
@@ -1872,6 +1894,7 @@ void sub_5509()
                     l_U1104++;
                 }
                 break;
+
                 case 1:
                 l_U1107 -= l_U1105;
                 if (l_U1107 <= (0.62500000 - l_U1106))
@@ -1882,6 +1905,7 @@ void sub_5509()
                     l_U1104++;
                 }
                 break;
+
                 case 2:
                 l_U1107 += l_U1105;
                 if (l_U1107 >= (0.62500000 + l_U1106))
@@ -1892,6 +1916,7 @@ void sub_5509()
                     l_U1104++;
                 }
                 break;
+
                 case 3:
                 l_U1107 -= l_U1105;
                 if (l_U1107 <= 0.62500000)
@@ -1900,9 +1925,11 @@ void sub_5509()
                     l_U1103 = 0;
                 }
                 break;
+
             }
             CELL_CAM_SET_CENTRE_POS( l_U1107, 0.40000000 );
         }
+
         else if (cellphone3Dstructure._fU516 != 0.00000000)
         {
             l_U1103 = 1;
@@ -1914,6 +1941,7 @@ void sub_5509()
             l_U1107 = 0.62500000;
             cellphone3Dstructure._fU516 = 0.00000000;
         }
+
         if (l_U1075)
         {
             DRAW_SPRITE_PHOTO( 0.48500000, 0.49000000 * 0.65000000, 0.97000000, 0.67000000 * 0.65000000, 0.00000000, 255, 255, 255, 255 );
@@ -1922,11 +1950,14 @@ void sub_5509()
         {
             l_U1075 = 1;
         }
+
         sub_29096( ref l_U1, ref l_U972, l_U1._fU60 );
         sub_26759( ref l_U985, "CP_NAV_BACK", "CAMERA_CAPTURE", ref l_U972 );
         break;
+
         case 1021:
         sub_24251( 1, l_U972, 1, 0 );
+
         switch (l_U1077)
         {
             case 0:
@@ -1938,6 +1969,7 @@ void sub_5509()
                 CELL_CAM_ACTIVATE( 0, 1 );
             }
             break;
+
             case 1:
             l_U1076 -= 0.08000000;
             if (l_U1076 <= 0.00000000)
@@ -1948,16 +1980,20 @@ void sub_5509()
             break;
         }
         DRAW_SPRITE_PHOTO( 0.48500000, 0.49000000 * 0.65000000, 0.97000000, 0.67000000 * 0.65000000, 0.00000000, 255, 255, 255, 255 );
+
         sub_24481( 0, 0.48500000, 0.15500000 + (l_U1076 * 0.50000000), 0.97000000, l_U1076, 0, 0, 0, 255 );
         sub_24481( 0, 0.48500000, 0.82000000 - (l_U1076 * 0.50000000), 0.97000000, l_U1076, 0, 0, 0, 255 );
+
         sub_29096( ref l_U1, ref l_U972, l_U1._fU60 );
         sub_6958( "\n the scroll be at ", l_U1._fU60 );
         sub_26759( ref l_U985, "BLANK", "BLANK", ref l_U972 );
         break;
+
         case 1023:
         sub_24251( 1, l_U972, 1, 0 );
         DRAW_SPRITE_PHOTO( 0.48500000, 0.49000000 * 0.65000000, 0.97000000, 0.67000000 * 0.65000000, 0.00000000, 255, 255, 255, 255 );
         sub_29096( ref l_U1, ref l_U972, -1 );
+
         if (cellphone3Dstructure._fU88)
         {
             sub_26759( ref l_U985, "CP_NAV_BACK", "CP_NAV_SEND", ref l_U972 );
@@ -1967,8 +2003,10 @@ void sub_5509()
             sub_26759( ref l_U985, "CP_NAV_BACK", "BLANK", ref l_U972 );
         }
         break;
+
         case 1024:
         sub_24251( 1, l_U972, 1, 0 );
+
         if (l_U955 == 0.00000000)
         {
             sub_25286( 0, 0.50000000, 0.49000000, 0.90000000, 0.72000000, l_U972._fU8 );
@@ -1981,6 +2019,7 @@ void sub_5509()
         {
             fVar10 = 0.80000000;
         }
+
         if (l_U1078 < 4)
         {
             sub_16367( 0, 0, ref l_U985._fU0[0], "CP_INFO_SENDING", 0.10000000, 0.20000000, 0.10000000, fVar10, 0, 0, 0, 0, 0, 1 );
@@ -1990,6 +2029,7 @@ void sub_5509()
         {
             sub_16367( 0, 0, ref l_U985._fU0[0], "CP_INFO_SENT", 0.10000000, 0.20000000, 0.10000000, fVar10, 0, 0, 0, 0, 0, 1 );
         }
+
         switch (l_U1078)
         {
             case 0:
@@ -2008,6 +2048,7 @@ void sub_5509()
                 l_U1078++;
             }
             break;
+
             case 1:
             case 2:
             case 3:
@@ -2078,10 +2119,16 @@ int sub_5724(unknown uParam0)
 void sub_5784(int iParam0, unknown uParam1, int iParam2)
 {
     int I;
+
     int iVar6;
     int iVar7;
+
+    // Looking into sub_6228.
+    // I think this is xScale
     float fVar8;
+    // I think this one is yScale
     float fVar9;
+
     float fVar10;
     float fVar11;
     unknown uVar12;
@@ -2089,11 +2136,14 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
 
     iVar6 = 0;
     iVar7 = (uParam1^) - 1;
+
+    //
     if (iParam2 != -1)
     {
         iVar6 = iParam2;
         iVar7 = iParam2;
     }
+
     if ((cellphone3Dstructure._fU500) AND (cellphone3Dstructure._fU496))
     {
         fVar8 = 1.55000000;
@@ -2106,9 +2156,11 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
     }
     fVar10 = (ref iParam0->_fU84->_fU4) - (ref iParam0->_fU84->_fU0);
     fVar11 = (ref iParam0->_fU92->_fU4) - (ref iParam0->_fU92->_fU0);
+
     for ( I = iVar6; I <= iVar7; I++ )
     {
         sub_5945( ref (uParam1^)[I] );
+
         if ((uParam1^)[I]._fU0)
         {
             if ((sub_6228( ref (uParam1^)[I]._fU8, (uParam1^)[I]._fU40, (uParam1^)[I]._fU44, (uParam1^)[I]._fU48, fVar8, fVar8 )) > fVar10)
@@ -2124,8 +2176,10 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
                     {
                         (uParam1^)[I]._fU96 = GET_LENGTH_OF_STRING_WITH_THIS_TEXT_LABEL_INS_NUM( ref (uParam1^)[I]._fU8, (uParam1^)[I]._fU44, (uParam1^)[I]._fU48 );
                     }
+
                     (uParam1^)[I]._fU100 = 0;
                     (uParam1^)[I]._fU104 = 4;
+
                     if ((uParam1^)[I]._fU40)
                     {
                         StrCopy( ref cVar13, GET_STRING_FROM_STRING( ref (uParam1^)[I]._fU8, 0, (uParam1^)[I]._fU104 ), 32 );
@@ -2144,13 +2198,16 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
                             sub_6958( "\n Cutdown label end = ", (uParam1^)[I]._fU104 );
                         }
                     }
+
                     (uParam1^)[I]._fU104--;
+
                     if (I == iParam0->_fU44)
                     {
                         iParam0->_fU124 = (uParam1^)[I]._fU100;
                         iParam0->_fU128 = (uParam1^)[I]._fU104;
                         iParam0->_fU132 = 1;
                     }
+
                     sub_6729( "\n The following string is going to scroll ", ref (uParam1^)[I]._fU8 );
                     sub_6958( " starting at ", (uParam1^)[I]._fU100 );
                     sub_6958( " and ending at ", (uParam1^)[I]._fU104 );
@@ -2163,6 +2220,7 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
                     (uParam1^)[I]._fU76._fU4 = fVar9;
                 }
             }
+
             if ((sub_6228( ref (uParam1^)[I]._fU52, (uParam1^)[I]._fU68, 0, 0, fVar8, fVar8 )) > fVar11)
             {
                 if ((sub_6228( ref (uParam1^)[I]._fU52, (uParam1^)[I]._fU68, 0, 0, fVar9, fVar9 )) > fVar11)
@@ -2176,8 +2234,10 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
                     {
                         (uParam1^)[I]._fU112 = GET_LENGTH_OF_STRING_WITH_THIS_TEXT_LABEL( ref (uParam1^)[I]._fU52 );
                     }
+
                     (uParam1^)[I]._fU116 = 0;
                     (uParam1^)[I]._fU120 = 4;
+
                     if ((uParam1^)[I]._fU68)
                     {
                         StrCopy( ref cVar13, GET_STRING_FROM_STRING( ref (uParam1^)[I]._fU52, 0, (uParam1^)[I]._fU120 ), 32 );
@@ -2196,7 +2256,9 @@ void sub_5784(int iParam0, unknown uParam1, int iParam2)
                             sub_6958( "\n Cutdown label end = ", (uParam1^)[I]._fU120 );
                         }
                     }
+
                     (uParam1^)[I]._fU120--;
+
                     if (I == iParam0->_fU44)
                     {
                         iParam0->_fU140 = (uParam1^)[I]._fU116;
@@ -2247,25 +2309,34 @@ void sub_5945(int iParam0)
     return;
 }
 
-void sub_6228(unknown uParam0, boolean bParam1, boolean bParam2, unknown uParam3, unknown uParam4, unknown uParam5)
+// Set text font to 0, if Japanese version set text font to 2.
+// Set text scale from uParam4, to xScale.
+// Set text scale from uParam5, to yScale.
+// If bParam1 is true, return GET_STRING_WIDTH_WITH_STRING( "STRING", stringToCheck );
+// If bParam2 is true, return GET_STRING_WIDTH_WITH_NUMBER( stringToCheck, uParam3 );
+// If bParam1 and bParam2 is false, Get the string width for stringToCheck
+void sub_6228(char stringToCheck, boolean bParam1, boolean bParam2, unknown uParam3, float xScale, float yScale)
 {
     SET_TEXT_FONT( 0 );
     if (IS_JAPANESE_VERSION())
     {
         SET_TEXT_FONT( 2 );
     }
-    SET_TEXT_SCALE( uParam4, uParam5 * 0.65000000 );
+
+    SET_TEXT_SCALE( xScale, yScale * 0.65000000 );
+
     if (bParam1)
     {
-        return GET_STRING_WIDTH_WITH_STRING( "STRING", uParam0 );
+        return GET_STRING_WIDTH_WITH_STRING( "STRING", stringToCheck );
     }
     else if (bParam2)
     {
-        return GET_STRING_WIDTH_WITH_NUMBER( uParam0, uParam3 );
+        return GET_STRING_WIDTH_WITH_NUMBER( stringToCheck, uParam3 );
     }
-    return GET_STRING_WIDTH( uParam0 );
+    return GET_STRING_WIDTH( stringToCheck );
 }
 
+// Debug line
 void sub_6729(unknown uParam0, unknown uParam1)
 {
     return;
@@ -2305,7 +2376,7 @@ void sub_8234()
         case 1002:
         l_U1088 = 2;
         l_U1089 = 1;
-        sub_8531( ref l_U960 );
+        ReleaseAndMarkTxdAsNotNeeded( ref l_U960 );
         l_U1100 = sub_8621();
         l_U1101 = sub_8937();
         l_U959 = 0;
@@ -2322,20 +2393,25 @@ void sub_8234()
         sub_9450( ref l_U1, ref l_U226, 1012, "CP_OPT_PBOOK", "", 1, 0, 0, 0, 0 );
         sub_9450( ref l_U1, ref l_U226, 1014, "CP_OPT_MESSAGES", "", 1, 0, 0, 0, 0 );
         sub_9450( ref l_U1, ref l_U226, 1017, "CP_OPT_ORGAN", "", 1, 0, 0, 0, 0 );
+        
         if (cellphone3Dstructure._fU40 == 2)
         {
             sub_9450( ref l_U1, ref l_U226, 1020, "CP_OPT_CAMERA", "", 1, 0, 0, 0, 0 );
         }
+
         sub_9450( ref l_U1, ref l_U226, 1047, "CP_OPT_NETWORK", "", 1, 0, 0, 0, 0 );
         sub_9450( ref l_U1, ref l_U226, 1026, "CP_OPT_OPTIONS", "", 1, 0, 0, 0, 0 );
+        
         if ((cellphone3Dstructure._fU40 != 0) AND (# -NULL-0xc27e40()))
         {
             sub_9450( ref l_U1, ref l_U226, 1031, "CP_OPT_REPMENU", "", 1, 0, 0, 0, 0 );
         }
+
         if (ProtectedGet(cellphone3Dstructure._fU536) != 0)
         {
             sub_9450( ref l_U1, ref l_U226, 1035, "CP_CHEATS", "", 1, 0, 0, 0, 0 );
         }
+
         if ((NOT (# -NULL-0xc27bfa())) AND (NOT (# -NULL-0xc27c84())))
         {
             if ((g_U15654[75]) AND ((NOT IS_MINIGAME_IN_PROGRESS()) AND ((NOT g_U10978) AND (g_U823))))
@@ -2345,13 +2421,17 @@ void sub_8234()
         }
         sub_10177( ref l_U1, ref l_U226, ref l_U39, 1, 1, 0 );
         break;
+
         case 1013:
         l_U1108 = g_U10978;
+
         if (g_U15946[cellphone3Dstructure._fU60]._fU132._fU0)
         {
             sub_9366( ref l_U1, 1, l_U1038, 0 );
             sub_9450( ref l_U1, ref l_U226, 14, "CP_NAV_CALL", "", 1, 0, 0, 0, 0 );
+           
             iVar3 = 14 - 1;
+
             if (g_U15946[cellphone3Dstructure._fU60]._fU8[0]._fU0[2])
             {
                 StrCopy( ref cVar7, "SP_", 16 );
@@ -2360,6 +2440,7 @@ void sub_8234()
                 ConcatString(ref cVar7, 2, 16);
                 sub_9450( ref l_U1, ref l_U226, 2, ref cVar7, "", 1, 0, 0, 0, 0 );
             }
+
             for ( I = 0; I <= iVar3; I++ )
             {
                 if (I != 2)
@@ -2404,7 +2485,8 @@ void sub_8234()
                                 StrCopy( ref cVar7, "CALL_EXIT_JOB", 16 );
                             }
                             bVar6 = true;
-                        };;;;
+                        }
+
                         if (bVar6)
                         {
                             sub_9450( ref l_U1, ref l_U226, I, ref cVar7, "", 1, 0, 0, 0, 0 );
@@ -2417,18 +2499,22 @@ void sub_8234()
         }
         case 1012:
         cellphone3Dstructure._fU0 = 1012;
+
         sub_12726();
         sub_9366( ref l_U1, 1, l_U1038, 0 );
         sub_15300();
         sub_10177( ref l_U1, ref l_U226, ref l_U39, 1, 1, 0 );
         break;
+
         case 1014:
         if (cellphone3Dstructure._fU520)
         {
             cellphone3Dstructure._fU520 = 0;
             SET_PHONE_HUD_ITEM( 0, "", -1 );
         }
-        sub_8531( ref l_U960 );
+
+        ReleaseAndMarkTxdAsNotNeeded( ref l_U960 );
+
         iVar3 = sub_15968();
         if (iVar3 == 0)
         {
@@ -2872,21 +2958,28 @@ void sub_8234()
         }
         sub_10177( ref l_U1, ref l_U226, ref l_U39, 1, 1, 0 );
         break;
+
         case 1048:
         sub_9366( ref l_U1, 1, l_U1038, 0 );
+        // CP_OPT_NETWORK = Multiplayer
         sub_9450( ref l_U1, ref l_U226, 1047, "CP_OPT_NETWORK", "", 1, 0, 0, 0, 0 );
+        // Unknown
         sub_9450( ref l_U1, ref l_U226, 1031, "CP_OPT_REPMENU", "", 1, 0, 0, 0, 0 );
         sub_10177( ref l_U1, ref l_U226, ref l_U39, 1, 1, 0 );
         break;
+
         case 1045:
         SETTIMERA( 0 );
+        // CP_GAMEPROV = Connecting to game provider...
         StrCopy( ref l_U1062[0], "CP_GAMEPROV", 16 );
         StrCopy( ref l_U1062[1], "", 16 );
         StrCopy( ref l_U1062[2], "", 16 );
         l_U1042 = 0;
         sub_16177( ref l_U985._fU0[0], ref l_U1062, l_U1042, ref l_U1046, ref l_U1045, ref l_U1043, ref l_U1044, ref l_U1._fU44, ref l_U1._fU60, ref l_U1._fU56, ref l_U1._fU52 );
         break;
+
         case 1046:
+        // CP_GAMEPROVTO = Cannot connect to game provider, please try again later.
         StrCopy( ref l_U1062[0], "CP_GAMEPROVTO", 16 );
         StrCopy( ref l_U1062[1], "", 16 );
         StrCopy( ref l_U1062[2], "", 16 );
@@ -2899,18 +2992,20 @@ void sub_8234()
     return;
 }
 
-void sub_8531(int iParam0)
+// Seems to release and mark txd as no longer needed
+// sub_8531
+void ReleaseAndMarkTxdAsNotNeeded(int txdToRelease)
 {
-    if (iParam0->_fU40)
+    if (txdToRelease->_fU40)
     {
-        RELEASE_TEXTURE( iParam0->_fU36 );
-        iParam0->_fU40 = 0;
+        RELEASE_TEXTURE( txdToRelease->_fU36 );
+        txdToRelease->_fU40 = 0;
     }
-    if (NOT (COMPARE_STRING( iParam0 + 0, "" )))
+    if (NOT (COMPARE_STRING( txdToRelease + 0, "" )))
     {
-        MARK_STREAMED_TXD_AS_NO_LONGER_NEEDED( iParam0 + 0 );
+        MARK_STREAMED_TXD_AS_NO_LONGER_NEEDED( txdToRelease + 0 );
     }
-    iParam0->_fU44 = 0;
+    txdToRelease->_fU44 = 0;
     return;
 }
 
@@ -3031,6 +3126,8 @@ void sub_9366(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3)
     return;
 }
 
+// uParam2 is some type of int
+// uParam3 seems to be a gxt text to display
 void sub_9450(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
 {
     if (iParam0->_fU4 < (uParam1^))
@@ -3895,7 +3992,7 @@ void sub_18699(unknown uParam0, unknown uParam1, int iParam2)
 
 void sub_19216(int iParam0, unknown uParam1)
 {
-    sub_8531( iParam0 );
+    ReleaseAndMarkTxdAsNotNeeded( iParam0 );
     sub_19238( iParam0 + 0, uParam1 );
     REQUEST_STREAMED_TXD( iParam0 + 0, 1 );
     iParam0->_fU32 = uParam1;
@@ -5891,6 +5988,10 @@ void sub_47963(unknown uParam0)
     return;
 }
 
+// Seems to display a message on the phone or something
+// uParam1 is a gxt string.
+// uParam3 seems to be what this is referencing for the copy of the string from uParam1 or to it.
+// uParam4 also seems to be what this is referencing for the copy of the string from uParam1 or to it.
 void sub_48299(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, boolean bParam5)
 {
     int I;

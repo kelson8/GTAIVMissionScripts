@@ -15,11 +15,15 @@ void main()
     THIS_SCRIPT_SHOULD_BE_SAVED();
     cellphone3Dstructure._fU496 = GET_IS_HIDEF();
     g_U555 = 9;
+    
+    // I think this is the textStatus? Seems to be set when a text is received
     cellphone3Dstructure._fU0 = 1000;
-    cellphone3Dstructure._fU100 = 0;
-    cellphone3Dstructure._fU104 = 0;
-    cellphone3Dstructure._fU568 = NETWORK_GET_NUM_UNACCEPTED_INVITES();
-    if (cellphone3Dstructure._fU568 == 0)
+    cellphone3Dstructure.hideCellPhone = 0;
+    cellphone3Dstructure.disableCellPhone = 0;
+
+    // cellphone3Dstructure._fU568, unknown name but I guessed this one.
+    cellphone3Dstructure.getUnacceptedInvites = NETWORK_GET_NUM_UNACCEPTED_INVITES();
+    if (cellphone3Dstructure.getUnacceptedInvites == 0)
     {
         cellphone3Dstructure._fU572 = 0;
     }
@@ -50,8 +54,8 @@ void main()
             g_U567 = 19;
             cellphone3Dstructure._fU404 = 1000;
             cellphone3Dstructure._fU580 = 0;
-            cellphone3Dstructure._fU100 = 0;
-            cellphone3Dstructure._fU104 = 0;
+            cellphone3Dstructure.hideCellPhone = 0;
+            cellphone3Dstructure.disableCellPhone = 0;
             cellphone3Dstructure._fU512 = nil;
             cellphone3Dstructure._fU124 = 0;
             cellphone3Dstructure._fU48 = 0;
@@ -78,8 +82,8 @@ void main()
             {
                 SET_MESSAGES_WAITING( 1 );
             }
-            cellphone3Dstructure._fU568 = NETWORK_GET_NUM_UNACCEPTED_INVITES();
-            if (cellphone3Dstructure._fU568 == 0)
+            cellphone3Dstructure.getUnacceptedInvites = NETWORK_GET_NUM_UNACCEPTED_INVITES();
+            if (cellphone3Dstructure.getUnacceptedInvites == 0)
             {
                 cellphone3Dstructure._fU572 = 0;
             }
@@ -317,8 +321,8 @@ void main()
             }
             if (cellphone3Dstructure._fU572)
             {
-                cellphone3Dstructure._fU568 = NETWORK_GET_NUM_UNACCEPTED_INVITES();
-                if (cellphone3Dstructure._fU568 == 0)
+                cellphone3Dstructure.getUnacceptedInvites = NETWORK_GET_NUM_UNACCEPTED_INVITES();
+                if (cellphone3Dstructure.getUnacceptedInvites == 0)
                 {
                     cellphone3Dstructure._fU572 = 0;
                 }
@@ -341,7 +345,7 @@ void sub_197()
     g_U555 = 9;
     sub_212();
     sub_387();
-    cellphone3Dstructure._fU100 = 0;
+    cellphone3Dstructure.hideCellPhone = 0;
     l_U12 = 0;
     sub_845();
     return;
@@ -620,7 +624,7 @@ int sub_2791()
         sub_1814( "\n PHONE CHECK - .cellphone3Dstructure.overrideCellphoneChecks is returning TRUE" );
         return 1;
     }
-    if ((cellphone3Dstructure._fU104) || (cellphone3Dstructure._fU100))
+    if ((cellphone3Dstructure.disableCellPhone) || (cellphone3Dstructure.hideCellPhone))
     {
         sub_1814( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;

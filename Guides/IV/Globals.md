@@ -14,3 +14,50 @@ This is very incomplete and just based on guessing, sometimes I can find these w
 * g_U9052 seems to only be used in cablecars.c and startup.c.
 
 * g_U91 seems important and in use in a lot of scripts, I wonder what it is.
+
+* g_U8705 seems to be the bed help text global, if it is displayed this doesn't show up again, changes to 1 under sub_4034 in ambsavebed.c.
+
+To find some debug strings, search for "CREATE_WIDGET_GROUP" in VSCode.
+
+Useful globals:
+* g_U813, seems to be something that increments the mission attempts counter, I think this runs if a mission is quit, look into sub_1680 in bell3m.c.
+
+* g_U9893 = unknown
+* g_U9893._fU0, seems to be loading the "replayHelp" script.
+
+In use a lot in the missions:
+
+``` 
+    g_U9893._fU4 = 0;
+    g_U9893._fU8 = 0;
+    g_U9893._fU12 = 0;
+    g_U9893._fU16 = 0;
+    g_U9893._fU20 = 0;
+    g_U9893._fU28 = 0;
+    g_U9893._fU32 = 0;
+    g_U9893._fU36 = 0;
+    g_U9893._fU48 = 0;
+```
+
+Possibly some Roman globals:
+* g_U64926 = romainTaxiScript
+* g_U64927 = unknown/TODO Figure out, set to 0 in startup and brucie_heli, set to 1 in main.c, multitutorial.c, and sixaxistutorial.c.
+
+Possibly some Little Jacob globals:
+* g_U64925 = jacobGunCarScript
+
+Phone globals:
+* g_U91 = cellphone3Dstructure
+
+Possible variable names for phone globals:
+* _fU160 = pedVoice - Obtained from spcellphonecalling.c in sub_5794
+
+* _fU404 = smsStatus
+* _fU104 = hideCellphone - Obtained from brucie1.c within a debug line
+* _fU100 = disableCellphone - Obtained from brucie1.c within a debug line
+* _fU372 = missionAnsweredPhone - Obtained from main.c within a debug line.
+* _fU376 = overrideCellphoneChecks - Obtained from main.c within a debug line.
+
+* _fU496 = isHighDef - Obtained from spcellphone.c
+
+* _fU568 = getUnacceptedInvites - Obtained from spcellphone.c ``` cellphone3Dstructure._fU568 = NETWORK_GET_NUM_UNACCEPTED_INVITES(); ```
