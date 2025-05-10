@@ -5520,6 +5520,9 @@ void sub_33832(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
 
 void sub_34115(unknown uParam0, unknown uParam1, unknown uParam2)
 {
+    // iVar5 seems to be either 
+    // TX_ULP: U. L Paper
+    // Or TX_MPT M. P. Tutorial
     int iVar5;
 
     if (DOES_BLIP_EXIST( uParam2 ))

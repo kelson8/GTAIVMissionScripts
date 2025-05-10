@@ -1,11 +1,14 @@
 void main()
 {
-    unknown uVar2;
+    unknown networkGameScript;
     unknown uVar3;
     unknown uVar4;
     unknown uVar5;
-    boolean bVar6;
-    unknown uVar7;
+
+    // bVar6, this is possibly incorrect
+    boolean bLoadGameModeText;
+    unknown txdToRequest;
+
     unknown uVar8;
     unknown uVar9;
     unknown uVar10;
@@ -50,7 +53,7 @@ void main()
     unknown uVar49;
     unknown uVar50;
     boolean bVar51;
-    char[32] cVar52;
+    char[32] mpCellPhoneNetworkScript;
     unknown uVar60;
     int iVar61;
     char[12] cVar62;
@@ -101,21 +104,28 @@ void main()
     g_U11 = 0;
     g_U12 = 0;
     g_U14 = -1;
+
+    // Set script as safe for network.
     THIS_SCRIPT_IS_SAFE_FOR_NETWORK_GAME();
     ALLOW_THIS_SCRIPT_TO_BE_PAUSED( 0 );
     SET_INT_STAT( 363, 3 );
     SET_NO_RESPRAYS( 0 );
-    if (IS_PLAYER_PLAYING( sub_187() ))
+
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        SET_PLAYER_CONTROL( sub_187(), 0 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
     }
     array(ref uVar20._fU0, 30);
+
     ref uVar20;
     sub_256( ref uVar20, ref uVar19 );
+
     g_U15 = GET_CURRENT_EPISODE();
+
     bVar51 = true;
     sub_726();
-    StrCopy( ref cVar52, "MPcellphoneNetwork", 32 );
+
+    StrCopy( ref mpCellPhoneNetworkScript, "MPcellphoneNetwork", 32 );
     while (bVar51)
     {
         WAIT( 0 );
@@ -124,16 +134,17 @@ void main()
             case 13:
             bVar51 = false;
             break;
+
             case 14:
             if (GET_RETURN_TO_FILTER_MENU())
             {
-                REQUEST_SCRIPT( ref cVar52 );
-                while (NOT (HAS_SCRIPT_LOADED( ref cVar52 )))
+                REQUEST_SCRIPT( ref mpCellPhoneNetworkScript );
+                while (NOT (HAS_SCRIPT_LOADED( ref mpCellPhoneNetworkScript )))
                 {
                     WAIT( 0 );
                 }
-                START_NEW_SCRIPT( ref cVar52, 16888 );
-                MARK_SCRIPT_AS_NO_LONGER_NEEDED( ref cVar52 );
+                START_NEW_SCRIPT( ref mpCellPhoneNetworkScript, 16888 );
+                MARK_SCRIPT_AS_NO_LONGER_NEEDED( ref mpCellPhoneNetworkScript );
             }
             else
             {
@@ -141,24 +152,29 @@ void main()
             }
             TERMINATE_THIS_SCRIPT();
             break;
+
             default: break;
         }
     }
     sub_3151();
     uVar60 = nil;
     iVar61 = 0;
+
     array(ref cVar62, 2);
-    if (IS_CHAR_DEAD( sub_3262() ))
+
+    if (IS_CHAR_DEAD( CurrentPlayerChar() ))
     {
-        RESURRECT_NETWORK_PLAYER( GET_PLAYER_ID(), sub_3327( sub_3262() ), 0.00000000 );
+        RESURRECT_NETWORK_PLAYER( GET_PLAYER_ID(), sub_3327( CurrentPlayerChar() ), 0.00000000 );
         sub_1670( "\n #### network_main.sc - resurrecting player as they are dead. " );
     }
-    if (GET_PLAYERSETTINGS_MODEL_CHOICE() != (sub_3497( sub_3262() )))
+
+    if (GET_PLAYERSETTINGS_MODEL_CHOICE() != (CurrentCharModel( CurrentPlayerChar() )))
     {
         REQUEST_MODEL( GET_PLAYERSETTINGS_MODEL_CHOICE() );
     }
-    sub_3556( NETWORK_GET_GAME_MODE(), ref uVar2, ref uVar7, ref bVar6 );
-    REQUEST_SCRIPT( ref uVar2 );
+
+    sub_3556( NETWORK_GET_GAME_MODE(), ref networkGameScript, ref txdToRequest, ref bLoadGameModeText );
+    REQUEST_SCRIPT( ref networkGameScript );
     StrCopy( ref cVar62[0], "MPcellphone", 32 );
     StrCopy( ref cVar62[1], "speechControl_net", 32 );
     while (iVar61 < cVar62)
@@ -174,78 +190,94 @@ void main()
             }
         }
     }
+
     for ( I = 0; I <= (Length(cVar62) - 1); I++ )
     {
         START_NEW_SCRIPT( ref cVar62[I], 1024 );
         MARK_SCRIPT_AS_NO_LONGER_NEEDED( ref cVar62[I] );
     }
-    if (NOT (IS_CHAR_DEAD( sub_3262() )))
+
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
         sub_4552( GET_PLAYER_ID(), 0 );
-        REMOVE_ALL_CHAR_WEAPONS( sub_3262() );
-        SET_CHAR_HEALTH( sub_3262(), 300 );
-        CLEAR_WANTED_LEVEL( sub_187() );
+        REMOVE_ALL_CHAR_WEAPONS( CurrentPlayerChar() );
+        SET_CHAR_HEALTH( CurrentPlayerChar(), 300 );
+        CLEAR_WANTED_LEVEL( CurrentPlayerId() );
     }
+
+    // Set resprays to be free
     SET_FREE_RESPRAYS( 1 );
     sub_4954();
+
     for ( I = 0; I < 11; I++ )
     {
         SWITCH_CAR_GENERATOR( g_U65043[I], 0 );
     }
+
     sub_1670( "\n #### network_main.sc - about to GET_PLAYERSETTINGS_MODEL_CHOICE. " );
-    if (GET_PLAYERSETTINGS_MODEL_CHOICE() != (sub_3497( sub_3262() )))
+    
+    if (GET_PLAYERSETTINGS_MODEL_CHOICE() != (CurrentCharModel( CurrentPlayerChar() )))
     {
         REQUEST_MODEL( GET_PLAYERSETTINGS_MODEL_CHOICE() );
         LOAD_ALL_OBJECTS_NOW();
-        while (NOT (sub_5730( GET_PLAYERSETTINGS_MODEL_CHOICE() )))
+        while (NOT (RequestPlayerModel( GET_PLAYERSETTINGS_MODEL_CHOICE() )))
         {
             WAIT( 0 );
             sub_1670( "\n #### network_main.sc - loading player model. " );
         }
-        CHANGE_PLAYER_MODEL( sub_187(), GET_PLAYERSETTINGS_MODEL_CHOICE() );
+        CHANGE_PLAYER_MODEL( CurrentPlayerId(), GET_PLAYERSETTINGS_MODEL_CHOICE() );
         MARK_MODEL_AS_NO_LONGER_NEEDED( GET_PLAYERSETTINGS_MODEL_CHOICE() );
     }
-    SET_PLAYERSETTINGS_MODEL_VARIATIONS_CHOICE( sub_187() );
+
+    SET_PLAYERSETTINGS_MODEL_VARIATIONS_CHOICE( CurrentPlayerId() );
     sub_1670( "\n #### network_main.sc - finished SET_PLAYERSETTINGS_MODEL_VARIATIONS_CHOICE. " );
+    
     while (IS_NETWORK_GAME_PENDING())
     {
         WAIT( 0 );
         sub_1670( "\n #### network_main.sc - IS_NETWORK_GAME_PENDING is returning TRUE. " );
     }
     sub_1670( "\n #### network_main.sc - IS_NETWORK_GAME_PENDING has returned FALSE. " );
+    
     if (NOT IS_NETWORK_GAME_RUNNING())
     {
         sub_1670( "\n #### network_main.sc - IS_NETWORK_GAME_RUNNING has returned FALSE, terminating script " );
         TERMINATE_THIS_SCRIPT();
     }
-    if (bVar6)
+
+    if (bLoadGameModeText)
     {
         while (NOT (HAS_ADDITIONAL_TEXT_LOADED( 0 )))
         {
             WAIT( 0 );
-            sub_6365( "\n #### network_main.sc - currently loading game mode text ", ref uVar2 );
+            sub_6365( "\n #### network_main.sc - currently loading game mode text ", ref networkGameScript );
         }
     }
-    if (NOT (COMPARE_STRING( ref uVar7, "NO_TEXTURES" )))
+
+    if (NOT (COMPARE_STRING( ref txdToRequest, "NO_TEXTURES" )))
     {
-        while (NOT (HAS_STREAMED_TXD_LOADED( ref uVar7 )))
+        while (NOT (HAS_STREAMED_TXD_LOADED( ref txdToRequest )))
         {
             WAIT( 0 );
-            sub_6365( "\n #### network_main.sc - currently loading game mode textures ", ref uVar7 );
+            sub_6365( "\n #### network_main.sc - currently loading game mode textures ", ref txdToRequest );
         }
     }
     uVar60 = nil;
-    while (NOT (sub_6521( ref uVar2 )))
+
+    while (NOT (RequestScripts( ref networkGameScript )))
     {
         WAIT( 0 );
-        sub_6365( "\n #### network_main.sc - currently loading game script ", ref uVar2 );
+        sub_6365( "\n #### network_main.sc - currently loading game script ", ref networkGameScript );
     }
+
     FORCE_LOADING_SCREEN( 0 );
-    uVar60 = START_NEW_SCRIPT( ref uVar2, 20240 );
-    sub_6365( "\n #### network_main.sc - loaded game script ", ref uVar2 );
+    uVar60 = START_NEW_SCRIPT( ref networkGameScript, 20240 );
+    sub_6365( "\n #### network_main.sc - loaded game script ", ref networkGameScript );
+    
     bVar83 = false;
     l_U500 = 1;
     l_U501 = 0;
+
     while (true)
     {
         WAIT( 0 );
@@ -300,13 +332,13 @@ void main()
             }
             if (GET_RETURN_TO_FILTER_MENU())
             {
-                REQUEST_SCRIPT( ref cVar52 );
-                while (NOT (HAS_SCRIPT_LOADED( ref cVar52 )))
+                REQUEST_SCRIPT( ref mpCellPhoneNetworkScript );
+                while (NOT (HAS_SCRIPT_LOADED( ref mpCellPhoneNetworkScript )))
                 {
                     WAIT( 0 );
                 }
-                START_NEW_SCRIPT( ref cVar52, 16888 );
-                MARK_SCRIPT_AS_NO_LONGER_NEEDED( ref cVar52 );
+                START_NEW_SCRIPT( ref mpCellPhoneNetworkScript, 16888 );
+                MARK_SCRIPT_AS_NO_LONGER_NEEDED( ref mpCellPhoneNetworkScript );
             }
             else
             {
@@ -323,6 +355,7 @@ void main()
                 {
                     if (NOT sub_7816())
                     {
+                        // I think this one returns the players to the party mode spawn.
                         if (NETWORK_RETURN_TO_RENDEZVOUS())
                         {
                             while (NETWORK_RETURN_TO_RENDEZVOUS_PENDING())
@@ -431,7 +464,8 @@ void main()
     return;
 }
 
-void sub_187()
+// sub_187
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -520,7 +554,8 @@ void sub_726()
     return;
 }
 
-void sub_802(int iParam0)
+// void sub_802(int iParam0)
+void sub_802(int networkStruct)
 {
     if (l_U4 == 14)
     {
@@ -554,12 +589,12 @@ void sub_802(int iParam0)
         {
             case 0:
             sub_1670( "\n ##### NETWORK GAME STRUCT ##########################################" );
-            sub_1715( "\n ## Gamemode  : ", iParam0->_fU0[0] );
-            sub_1715( "\n ## Ranked    : ", iParam0->_fU0[1] );
-            sub_1715( "\n ## Slots     : ", iParam0->_fU0[2] );
-            sub_1715( "\n ## Private   : ", iParam0->_fU0[3] );
-            sub_1715( "\n ## Episode   : ", iParam0->_fU0[4] );
-            sub_1715( "\n ## Max Teams : ", iParam0->_fU0[5] );
+            sub_1715( "\n ## Gamemode  : ", networkStruct->_fU0[0] );
+            sub_1715( "\n ## Ranked    : ", networkStruct->_fU0[1] );
+            sub_1715( "\n ## Slots     : ", networkStruct->_fU0[2] );
+            sub_1715( "\n ## Private   : ", networkStruct->_fU0[3] );
+            sub_1715( "\n ## Episode   : ", networkStruct->_fU0[4] );
+            sub_1715( "\n ## Max Teams : ", networkStruct->_fU0[5] );
             sub_1670( "\n" );
             if (NETWORK_HAVE_SUMMONS())
             {
@@ -567,12 +602,15 @@ void sub_802(int iParam0)
                 l_U4 = 3;
                 break;
             }
-            else if (iParam0->_fU0[0] == 8)
+
+            // [0] = gameMode
+            else if (networkStruct->_fU0[0] == 8)
             {
                 SET_HOST_MATCH_ON( 0 );
                 l_U4 = 10;
                 break;
             }
+
             else if (GET_START_FROM_FILTER_MENU() == 1)
             {
                 SET_HOST_MATCH_ON( 0 );
@@ -580,24 +618,27 @@ void sub_802(int iParam0)
                 l_U4 = 7;
                 break;
             }
+
             else if (GET_HOST_MATCH_ON())
             {
                 SET_HOST_MATCH_ON( 0 );
                 l_U4 = 9;
                 break;
-            };;;;
+            }
             l_U4 = 1;
+
             case 1:
-            if ((iParam0->_fU0[1] == 0) AND (iParam0->_fU0[3] > 0))
+            // [1] = Ranked
+            if ((networkStruct->_fU0[1] == 0) AND (networkStruct->_fU0[3] > 0))
             {
                 l_U4 = 9;
                 break;
             }
-            NETWORK_FIND_GAME( iParam0->_fU0[0], iParam0->_fU0[1] != 0, iParam0->_fU0[4], iParam0->_fU0[5] );
-            sub_1715( "\n #### NETWORK_FIND_GAME(", iParam0->_fU0[0] );
-            sub_1715( ", ", iParam0->_fU0[1] );
-            sub_1715( ", ", iParam0->_fU0[4] );
-            sub_1715( ", ", iParam0->_fU0[5] );
+            NETWORK_FIND_GAME( networkStruct->_fU0[0], networkStruct->_fU0[1] != 0, networkStruct->_fU0[4], networkStruct->_fU0[5] );
+            sub_1715( "\n #### NETWORK_FIND_GAME(", networkStruct->_fU0[0] );
+            sub_1715( ", ", networkStruct->_fU0[1] );
+            sub_1715( ", ", networkStruct->_fU0[4] );
+            sub_1715( ", ", networkStruct->_fU0[5] );
             sub_1670( ") \n" );
             l_U4 = 2;
             case 2:
@@ -712,15 +753,15 @@ void sub_802(int iParam0)
             case 9:
             if (NETWORK_IS_RENDEZVOUS_HOST())
             {
-                if (iParam0->_fU0[1] == 1)
+                if (networkStruct->_fU0[1] == 1)
                 {
-                    if ((sub_2702( iParam0->_fU0[0] )) == 2)
+                    if ((sub_2702( networkStruct->_fU0[0] )) == 2)
                     {
-                        iParam0->_fU0[2] = NETWORK_GET_NUM_PARTY_MEMBERS() * 2;
+                        networkStruct->_fU0[2] = NETWORK_GET_NUM_PARTY_MEMBERS() * 2;
                     }
                 }
             }
-            if (NOT (NETWORK_HOST_GAME_E1( iParam0->_fU0[0], iParam0->_fU0[1] != 0, iParam0->_fU0[2], iParam0->_fU0[3], iParam0->_fU0[4], iParam0->_fU0[5] )))
+            if (NOT (NETWORK_HOST_GAME_E1( networkStruct->_fU0[0], networkStruct->_fU0[1] != 0, networkStruct->_fU0[2], networkStruct->_fU0[3], networkStruct->_fU0[4], networkStruct->_fU0[5] )))
             {
                 sub_850();
                 break;
@@ -739,7 +780,7 @@ void sub_802(int iParam0)
             l_U4 = 13;
             break;
             case 10:
-            if (NOT (NETWORK_HOST_RENDEZVOUS_E1( iParam0->_fU0[0], iParam0->_fU0[2], iParam0->_fU0[4] )))
+            if (NOT (NETWORK_HOST_RENDEZVOUS_E1( networkStruct->_fU0[0], networkStruct->_fU0[2], networkStruct->_fU0[4] )))
             {
                 sub_850();
                 break;
@@ -827,6 +868,8 @@ void sub_850()
     return;
 }
 
+// Force loading screen, set message for loading screen to uParam0
+// Seems to run when there are errors in the network loading or something.
 void sub_911(unknown uParam0)
 {
     FORCE_LOADING_SCREEN( 0 );
@@ -878,7 +921,8 @@ void sub_3151()
     return;
 }
 
-void sub_3262()
+// sub_3262
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -903,7 +947,8 @@ void sub_3327(unknown uParam0)
     return Result;
 }
 
-void sub_3497(unknown uParam0)
+// sub_3497
+void CurrentCharModel(unknown uParam0)
 {
     unknown Result;
 
@@ -911,68 +956,80 @@ void sub_3497(unknown uParam0)
     return Result;
 }
 
-void sub_3556(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3)
+// Start network scripts
+void sub_3556(int networkGameMode, int currentNetworkGameScript, int currentTxd, int bShouldLoadGameModeText)
 {
-    (uParam3^) = 0;
-    StrCopy( (uParam2^), "network", 32 );
-    REQUEST_STREAMED_TXD( uParam2, 1 );
-    switch (uParam0)
+    (bLoadGameModeText^) = 0;
+    StrCopy( (currentTxd^), "network", 32 );
+    REQUEST_STREAMED_TXD( currentTxd, 1 );
+    switch (networkGameMode)
     {
         case 0:
         case 1:
-        StrCopy( (uParam1^), "deathmatch_cr", 16 );
+        StrCopy( (currentNetworkGameScript^), "deathmatch_cr", 16 );
         break;
+
         case 2:
         case 3:
-        StrCopy( (uParam1^), "roving_cr", 16 );
+        StrCopy( (currentNetworkGameScript^), "roving_cr", 16 );
         REQUEST_ADDITIONAL_TEXT( "MAFYA", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 5:
         case 4:
-        StrCopy( (uParam1^), "carsteal", 16 );
+        StrCopy( (currentNetworkGameScript^), "carsteal", 16 );
         REQUEST_ADDITIONAL_TEXT( "CSTEAL", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 6:
         case 7:
-        StrCopy( (uParam1^), "races_cr", 16 );
+        StrCopy( (currentNetworkGameScript^), "races_cr", 16 );
         REQUEST_ADDITIONAL_TEXT( "RACES", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 10:
-        StrCopy( (uParam1^), "tm_vip", 16 );
+        StrCopy( (currentNetworkGameScript^), "tm_vip", 16 );
         REQUEST_ADDITIONAL_TEXT( "ESCAPE", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 12:
-        StrCopy( (uParam1^), "tm_base", 16 );
+        StrCopy( (currentNetworkGameScript^), "tm_base", 16 );
         REQUEST_ADDITIONAL_TEXT( "BASES", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 13:
-        StrCopy( (uParam1^), "coop_drugfac", 16 );
+        StrCopy( (currentNetworkGameScript^), "coop_drugfac", 16 );
         REQUEST_ADDITIONAL_TEXT( "DRUGF", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 14:
-        StrCopy( (uParam1^), "coop_swatasslt", 16 );
+        StrCopy( (currentNetworkGameScript^), "coop_swatasslt", 16 );
         REQUEST_ADDITIONAL_TEXT( "NOOSE", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 15:
-        StrCopy( (uParam1^), "coop_bombdbase", 16 );
+        StrCopy( (currentNetworkGameScript^), "coop_bombdbase", 16 );
         REQUEST_ADDITIONAL_TEXT( "BOMBDB", 0 );
-        (uParam3^) = 1;
+        (bLoadGameModeText^) = 1;
         break;
+
         case 16:
-        StrCopy( (uParam1^), "freemode_cr", 16 );
+        StrCopy( (currentNetworkGameScript^), "freemode_cr", 16 );
         break;
+
         case 8:
-        StrCopy( (uParam1^), "party_mode", 16 );
+        StrCopy( (currentNetworkGameScript^), "party_mode", 16 );
         break;
+
         default:
-        sub_1715( "\n #### network_main.sc - Can't find script for this gameMode ", uParam0 );
+        sub_1715( "\n #### network_main.sc - Can't find script for this gameMode ", networkGameMode );
         sub_1670( "\n" );
         SCRIPT_ASSERT( "network_main.sc - Can't find script for gameMode" );
         break;
@@ -1026,6 +1083,7 @@ void sub_4608(unknown uParam0)
     return Result;
 }
 
+// Create car generators
 void sub_4954()
 {
     CREATE_CAR_GENERATOR( 2247.48900000, 756.15060000, 4.83090000, 0.00000000, 2.00000000, 3.00000000, 837858166, -1, -1, -1, -1, 1, 0, 0, ref g_U65043[0] );
@@ -1041,7 +1099,9 @@ void sub_4954()
     return;
 }
 
-int sub_5730(unknown uParam0)
+// sub_5730
+// Request player model
+int RequestPlayerModel(unknown uParam0)
 {
     REQUEST_MODEL( uParam0 );
     if (HAS_MODEL_LOADED( uParam0 ))
@@ -1056,7 +1116,9 @@ void sub_6365(unknown uParam0, unknown uParam1)
     return;
 }
 
-int sub_6521(unknown uParam0)
+// sub_6521
+// Request scripts
+int RequestScripts(unknown uParam0)
 {
     REQUEST_SCRIPT( uParam0 );
     if (HAS_SCRIPT_LOADED( uParam0 ))

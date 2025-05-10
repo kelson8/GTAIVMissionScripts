@@ -1,3 +1,5 @@
+// Looks like this is mostly for when the player is looking for a taxi and hailing for one.
+
 void main()
 {
     unknown uVar2;
