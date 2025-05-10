@@ -8,3 +8,9 @@ This is very incomplete and just based on guessing, sometimes I can find these w
 * g_U65003 seems to be something to do with bowling and the Michelle1 script, mostly where it's set at
 
 * g_U8220 is possibly a changing room global or something, seems to only really be in use in the clothes stores and ambwardrobe.c
+
+* g_U2220 is possibly a mission blip global, found in use under sub_18130 within cia1.c.
+
+* g_U9052 seems to only be used in cablecars.c and startup.c.
+
+* g_U91 seems important and in use in a lot of scripts, I wonder what it is.

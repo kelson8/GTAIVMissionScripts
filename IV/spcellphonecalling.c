@@ -11,7 +11,10 @@ void main()
     l_U173 = 0;
     l_U174 = 0;
     l_U254 = 0;
-    l_U257 = GET_CURRENT_LANGUAGE();
+
+    // l_U257
+    currentLanguage = GET_CURRENT_LANGUAGE();
+
     bVar2 = false;
     bVar3 = false;
     l_U172 = 1;
@@ -852,9 +855,10 @@ void sub_2516(int iParam0)
     return;
 }
 
-void sub_2590(int iParam0, unknown uParam1, unknown uParam2)
+void sub_2590(int iParam0, unknown uParam1, float uParam2)
 {
     iParam0->_fU0 = uParam1;
+    // This seems to be a float
     iParam0->_fU4 = uParam2;
     return;
 }
@@ -889,46 +893,48 @@ void sub_3587()
 
 void sub_3623(int iParam0, boolean bParam1)
 {
-    unknown uVar4;
-    unknown uVar5;
+    int randomNumber1;
+    int randomNumber2;
     float fVar6;
-    float fVar7;
+    float randomFloat;
     float fVar8;
     float fVar9;
 
-    GENERATE_RANDOM_INT_IN_RANGE( 0, 5, ref uVar4 );
-    GENERATE_RANDOM_INT_IN_RANGE( 0, 5, ref uVar5 );
+    GENERATE_RANDOM_INT_IN_RANGE( 0, 5, ref randomNumber1 );
+    GENERATE_RANDOM_INT_IN_RANGE( 0, 5, ref randomNumber2 );
     switch (iParam0 / 2)
     {
         case 0:
-        fVar6 = 0.10000000 + (uVar4 * 0.20000000);
-        fVar8 = 0.20000000 + (uVar5 * 0.05000000);
-        fVar9 = -0.01400000 + (uVar5 * 0.00050000);
+        fVar6 = 0.10000000 + (randomNumber1 * 0.20000000);
+        fVar8 = 0.20000000 + (randomNumber2 * 0.05000000);
+        fVar9 = -0.01400000 + (randomNumber2 * 0.00050000);
         break;
+
         case 1:
-        fVar6 = 0.20000000 + (uVar4 * 0.15000000);
-        fVar8 = 0.50000000 + (uVar5 * 0.05000000);
-        fVar9 = -0.01100000 + (uVar5 * 0.00050000);
+        fVar6 = 0.20000000 + (randomNumber1 * 0.15000000);
+        fVar8 = 0.50000000 + (randomNumber2 * 0.05000000);
+        fVar9 = -0.01100000 + (randomNumber2 * 0.00050000);
         break;
+
         case 2:
-        fVar6 = 0.40000000 + (uVar4 * 0.05000000);
-        fVar8 = 0.90000000 + (uVar5 * 0.05000000);
-        fVar9 = -0.00800000 + (uVar5 * 0.00050000);
+        fVar6 = 0.40000000 + (randomNumber1 * 0.05000000);
+        fVar8 = 0.90000000 + (randomNumber2 * 0.05000000);
+        fVar9 = -0.00800000 + (randomNumber2 * 0.00050000);
         break;
     }
     if (bParam1)
     {
-        fVar7 = 1.00000000 + (fVar8 * 0.50000000);
+        randomFloat = 1.00000000 + (fVar8 * 0.50000000);
     }
     else
     {
-        GENERATE_RANDOM_FLOAT_IN_RANGE( 0.20000000, 0.81000000, ref fVar7 );
+        GENERATE_RANDOM_FLOAT_IN_RANGE( 0.20000000, 0.81000000, ref randomFloat );
     }
-    sub_3926( iParam0, fVar6, fVar7, fVar8, fVar8, fVar9 );
+    sub_3926( iParam0, fVar6, randomFloat, fVar8, fVar8, fVar9 );
     return;
 }
 
-void sub_3926(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
+void sub_3926(unknown uParam0, unknown uParam1, float uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
 {
     sub_2590( ref g_U523._fU20[uParam0]._fU0, uParam1, uParam2 );
     sub_2590( ref g_U523._fU20[uParam0]._fU8, uParam3, uParam4 );
@@ -1050,7 +1056,9 @@ void sub_5745()
     {
         sub_7593( 0, 0.50000000, 0.49000000, 0.90000000, 0.72000000, l_U99._fU8 );
     }
-    if (sub_7744( ref l_U257 ))
+
+    // Something to do with getting the current language
+    if (sub_7744( ref currentLanguage ))
     {
         l_U112._fU116 = 1678728908;
         l_U112._fU128 = 1678728908;
@@ -1185,7 +1193,7 @@ void sub_5745()
                 {
                     sub_6641( 0, 0, ref l_U112._fU0[0], ref l_U165, 0.10000000, 0.24000000, 0.20000000, 0.80000000, 0, 0, 0, 0, 0, 1 );
                 }
-                sub_11825( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );
+                DrawTimeToPhone( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );
             }
             else if (cellphone3Dstructure._fU60 == 56)
             {
@@ -1195,7 +1203,7 @@ void sub_5745()
             {
                 sub_6641( 0, 0, ref l_U112._fU0[0], ref l_U165, 0.10000000, 0.24000000, 0.20000000, 0.80000000, 0, 0, 0, 0, 0, 1 );
             }
-            sub_11825( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );;
+            DrawTimeToPhone( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );;
             sub_10214( ref l_U112, "CP_NAV_HANG_UP", "BLANK", ref l_U99 );
             sub_11236( ref l_U112._fU0[0], ref l_U99 );
         }
@@ -1221,12 +1229,12 @@ void sub_5745()
             if (cellphone3Dstructure._fU40 == 1)
             {
                 sub_6641( 0, 0, ref l_U112._fU0[0], ref cellphone3Dstructure._fU432[l_U172 - 1], 0.10000000, 0.24000000, 0.20000000, 0.80000000, 0, 0, 0, 0, 0, 1 );
-                sub_11825( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );
+                DrawTimeToPhone( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );
             }
             else
             {
                 sub_6641( 0, 0, ref l_U112._fU0[0], ref cellphone3Dstructure._fU432[l_U172 - 1], 0.10000000, 0.24000000, 0.20000000, 0.80000000, 0, 0, 0, 0, 0, 1 );
-                sub_11825( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );
+                DrawTimeToPhone( ref l_U112._fU0[0], 0.70000000, 0.70000000, TIMERA() / 60000, (TIMERA() / 1000) mod 60 );
             }
             sub_10214( ref l_U112, "CP_NAV_HANG_UP", "CP_NAV_SELECT", ref l_U99 );
             sub_11236( ref l_U112._fU0[0], ref l_U99 );
@@ -1348,6 +1356,7 @@ void sub_6451(unknown uParam0, unknown uParam1, boolean bParam2, unknown uParam3
     (uParam5^) = 0;
     (uParam7^) = 0;
     (uParam8^) = 0;
+
     if (bParam2)
     {
         cellphone3Dstructure._fU528 = 1;
@@ -1357,6 +1366,7 @@ void sub_6451(unknown uParam0, unknown uParam1, boolean bParam2, unknown uParam3
     {
         (uParam3^) = (uParam4^);
     }
+
     if ((uParam3^) <= iVar17)
     {
         (uParam6^) = (uParam4^) - 1;
@@ -1371,6 +1381,7 @@ void sub_6451(unknown uParam0, unknown uParam1, boolean bParam2, unknown uParam3
     return;
 }
 
+// Seems to be setting up the text for the phone.
 void sub_6641(unknown uParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, float fParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9, unknown uParam10, unknown uParam11, unknown uParam12, int iParam13)
 {
     float fVar16;
@@ -1462,6 +1473,7 @@ void sub_6996(unknown uParam0, unknown uParam1)
     return GET_BITS_IN_RANGE( (uParam0^), 24, 31 );
 }
 
+// I think this is drawing a part of the phone
 void sub_7593(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5)
 {
     if (iParam0 == 0)
@@ -1475,11 +1487,12 @@ void sub_7593(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
     return;
 }
 
-int sub_7744(unknown uParam0)
+// Something to do with getting the current language
+int sub_7744(char languageToCheck)
 {
-    if ((uParam0^) != GET_CURRENT_LANGUAGE())
+    if ((languageToCheck^) != GET_CURRENT_LANGUAGE())
     {
-        (uParam0^) = GET_CURRENT_LANGUAGE();
+        (languageToCheck^) = GET_CURRENT_LANGUAGE();
         return 1;
     }
     return 0;
@@ -1871,12 +1884,12 @@ void sub_11236(unknown uParam0, int iParam1)
         if (cellphone3Dstructure._fU500)
         {
             sub_6641( 0, 0, uParam0, ref cVar7, 0.58000000, 0.01500000, 0.00000000, 0.62500000, 1, 0, 0, 0, 0, 1 );
-            sub_11825( uParam0, 0.79000000, 0.01500000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
+            DrawTimeToPhone( uParam0, 0.79000000, 0.01500000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
         }
         else
         {
             sub_6641( 0, 0, uParam0, ref cVar7, 0.58000000, 0.01000000, 0.00000000, 0.62500000, 1, 0, 0, 0, 0, 1 );
-            sub_11825( uParam0, 0.79000000, 0.01000000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
+            DrawTimeToPhone( uParam0, 0.79000000, 0.01000000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
         }
         break;
         default:
@@ -1893,24 +1906,28 @@ void sub_11236(unknown uParam0, int iParam1)
                 break;
             }
         }
+
         StrCopy( ref cVar7, "DOW_SHORT_DAY_", 16 );
         ConcatString(ref cVar7, GET_CURRENT_DAY_OF_WEEK(), 16);
         if (cellphone3Dstructure._fU500)
         {
             sub_6641( 0, 0, uParam0, ref cVar7, 0.58000000, 0.01500000, 0.00000000, 0.62500000, 1, 0, 0, 0, 0, 1 );
-            sub_11825( uParam0, 0.79000000, 0.01500000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
+            DrawTimeToPhone( uParam0, 0.79000000, 0.01500000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
         }
         else
         {
             sub_6641( 0, 0, uParam0, ref cVar7, 0.58000000, 0.01000000, 0.00000000, 0.62500000, 1, 0, 0, 0, 0, 1 );
-            sub_11825( uParam0, 0.79000000, 0.01000000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
+            DrawTimeToPhone( uParam0, 0.79000000, 0.01000000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
         }
+
         break;
     }
     return;
 }
 
-void sub_11825(unknown uParam0, unknown uParam1, unknown uParam2, int iParam3, int iParam4)
+// I think this is drawing the time to the phone
+// sub_11825
+void DrawTimeToPhone(unknown uParam0, unknown uParam1, unknown uParam2, int iParam3, int iParam4)
 {
     char[16] cVar7;
 
