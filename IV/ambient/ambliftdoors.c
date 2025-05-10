@@ -1,3 +1,6 @@
+// This might be useful to try to use in my scripts.
+// TODO Play around with this, try to make these work on my stripped main.
+
 void main()
 {
     l_U0 = 0;
