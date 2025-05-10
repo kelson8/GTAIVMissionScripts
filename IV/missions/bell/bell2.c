@@ -6926,7 +6926,7 @@ void sub_59339(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     return;
 }
 
-void sub_59720(unknown uParam0)
+void sub_59720(int newsStory)
 {
     int iVar3;
     unknown uVar4;
@@ -6945,39 +6945,48 @@ void sub_59720(unknown uParam0)
     array(ref uVar4._fU0._fU0, 3);
     ref uVar4._fU0;
     ref uVar4;
-    switch (uParam0)
+
+    // Seems to set the news stories, possibly for the news on the radio or internet.
+    switch (newsStory)
     {
         case 14:
         SET_BITS_IN_RANGE( ref g_U953, 0, 2, iVar3 );
         iVar3++;
         break;
+        
         case 20:
         SET_BITS_IN_RANGE( ref g_U953, 3, 5, iVar3 );
         iVar3++;
         break;
+
         case 24:
         SET_BITS_IN_RANGE( ref g_U953, 6, 8, iVar3 );
         iVar3++;
         break;
+
         case 29:
         g_U963 = 1;
         sub_59931( 20, 6, 16383, 16383, ref uVar4 );
         sub_60607( ref uVar4, 7 );
         sub_60638( ref uVar4, 0 );
         break;
+
         case 36:
         g_U963 = 2;
         break;
+
         case 39:
         SET_BITS_IN_RANGE( ref g_U953, 9, 11, iVar3 );
         iVar3++;
         break;
+
         case 40:
         g_U963 = 3;
         sub_59931( 20, 7, 9, 16383, ref uVar4 );
         sub_60607( ref uVar4, 7 );
         sub_60638( ref uVar4, 0 );
         break;
+
         case 45:
         case 46:
         g_U963 = 4;
