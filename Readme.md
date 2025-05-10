@@ -3,6 +3,8 @@ This repo will contain the decompiled scripts for GTA IV, The Ballad of Gay Tony
 
 These scripts won't be able to be built, but they can be looked at to study the natives, I am mostly trying to label what I find useful and may keep looking into this for GTA Connected on GTA IV.
 
+I have added the decompiled network scripts from script_network.img in the game folder under IV/script_network
+
 # About
 I have slightly modified these scripts and labeled some items in them:
 * emergencycall.c - Possibly incorrect info in this.
@@ -10,6 +12,9 @@ I have slightly modified these scripts and labeled some items in them:
 * spcellphone.c - Mostly label items, rename g_U91 to cellphone3Dstructure, found in debug print lines.
 * spcellphonemain.c - Mostly label items, rename g_U91 to cellphone3Dstructure, found in debug print lines.
 * webcraplist.c
+
+There is more in here, you'll just have to look at the commit history for what I have modified
+
 
 I have a list of GTA IV natives and trying to figure out what they do and have some examples for them in the ```Natives.md``` file located in the Guides/IV folder in this repo.
 
