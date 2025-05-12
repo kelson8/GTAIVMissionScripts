@@ -70,9 +70,14 @@ void main()
     g_U8370 = 0;
     g_U8378 = 0;
     g_U8379 = -1;
+
+    // g_U8380, g_U8384, and g_U8388 seems to be a string in use within binco_brook_s.c, modo_manhat_5.c, and perseus_manhat_8.c.
+    // I think these are the help texts for the shops, 
+    // Seems to set to values like this: HELP_BOUGHT_L_F = ~s~Pants bought for free
     StrCopy( ref g_U8380, "blank", 16 );
     StrCopy( ref g_U8384, "blank", 16 );
     StrCopy( ref g_U8388, "blank", 16 );
+
     g_U8666 = 0;
     g_U8667 = 0;
     g_U8668 = 0;
@@ -259,8 +264,11 @@ void main()
     g_U64625 = 0;
     g_U64641 = 0;
     g_U64642 = 0;
+
     g_U64643 = 1;
     g_U64644 = 0;
+
+
     g_U64664 = 50;
     g_U64665 = 70;
     g_U64666 = 50;
@@ -272,6 +280,7 @@ void main()
     g_U64672 = 30;
     g_U64673 = 50;
     g_U64678 = 0;
+
     g_U64686 = 0;
     g_U64687 = 0;
     g_U64688 = 0;
@@ -279,6 +288,7 @@ void main()
     g_U64692 = 0;
     g_U64715 = 0;
     g_U64716 = 0;
+
     g_U64717 = 0;
     g_U64718 = 0;
     g_U64719 = 0;
@@ -292,6 +302,7 @@ void main()
     g_U64728 = 0;
     g_U64729 = 0;
     g_U64730 = 0;
+
     g_U64731 = 0;
     g_U64732 = 0;
     g_U64733 = 0;
@@ -303,6 +314,7 @@ void main()
     g_U64739 = 0;
     g_U64740 = 0;
     g_U64741 = 0;
+
     g_U64742 = 0;
     g_U64743 = 0;
     g_U64744 = 0;
@@ -314,6 +326,7 @@ void main()
     g_U64750 = 0;
     g_U64751 = 0;
     g_U64752 = 0;
+
     g_U64753 = 0;
     g_U64754 = 0;
     g_U64755 = 0;
@@ -322,17 +335,22 @@ void main()
     g_U64760 = 1;
     g_U64762 = 0;
     g_U64763 = 0;
+
     ProtectedSet(g_U64791, 0);
+
     g_U64893 = -1;
     g_U64894 = 0;
     g_U64904 = 0;
     g_U64905 = 0;
+
     g_U64918 = -1;
     g_U64919 = -1;
     g_U64920 = -1;
+
     g_U64921 = 0;
     g_U64924 = 0;
     g_U64925 = 0;
+
     g_U64926 = 0;
     g_U64927 = 0;
     g_U64930 = 0;
@@ -344,6 +362,7 @@ void main()
     g_U64945 = 0;
     g_U64946 = 0;
     g_U64947 = 0;
+
     g_U64948 = 0;
     g_U64949 = 0;
     g_U64950 = 0;
@@ -356,6 +375,7 @@ void main()
     g_U64957 = 0;
     g_U64960 = 0;
     g_U64961 = 0;
+
     g_U64962 = 0;
     g_U64963 = 0;
     g_U64964 = 0;
@@ -368,6 +388,7 @@ void main()
     g_U64972 = 0;
     g_U64973 = 0;
     g_U64974 = 0;
+
     g_U64975 = 0;
     g_U64976 = 0;
     g_U64977 = 0;
@@ -377,6 +398,7 @@ void main()
     g_U64981 = 0;
     g_U64982 = 0;
     g_U64983 = 0;
+
     g_U64993 = 70;
     g_U64994 = 30;
     g_U64995 = 50;
@@ -387,6 +409,7 @@ void main()
     g_U65000 = 30;
     g_U65001 = 30;
     g_U65002 = 30;
+
     g_U65003 = 0;
     g_U65004 = 0;
     g_U65005 = 0;
@@ -396,8 +419,11 @@ void main()
     g_U65009 = 0;
     g_U65010 = 0;
     g_U65011 = 0;
+
+    // Vector globals, possibly offets?
     g_U65012 = {-3.00000000, -3.00000000, 5.00000000};
     g_U65015 = {3.00000000, -3.00000000, -5.00000000};
+
     g_U65018 = 0;
     g_U65019 = 0;
     g_U65020 = 0;
@@ -419,10 +445,12 @@ void main()
     g_U65040 = 0;
     g_U65041 = 0;
 
+    // If the session is a network session, create the player in a random location
+    // Setup player for network, set their control and other stuff for network game.
     if (IS_NETWORK_SESSION())
     {
         CREATE_PLAYER( 0, -2000.00000000 + (GetRandomFloatWithRange( -0.25000000, 0.25000000 )), -2000.00000000 + (GetRandomFloatWithRange( -0.25000000, 0.25000000 )), 240.00000000 + (GetRandomFloatWithRange( -0.25000000, 0.25000000 )), ref currentPlayer );
-        sub_3024( GET_PLAYER_ID(), 0 );
+        SetupPlayerForNetwork( GET_PLAYER_ID(), 0 );
     }
 
     else
@@ -430,16 +458,24 @@ void main()
         // Reset some globals
         sub_3384();
 
+        // I think g_U9386 is set to 1 in startup.c (this file), it seems to be set to the value "uVar6" in other files
+        // Seems to be something to do with the "Store_Contact_Point" function.
         sub_3559( 0, 756.77450000, -214.40330000, 4.82230000, 0, 0, g_U9386 );
+
+        // Create the player
         CreateAndSetPlayerCoords( currentPlayer );
+        // Disable player control
         SET_PLAYER_CONTROL( currentPlayer, 0 );
+        
         g_U9937 = 0;
-        sub_4072();
-        sub_5246();
+        Setup_Initial_Restart_Positions();
+        // Setup the scripts and script objects.
+        AllocateAndRegisterScriptObjects();
     }
 
-    sub_8623();
-    sub_12404();
+    // Setup zones
+    SetPopulationTypes();
+    SetZonesScumminess();
 
     StrCopy( ref g_U9921, "ERROR", 16 );
     StrCopy( ref g_U9926, "", 16 );
@@ -477,13 +513,15 @@ void GetRandomFloatWithRange(float value1, float Result)
     return Result;
 }
 
+// sub_3024
 // Set player control for network
-// bParam1 seems to run setControl on the SET_PLAYER_CONTROL_FOR_NETWORK native.
-void sub_3024(Player currentPlayer, boolean bParam1)
+// playerControl seems to run setControl on the SET_PLAYER_CONTROL_FOR_NETWORK native.
+// Going to rename this to SetupPlayerForNetwork, seems like it's what it is.
+void SetupPlayerForNetwork(Player currentPlayer, boolean playerControl)
 {
-    SET_PLAYER_CONTROL_FOR_NETWORK( CurrentPlayerId( currentPlayer ), bParam1, 0 );
+    SET_PLAYER_CONTROL_FOR_NETWORK( CurrentPlayerId( currentPlayer ), playerControl, 0 );
 
-    if (bParam1)
+    if (playerControl)
     {
         if (NOT (IS_CHAR_VISIBLE( GetCharFromValue( currentPlayer ) )))
         {
@@ -550,6 +588,7 @@ void sub_3384()
     return;
 }
 
+// Possibly: Store_Contact_Point
 void sub_3559(int iParam0, float posX, float posY, float posZ, unknown uParam4, unknown uParam5, unknown uParam6)
 {
     if (iParam0 > 49)
@@ -610,7 +649,8 @@ void CurrentPlayerChar()
     return Result;
 }
 
-void sub_4072()
+// sub_4072 - Obtained name from debug string below.
+void Setup_Initial_Restart_Positions()
 {
     int I;
 
@@ -621,6 +661,7 @@ void sub_4072()
         g_U9999[I]._fU4 = {0.00000000, 0.00000000, 0.00000000};
         g_U9999[I]._fU16 = 0.00000000;
     }
+
     SetPoliceRespawns( 0, 0, 1232.57200000, -89.69760000, 27.02420000, 270.80440000 );
     SetPoliceRespawns( 1, 0, 896.84080000, -355.56640000, 16.63910000, 317.92790000 );
     SetPoliceRespawns( 2, 0, 1232.19200000, 517.28770000, 27.57370000, 176.10820000 );
@@ -636,6 +677,8 @@ void sub_4072()
     SetPoliceRespawns( 12, 3, -924.12320000, 1265.74300000, 23.57260000, 137.19690000 );
     SetPoliceRespawns( 13, 3, -1716.64400000, 276.68920000, 21.20240000, 250.00490000 );
     SetPoliceRespawns( 14, 3, -1223.23600000, -233.32100000, 2.03350000, 308.33580000 );
+
+    // I guess in the original scripts, it requires 15 police stations.
     for ( I = 0; I < 15; I++ )
     {
         if (g_U9999[I]._fU0 == 5)
@@ -643,12 +686,14 @@ void sub_4072()
             sub_3644( "startup: Setup_Initial_Restart_Positions: Police Restart not setup" );
         }
     }
+
     for ( I = 0; I < 7; I++ )
     {
         g_U10090[I]._fU0 = 5;
         g_U10090[I]._fU4 = {0.00000000, 0.00000000, 0.00000000};
         g_U10090[I]._fU16 = 0.00000000;
     }
+
     SetHospitalRespawns( 0, 0, 1190.96500000, 201.09010000, 31.59560000, 148.37250000 );
     SetHospitalRespawns( 1, 0, 1242.93900000, 497.13550000, 27.41460000, 28.45530000 );
     SetHospitalRespawns( 2, 1, 975.74330000, 1822.26000000, 19.09530000, 87.84350000 );
@@ -656,6 +701,8 @@ void sub_4072()
     SetHospitalRespawns( 4, 2, 94.86770000, 147.33100000, 13.77200000, 185.87280000 );
     SetHospitalRespawns( 5, 3, -1306.34600000, 1286.18800000, 20.77930000, 312.24850000 );
     SetHospitalRespawns( 6, 3, -1512.16900000, 400.12190000, 18.67960000, 315.57750000 );
+
+    // I guess in the original scripts, it requires 7 hospitals.
     for ( I = 0; I < 7; I++ )
     {
         if (g_U10090[I]._fU0 == 5)
@@ -693,97 +740,130 @@ void SetHospitalRespawns(unknown uParam0, unknown uParam1, float posX, float pos
     return;
 }
 
-void sub_5246()
+// sub_5246
+void AllocateAndRegisterScriptObjects()
 {
+    // Allocate scripts to objects
     ALLOCATE_SCRIPT_TO_OBJECT( "puzzle_launcher", 691499124, 100, 10.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "puzzle_launcher", -386570734, 100, 10.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "bowl_trigger", 1071999466, 100, 25.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "darts_launcher", 33267265, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ATMobj", 943099328, 100, 30.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ATMobj", 1646518682, 100, 30.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "ATMobj", -1707894766, 100, 30.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "CarWash", -582605513, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambBarrier", 21350196, 100, 100.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "till", -1321409645, 100, 100.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "vendor", 526100790, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "vendor", 1914818237, 100, 80.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "vendor", 1139438163, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "burgerVendor", 381327348, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "nutVendor", 1179300952, 100, 80.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "magVendor", -2047685421, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "magVendor", -1654925163, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "telescope", -1028473, 100, 2.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "sprunk", -2033273140, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "sprunk", -1702863313, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "computerStreamed", -1699088948, 100, 3.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "computerStreamed", -1185959097, 100, 3.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "computerStreamed", -805425417, 100, 5.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "pool_table", -1693860173, 100, 50.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "pool_table", 1823613694, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "pool_table", -1570172664, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambTV", -1618524073, 100, 80.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "ambTV", -1058927856, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambTV", 1243139908, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambTV", 900769396, 100, 80.00000000, -1 );
+
     ALLOCATE_SCRIPT_TO_OBJECT( "ambTV", -1336305346, 100, 80.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambClubLights", 1005973733, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambClubLights", 1781111577, 100, 50.00000000, -1 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambClubLights", -21824081, 100, 50.00000000, -1 );
+
     sub_6386();
+    // Register script brains for objects
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambATMQ", 50.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "EmpireTelescope", 80.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "EmpireDown", 80.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambTaxiHail", 50.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "copbootsearch", 80.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambgerry3doorlock", 5.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambSaveBed", 50.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambWardrobe", 25.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambnightclubext", 100.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "gunLockup", 95.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "gunLockupCT", 150.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambBar", 100.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "TollBooth", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambBridgePatrol", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambTunnelCops", 200.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambHotel", 50.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "foodServer", 80.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambInternetCafe", 50.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambCabaret", 100.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambCargoHoldDoors", 100.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambJerseyDocksGates", 100.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambBouncer", 150.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambStripClub", 60.00000000 );
     ALLOCATE_SCRIPT_TO_OBJECT( "ambPoleDancer", -132862690, 100, 50.00000000, -1 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambComedyClub", 100.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambHomelandCordon", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambChurchDoors", 100.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambLiftDoors", 100.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambToiletDoors", 25.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambJimsLocks", 100.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambtaxdpt", 50.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambPolRdBlk", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "Ambblkhawk", 200.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambhelicopter", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "Manhat_heli_tours", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "binco_brook_s", 75.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "perseus_manhat_8", 75.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "modo_manhat_5", 75.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "AmbWindowLift", 200.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "bowling_lane", 100.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambAirpotarea", 200.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambUNarea", 200.00000000 );
+
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "ambShowroom", 75.00000000 );
     REGISTER_WORLD_POINT_SCRIPT_BRAIN( "cablecars", 75.00000000 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "garbage_trucks", 1136499716, 100, 0 );
+
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambbeggar", -1080673049, 100, 1 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambbeggar", -1827421800, 100, 1 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambbeggar", -142386662, 100, 1 );
+
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambpimpnpros", 552542187, 100, 1 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambpimpnpros", 996267216, 100, 1 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambdealer", 1448755353, 100, 1 );
+
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambpreacher", 495499562, 100, 1 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambpreacher", 379171768, 100, 1 );
     ALLOCATE_SCRIPT_TO_RANDOM_PED( "ambbusker", -1188246269, 100, 1 );
+
+    // Unknown usage for these below
     StrCopy( ref g_U8675[0], "BED", 4 );
     ProtectedSet(g_U8686[0], 10950);
     StrCopy( ref g_U8675[1], "LIJ", 4 );
@@ -833,7 +913,8 @@ void sub_6386()
     return;
 }
 
-void sub_8623()
+// sub_8623
+void SetPopulationTypes()
 {
     SET_ZONE_POPULATION_TYPE( "Zact1", 0 );
     SET_ZONE_POPULATION_TYPE( "Zact2", 0 );
@@ -1045,7 +1126,8 @@ void sub_8623()
     return;
 }
 
-void sub_12404()
+// sub_12404
+void SetZonesScumminess()
 {
     SET_ZONE_SCUMMINESS( "Zact1", 4 );
     SET_ZONE_SCUMMINESS( "Zact2", 4 );

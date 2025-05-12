@@ -1,51 +1,78 @@
+// TODO Look into this
+
 void main()
 {
     l_U0 = -1;
     l_U8 = 0;
     l_U9 = 0;
+
     l_U10 = 1;
     l_U11 = 3;
     l_U12 = 1;
+
     l_U13 = 0;
     l_U14 = 0;
     l_U15 = 0;
-    l_U16 = 0;
-    l_U19 = -1.00000000;
-    l_U20 = -1.00000000;
+    handwashStage = 0;
+
+    currentCarDirtLevel = -1.00000000;
+    newCarDirtLevel = -1.00000000;
     l_U21 = 2.50000000;
+
+    // l_U24 seems to run these if set to 1:
+    /*
+        SET_USE_HIGHDOF( 0 );
+        END_CAM_COMMANDS( ref l_U24 );
+        l_U24 = 0;
+    */
     l_U24 = 0;
     l_U27 = nil;
     l_U36 = 0;
+
     l_U37 = 0;
     l_U38 = 0;
     l_U39 = 0;
+
     l_U40 = 0;
     l_U41 = 0;
     l_U42 = 0;
+
     l_U43 = 0;
     l_U44 = 0;
     l_U45 = 1;
+
     l_U97 = 0;
     l_U98 = 99;
+
     l_U100 = {-500.14840000, 504.59460000, 5.66860000};
     l_U113 = {-0.00400000, 0.00500000, 5.92800000};
     l_U116 = {1.39000000, -2.36300000, 1.70000000};
+
     l_U119 = {-1.39900000, -2.36100000, 1.70000000};
     l_U149 = {90.00000000, 90.00000000, 180.00000000};
     l_U152 = {0.00000000, 0.00000000, 0.00000000};
     l_U155 = {0.00000000, 0.00000000, 180.00000000};
+
     l_U161 = 0;
-    l_U162 = 0;
-    l_U163 = 0;
-    l_U164 = 0;
+
+    // I think these are right
+    carWashWaterDripsEffect = 0;
+    carWashWaterRollersLeft = 0;
+    carWashWaterRollersRight = 0;
+
     l_U165 = 0;
     l_U166 = -1;
     l_U265 = 5.00000000;
-    l_U267 = "CAR_WASH_BARRIER";
-    l_U268 = "CAR_WASH_SPRAY";
-    l_U269 = "CAR_WASH_BRUSH_MOTOR";
-    l_U270 = "CAR_WASH_BRUSHES";
-    l_U271 = "CAR_WASH_PAY";
+    
+    // Sounds
+    carWashBarrierSound = "CAR_WASH_BARRIER";
+    carWashSpraySound = "CAR_WASH_SPRAY";
+    carWashBrushMotorSound = "CAR_WASH_BRUSH_MOTOR";
+    carWashBrushesSound = "CAR_WASH_BRUSHES";
+    // Unused
+    carWashPaySound = "CAR_WASH_PAY";
+    //
+
     l_U272 = -1;
     l_U273 = -1;
     l_U274 = -1;
@@ -55,7 +82,10 @@ void main()
     l_U278 = 1;
     l_U279 = 1;
     l_U281 = 0;
-    l_U282 = -552829610;
+
+    // l_U282 is possibly carWashPedModel 
+    carWashPedModel = -552829610;
+
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
     for ( l_U34 = 0; l_U34 < 12; l_U34++ )
     {
@@ -94,6 +124,8 @@ void main()
     {
         WAIT( 0 );
         GET_FRAME_TIME( ref l_U17 );
+
+        // Possibly creating the object l_U284
         sub_1591( l_U284 );
         if (DOES_OBJECT_EXIST( l_U284 ))
         {
@@ -104,14 +136,17 @@ void main()
                     case 0:
                     GET_OBJECT_COORDINATES( l_U284, ref l_U100._fU0, ref l_U100._fU4, ref l_U100._fU8 );
                     GET_OBJECT_HEADING( l_U284, ref l_U261 );
+                    
                     sub_6459();
                     sub_6715( l_U284 );
                     sub_3982( l_U284 );
+                    
                     l_U143 = {l_U140 - l_U131};
                     l_U11 = 1;
                     l_U8 = 1;
                     l_U9 = 0;
                     break;
+
                     case 1:
                     if (NOT l_U36)
                     {
@@ -131,12 +166,12 @@ void main()
                                 {
                                     if (sub_10276())
                                     {
-                                        if (IS_CAR_STOPPED( l_U99 ))
+                                        if (IS_CAR_STOPPED( currentPlayerCar ))
                                         {
                                             CLEAR_HELP();
                                             if (NOT sub_9713())
                                             {
-                                                ADD_SCORE( sub_5747(), -1 * ProtectedGet(l_U167) );
+                                                ADD_SCORE( CurrentPlayerId(), -1 * ProtectedGet(l_U167) );
                                             }
                                             SET_WIDESCREEN_BORDERS( 1 );
                                             DISPLAY_NON_MINIGAME_HELP_MESSAGES( 1 );
@@ -164,13 +199,13 @@ void main()
                                                 {
                                                     if (sub_12697( l_U261, 15.00000000 ))
                                                     {
-                                                        if (IS_PLAYER_SCRIPT_CONTROL_ON( sub_5747() ))
+                                                        if (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() ))
                                                         {
                                                             SET_MINIGAME_IN_PROGRESS( 1 );
                                                             CLEAR_HELP();
                                                         }
                                                         sub_12929();
-                                                        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
+                                                        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
                                                         l_U44 = 1;
                                                     }
                                                 }
@@ -187,24 +222,26 @@ void main()
                                     }
                                 }
                             }
-                            else if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, 6.00000000, 6.00000000, 6.00000000, 0 ))
+                            else if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, 6.00000000, 6.00000000, 6.00000000, 0 ))
                             {
-                                if (IS_CHAR_SITTING_IN_ANY_CAR( sub_1884() ))
+                                if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
                                 {
                                     if (NOT IS_MESSAGE_BEING_DISPLAYED())
                                     {
+                                        // CWBLIST = You cannot wash that vehicle here.
                                         PRINT_NOW( "CWBLIST", 7500, 1 );
                                     }
                                 }
                             }
                             break;
+
                             case 1:
-                            GET_SCRIPT_TASK_STATUS( sub_1884(), 29, ref l_U18 );
+                            GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 29, ref l_U18 );
                             if (l_U18 == 7)
                             {
                                 CLEAR_SEQUENCE_TASK( l_U22 );
-                                STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-                                if (NOT (IS_CAR_DEAD( l_U99 )))
+                                STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+                                if (NOT (IS_CAR_DEAD( currentPlayerCar )))
                                 {
                                     if (NOT l_U37)
                                     {
@@ -220,33 +257,34 @@ void main()
                                     sub_15825( l_U284 );
                                     if (l_U13 == 1)
                                     {
-                                        FREEZE_CAR_POSITION( l_U99, 0 );
-                                        CLOSE_ALL_CAR_DOORS( l_U99 );
-                                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U284, 0.00000000, 1.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                                        TASK_CAR_DRIVE_TO_COORD( sub_1884(), l_U99, l_U122._fU0, l_U122._fU4, l_U122._fU8, 5.00000000, 0, 0, 3, 1.00000000, -1 );
+                                        FREEZE_CAR_POSITION( currentPlayerCar, 0 );
+                                        CLOSE_ALL_CAR_DOORS( currentPlayerCar );
+                                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U284, 0.00000000, 1.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                                        TASK_CAR_DRIVE_TO_COORD( CurrentPlayerChar(), currentPlayerCar, l_U122.x, l_U122.y, l_U122.z, 5.00000000, 0, 0, 3, 1.00000000, -1 );
                                         l_U9 = 2;
                                         l_U13 = 2;
                                     }
                                 }
                             }
                             break;
+
                             case 2:
-                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U284, 0.00000000, 1.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                            if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, 0.75000000, 0.75000000, 2.00000000, 0 ))
+                            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U284, 0.00000000, 1.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                            if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, 0.75000000, 0.75000000, 2.00000000, 0 ))
                             {
                                 FREEZE_OBJECT_POSITION( l_U105, 0 );
                                 FREEZE_OBJECT_POSITION( l_U106, 0 );
                                 FREEZE_OBJECT_POSITION( l_U107, 0 );
                                 FREEZE_OBJECT_POSITION( l_U108, 0 );
                                 FREEZE_OBJECT_POSITION( l_U109, 0 );
-                                STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-                                CLOSE_ALL_CAR_DOORS( l_U99 );
-                                GET_SCRIPT_TASK_STATUS( sub_1884(), 15, ref l_U18 );
+                                STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+                                CLOSE_ALL_CAR_DOORS( currentPlayerCar );
+                                GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 15, ref l_U18 );
                                 if (l_U18 == 1)
                                 {
-                                    SET_DRIVE_TASK_CRUISE_SPEED( sub_1884(), 0.00000000 );
+                                    SET_DRIVE_TASK_CRUISE_SPEED( CurrentPlayerChar(), 0.00000000 );
                                 }
-                                TASK_CAR_TEMP_ACTION( sub_1884(), l_U99, 6, 500 );
+                                TASK_CAR_TEMP_ACTION( CurrentPlayerChar(), currentPlayerCar, 6, 500 );
                                 DISPLAY_HUD( 0 );
                                 DISPLAY_RADAR( 0 );
                                 l_U36 = 1;
@@ -268,12 +306,13 @@ void main()
                             break;
                         }
                     }
-                    else if (NOT (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U100._fU0, l_U100._fU4, l_U100._fU8, 3.00000000, 3.00000000, 3.00000000, 0 )))
+                    else if (NOT (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U100._fU0, l_U100._fU4, l_U100._fU8, 3.00000000, 3.00000000, 3.00000000, 0 )))
                     {
                         l_U36 = 0;
                         l_U97 = 1;
                     }
                     break;
+
                     case 2:
                     switch (l_U12)
                     {
@@ -341,10 +380,10 @@ void sub_1195()
         END_CAM_COMMANDS( ref l_U24 );
         l_U24 = 0;
     }
-    if (l_U162 > 0)
+    if (carWashWaterDripsEffect > 0)
     {
-        STOP_PTFX( l_U162 );
-        l_U162 = 0;
+        STOP_PTFX( carWashWaterDripsEffect );
+        carWashWaterDripsEffect = 0;
     }
     if (REQUEST_AMBIENT_AUDIO_BANK( "SCRIPT_AMBIENT/CAR_WASH" ))
     {
@@ -401,6 +440,7 @@ int sub_1631()
     return 0;
 }
 
+// I think this is possibly the main part of the car wash.
 void sub_1803(unknown uParam0)
 {
     while (NOT l_U41)
@@ -412,71 +452,80 @@ void sub_1803(unknown uParam0)
             if (IS_SCREEN_FADED_OUT())
             {
                 CLEAR_HELP();
-                if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-                    SET_VEHICLE_DIRT_LEVEL( l_U99, 0.00000000 );
-                    WASH_VEHICLE_TEXTURES( l_U99, 255 );
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+                    SET_VEHICLE_DIRT_LEVEL( currentPlayerCar, 0.00000000 );
+                    WASH_VEHICLE_TEXTURES( currentPlayerCar, 255 );
+
                     if (DOES_OBJECT_EXIST( uParam0 ))
                     {
                         GET_OBJECT_HEADING( uParam0, ref l_U103 );
                     }
-                    if (NOT (IS_CAR_A_MISSION_CAR( l_U99 )))
+
+                    if (NOT (IS_CAR_A_MISSION_CAR( currentPlayerCar )))
                     {
-                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 12.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 1.00000000, ref l_U122._fU8 );
+                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 12.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 1.00000000, ref l_U122.z );
                         sub_2119( l_U122 );
                     }
                     else
                     {
-                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 1.00000000, ref l_U122._fU8 );
+                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 1.00000000, ref l_U122.z );
                         sub_2119( l_U122 );
                     }
+
                     if (NOT (sub_3006( l_U122 )))
                     {
-                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 9.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 1.00000000, ref l_U122._fU8 );
+                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 9.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 1.00000000, ref l_U122.z );
                         sub_2119( l_U122 );
                     }
+
                     if (NOT (sub_3006( l_U122 )))
                     {
-                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 1.00000000, ref l_U122._fU8 );
+                        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 1.00000000, ref l_U122.z );
                         sub_2119( l_U122 );
                     }
-                    GET_CAR_MODEL( l_U99, ref l_U35 );
-                    GET_MODEL_DIMENSIONS( l_U35, ref l_U168, ref l_U171 );
-                    l_U122._fU8 += l_U171._fU8 / 2.00000000;
-                    l_U122._fU8 -= 0.30000000;
-                    SET_CAR_COORDINATES( l_U99, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-                    SET_CAR_HEADING( l_U99, l_U103 );
-                    if (NOT (IS_CHAR_DEAD( l_U283 )))
+
+                    GET_CAR_MODEL( currentPlayerCar, ref currentCarModel );
+                    GET_MODEL_DIMENSIONS( currentCarModel, ref l_U168, ref l_U171 );
+
+                    l_U122.z += l_U171._fU8 / 2.00000000;
+                    l_U122.z -= 0.30000000;
+
+                    SET_CAR_COORDINATES( currentPlayerCar, l_U122.x, l_U122.y, l_U122.z );
+                    SET_CAR_HEADING( currentPlayerCar, l_U103 );
+
+                    if (NOT (IS_CHAR_DEAD( carWashPed )))
                     {
-                        DELETE_CHAR( ref l_U283 );
+                        DELETE_CHAR( ref carWashPed );
                     }
-                    CLEAR_SEQUENCE_TASK( l_U23 );
+
+                    CLEAR_SEQUENCE_TASK( carWashPedTaskSequence );
                 }
                 l_U15 = 1;
             }
             break;
             case 1:
-            if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+            if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
             {
                 if (l_U161 > 0)
                 {
                     STOP_PTFX( l_U161 );
                     l_U161 = 0;
                 }
-                if (l_U163 > 0)
+                if (carWashWaterRollersLeft > 0)
                 {
-                    STOP_PTFX( l_U163 );
-                    l_U163 = 0;
+                    STOP_PTFX( carWashWaterRollersLeft );
+                    carWashWaterRollersLeft = 0;
                 }
-                if (l_U164 > 0)
+                if (carWashWaterRollersRight > 0)
                 {
-                    STOP_PTFX( l_U164 );
-                    l_U164 = 0;
+                    STOP_PTFX( carWashWaterRollersRight );
+                    carWashWaterRollersRight = 0;
                 }
                 for ( l_U34 = 0; l_U34 < 12; l_U34++ )
                 {
@@ -486,23 +535,23 @@ void sub_1803(unknown uParam0)
                         l_U174[l_U34] = 0;
                     }
                 }
-                if (l_U162 > 0)
+                if (carWashWaterDripsEffect > 0)
                 {
-                    STOP_PTFX( l_U162 );
-                    l_U162 = 0;
+                    STOP_PTFX( carWashWaterDripsEffect );
+                    carWashWaterDripsEffect = 0;
                 }
                 sub_3753();
                 sub_3982( uParam0 );
-                if (NOT (IS_CAR_DEAD( l_U99 )))
+                if (NOT (IS_CAR_DEAD( currentPlayerCar )))
                 {
-                    FREEZE_CAR_POSITION( l_U99, 0 );
-                    LOCK_CAR_DOORS( l_U99, 6 );
-                    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                    FREEZE_CAR_POSITION( currentPlayerCar, 0 );
+                    LOCK_CAR_DOORS( currentPlayerCar, 6 );
+                    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
                     DISPLAY_HUD( 1 );
                     DISPLAY_RADAR( 1 );
-                    CLEAR_CHAR_TASKS( sub_1884() );
+                    CLEAR_CHAR_TASKS( CurrentPlayerChar() );
                     ENABLE_FRONTEND_RADIO();
-                    if (SET_CAR_ON_GROUND_PROPERLY( l_U99 ))
+                    if (SET_CAR_ON_GROUND_PROPERLY( currentPlayerCar ))
                     {
                         ;
                     }
@@ -512,10 +561,10 @@ void sub_1803(unknown uParam0)
             }
             break;
             case 2:
-            HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_1884(), 0 );
+            HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 0 );
             sub_5738();
             SET_WIDESCREEN_BORDERS( 0 );
-            SET_EVERYONE_IGNORE_PLAYER( sub_5747(), 0 );
+            SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 0 );
             PRINT_NOW( "CLEAN", 7500, 1 );
             DO_SCREEN_FADE_IN( 500 );
             SETTIMERA( 0 );
@@ -543,7 +592,8 @@ void sub_1803(unknown uParam0)
     return;
 }
 
-void sub_1884()
+// sub_1884
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -585,9 +635,9 @@ void sub_2350(unknown uParam0, unknown uParam1)
     unknown uVar5;
     unknown uVar6;
 
-    if (NOT (IS_CHAR_DEAD( sub_1884() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_1884(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar4._fU0, ref uVar4._fU4, ref uVar4._fU8 );
     }
     if (sub_2398())
     {
@@ -622,9 +672,9 @@ int sub_2398()
     unknown uVar4;
     int iVar5;
 
-    if (NOT (IS_CHAR_DEAD( sub_1884() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_1884(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         iVar5 = GET_MAP_AREA_FROM_COORDS( uVar2 );
         if ((iVar5 == 1) || (iVar5 == 0))
         {
@@ -641,9 +691,9 @@ int sub_2522()
     unknown uVar4;
     int iVar5;
 
-    if (NOT (IS_CHAR_DEAD( sub_1884() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_1884(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         iVar5 = GET_MAP_AREA_FROM_COORDS( uVar2 );
         if (iVar5 == 2)
         {
@@ -660,9 +710,9 @@ int sub_2642()
     unknown uVar4;
     int iVar5;
 
-    if (NOT (IS_CHAR_DEAD( sub_1884() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_COORDINATES( sub_1884(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
+        GET_CHAR_COORDINATES( CurrentPlayerChar(), ref uVar2._fU0, ref uVar2._fU4, ref uVar2._fU8 );
         iVar5 = GET_MAP_AREA_FROM_COORDS( uVar2 );
         if (iVar5 == 3)
         {
@@ -691,7 +741,7 @@ int sub_3006(unknown uParam0, unknown uParam1, unknown uParam2)
         {
             return 0;
         }
-        else if (iVar6 == sub_1884())
+        else if (iVar6 == CurrentPlayerChar())
         {
             return 1;
         }
@@ -757,51 +807,51 @@ void sub_3982(unknown uParam0)
         {
             SET_OBJECT_COORDINATES( l_U108, l_U100._fU0, l_U100._fU4, l_U100._fU8 );
         }
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U113._fU0, l_U113._fU4, l_U113._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U113._fU0, l_U113._fU4, l_U113._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         if (DOES_OBJECT_EXIST( l_U105 ))
         {
-            SET_OBJECT_COORDINATES( l_U105, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U105, l_U122.x, l_U122.y, l_U122.z );
         }
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         if (DOES_OBJECT_EXIST( l_U106 ))
         {
-            SET_OBJECT_COORDINATES( l_U106, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U106, l_U122.x, l_U122.y, l_U122.z );
         }
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         if (DOES_OBJECT_EXIST( l_U107 ))
         {
-            SET_OBJECT_COORDINATES( l_U107, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U107, l_U122.x, l_U122.y, l_U122.z );
         }
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -3.20000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -3.20000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         if (DOES_OBJECT_EXIST( l_U110 ))
         {
-            SET_OBJECT_COORDINATES( l_U110, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U110, l_U122.x, l_U122.y, l_U122.z );
         }
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 3.30000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 3.30000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         if (DOES_OBJECT_EXIST( l_U111 ))
         {
-            SET_OBJECT_COORDINATES( l_U111, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U111, l_U122.x, l_U122.y, l_U122.z );
         }
         if (DOES_OBJECT_EXIST( l_U112 ))
         {
             if (LOCATE_OBJECT_3D( uParam0, -420.37700000, -20.32100000, 9.14100000, 10.00000000, 10.00000000, 10.00000000, 0 ))
             {
                 l_U280 = -6.00000000;
-                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -2.00000000, l_U280, 5.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U122._fU8 );
+                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -2.00000000, l_U280, 5.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z, ref l_U122.z );
             }
             else
             {
                 l_U280 = -8.00000000;
-                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -2.00000000, l_U280, 5.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U122._fU8 );
+                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -2.00000000, l_U280, 5.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z, ref l_U122.z );
             }
-            SET_OBJECT_COORDINATES( l_U112, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U112, l_U122.x, l_U122.y, l_U122.z );
         }
     }
     if (DOES_OBJECT_EXIST( l_U108 ))
     {
-        GET_OBJECT_COORDINATES( l_U108, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+        GET_OBJECT_COORDINATES( l_U108, ref l_U131.x, ref l_U131.y, ref l_U131.z );
     }
     if (DOES_OBJECT_EXIST( l_U105 ))
     {
@@ -810,30 +860,30 @@ void sub_3982(unknown uParam0)
     l_U137 = {l_U131};
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 2.80000000, 0.00000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 2.80000000, 0.00000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
         if (DOES_OBJECT_EXIST( l_U108 ))
         {
-            SET_OBJECT_COORDINATES( l_U108, l_U140._fU0, l_U140._fU4, l_U140._fU8 );
+            SET_OBJECT_COORDINATES( l_U108, l_U140.x, l_U140.y, l_U140.z );
         }
     }
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 2.80000000, 3.00000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 2.80000000, 3.00000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
         if (DOES_OBJECT_EXIST( l_U105 ))
         {
-            SET_OBJECT_COORDINATES( l_U105, l_U140._fU0, l_U140._fU4, l_U140._fU8 );
+            SET_OBJECT_COORDINATES( l_U105, l_U140.x, l_U140.y, l_U140.z );
         }
     }
     l_U143 = {l_U140 - l_U131};
-    l_U263 = l_U140._fU8 - l_U131._fU8;
+    l_U263 = l_U140.z - l_U131.z;
     if (DOES_OBJECT_EXIST( l_U109 ))
     {
-        GET_OBJECT_COORDINATES( l_U109, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+        GET_OBJECT_COORDINATES( l_U109, ref l_U131.x, ref l_U131.y, ref l_U131.z );
     }
     l_U137 = {l_U131};
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -0.80000000, 0.00000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -0.80000000, 0.00000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
     }
     return;
 }
@@ -848,15 +898,15 @@ void sub_5526()
         ACTIVATE_SCRIPTED_CAMS( 0, 0 );
         DESTROY_CAM( l_U26 );
     }
-    if (DOES_CAM_EXIST( l_U25 ))
+    if (DOES_CAM_EXIST( carWashCamera ))
     {
-        SET_CAM_ACTIVE( l_U25, 0 );
-        SET_CAM_PROPAGATE( l_U25, 0 );
+        SET_CAM_ACTIVE( carWashCamera, 0 );
+        SET_CAM_PROPAGATE( carWashCamera, 0 );
         ACTIVATE_SCRIPTED_CAMS( 0, 0 );
-        DESTROY_CAM( l_U25 );
+        DESTROY_CAM( carWashCamera );
     }
     ACTIVATE_SCRIPTED_CAMS( 0, 0 );
-    SET_CAM_BEHIND_PED( sub_1884() );
+    SET_CAM_BEHIND_PED( CurrentPlayerChar() );
     if (l_U24 > 0)
     {
         SET_USE_HIGHDOF( 0 );
@@ -868,15 +918,16 @@ void sub_5526()
 
 void sub_5738()
 {
-    if (IS_PLAYER_PLAYING( sub_5747() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        SET_PLAYER_CONTROL( sub_5747(), 1 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
     }
     sub_5803();
     return;
 }
 
-void sub_5747()
+// sub_5747
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
@@ -900,38 +951,51 @@ void sub_6032()
     l_U42 = 0;
     l_U8 = 1;
     l_U9 = 0;
+    
+    // l_U10 is some type of car wash stage for one of the switch statements below.
     l_U10 = 1;
+
     l_U11 = 3;
     l_U12 = 1;
     l_U13 = 0;
     l_U14 = 0;
     l_U265 = 4.00000000;
-    l_U16 = 0;
+
+    // l_U16 I think is handwashStage, found it in a debug line somewhere.
+    handwashStage = 0;
+
+    // Release sounds
+    // TODO Figure out what to name these.
     if (l_U272 > -1)
     {
         RELEASE_SOUND_ID( l_U272 );
         l_U272 = -1;
     }
+
     if (l_U273 > -1)
     {
         RELEASE_SOUND_ID( l_U273 );
         l_U273 = -1;
     }
+
     if (l_U274 > -1)
     {
         RELEASE_SOUND_ID( l_U274 );
         l_U274 = -1;
     }
+
     if (l_U275 > -1)
     {
         RELEASE_SOUND_ID( l_U275 );
         l_U275 = -1;
     }
+
     if (l_U276 > -1)
     {
         RELEASE_SOUND_ID( l_U276 );
         l_U276 = -1;
     }
+
     if (l_U277 > -1)
     {
         RELEASE_SOUND_ID( l_U277 );
@@ -964,22 +1028,22 @@ void sub_6715(unknown uParam0)
         SET_OBJECT_COLLISION( l_U109, 0 );
         CREATE_OBJECT( -442566893, l_U100._fU0, l_U100._fU4, l_U100._fU8, ref l_U108, 1 );
         SET_OBJECT_COLLISION( l_U108, 0 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U113._fU0, l_U113._fU4, l_U113._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        CREATE_OBJECT( -1810621476, l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U105, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U113._fU0, l_U113._fU4, l_U113._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        CREATE_OBJECT( -1810621476, l_U122.x, l_U122.y, l_U122.z, ref l_U105, 1 );
         SET_OBJECT_COLLISION( l_U105, 0 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        CREATE_OBJECT( -2105160167, l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U106, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        CREATE_OBJECT( -2105160167, l_U122.x, l_U122.y, l_U122.z, ref l_U106, 1 );
         SET_OBJECT_COLLISION( l_U106, 0 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        CREATE_OBJECT( -1538289236, l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U107, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        CREATE_OBJECT( -1538289236, l_U122.x, l_U122.y, l_U122.z, ref l_U107, 1 );
         SET_OBJECT_COLLISION( l_U107, 0 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -3.20000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        CREATE_OBJECT( 1824938526, l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U110, 1 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 3.30000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        CREATE_OBJECT( 1824938526, l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U111, 1 );
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -2.00000000, -8.00000000, 5.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U122._fU8 );
-        CREATE_OBJECT( 1709547551, l_U122._fU0, l_U122._fU4, l_U122._fU8 + 1.00000000, ref l_U112, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -3.20000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        CREATE_OBJECT( 1824938526, l_U122.x, l_U122.y, l_U122.z, ref l_U110, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 3.30000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        CREATE_OBJECT( 1824938526, l_U122.x, l_U122.y, l_U122.z, ref l_U111, 1 );
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -2.00000000, -8.00000000, 5.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z, ref l_U122.z );
+        CREATE_OBJECT( 1709547551, l_U122.x, l_U122.y, l_U122.z + 1.00000000, ref l_U112, 1 );
         SET_OBJECT_DYNAMIC( uParam0, 0 );
         FREEZE_OBJECT_POSITION( uParam0, 1 );
         if (DOES_OBJECT_EXIST( l_U108 ))
@@ -1030,14 +1094,14 @@ void sub_6715(unknown uParam0)
         }
         if (DOES_OBJECT_EXIST( l_U109 ))
         {
-            GET_OBJECT_COORDINATES( l_U109, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+            GET_OBJECT_COORDINATES( l_U109, ref l_U131.x, ref l_U131.y, ref l_U131.z );
             SET_OBJECT_HEADING( l_U109, l_U261 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -0.80000000, 0.00000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
-            SET_OBJECT_COORDINATES( l_U109, l_U140._fU0, l_U140._fU4, l_U131._fU8 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_OBJECT_COORDINATES( l_U106, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_OBJECT_COORDINATES( l_U107, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -0.80000000, 0.00000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
+            SET_OBJECT_COORDINATES( l_U109, l_U140.x, l_U140.y, l_U131.z );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_OBJECT_COORDINATES( l_U106, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_OBJECT_COORDINATES( l_U107, l_U122.x, l_U122.y, l_U122.z );
             SET_OBJECT_DYNAMIC( l_U109, 0 );
             FREEZE_OBJECT_POSITION( l_U109, 1 );
         }
@@ -1047,45 +1111,45 @@ void sub_6715(unknown uParam0)
 
 int sub_8329()
 {
-    if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
         if (DOES_OBJECT_EXIST( l_U112 ))
         {
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         }
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
         if (NOT sub_8434())
         {
             return 1;
         }
-        GET_CAR_MODEL( l_U99, ref l_U35 );
-        if (IS_THIS_MODEL_A_BIKE( l_U35 ))
+        GET_CAR_MODEL( currentPlayerCar, ref currentCarModel );
+        if (IS_THIS_MODEL_A_BIKE( currentCarModel ))
         {
             return 1;
         }
-        if (IS_THIS_MODEL_A_BOAT( l_U35 ))
+        if (IS_THIS_MODEL_A_BOAT( currentCarModel ))
         {
             return 1;
         }
-        if (IS_THIS_MODEL_A_PLANE( l_U35 ))
+        if (IS_THIS_MODEL_A_PLANE( currentCarModel ))
         {
             return 1;
         }
-        if (IS_THIS_MODEL_A_HELI( l_U35 ))
+        if (IS_THIS_MODEL_A_HELI( currentCarModel ))
         {
             return 1;
         }
-        if (IS_THIS_MODEL_A_TRAIN( l_U35 ))
+        if (IS_THIS_MODEL_A_TRAIN( currentCarModel ))
         {
             return 1;
         }
-        if (sub_8708( l_U35 ))
+        if (sub_8708( currentCarModel ))
         {
-            if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, 6.00000000, 6.00000000, 6.00000000, 0 ))
+            if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, 6.00000000, 6.00000000, 6.00000000, 0 ))
             {
                 if (NOT IS_MESSAGE_BEING_DISPLAYED())
                 {
-                    if (IS_THIS_MODEL_A_BIKE( l_U35 ))
+                    if (IS_THIS_MODEL_A_BIKE( currentCarModel ))
                     {
                         PRINT_NOW( "CWBIKE", 7500, 1 );
                     }
@@ -1097,11 +1161,11 @@ int sub_8329()
             }
             return 1;
         }
-        if (IS_PLAYER_PLAYING( sub_5747() ))
+        if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
         {
-            if (IS_PLAYER_SCRIPT_CONTROL_ON( sub_5747() ))
+            if (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() ))
             {
-                if (IS_WANTED_LEVEL_GREATER( sub_5747(), 0 ))
+                if (IS_WANTED_LEVEL_GREATER( CurrentPlayerId(), 0 ))
                 {
                     return 1;
                 }
@@ -1116,17 +1180,17 @@ int sub_8434()
     unknown uVar2;
     int iVar3;
 
-    if (NOT (IS_CHAR_INJURED( sub_1884() )))
+    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref uVar2 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar2 );
             if ((NOT (IS_CAR_ON_FIRE( uVar2 ))) AND (IS_VEH_DRIVEABLE( uVar2 )))
             {
                 GET_DRIVER_OF_CAR( uVar2, ref iVar3 );
                 if (NOT (IS_CAR_MODEL( uVar2, 1491375716 )))
                 {
-                    if (iVar3 == sub_1884())
+                    if (iVar3 == CurrentPlayerChar())
                     {
                         return 1;
                     }
@@ -1208,9 +1272,9 @@ int sub_9533()
 {
     if (DOES_OBJECT_EXIST( l_U112 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 2.00000000, ref l_U122._fU8 );
-        l_U122._fU8 += l_U21;
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 2.00000000, ref l_U122.z );
+        l_U122.z += l_U21;
         if (sub_3006( l_U122 ))
         {
             return 1;
@@ -1231,11 +1295,11 @@ int sub_9698()
     {
         return 1;
     }
-    if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref uVar4 );
-        GET_CAR_MODEL( uVar4, ref l_U35 );
-        if ((l_U35 == 1208856469) || ((l_U35 == 1884962369) || (l_U35 == -956048545)))
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
+        GET_CAR_MODEL( uVar4, ref currentCarModel );
+        if ((currentCarModel == 1208856469) || ((currentCarModel == 1884962369) || (currentCarModel == -956048545)))
         {
             ProtectedSet(l_U167, iVar3);
         }
@@ -1243,7 +1307,7 @@ int sub_9698()
         {
             ProtectedSet(l_U167, iVar2);
         }
-        if (IS_SCORE_GREATER( sub_5747(), ProtectedGet(l_U167) - 1 ))
+        if (IS_SCORE_GREATER( CurrentPlayerId(), ProtectedGet(l_U167) - 1 ))
         {
             return 1;
         }
@@ -1275,18 +1339,18 @@ void sub_9922()
 
     if (DOES_OBJECT_EXIST( l_U112 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, 5.00000000, 5.00000000, 5.00000000, 0 ))
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, 5.00000000, 5.00000000, 5.00000000, 0 ))
         {
             if (NOT l_U38)
             {
                 iVar2 = 5;
                 iVar3 = 3;
-                if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+                if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref uVar4 );
-                    GET_CAR_MODEL( uVar4, ref l_U35 );
-                    if ((l_U35 == 1884962369) || (l_U35 == -956048545))
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
+                    GET_CAR_MODEL( uVar4, ref currentCarModel );
+                    if ((currentCarModel == 1884962369) || (currentCarModel == -956048545))
                     {
                         ProtectedSet(l_U167, iVar3);
                     }
@@ -1319,10 +1383,10 @@ void sub_9922()
 
 int sub_10276()
 {
-    if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-        if (DOES_CAR_HAVE_ROOF( l_U99 ))
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+        if (DOES_CAR_HAVE_ROOF( currentPlayerCar ))
         {
             return 1;
         }
@@ -1332,39 +1396,39 @@ int sub_10276()
 
 void sub_10440(unknown uParam0)
 {
-    if (IS_CHAR_SITTING_IN_ANY_CAR( sub_1884() ))
+    if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
         l_U281 = g_U9890;
         g_U9890 = 4;
-        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 1.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 1.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
         if (DOES_OBJECT_EXIST( uParam0 ))
         {
             if (LOCATE_OBJECT_3D( uParam0, -420.37700000, -20.32100000, 9.14100000, 10.00000000, 10.00000000, 10.00000000, 0 ))
             {
-                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -5.60000000, -0.50000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -5.60000000, -0.50000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             }
             else
             {
-                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -7.60000000, -0.50000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -7.60000000, -0.50000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             }
             GET_OBJECT_HEADING( uParam0, ref l_U261 );
-            GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 2.00000000, ref l_U122._fU8 );
-            GET_CAR_MODEL( l_U99, ref l_U35 );
-            GET_MODEL_DIMENSIONS( l_U35, ref l_U168, ref l_U171 );
-            l_U122._fU8 += l_U171._fU8 / 2.00000000;
-            l_U122._fU8 -= 0.30000000;
-            FREEZE_CAR_POSITION( l_U99, 1 );
-            SET_CAR_COORDINATES( l_U99, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            SET_CAR_HEADING( l_U99, l_U261 );
-            if (SET_CAR_ON_GROUND_PROPERLY( l_U99 ))
+            GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 2.00000000, ref l_U122.z );
+            GET_CAR_MODEL( currentPlayerCar, ref currentCarModel );
+            GET_MODEL_DIMENSIONS( currentCarModel, ref l_U168, ref l_U171 );
+            l_U122.z += l_U171._fU8 / 2.00000000;
+            l_U122.z -= 0.30000000;
+            FREEZE_CAR_POSITION( currentPlayerCar, 1 );
+            SET_CAR_COORDINATES( currentPlayerCar, l_U122.x, l_U122.y, l_U122.z );
+            SET_CAR_HEADING( currentPlayerCar, l_U261 );
+            if (SET_CAR_ON_GROUND_PROPERLY( currentPlayerCar ))
             {
                 ;
             }
-            CONTROL_CAR_DOOR( l_U99, 1, 0, 0.00000000 );
-            CONTROL_CAR_DOOR( l_U99, 0, 0, 0.00000000 );
-            LOCK_CAR_DOORS( l_U99, 6 );
-            if (GET_CLOSEST_CHAR( l_U122._fU0, l_U122._fU4, l_U122._fU8, 10.00000000, 1, 0, ref l_U264 ))
+            CONTROL_CAR_DOOR( currentPlayerCar, 1, 0, 0.00000000 );
+            CONTROL_CAR_DOOR( currentPlayerCar, 0, 0, 0.00000000 );
+            LOCK_CAR_DOORS( currentPlayerCar, 6 );
+            if (GET_CLOSEST_CHAR( l_U122.x, l_U122.y, l_U122.z, 10.00000000, 1, 0, ref l_U264 ))
             {
                 if (NOT (IS_CHAR_INJURED( l_U264 )))
                 {
@@ -1372,21 +1436,21 @@ void sub_10440(unknown uParam0)
                     MARK_CHAR_AS_NO_LONGER_NEEDED( ref l_U264 );
                 }
             }
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 2.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 2.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 7.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 7.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 12.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 12.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 15.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 15.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 10.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 10.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.00000000, 12.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.00000000, 12.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
             sub_2119( l_U122 );
-            SET_EVERYONE_IGNORE_PLAYER( sub_5747(), 1 );
+            SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 1 );
             DISPLAY_HUD( 0 );
             DISPLAY_RADAR( 0 );
         }
@@ -1398,37 +1462,37 @@ void sub_11480()
 {
     if (DOES_OBJECT_EXIST( l_U112 ))
     {
-        CREATE_CAM( 14, ref l_U25 );
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-        if (IS_CAR_MODEL( l_U99, -808457413 ))
+        CREATE_CAM( 14, ref carWashCamera );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+        if (IS_CAR_MODEL( currentPlayerCar, -808457413 ))
         {
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 1.50000000, 2.00000000, 1.20000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_CAM_POS( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, -0.50000000, 0.00000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            POINT_CAM_AT_COORD( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 1.50000000, 2.00000000, 1.20000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_CAM_POS( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, -0.50000000, 0.00000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            POINT_CAM_AT_COORD( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
         }
         else
         {
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 1.50000000, 2.00000000, 0.75000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_CAM_POS( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, -0.50000000, 0.00000000, 0.25000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            POINT_CAM_AT_COORD( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 1.50000000, 2.00000000, 0.75000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_CAM_POS( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, -0.50000000, 0.00000000, 0.25000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            POINT_CAM_AT_COORD( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
         }
-        SET_CAM_ACTIVE( l_U25, 1 );
-        SET_CAM_PROPAGATE( l_U25, 1 );
+        SET_CAM_ACTIVE( carWashCamera, 1 );
+        SET_CAM_PROPAGATE( carWashCamera, 1 );
         ACTIVATE_SCRIPTED_CAMS( 1, 1 );
-        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_1884(), 1 );
-        SET_CAM_FOV( l_U25, 35.00000000 );
+        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 1 );
+        SET_CAM_FOV( carWashCamera, 35.00000000 );
     }
-    SET_CAM_NEAR_DOF( l_U25, 1.00000000 );
-    SET_CAM_FAR_DOF( l_U25, 10.00000000 );
+    SET_CAM_NEAR_DOF( carWashCamera, 1.00000000 );
+    SET_CAM_FAR_DOF( carWashCamera, 10.00000000 );
     sub_11954();
-    if (NOT (IS_CHAR_DEAD( sub_1884() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
         OPEN_SEQUENCE_TASK( ref l_U22 );
         TASK_PLAY_ANIM( 0, "Give_Money", "AMB@CARWASH", 1.00000000, 0, 0, 0, 0, 0 );
         CLOSE_SEQUENCE_TASK( l_U22 );
-        TASK_PERFORM_SEQUENCE( sub_1884(), l_U22 );
+        TASK_PERFORM_SEQUENCE( CurrentPlayerChar(), l_U22 );
         CLEAR_SEQUENCE_TASK( l_U22 );
     }
     return;
@@ -1451,25 +1515,27 @@ void sub_12192(unknown uParam0)
 
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            switch (l_U16)
+            // I think handwashStage is handwashStage judging from the debug lines.
+            switch (handwashStage)
             {
                 case 0:
                 sub_12325( "handwashStage = (preloadHandwashAssets)\n" );
-                REQUEST_MODEL( l_U282 );
-                if (HAS_MODEL_LOADED( l_U282 ))
+                REQUEST_MODEL( carWashPedModel );
+                if (HAS_MODEL_LOADED( carWashPedModel ))
                 {
-                    l_U16 = 1;
+                    handwashStage = 1;
                 }
                 break;
+
                 case 1:
                 sub_12325( "handwashStage = (awaitingHandwash)\n" );
                 if (sub_12423())
                 {
                     if (sub_12697( l_U261, 15.00000000 ))
                     {
-                        if (IS_PLAYER_SCRIPT_CONTROL_ON( sub_5747() ))
+                        if (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() ))
                         {
                             SET_MINIGAME_IN_PROGRESS( 1 );
                             DISPLAY_NON_MINIGAME_HELP_MESSAGES( 1 );
@@ -1477,11 +1543,11 @@ void sub_12192(unknown uParam0)
                         }
                         sub_12929();
                         l_U44 = 1;
-                        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-                        if (IS_CAR_STOPPED( l_U99 ))
+                        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+                        if (IS_CAR_STOPPED( currentPlayerCar ))
                         {
                             CLEAR_HELP();
-                            ADD_SCORE( sub_5747(), -1 * ProtectedGet(l_U167) );
+                            ADD_SCORE( CurrentPlayerId(), -1 * ProtectedGet(l_U167) );
                             SET_WIDESCREEN_BORDERS( 1 );
                             DISPLAY_RADAR( 1 );
                             DO_SCREEN_FADE_OUT( 250 );
@@ -1490,16 +1556,16 @@ void sub_12192(unknown uParam0)
                                 WAIT( 0 );
                             }
                             sub_10440( uParam0 );
-                            l_U16 = 2;
+                            handwashStage = 2;
                         }
                     }
-                    else if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( sub_5747() )))
+                    else if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() )))
                     {
-                        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-                        if (IS_CAR_STOPPED( l_U99 ))
+                        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+                        if (IS_CAR_STOPPED( currentPlayerCar ))
                         {
                             CLEAR_HELP();
-                            ADD_SCORE( sub_5747(), -1 * ProtectedGet(l_U167) );
+                            ADD_SCORE( CurrentPlayerId(), -1 * ProtectedGet(l_U167) );
                             SET_WIDESCREEN_BORDERS( 1 );
                             DISPLAY_RADAR( 1 );
                             DO_SCREEN_FADE_OUT( 250 );
@@ -1508,15 +1574,16 @@ void sub_12192(unknown uParam0)
                                 WAIT( 0 );
                             }
                             sub_10440( uParam0 );
-                            l_U16 = 2;
+                            handwashStage = 2;
                         }
                     }
                 }
                 break;
+
                 case 2:
                 sub_12325( "handwashStage = (runHandwashCut)\n" );
                 sub_13295();
-                if (NOT (IS_CHAR_DEAD( l_U283 )))
+                if (NOT (IS_CHAR_DEAD( carWashPed )))
                 {
                     DO_SCREEN_FADE_IN( 250 );
                 }
@@ -1524,38 +1591,42 @@ void sub_12192(unknown uParam0)
                 {
                     WAIT( 0 );
                 }
-                l_U16 = 3;
+                handwashStage = 3;
                 if (sub_1622())
                 {
                     DO_SCREEN_FADE_OUT( 250 );
                     sub_1803( uParam0 );
                 }
                 break;
+
                 case 3:
                 sub_12325( "handwashStage = (fadeOutHandwash)\n" );
-                if (NOT (IS_CHAR_DEAD( l_U283 )))
+
+                if (NOT (IS_CHAR_DEAD( carWashPed )))
                 {
-                    GET_SCRIPT_TASK_STATUS( l_U283, 29, ref l_U18 );
+                    GET_SCRIPT_TASK_STATUS( carWashPed, 29, ref l_U18 );
                     if (l_U18 == 1)
                     {
-                        if (IS_CHAR_PLAYING_ANIM( l_U283, "AMB@CARWASH", "CarWash_C" ))
+                        if (IS_CHAR_PLAYING_ANIM( carWashPed, "AMB@CARWASH", "CarWash_C" ))
                         {
-                            GET_CHAR_ANIM_CURRENT_TIME( l_U283, "AMB@CARWASH", "CarWash_C", ref fVar3 );
+                            GET_CHAR_ANIM_CURRENT_TIME( carWashPed, "AMB@CARWASH", "CarWash_C", ref fVar3 );
                             if (fVar3 > 0.50000000)
                             {
                                 DO_SCREEN_FADE_OUT( 1000 );
                                 SETTIMERB( 0 );
-                                l_U16 = 4;
+                                handwashStage = 4;
                             }
                         }
                     }
                 }
+
                 if (sub_1622())
                 {
                     DO_SCREEN_FADE_OUT( 250 );
                     sub_1803( uParam0 );
                 }
                 break;
+
                 case 4:
                 sub_12325( "handwashStage = (handwashEnd)\n" );
                 if (IS_SCREEN_FADED_OUT())
@@ -1582,17 +1653,17 @@ int sub_12423()
 {
     if (DOES_OBJECT_EXIST( l_U112 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8 + 2.00000000, ref l_U122._fU8 );
-        l_U122._fU8 += l_U21;
-        if (IS_CHAR_SITTING_IN_ANY_CAR( sub_1884() ))
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U112, -2.00000000, 0.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z + 2.00000000, ref l_U122.z );
+        l_U122.z += l_U21;
+        if (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() ))
         {
             if (sub_3006( l_U122 ))
             {
-                if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, l_U21, l_U21, l_U21, 1 ))
+                if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, l_U21, l_U21, l_U21, 1 ))
                 {
-                    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-                    if (NOT (IS_CAR_ON_FIRE( l_U99 )))
+                    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+                    if (NOT (IS_CAR_ON_FIRE( currentPlayerCar )))
                     {
                         return 1;
                     }
@@ -1609,9 +1680,9 @@ int sub_12697(unknown uParam0, unknown uParam1)
     float fVar5;
     float fVar6;
 
-    if (NOT (IS_CHAR_DEAD( sub_1884() )))
+    if (NOT (IS_CHAR_DEAD( CurrentPlayerChar() )))
     {
-        GET_CHAR_HEADING( sub_1884(), ref fVar4 );
+        GET_CHAR_HEADING( CurrentPlayerChar(), ref fVar4 );
         fVar6 = uParam0 - uParam1;
         if (fVar6 < 0.00000000)
         {
@@ -1648,58 +1719,71 @@ int sub_12697(unknown uParam0, unknown uParam1)
 
 void sub_12929()
 {
-    if (IS_PLAYER_PLAYING( sub_5747() ))
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        SET_PLAYER_CONTROL( sub_5747(), 0 );
+        SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
     }
     return;
 }
 
+// If the object exists
+// Create a camera, store the player car.
+// If the car model a Patriot run the main if statement, else run the other one.
+// Set the camera as active, propagate cam, activate scripted cams, and hide current player weapon for cutscene.
+// Set cam near and far DOF, disable frontend radio.
+// Create the car wash ped, and open the sequence task that plays the car wash animation.
 void sub_13295()
 {
     if (DOES_OBJECT_EXIST( l_U112 ))
     {
-        CREATE_CAM( 14, ref l_U25 );
-        STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-        if (IS_CAR_MODEL( l_U99, -808457413 ))
+        CREATE_CAM( 14, ref carWashCamera );
+        STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+        if (IS_CAR_MODEL( currentPlayerCar, -808457413 ))
         {
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, -1.50000000, 2.00000000, 1.20000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_CAM_POS( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 0.50000000, 0.00000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            POINT_CAM_AT_COORD( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, -1.50000000, 2.00000000, 1.20000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_CAM_POS( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 0.50000000, 0.00000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            POINT_CAM_AT_COORD( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
         }
         else
         {
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, -1.50000000, 1.50000000, 0.75000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_CAM_POS( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 1.00000000, 0.00000000, 0.25000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            POINT_CAM_AT_COORD( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, -1.50000000, 1.50000000, 0.75000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_CAM_POS( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 1.00000000, 0.00000000, 0.25000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            POINT_CAM_AT_COORD( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
         }
-        SET_CAM_ACTIVE( l_U25, 1 );
-        SET_CAM_PROPAGATE( l_U25, 1 );
+
+        SET_CAM_ACTIVE( carWashCamera, 1 );
+        SET_CAM_PROPAGATE( carWashCamera, 1 );
         ACTIVATE_SCRIPTED_CAMS( 1, 1 );
-        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_1884(), 1 );
+        HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 1 );
     }
-    SET_CAM_NEAR_DOF( l_U25, 1.00000000 );
-    SET_CAM_FAR_DOF( l_U25, 10.00000000 );
+
+    SET_CAM_NEAR_DOF( carWashCamera, 1.00000000 );
+    SET_CAM_FAR_DOF( carWashCamera, 10.00000000 );
     DISABLE_FRONTEND_RADIO();
-    STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref l_U99 );
-    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 2.00000000, 0.00000000, 0.25000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-    GET_GROUND_Z_FOR_3D_COORD( l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U122._fU8 );
-    CREATE_CHAR( 4, l_U282, l_U122._fU0, l_U122._fU4, l_U122._fU8, ref l_U283, 1 );
-    SET_CHAR_RANDOM_COMPONENT_VARIATION( l_U283 );
-    TASK_TURN_CHAR_TO_FACE_CHAR( l_U283, sub_1884() );
-    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 1.60000000, 1.60000000, 1.20000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+
+    STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref currentPlayerCar );
+    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 2.00000000, 0.00000000, 0.25000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+    GET_GROUND_Z_FOR_3D_COORD( l_U122.x, l_U122.y, l_U122.z, ref l_U122.z );
+
+    CREATE_CHAR( 4, carWashPedModel, l_U122.x, l_U122.y, l_U122.z, ref carWashPed, 1 );
+    SET_CHAR_RANDOM_COMPONENT_VARIATION( carWashPed );
+    
+    TASK_TURN_CHAR_TO_FACE_CHAR( carWashPed, CurrentPlayerChar() );
+    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 1.60000000, 1.60000000, 1.20000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+    
     sub_11954();
-    if (NOT (IS_CHAR_DEAD( l_U283 )))
+    if (NOT (IS_CHAR_DEAD( carWashPed )))
     {
-        OPEN_SEQUENCE_TASK( ref l_U23 );
-        TASK_FOLLOW_NAV_MESH_TO_COORD( 0, l_U122._fU0, l_U122._fU4, l_U122._fU8, 2, -2, 0.50000000 );
-        TASK_TURN_CHAR_TO_FACE_CHAR( 0, sub_1884() );
+        OPEN_SEQUENCE_TASK( ref carWashPedTaskSequence );
+        TASK_FOLLOW_NAV_MESH_TO_COORD( 0, l_U122.x, l_U122.y, l_U122.z, 2, -2, 0.50000000 );
+        TASK_TURN_CHAR_TO_FACE_CHAR( 0, CurrentPlayerChar() );
         TASK_PLAY_ANIM( 0, "CarWash_C", "AMB@CARWASH", 1.00000000, 0, 0, 0, 0, 0 );
-        CLOSE_SEQUENCE_TASK( l_U23 );
-        TASK_PERFORM_SEQUENCE( l_U283, l_U23 );
+        CLOSE_SEQUENCE_TASK( carWashPedTaskSequence );
+        TASK_PERFORM_SEQUENCE( carWashPed, carWashPedTaskSequence );
     }
+
     return;
 }
 
@@ -1715,9 +1799,9 @@ int sub_14557(boolean bParam0, boolean bParam1)
     }
     if (bParam1)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_CAR_UPRIGHT_VALUE( uVar4, ref fVar6 );
@@ -1730,31 +1814,31 @@ int sub_14557(boolean bParam0, boolean bParam1)
     }
     if (bParam0)
     {
-        if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+        if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
         {
-            STORE_CAR_CHAR_IS_IN_NO_SAVE( sub_1884(), ref uVar4 );
+            STORE_CAR_CHAR_IS_IN_NO_SAVE( CurrentPlayerChar(), ref uVar4 );
             if (NOT (IS_CAR_DEAD( uVar4 )))
             {
                 GET_DRIVER_OF_CAR( uVar4, ref iVar5 );
-                if (NOT (iVar5 == sub_1884()))
+                if (NOT (iVar5 == CurrentPlayerChar()))
                 {
                     return 0;
                 }
             }
         }
     }
-    if (IS_CHAR_IN_ANY_CAR( sub_1884() ))
+    if (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() ))
     {
-        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( sub_1884() )))
+        if (NOT (IS_CHAR_SITTING_IN_ANY_CAR( CurrentPlayerChar() )))
         {
             return 0;
         }
     }
-    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( sub_5747() )))
+    if (NOT (IS_PLAYER_READY_FOR_CUTSCENE( CurrentPlayerId() )))
     {
         return 0;
     }
-    if (NOT (CAN_PLAYER_START_MISSION( sub_5747() )))
+    if (NOT (CAN_PLAYER_START_MISSION( CurrentPlayerId() )))
     {
         return 0;
     }
@@ -1765,7 +1849,7 @@ int sub_14877()
 {
     if (l_U24 == 0)
     {
-        BEGIN_CAM_COMMANDS( ref l_U24 );
+        BEGIN_CAM_COMMANDS( ref l_U23 );
         SET_USE_HIGHDOF( 1 );
         sub_12325( "BEGIN_CAM_COMMANDS(iCamScope)\n" );
     }
@@ -1782,8 +1866,8 @@ void sub_15174(unknown uParam0)
 {
     if (DOES_OBJECT_EXIST( uParam0 ))
     {
-        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -8.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, 15.00000000, 15.00000000, 15.00000000, 0 ))
+        GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -8.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, 15.00000000, 15.00000000, 15.00000000, 0 ))
         {
             if (l_U38 == 0)
             {
@@ -1801,13 +1885,13 @@ void sub_15174(unknown uParam0)
 
 void sub_15562(unknown uParam0)
 {
-    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 2.50000000, -8.00000000, 2.50000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-    SET_CAM_POS( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -1.20000000, 0.00000000, 0.75000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-    POINT_CAM_AT_COORD( l_U25, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-    SET_CAM_FOV( l_U25, 35.00000000 );
-    SET_CAM_NEAR_DOF( l_U25, 3.00000000 );
-    SET_CAM_FAR_DOF( l_U25, 12.00000000 );
+    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 2.50000000, -8.00000000, 2.50000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+    SET_CAM_POS( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
+    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, -1.20000000, 0.00000000, 0.75000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+    POINT_CAM_AT_COORD( carWashCamera, l_U122.x, l_U122.y, l_U122.z );
+    SET_CAM_FOV( carWashCamera, 35.00000000 );
+    SET_CAM_NEAR_DOF( carWashCamera, 3.00000000 );
+    SET_CAM_FAR_DOF( carWashCamera, 12.00000000 );
     return;
 }
 
@@ -1820,28 +1904,28 @@ void sub_15825(unknown uParam0)
         {
             if (NOT l_U39)
             {
-                GET_OBJECT_COORDINATES( l_U110, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-                l_U140._fU8 = l_U131._fU8 + 1.50000000;
-                l_U262 = l_U131._fU8;
-                l_U263 = l_U140._fU8 - l_U131._fU8;
+                GET_OBJECT_COORDINATES( l_U110, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+                l_U140.z = l_U131.z + 1.50000000;
+                currentHeightOfVehicle = l_U131.z;
+                l_U263 = l_U140.z - l_U131.z;
                 if (l_U278)
                 {
                     l_U272 = GET_SOUND_ID();
-                    PLAY_SOUND_FROM_POSITION( l_U272, l_U267, l_U131 );
+                    PLAY_SOUND_FROM_POSITION( l_U272, carWashBarrierSound, l_U131 );
                 }
                 l_U39 = 1;
             }
-            else if (NOT (LOCATE_OBJECT_3D( l_U110, l_U131._fU0, l_U131._fU4, l_U140._fU8, 0.05000000, 0.05000000, 0.05000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_3D( l_U110, l_U131.x, l_U131.y, l_U140.z, 0.05000000, 0.05000000, 0.05000000, 0 )))
             {
-                GET_OBJECT_COORDINATES( l_U110, ref l_U137._fU0, ref l_U137._fU4, ref l_U131._fU8 );
-                l_U262 += (l_U263 * l_U17) / l_U265;
-                SET_OBJECT_COORDINATES( l_U110, l_U137._fU0, l_U137._fU4, l_U262 );
+                GET_OBJECT_COORDINATES( l_U110, ref l_U137.x, ref l_U137.y, ref l_U131.z );
+                currentHeightOfVehicle += (l_U263 * l_U17) / l_U265;
+                SET_OBJECT_COORDINATES( l_U110, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
             else if (l_U278)
             {
                 STOP_SOUND( l_U272 );
             }
-            SET_OBJECT_COORDINATES( l_U110, l_U131._fU0, l_U131._fU4, l_U140._fU8 );
+            SET_OBJECT_COORDINATES( l_U110, l_U131.x, l_U131.y, l_U140.z );
             l_U13 = 1;
             l_U39 = 0;;;
         }
@@ -1852,25 +1936,25 @@ void sub_15825(unknown uParam0)
         {
             if (NOT l_U39)
             {
-                GET_OBJECT_COORDINATES( l_U110, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-                l_U140._fU8 = l_U131._fU8 - 1.50000000;
-                l_U262 = l_U131._fU8;
-                l_U263 = l_U140._fU8 - l_U131._fU8;
+                GET_OBJECT_COORDINATES( l_U110, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+                l_U140.z = l_U131.z - 1.50000000;
+                currentHeightOfVehicle = l_U131.z;
+                l_U263 = l_U140.z - l_U131.z;
                 if (l_U278)
                 {
-                    PLAY_SOUND_FROM_POSITION( l_U272, l_U267, l_U131 );
+                    PLAY_SOUND_FROM_POSITION( l_U272, carWashBarrierSound, l_U131 );
                 }
                 l_U39 = 1;
             }
-            else if (NOT (LOCATE_OBJECT_3D( l_U110, l_U131._fU0, l_U131._fU4, l_U140._fU8, 0.05000000, 0.05000000, 0.05000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_3D( l_U110, l_U131.x, l_U131.y, l_U140.z, 0.05000000, 0.05000000, 0.05000000, 0 )))
             {
-                GET_OBJECT_COORDINATES( l_U110, ref l_U137._fU0, ref l_U137._fU4, ref l_U131._fU8 );
-                l_U262 += (l_U263 * l_U17) / l_U265;
-                SET_OBJECT_COORDINATES( l_U110, l_U137._fU0, l_U137._fU4, l_U262 );
+                GET_OBJECT_COORDINATES( l_U110, ref l_U137.x, ref l_U137.y, ref l_U131.z );
+                currentHeightOfVehicle += (l_U263 * l_U17) / l_U265;
+                SET_OBJECT_COORDINATES( l_U110, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
             else
             {
-                SET_OBJECT_COORDINATES( l_U110, l_U131._fU0, l_U131._fU4, l_U140._fU8 );
+                SET_OBJECT_COORDINATES( l_U110, l_U131.x, l_U131.y, l_U140.z );
                 if (DOES_OBJECT_EXIST( l_U105 ))
                 {
                     GET_OBJECT_COORDINATES( l_U105, ref l_U158._fU0, ref l_U158._fU4, ref l_U158._fU8 );
@@ -1880,7 +1964,7 @@ void sub_15825(unknown uParam0)
                     if (l_U279)
                     {
                         l_U273 = GET_SOUND_ID();
-                        PLAY_SOUND_FROM_POSITION( l_U273, l_U268, l_U158 );
+                        PLAY_SOUND_FROM_POSITION( l_U273, carWashSpraySound, l_U158 );
                     }
                 }
                 if (DOES_OBJECT_EXIST( uParam0 ))
@@ -1922,30 +2006,32 @@ void sub_17410()
     l_U72[6] = {-0.80000000, 0.00000000, 0.00000000};
     l_U47[7] = {-2.40000000, 5.00000000, 0.25000000};
     l_U72[7] = {-0.50000000, 0.00000000, 0.00000000};
-    if (DOES_CAM_EXIST( l_U25 ))
+
+    if (DOES_CAM_EXIST( carWashCamera ))
     {
-        SET_CAM_ACTIVE( l_U25, 0 );
-        SET_CAM_PROPAGATE( l_U25, 0 );
+        SET_CAM_ACTIVE( carWashCamera, 0 );
+        SET_CAM_PROPAGATE( carWashCamera, 0 );
         ACTIVATE_SCRIPTED_CAMS( 0, 0 );
-        DESTROY_CAM( l_U25 );
+        DESTROY_CAM( carWashCamera );
     }
+
     CREATE_CAM( 14, ref l_U26 );
-    if (l_U162 > 0)
+    if (carWashWaterDripsEffect > 0)
     {
-        STOP_PTFX( l_U162 );
-        l_U162 = 0;
+        STOP_PTFX( carWashWaterDripsEffect );
+        carWashWaterDripsEffect = 0;
     }
-    if (NOT (IS_CAR_DEAD( l_U99 )))
+    if (NOT (IS_CAR_DEAD( currentPlayerCar )))
     {
-        GET_CAR_COORDINATES( l_U99, ref l_U100._fU0, ref l_U100._fU4, ref l_U100._fU8 );
+        GET_CAR_COORDINATES( currentPlayerCar, ref l_U100._fU0, ref l_U100._fU4, ref l_U100._fU8 );
         GET_GROUND_Z_FOR_3D_COORD( l_U100._fU0, l_U100._fU4, l_U100._fU8, ref l_U100._fU8 );
         l_U100._fU8 -= 0.30000000;
-        SET_CAR_HEADING( l_U99, l_U261 );
-        SET_CAR_COORDINATES( l_U99, l_U100._fU0, l_U100._fU4, l_U100._fU8 );
-        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, l_U47[0]._fU0, l_U47[0]._fU4, l_U47[0]._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        SET_CAM_POS( l_U26, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, l_U72[0]._fU0, l_U72[0]._fU4, l_U72[0]._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        POINT_CAM_AT_COORD( l_U26, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+        SET_CAR_HEADING( currentPlayerCar, l_U261 );
+        SET_CAR_COORDINATES( currentPlayerCar, l_U100._fU0, l_U100._fU4, l_U100._fU8 );
+        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, l_U47[0]._fU0, l_U47[0]._fU4, l_U47[0]._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        SET_CAM_POS( l_U26, l_U122.x, l_U122.y, l_U122.z );
+        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, l_U72[0]._fU0, l_U72[0]._fU4, l_U72[0]._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        POINT_CAM_AT_COORD( l_U26, l_U122.x, l_U122.y, l_U122.z );
         SET_CAM_FOV( l_U26, 55.00000000 );
         l_U46 = 0;
         l_U45 = 1;
@@ -1979,20 +2065,20 @@ void sub_18514(unknown uParam0)
         {
             if (NOT l_U39)
             {
-                GET_OBJECT_COORDINATES( l_U105, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-                l_U140._fU8 = l_U131._fU8 - 2.00000000;
-                l_U262 = l_U131._fU8;
-                l_U263 = l_U140._fU8 - l_U131._fU8;
+                GET_OBJECT_COORDINATES( l_U105, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+                l_U140.z = l_U131.z - 2.00000000;
+                currentHeightOfVehicle = l_U131.z;
+                l_U263 = l_U140.z - l_U131.z;
                 l_U274 = GET_SOUND_ID();
-                PLAY_SOUND_FROM_POSITION( l_U274, l_U269, l_U131 );
+                PLAY_SOUND_FROM_POSITION( l_U274, carWashBrushMotorSound, l_U131 );
                 SETTIMERB( 0 );
                 l_U39 = 1;
             }
-            else if (NOT (LOCATE_OBJECT_3D( l_U105, l_U131._fU0, l_U131._fU4, l_U140._fU8, 0.10000000, 0.10000000, 0.10000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_3D( l_U105, l_U131.x, l_U131.y, l_U140.z, 0.10000000, 0.10000000, 0.10000000, 0 )))
             {
-                GET_OBJECT_COORDINATES( l_U105, ref l_U137._fU0, ref l_U137._fU4, ref l_U131._fU8 );
-                l_U262 += (l_U263 * l_U17) / l_U265;
-                SET_OBJECT_COORDINATES( l_U105, l_U137._fU0, l_U137._fU4, l_U262 );
+                GET_OBJECT_COORDINATES( l_U105, ref l_U137.x, ref l_U137.y, ref l_U131.z );
+                currentHeightOfVehicle += (l_U263 * l_U17) / l_U265;
+                SET_OBJECT_COORDINATES( l_U105, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
             else
             {
@@ -2001,40 +2087,41 @@ void sub_18514(unknown uParam0)
             }
         }
         break;
+
         case 0:
         if (DOES_OBJECT_EXIST( l_U105 ))
         {
             if (NOT l_U39)
             {
-                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -2.80000000, 2.80000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
-                GET_OBJECT_COORDINATES( l_U108, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -2.80000000, 2.80000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
+                GET_OBJECT_COORDINATES( l_U108, ref l_U131.x, ref l_U131.y, ref l_U131.z );
                 l_U137 = {l_U131};
                 l_U143 = {l_U140 - l_U131};
                 l_U276 = GET_SOUND_ID();
-                PLAY_SOUND_FROM_POSITION( l_U276, l_U270, l_U131 );
+                PLAY_SOUND_FROM_POSITION( l_U276, carWashBrushesSound, l_U131 );
                 l_U165 = START_PTFX( "water_carwash_mist", l_U100, 0.00000000, 0.00000000, l_U261, 1065353216 );
                 SHAKE_PAD( 0, 100, 32 );
                 l_U39 = 1;
             }
-            else if (NOT (IS_CAR_DEAD( l_U99 )))
+            else if (NOT (IS_CAR_DEAD( currentPlayerCar )))
             {
-                l_U262 = GET_HEIGHT_OF_VEHICLE( l_U99, l_U137, 1, 1 );
-                if (l_U262 < 0.50000000)
+                currentHeightOfVehicle = GET_HEIGHT_OF_VEHICLE( currentPlayerCar, l_U137, 1, 1 );
+                if (currentHeightOfVehicle < 0.50000000)
                 {
-                    GET_GROUND_Z_FOR_3D_COORD( l_U137._fU0, l_U137._fU4, l_U137._fU8, ref l_U262 );
-                    l_U262 += 1.00000000;
-                    l_U262 = l_U131._fU8 + 1.00000000;
+                    GET_GROUND_Z_FOR_3D_COORD( l_U137.x, l_U137.y, l_U137.z, ref currentHeightOfVehicle );
+                    currentHeightOfVehicle += 1.00000000;
+                    currentHeightOfVehicle = l_U131.z + 1.00000000;
                 }
                 else
                 {
-                    l_U262 += 0.65000000;
+                    currentHeightOfVehicle += 0.65000000;
                 }
             }
-            if (NOT (LOCATE_OBJECT_2D( l_U105, l_U140._fU0, l_U140._fU4, 0.10000000, 0.10000000, 0 )))
+            if (NOT (LOCATE_OBJECT_2D( l_U105, l_U140.x, l_U140.y, 0.10000000, 0.10000000, 0 )))
             {
                 l_U137 = {l_U137 + (l_U143 / (l_U265 / l_U17))};
-                SET_OBJECT_COORDINATES( l_U108, l_U137._fU0, l_U137._fU4, l_U131._fU8 );
-                SET_OBJECT_COORDINATES( l_U105, l_U137._fU0, l_U137._fU4, l_U262 );
+                SET_OBJECT_COORDINATES( l_U108, l_U137.x, l_U137.y, l_U131.z );
+                SET_OBJECT_COORDINATES( l_U105, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
             else
             {
@@ -2051,16 +2138,16 @@ void sub_18514(unknown uParam0)
             if (NOT l_U39)
             {
                 SHAKE_PAD( 0, 1, 32 );
-                GET_OBJECT_COORDINATES( l_U105, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-                l_U262 = l_U131._fU8;
-                l_U263 = l_U140._fU8 - l_U131._fU8;
+                GET_OBJECT_COORDINATES( l_U105, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+                currentHeightOfVehicle = l_U131.z;
+                l_U263 = l_U140.z - l_U131.z;
                 l_U39 = 1;
             }
-            else if (NOT (LOCATE_OBJECT_3D( l_U105, l_U131._fU0, l_U131._fU4, l_U140._fU8, 0.10000000, 0.10000000, 0.10000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_3D( l_U105, l_U131.x, l_U131.y, l_U140.z, 0.10000000, 0.10000000, 0.10000000, 0 )))
             {
-                GET_OBJECT_COORDINATES( l_U105, ref l_U137._fU0, ref l_U137._fU4, ref l_U131._fU8 );
-                l_U262 += (l_U263 * l_U17) / l_U265;
-                SET_OBJECT_COORDINATES( l_U105, l_U137._fU0, l_U137._fU4, l_U262 );
+                GET_OBJECT_COORDINATES( l_U105, ref l_U137.x, ref l_U137.y, ref l_U131.z );
+                currentHeightOfVehicle += (l_U263 * l_U17) / l_U265;
+                SET_OBJECT_COORDINATES( l_U105, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
             else
             {
@@ -2069,22 +2156,23 @@ void sub_18514(unknown uParam0)
             }
         }
         break;
+
         case 2:
         if (DOES_OBJECT_EXIST( l_U105 ))
         {
             if (NOT l_U39)
             {
-                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 2.80000000, 2.80000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
-                GET_OBJECT_COORDINATES( l_U108, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+                GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 2.80000000, 2.80000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
+                GET_OBJECT_COORDINATES( l_U108, ref l_U131.x, ref l_U131.y, ref l_U131.z );
                 l_U137 = {l_U131};
                 l_U143 = {l_U140 - l_U131};
                 l_U39 = 1;
             }
-            else if (NOT (LOCATE_OBJECT_2D( l_U105, l_U140._fU0, l_U140._fU4, 0.10000000, 0.10000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_2D( l_U105, l_U140.x, l_U140.y, 0.10000000, 0.10000000, 0 )))
             {
                 l_U137 = {l_U137 + (l_U143 / (l_U265 / l_U17))};
-                SET_OBJECT_COORDINATES( l_U108, l_U137._fU0, l_U137._fU4, l_U131._fU8 );
-                SET_OBJECT_COORDINATES( l_U105, l_U137._fU0, l_U137._fU4, l_U140._fU8 );
+                SET_OBJECT_COORDINATES( l_U108, l_U137.x, l_U137.y, l_U131.z );
+                SET_OBJECT_COORDINATES( l_U105, l_U137.x, l_U137.y, l_U140.z );
             }
             else
             {
@@ -2094,33 +2182,34 @@ void sub_18514(unknown uParam0)
                     STOP_PTFX( l_U161 );
                     l_U161 = 0;
                 }
-                if (l_U162 > 0)
+                if (carWashWaterDripsEffect > 0)
                 {
-                    STOP_PTFX( l_U162 );
-                    l_U162 = 0;
+                    STOP_PTFX( carWashWaterDripsEffect );
+                    carWashWaterDripsEffect = 0;
                 }
                 if (DOES_OBJECT_EXIST( l_U105 ))
                 {
                     GET_OBJECT_COORDINATES( l_U105, ref l_U158._fU0, ref l_U158._fU4, ref l_U158._fU8 );
                     l_U149 = {0.00000000, 0.00000000, l_U261};
-                    if (l_U162 == 0)
+                    if (carWashWaterDripsEffect == 0)
                     {
-                        l_U162 = START_PTFX( "water_carwash_drips", l_U158, l_U149, 1065353216 );
+                        carWashWaterDripsEffect = START_PTFX( "water_carwash_drips", l_U158, l_U149, 1065353216 );
                     }
                 }
                 if (DOES_OBJECT_EXIST( l_U106 ))
                 {
                     GET_OBJECT_COORDINATES( l_U106, ref l_U158._fU0, ref l_U158._fU4, ref l_U158._fU8 );
-                    l_U163 = START_PTFX( "water_carwash_rollers", l_U158, l_U152, 1065353216 );
+                    carWashWaterRollersLeft = START_PTFX( "water_carwash_rollers", l_U158, l_U152, 1065353216 );
                 }
                 if (DOES_OBJECT_EXIST( l_U107 ))
                 {
                     GET_OBJECT_COORDINATES( l_U107, ref l_U158._fU0, ref l_U158._fU4, ref l_U158._fU8 );
-                    l_U164 = START_PTFX( "water_carwash_rollers", l_U158, l_U155, 1065353216 );
+                    carWashWaterRollersRight = START_PTFX( "water_carwash_rollers", l_U158, l_U155, 1065353216 );
                 }
                 uVar3 = TIMERB();
                 PRINTINT( uVar3 );
                 PRINTNL();
+
                 l_U10 = 1;
                 l_U11 = 3;
                 l_U12 = 2;
@@ -2142,18 +2231,18 @@ void sub_18514(unknown uParam0)
 
 void sub_20647()
 {
-    if (NOT (IS_CAR_DEAD( l_U99 )))
+    if (NOT (IS_CAR_DEAD( currentPlayerCar )))
     {
-        if (l_U19 == -1.00000000)
+        if (currentCarDirtLevel == -1.00000000)
         {
-            GET_VEHICLE_DIRT_LEVEL( l_U99, ref l_U19 );
-            l_U20 = l_U19 / 255.00000000;
+            GET_VEHICLE_DIRT_LEVEL( currentPlayerCar, ref currentCarDirtLevel );
+            newCarDirtLevel = currentCarDirtLevel / 255.00000000;
         }
-        else if (l_U19 >= (0.00000000 + l_U20))
+        else if (currentCarDirtLevel >= (0.00000000 + newCarDirtLevel))
         {
-            l_U19 -= l_U20;
-            SET_VEHICLE_DIRT_LEVEL( l_U99, l_U19 );
-            WASH_VEHICLE_TEXTURES( l_U99, 1 );
+            currentCarDirtLevel -= newCarDirtLevel;
+            SET_VEHICLE_DIRT_LEVEL( currentPlayerCar, currentCarDirtLevel );
+            WASH_VEHICLE_TEXTURES( currentPlayerCar, 1 );
         }
     }
     return;
@@ -2165,8 +2254,9 @@ void sub_20784()
     {
         if (IS_CONTROL_JUST_PRESSED( 2, 0 ))
         {
-            if (NOT (IS_CAR_DEAD( l_U99 )))
+            if (NOT (IS_CAR_DEAD( currentPlayerCar )))
             {
+
                 if (l_U45)
                 {
                     if (l_U46 < 5)
@@ -2178,21 +2268,24 @@ void sub_20784()
                         l_U46 = 0;
                     }
                 }
+
                 else if (l_U46 > 0)
                 {
                     l_U46--;
                 }
+
                 else
                 {
                     l_U45 = 1;
                     l_U46++;
                 }
+
                 if (DOES_CAM_EXIST( l_U26 ))
                 {
-                    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, l_U47[l_U46]._fU0, l_U47[l_U46]._fU4, l_U47[l_U46]._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                    SET_CAM_POS( l_U26, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-                    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, l_U72[l_U46]._fU0, l_U72[l_U46]._fU4, l_U72[l_U46]._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-                    POINT_CAM_AT_COORD( l_U26, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+                    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, l_U47[l_U46].x, l_U47[l_U46].y, l_U47[l_U46].z, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                    SET_CAM_POS( l_U26, l_U122.x, l_U122.y, l_U122.z );
+                    GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, l_U72[l_U46].x, l_U72[l_U46].y, l_U72[l_U46].z, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+                    POINT_CAM_AT_COORD( l_U26, l_U122.x, l_U122.y, l_U122.z );
                     SET_CAM_FOV( l_U26, 30.00000000 );
                     SET_CAM_NEAR_DOF( l_U26, 3.00000000 );
                     SET_CAM_FAR_DOF( l_U26, 12.00000000 );
@@ -2212,38 +2305,38 @@ void sub_21249(unknown uParam0)
 {
     unknown uVar3;
 
-    if (l_U125._fU8 < 360.00000000)
+    if (l_U125.z < 360.00000000)
     {
-        l_U125._fU8 += 10.00000000;
+        l_U125.z += 10.00000000;
     }
     else
     {
-        l_U125._fU8 = 0.00000000;
+        l_U125.z = 0.00000000;
     }
-    SET_OBJECT_ROTATION( l_U106, l_U125._fU0, l_U125._fU4, l_U125._fU8 );
-    if (l_U128._fU8 > 0.00000000)
+    SET_OBJECT_ROTATION( l_U106, l_U125.x, l_U125.y, l_U125.z );
+    if (l_U128.z > 0.00000000)
     {
-        l_U128._fU8 -= 10.00000000;
+        l_U128.z -= 10.00000000;
     }
     else
     {
-        l_U128._fU8 = 360.00000000;
+        l_U128.z = 360.00000000;
     }
-    SET_OBJECT_ROTATION( l_U107, l_U128._fU0, l_U128._fU4, l_U128._fU8 );
+    SET_OBJECT_ROTATION( l_U107, l_U128.x, l_U128.y, l_U128.z );
     if (DOES_OBJECT_EXIST( l_U106 ))
     {
-        GET_OBJECT_COORDINATES( l_U106, ref l_U158._fU0, ref l_U158._fU4, ref l_U158._fU8 );
-        if (l_U163 > 0)
+        GET_OBJECT_COORDINATES( l_U106, ref l_U158.x, ref l_U158.y, ref l_U158.z );
+        if (carWashWaterRollersLeft > 0)
         {
-            UPDATE_PTFX_OFFSETS( l_U163, l_U158, l_U152 );
+            UPDATE_PTFX_OFFSETS( carWashWaterRollersLeft, l_U158, l_U152 );
         }
     }
     if (DOES_OBJECT_EXIST( l_U107 ))
     {
-        GET_OBJECT_COORDINATES( l_U107, ref l_U158._fU0, ref l_U158._fU4, ref l_U158._fU8 );
-        if (l_U163 > 0)
+        GET_OBJECT_COORDINATES( l_U107, ref l_U158.x, ref l_U158.y, ref l_U158.z );
+        if (carWashWaterRollersLeft > 0)
         {
-            UPDATE_PTFX_OFFSETS( l_U164, l_U158, l_U155 );
+            UPDATE_PTFX_OFFSETS( carWashWaterRollersRight, l_U158, l_U155 );
         }
     }
     switch (l_U11)
@@ -2253,24 +2346,24 @@ void sub_21249(unknown uParam0)
         if (NOT l_U39)
         {
             l_U275 = GET_SOUND_ID();
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 4.50000000, 0.00000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
-            GET_OBJECT_COORDINATES( l_U109, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-            PLAY_SOUND_FROM_POSITION( l_U275, l_U269, l_U131 );
-            PLAY_SOUND_FROM_POSITION( l_U276, l_U270, l_U131 );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 4.50000000, 0.00000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
+            GET_OBJECT_COORDINATES( l_U109, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+            PLAY_SOUND_FROM_POSITION( l_U275, carWashBrushMotorSound, l_U131 );
+            PLAY_SOUND_FROM_POSITION( l_U276, carWashBrushesSound, l_U131 );
             SHAKE_PAD( 0, 100, 32 );
             l_U137 = {l_U131};
             l_U143 = {l_U140 - l_U131};
             SETTIMERB( 0 );
             l_U39 = 1;
         }
-        else if (NOT (LOCATE_OBJECT_3D( l_U109, l_U140._fU0, l_U140._fU4, l_U140._fU8, 0.10000000, 0.10000000, 0.10000000, 0 )))
+        else if (NOT (LOCATE_OBJECT_3D( l_U109, l_U140.x, l_U140.y, l_U140.z, 0.10000000, 0.10000000, 0.10000000, 0 )))
         {
             l_U137 = {l_U137 + (l_U143 / (l_U265 / l_U17))};
-            SET_OBJECT_COORDINATES( l_U109, l_U137._fU0, l_U137._fU4, l_U131._fU8 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_OBJECT_COORDINATES( l_U106, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_OBJECT_COORDINATES( l_U107, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U109, l_U137.x, l_U137.y, l_U131.z );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_OBJECT_COORDINATES( l_U106, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_OBJECT_COORDINATES( l_U107, l_U122.x, l_U122.y, l_U122.z );
         }
         else
         {
@@ -2287,20 +2380,20 @@ void sub_21249(unknown uParam0)
         if (NOT l_U39)
         {
             SHAKE_PAD( 0, 1, 32 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -0.80000000, 0.00000000, ref l_U140._fU0, ref l_U140._fU4, ref l_U140._fU8 );
-            GET_OBJECT_COORDINATES( l_U109, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, -0.80000000, 0.00000000, ref l_U140.x, ref l_U140.y, ref l_U140.z );
+            GET_OBJECT_COORDINATES( l_U109, ref l_U131.x, ref l_U131.y, ref l_U131.z );
             l_U137 = {l_U131};
             l_U143 = {l_U140 - l_U131};
             l_U39 = 1;
         }
-        else if (NOT (LOCATE_OBJECT_3D( l_U109, l_U140._fU0, l_U140._fU4, l_U140._fU8, 0.10000000, 0.10000000, 0.10000000, 0 )))
+        else if (NOT (LOCATE_OBJECT_3D( l_U109, l_U140.x, l_U140.y, l_U140.z, 0.10000000, 0.10000000, 0.10000000, 0 )))
         {
             l_U137 = {l_U137 + (l_U143 / (l_U265 / l_U17))};
-            SET_OBJECT_COORDINATES( l_U109, l_U137._fU0, l_U137._fU4, l_U131._fU8 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_OBJECT_COORDINATES( l_U106, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
-            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-            SET_OBJECT_COORDINATES( l_U107, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+            SET_OBJECT_COORDINATES( l_U109, l_U137.x, l_U137.y, l_U131.z );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U116._fU0, l_U116._fU4, l_U116._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_OBJECT_COORDINATES( l_U106, l_U122.x, l_U122.y, l_U122.z );
+            GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( l_U109, l_U119._fU0, l_U119._fU4, l_U119._fU8, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+            SET_OBJECT_COORDINATES( l_U107, l_U122.x, l_U122.y, l_U122.z );
         }
         else
         {
@@ -2309,15 +2402,15 @@ void sub_21249(unknown uParam0)
             {
                 l_U12 = 3;
                 l_U265 = 3.00000000;
-                if (l_U163 > 0)
+                if (carWashWaterRollersLeft > 0)
                 {
-                    STOP_PTFX( l_U163 );
-                    l_U163 = 0;
+                    STOP_PTFX( carWashWaterRollersLeft );
+                    carWashWaterRollersLeft = 0;
                 }
-                if (l_U164 > 0)
+                if (carWashWaterRollersRight > 0)
                 {
-                    STOP_PTFX( l_U164 );
-                    l_U164 = 0;
+                    STOP_PTFX( carWashWaterRollersRight );
+                    carWashWaterRollersRight = 0;
                 }
                 if (l_U161 > 0)
                 {
@@ -2352,14 +2445,14 @@ void sub_22903(unknown uParam0)
         {
             if (NOT l_U39)
             {
-                GET_OBJECT_COORDINATES( l_U111, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-                l_U140._fU8 = l_U131._fU8 + 1.50000000;
-                l_U262 = l_U131._fU8;
-                l_U263 = l_U140._fU8 - l_U131._fU8;
+                GET_OBJECT_COORDINATES( l_U111, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+                l_U140.z = l_U131.z + 1.50000000;
+                currentHeightOfVehicle = l_U131.z;
+                l_U263 = l_U140.z - l_U131.z;
                 l_U39 = 1;
                 if (l_U278)
                 {
-                    PLAY_SOUND_FROM_POSITION( l_U272, l_U267, l_U131 );
+                    PLAY_SOUND_FROM_POSITION( l_U272, carWashBarrierSound, l_U131 );
                 }
                 if (NOT l_U42)
                 {
@@ -2367,17 +2460,17 @@ void sub_22903(unknown uParam0)
                     l_U42 = 1;
                 }
             }
-            else if (NOT (LOCATE_OBJECT_3D( l_U111, l_U131._fU0, l_U131._fU4, l_U140._fU8, 0.05000000, 0.05000000, 0.05000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_3D( l_U111, l_U131.x, l_U131.y, l_U140.z, 0.05000000, 0.05000000, 0.05000000, 0 )))
             {
-                GET_OBJECT_COORDINATES( l_U111, ref l_U137._fU0, ref l_U137._fU4, ref l_U131._fU8 );
-                l_U262 += (l_U263 * l_U17) / l_U265;
-                SET_OBJECT_COORDINATES( l_U111, l_U137._fU0, l_U137._fU4, l_U262 );
+                GET_OBJECT_COORDINATES( l_U111, ref l_U137.x, ref l_U137.y, ref l_U131.z );
+                currentHeightOfVehicle += (l_U263 * l_U17) / l_U265;
+                SET_OBJECT_COORDINATES( l_U111, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
             else if (l_U278)
             {
                 STOP_SOUND( l_U272 );
             }
-            SET_OBJECT_COORDINATES( l_U111, l_U131._fU0, l_U131._fU4, l_U140._fU8 );
+            SET_OBJECT_COORDINATES( l_U111, l_U131.x, l_U131.y, l_U140.z );
             l_U39 = 0;
             if (DOES_OBJECT_EXIST( l_U105 ))
             {
@@ -2399,32 +2492,32 @@ void sub_22903(unknown uParam0)
             {
                 FREEZE_OBJECT_POSITION( l_U109, 1 );
             }
-            if (NOT (IS_CAR_DEAD( l_U99 )))
+            if (NOT (IS_CAR_DEAD( currentPlayerCar )))
             {
-                FREEZE_CAR_POSITION( l_U99, 0 );
-                if (NOT (IS_CAR_A_MISSION_CAR( l_U99 )))
+                FREEZE_CAR_POSITION( currentPlayerCar, 0 );
+                if (NOT (IS_CAR_A_MISSION_CAR( currentPlayerCar )))
                 {
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 12.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 12.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
                     sub_2119( l_U122 );
                 }
                 else
                 {
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
                     sub_2119( l_U122 );
                 }
                 if (NOT (sub_3006( l_U122 )))
                 {
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 9.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 9.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
                     sub_2119( l_U122 );
                 }
                 if (NOT (sub_3006( l_U122 )))
                 {
-                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
+                    GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS( uParam0, 0.00000000, 15.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
                     sub_2119( l_U122 );
                 }
-                TASK_CAR_DRIVE_TO_COORD( sub_1884(), l_U99, l_U122._fU0, l_U122._fU4, l_U122._fU8, 5.00000000, 0, 0, 3, 1.00000000, -1 );
+                TASK_CAR_DRIVE_TO_COORD( CurrentPlayerChar(), currentPlayerCar, l_U122.x, l_U122.y, l_U122.z, 5.00000000, 0, 0, 3, 1.00000000, -1 );
                 SETTIMERB( 0 );
-                HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( sub_1884(), 0 );
+                HIDE_CHAR_WEAPON_FOR_SCRIPTED_CUTSCENE( CurrentPlayerChar(), 0 );
                 PRINT_NOW( "CLEAN", 7500, 1 );
                 if (NOT g_U9164)
                 {
@@ -2441,22 +2534,22 @@ void sub_22903(unknown uParam0)
         }
         break;
         case 1:
-        if (NOT (IS_CAR_DEAD( l_U99 )))
+        if (NOT (IS_CAR_DEAD( currentPlayerCar )))
         {
             if (TIMERB() < 5000)
             {
-                if (LOCATE_CHAR_IN_CAR_3D( sub_1884(), l_U122._fU0, l_U122._fU4, l_U122._fU8, 3.00000000, 3.00000000, 3.00000000, 0 ))
+                if (LOCATE_CHAR_IN_CAR_3D( CurrentPlayerChar(), l_U122.x, l_U122.y, l_U122.z, 3.00000000, 3.00000000, 3.00000000, 0 ))
                 {
-                    SET_VEHICLE_DIRT_LEVEL( l_U99, 0.00000000 );
-                    WASH_VEHICLE_TEXTURES( l_U99, 255 );
+                    SET_VEHICLE_DIRT_LEVEL( currentPlayerCar, 0.00000000 );
+                    WASH_VEHICLE_TEXTURES( currentPlayerCar, 255 );
                     l_U14 = 2;
                 }
             }
-            else if (IS_PLAYER_SCRIPT_CONTROL_ON( sub_5747() ))
+            else if (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerId() ))
             {
-                SET_PLAYER_CONTROL( sub_5747(), 1 );
+                SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
             }
-            else if (NOT (LOCATE_CHAR_ANY_MEANS_3D( sub_1884(), l_U100._fU0, l_U100._fU4, l_U100._fU8, 5.00000000, 5.00000000, 5.00000000, 0 )))
+            else if (NOT (LOCATE_CHAR_ANY_MEANS_3D( CurrentPlayerChar(), l_U100._fU0, l_U100._fU4, l_U100._fU8, 5.00000000, 5.00000000, 5.00000000, 0 )))
             {
                 l_U14 = 2;
             };;;
@@ -2465,34 +2558,34 @@ void sub_22903(unknown uParam0)
         case 2:
         if (DOES_OBJECT_EXIST( l_U111 ))
         {
-            GET_SCRIPT_TASK_STATUS( sub_1884(), 15, ref l_U18 );
+            GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 15, ref l_U18 );
             if (l_U18 == 7)
             {
                 g_U9890 = l_U281;
-                if (NOT (IS_CAR_DEAD( l_U99 )))
+                if (NOT (IS_CAR_DEAD( currentPlayerCar )))
                 {
-                    FREEZE_CAR_POSITION( l_U99, 0 );
+                    FREEZE_CAR_POSITION( currentPlayerCar, 0 );
                 }
             }
             if (NOT l_U39)
             {
-                GET_OBJECT_COORDINATES( l_U111, ref l_U131._fU0, ref l_U131._fU4, ref l_U131._fU8 );
-                l_U140._fU8 = l_U131._fU8 - 1.50000000;
-                l_U262 = l_U131._fU8;
-                l_U263 = l_U140._fU8 - l_U131._fU8;
+                GET_OBJECT_COORDINATES( l_U111, ref l_U131.x, ref l_U131.y, ref l_U131.z );
+                l_U140.z = l_U131.z - 1.50000000;
+                currentHeightOfVehicle = l_U131.z;
+                l_U263 = l_U140.z - l_U131.z;
                 l_U39 = 1;
                 if (l_U278)
                 {
-                    PLAY_SOUND_FROM_POSITION( l_U272, l_U267, l_U131 );
+                    PLAY_SOUND_FROM_POSITION( l_U272, carWashBarrierSound, l_U131 );
                 }
             }
-            else if (NOT (LOCATE_OBJECT_3D( l_U111, l_U131._fU0, l_U131._fU4, l_U140._fU8, 0.05000000, 0.05000000, 0.05000000, 0 )))
+            else if (NOT (LOCATE_OBJECT_3D( l_U111, l_U131.x, l_U131.y, l_U140.z, 0.05000000, 0.05000000, 0.05000000, 0 )))
             {
-                GET_OBJECT_COORDINATES( l_U111, ref l_U137._fU0, ref l_U137._fU4, ref l_U131._fU8 );
-                l_U262 += (l_U263 * l_U17) / l_U265;
-                SET_OBJECT_COORDINATES( l_U111, l_U137._fU0, l_U137._fU4, l_U262 );
+                GET_OBJECT_COORDINATES( l_U111, ref l_U137.x, ref l_U137.y, ref l_U131.z );
+                currentHeightOfVehicle += (l_U263 * l_U17) / l_U265;
+                SET_OBJECT_COORDINATES( l_U111, l_U137.x, l_U137.y, currentHeightOfVehicle );
             }
-            else if (NOT (IS_CAR_DEAD( l_U99 )))
+            else if (NOT (IS_CAR_DEAD( currentPlayerCar )))
             {
                 sub_5526();
                 sub_3753();
@@ -2501,7 +2594,7 @@ void sub_22903(unknown uParam0)
                     STOP_PTFX( l_U165 );
                     l_U165 = 0;
                 }
-                LOCK_CAR_DOORS( l_U99, 6 );
+                LOCK_CAR_DOORS( currentPlayerCar, 6 );
                 DISPLAY_HUD( 1 );
                 DISPLAY_RADAR( 1 );
                 sub_5738();
@@ -2511,7 +2604,7 @@ void sub_22903(unknown uParam0)
                     DISPLAY_NON_MINIGAME_HELP_MESSAGES( 0 );
                     SET_MINIGAME_IN_PROGRESS( 0 );
                 }
-                SET_EVERYONE_IGNORE_PLAYER( sub_5747(), 0 );
+                SET_EVERYONE_IGNORE_PLAYER( CurrentPlayerId(), 0 );
                 l_U39 = 0;
                 l_U12 = 1;
                 l_U14 = 0;
@@ -2526,13 +2619,13 @@ void sub_22903(unknown uParam0)
 
 void sub_23106()
 {
-    if (NOT (IS_CAR_DEAD( l_U99 )))
+    if (NOT (IS_CAR_DEAD( currentPlayerCar )))
     {
-        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, -2.70000000, 8.00000000, 0.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        SET_CAM_POS( l_U26, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, -2.70000000, 8.00000000, 0.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        SET_CAM_POS( l_U26, l_U122.x, l_U122.y, l_U122.z );
         sub_2119( l_U122 );
-        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( l_U99, 1.20000000, 0.50000000, 1.00000000, ref l_U122._fU0, ref l_U122._fU4, ref l_U122._fU8 );
-        POINT_CAM_AT_COORD( l_U26, l_U122._fU0, l_U122._fU4, l_U122._fU8 );
+        GET_OFFSET_FROM_CAR_IN_WORLD_COORDS( currentPlayerCar, 1.20000000, 0.50000000, 1.00000000, ref l_U122.x, ref l_U122.y, ref l_U122.z );
+        POINT_CAM_AT_COORD( l_U26, l_U122.x, l_U122.y, l_U122.z );
         SET_CAM_FOV( l_U26, 35.00000000 );
         SET_CAM_NEAR_DOF( l_U26, 1.00000000 );
         SET_CAM_FAR_DOF( l_U26, 10.00000000 );

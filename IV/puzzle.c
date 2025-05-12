@@ -53,8 +53,10 @@ void main()
     l_U769 = 75;
     l_U770 = 0;
     l_U775 = 0;
-    l_U782 = 1;
-    StrCopy( ref l_U861, "PZ_QUITMSG", 16 );
+    currentWeather = 1;
+
+    StrCopy( ref quitMessage, "PZ_QUITMSG", 16 );
+
     l_U865 = 4;
     l_U887 = {0.00000000, 0.00000000, 0.00000000};
     l_U890 = -1;
@@ -445,9 +447,9 @@ void sub_3483()
     if (NOT sub_3950())
     {
         SET_MESSAGES_WAITING( 0 );
-        g_U91._fU404 = 1000;
+        cellphone3Dstructure._fU404 = 1000;
     }
-    g_U91._fU404 = 1000;
+    cellphone3Dstructure._fU404 = 1000;
     return;
 }
 
@@ -521,39 +523,50 @@ void sub_4090()
 {
     int iVar2;
     int iVar3;
-    int iVar4;
+    int getNumberOfPuzzleLauncherScripts;
 
     while (IS_SCREEN_FADING())
     {
         WAIT( 0 );
     }
+
     DO_SCREEN_FADE_OUT( 2000 );
+
     while (IS_SCREEN_FADING())
     {
         WAIT( 0 );
     }
+
     if ((l_U165) || (l_U164))
     {
         STOP_STREAM();
         l_U164 = 0;
         l_U165 = 0;
     }
+
     ACTIVATE_SCRIPTED_CAMS( 0, 0 );
     DESTROY_CAM( l_U670 );
     DESTROY_CAM( l_U671 );
+
     END_CAM_COMMANDS( ref l_U747 );
+
     SWITCH_STREAMING( 1 );
     OVERRIDE_FREEZE_FLAGS( 0 );
-    if (NOT (IS_CHAR_INJURED( sub_4254() )))
+
+    if (NOT (IS_CHAR_INJURED( CurrentPlayerChar() )))
     {
-        SET_CAM_BEHIND_PED( sub_4254() );
-        CLEAR_CHAR_TASKS( sub_4254() );
+        SET_CAM_BEHIND_PED( CurrentPlayerChar() );
+        CLEAR_CHAR_TASKS( CurrentPlayerChar() );
     }
-    SET_PLAYER_CONTROL( sub_4332(), 1 );
+
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 1 );
+
     sub_4371();
+
     DISPLAY_RADAR( 1 );
     DISPLAY_HUD( 1 );
     CLEAR_TIMECYCLE_MODIFIER();
+
     for ( l_U750 = 0; l_U750 < 9; l_U750++ )
     {
         for ( l_U751 = 0; l_U751 < 6; l_U751++ )
@@ -561,41 +574,54 @@ void sub_4090()
             MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U181[l_U751][l_U750]._fU12 );
         }
     }
+
     MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U656 );
     MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U657 );
     MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U620._fU24 );
+
     MARK_OBJECT_AS_NO_LONGER_NEEDED( ref l_U620._fU28 );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( 1329485441 );
     MARK_MODEL_AS_NO_LONGER_NEEDED( -1644345434 );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U783[0] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U783[1] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U783[2] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U783[3] );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U783[4] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U783[5] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U790[0] );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U790[1] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U790[2] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U790[3] );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U790[4] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U790[5] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[0] );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[1] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[2] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[3] );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[4] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[5] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[6] );
+
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[7] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[8] );
     MARK_MODEL_AS_NO_LONGER_NEEDED( l_U943[9] );
-    if (IS_PLAYER_PLAYING( sub_4332() ))
+
+    if (IS_PLAYER_PLAYING( CurrentPlayerId() ))
     {
-        FREEZE_CHAR_POSITION( sub_4254(), 0 );
-        SET_CAM_BEHIND_PED( sub_4254() );
+        FREEZE_CHAR_POSITION( CurrentPlayerChar(), 0 );
+        SET_CAM_BEHIND_PED( CurrentPlayerChar() );
         LOAD_SCENE( l_U776._fU0, l_U776._fU4, l_U776._fU8 );
-        GET_INTERIOR_FROM_CHAR( sub_4254(), ref iVar2 );
+
+        GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref iVar2 );
         GET_GAME_VIEWPORT_ID( ref l_U658 );
+
         if (NOT (iVar2 == nil))
         {
             GET_INTERIOR_AT_COORDS( 601.51460000, 1408.35700000, 17.61080000, ref iVar3 );
@@ -614,45 +640,69 @@ void sub_4090()
                 }
             }
         }
+
         if (NOT (l_U659 == nil))
         {
             ;
         }
     }
-    FORCE_WEATHER_NOW( l_U782 );
+
+    // Set some weather options.
+    FORCE_WEATHER_NOW( currentWeather );
     RELEASE_WEATHER();
+
+    // Release QUB3D? textures.
+    // I think most of these are QUB3D
     RELEASE_TEXTURE( l_U972 );
     RELEASE_TEXTURE( l_U971 );
     REMOVE_TXD( l_U969 );
+
     RELEASE_TEXTURE( l_U973 );
     RELEASE_TEXTURE( l_U974 );
     RELEASE_TEXTURE( l_U975 );
+
     RELEASE_TEXTURE( l_U976 );
     RELEASE_TEXTURE( l_U977 );
     RELEASE_TEXTURE( l_U978 );
+
     RELEASE_TEXTURE( l_U979 );
     RELEASE_TEXTURE( l_U980 );
     RELEASE_TEXTURE( l_U981 );
+
     RELEASE_TEXTURE( l_U982 );
     RELEASE_TEXTURE( l_U983 );
     RELEASE_TEXTURE( l_U984 );
+
     RELEASE_TEXTURE( l_U985 );
     RELEASE_TEXTURE( l_U986 );
     RELEASE_TEXTURE( l_U987 );
+
     REMOVE_TXD( l_U970 );
+
+    // Mute gameworld audio, enable frontend radio, mark mission audio bank as no longer needed
     MUTE_GAMEWORLD_AUDIO( 0 );
     ENABLE_FRONTEND_RADIO();
     MISSION_AUDIO_BANK_NO_LONGER_NEEDED();
+
+    // Unregister script audio
     UNREGISTER_SCRIPT_WITH_AUDIO();
-    sub_5508();
-    if (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( ref l_U861 ))
+
+    // Destory thread
+    DestoryThreads();
+
+    // Clear help messages
+    if (IS_THIS_HELP_MESSAGE_BEING_DISPLAYED( ref quitMessage ))
     {
         CLEAR_HELP();
     }
+
     SET_WIDESCREEN_FORMAT( 0 );
     DISPLAY_FRONTEND_MAP_BLIPS( 1 );
-    iVar4 = GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "puzzle_launcher" );
-    if (iVar4 == 0)
+
+
+    getNumberOfPuzzleLauncherScripts = GET_NUMBER_OF_INSTANCES_OF_STREAMED_SCRIPT( "puzzle_launcher" );
+
+    if (getNumberOfPuzzleLauncherScripts == 0)
     {
         while (IS_SCREEN_FADING())
         {
@@ -664,13 +714,15 @@ void sub_4090()
             WAIT( 0 );
         }
     }
+
     DISPLAY_NON_MINIGAME_HELP_MESSAGES( 0 );
     SET_MINIGAME_IN_PROGRESS( 0 );
     TERMINATE_THIS_SCRIPT();
     return;
 }
 
-void sub_4254()
+// sub_4254
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -678,19 +730,22 @@ void sub_4254()
     return Result;
 }
 
-void sub_4332()
+// sub_4332
+void CurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
+// Reset phone globals
 void sub_4371()
 {
-    g_U91._fU100 = 0;
-    g_U91._fU104 = 0;
+    cellphone3Dstructure.disableCellphone  = 0;
+    cellphone3Dstructure.hideCellphone = 0;
     return;
 }
 
-void sub_5508()
+// sub_5508
+void DestoryThreads()
 {
     if (IS_THREAD_ACTIVE( g_U9240 ))
     {
@@ -699,6 +754,8 @@ void sub_5508()
     return;
 }
 
+// This looks like it loads QUB3D
+// TODO Find good function name for this.
 void sub_5836()
 {
     REGISTER_SCRIPT_WITH_AUDIO( 1 );
@@ -708,180 +765,247 @@ void sub_5836()
         PRINTNL();
         WAIT( 0 );
     }
+
     MUTE_GAMEWORLD_AUDIO( 1 );
     DISABLE_FRONTEND_RADIO();
     PRINTSTRING( "LOADED AUDIO BANK QUB3D" );
     PRINTNL();
     LOAD_ADDITIONAL_TEXT( "PUZZLE", 3 );
+
     l_U146 = GET_CURRENT_LANGUAGE();
     l_U147 = l_U146;
     l_U752 = 8;
+
     l_U753 = 0;
     l_U754 = 5;
     l_U755 = 0;
+
     l_U750 = 0;
     l_U751 = 0;
     l_U660 = {2.50000000, 4.00000000, 3850.00000000};
+
     l_U663 = 0.00000000;
     l_U905 = ProtectedGet(g_U8686[0]);
     l_U906 = 0;
+
     l_U908 = 0;
     l_U909 = 0;
     l_U910 = 1;
+
     l_U911 = 25;
+
+    // TODO Is l_U912 high scores? I think it might be
     l_U912[0] = 250;
     l_U912[1] = 500;
+
     l_U912[2] = 750;
     l_U912[3] = 1000;
     l_U912[4] = 1250;
+
     l_U912[5] = 1500;
     l_U912[6] = 2000;
     l_U912[7] = 2500;
+
     l_U912[8] = 3000;
     l_U912[9] = 3500;
     l_U912[10] = 4000;
+
     l_U912[11] = 5000;
     l_U912[12] = 6000;
     l_U912[13] = 7000;
+
     l_U912[14] = 8000;
     l_U912[15] = 9000;
     l_U912[16] = 10000;
+
     l_U912[17] = 11000;
     l_U912[18] = 12000;
     l_U912[19] = 13000;
+
     l_U912[20] = 15000;
     l_U912[21] = 17000;
     l_U912[22] = 20000;
+
     l_U912[23] = 23000;
     l_U912[24] = 27000;
     l_U912[25] = 31000;
+
     l_U912[26] = 36000;
     l_U912[27] = 41000;
     l_U912[28] = 45000;
     l_U912[29] = 50000;
+
     l_U1305[0] = 0.28900000;
     l_U1312[0] = 0.17400000;
     l_U1305[1] = 0.30000000;
+
     l_U1312[1] = 0.17400000;
     l_U1305[2] = 0.28900000;
     l_U1312[2] = 0.19000000;
+
     l_U1305[3] = 0.30000000;
     l_U1312[3] = 0.19000000;
     l_U1305[4] = 0.28900000;
+
     l_U1312[4] = 0.20500000;
     l_U1305[5] = 0.30000000;
     l_U1312[5] = 0.20500000;
+
+    // l_U783 is possibly object ids or model ids.
     l_U783[0] = 655935014;
     l_U783[1] = -584535481;
     l_U783[2] = -1155568015;
+
     l_U783[3] = -857075254;
     l_U783[4] = -1494923779;
     l_U783[5] = 1548759252;
+
+    // l_U790 is possibly object ids or model ids.
     l_U790[0] = -1910575924;
     l_U790[1] = -1733819942;
     l_U790[2] = 1456209443;
+
     l_U790[3] = 1159617224;
     l_U790[4] = 1636701095;
     l_U790[5] = 1933489928;
+
+    // l_U943 is possibly object ids or model ids.
     l_U943[0] = -640096545;
     l_U943[1] = -871183533;
     l_U943[2] = -1018414650;
+
     l_U943[3] = -1483931064;
     l_U943[4] = 245387373;
     l_U943[5] = 1087648984;
+
     l_U943[6] = -64902288;
     l_U943[7] = -295170051;
     l_U943[8] = 1275153202;
     l_U943[9] = 2117349271;
+
+    // Gxt strings
     StrCopy( ref l_U797, "PZ_ST", 16 );
     StrCopy( ref l_U801, "PZ_QUIT", 16 );
     StrCopy( ref l_U805, "PZ_TUTO", 16 );
+
     StrCopy( ref l_U809, "PZ_HISCORE", 16 );
     StrCopy( ref l_U813, "PZ_LOSE", 16 );
     StrCopy( ref l_U817, "PZ_IGLEVEL", 16 );
+
     StrCopy( ref l_U821, "PZ_IGSCORE", 16 );
     StrCopy( ref l_U825, "PZ_IGHISCORE", 16 );
     StrCopy( ref l_U829, "PZ_IGNEXT", 16 );
+
     StrCopy( ref l_U833, "PZ_IGSPECIAL", 16 );
     StrCopy( ref l_U837, "PZ_IGPOWER", 16 );
     StrCopy( ref l_U841, "PZ_IGMULTI", 16 );
+
     StrCopy( ref l_U845, "BT_A", 16 );
     StrCopy( ref l_U849, "BT_B", 16 );
     StrCopy( ref l_U853, "BT_UPARROW", 16 );
     StrCopy( ref l_U857, "BT_DOWNARROW", 16 );
+
+    // QUB3D blocks? What is this one
     l_U866[0] = "qub_sm_explode_red";
     l_U866[1] = "qub_sm_explode_blue";
     l_U866[2] = "qub_sm_explode_green";
+
     l_U866[3] = "qub_sm_explode_yellow";
     l_U866[4] = "qub_sm_explode_purple";
     l_U866[5] = "qub_sm_explode_orange";
+
     l_U866[7] = "qub_lg_explode_red";
     l_U866[8] = "qub_lg_explode_blue";
     l_U866[9] = "qub_lg_explode_green";
+
     l_U866[10] = "qub_lg_explode_yellow";
     l_U866[11] = "qub_lg_explode_purple";
     l_U866[12] = "qub_lg_explode_orange";
+
     l_U880[0] = "qub_merge_red";
     l_U880[1] = "qub_merge_blue";
     l_U880[2] = "qub_merge_green";
+
     l_U880[3] = "qub_merge_yellow";
     l_U880[4] = "qub_merge_purple";
     l_U880[5] = "qub_merge_orange";
+    
     l_U142 = 0;
     l_U166 = 0;
+
+    // Textures
     l_U969 = LOAD_TXD( "Qub3d" );
     l_U971 = GET_TEXTURE( l_U969, "QUB3D_LOGO_150906" );
     l_U972 = GET_TEXTURE( l_U969, "QUB3D_STRAPLINE_150906" );
+
     l_U970 = GET_TXD( "buttons" );
     l_U973 = GET_TEXTURE( l_U970, "dpad_left" );
     l_U974 = GET_TEXTURE( l_U970, "dpad_right" );
+
     l_U975 = GET_TEXTURE( l_U970, "dpad_down" );
     l_U976 = GET_TEXTURE( l_U970, "dpad_none" );
     l_U977 = GET_TEXTURE( l_U969, "q_spec_botrow" );
+
     l_U978 = GET_TEXTURE( l_U969, "q_spec_midcolumn" );
     l_U979 = GET_TEXTURE( l_U969, "q_spec_random" );
     l_U980 = GET_TEXTURE( l_U969, "q_spec_timer" );
+
     l_U981 = GET_TEXTURE( l_U969, "q_spec_randcols_square" );
     l_U982 = GET_TEXTURE( l_U969, "q_spec_randcols_4" );
     l_U983 = GET_TEXTURE( l_U969, "q_spec_randcols_5" );
+
     l_U984 = GET_TEXTURE( l_U969, "q_spec_randcols_6" );
     l_U985 = GET_TEXTURE( l_U969, "q_spec_randomarrow" );
     l_U986 = GET_TEXTURE( l_U969, "q_powerbar" );
     l_U987 = GET_TEXTURE( l_U969, "q_next" );
+
+    // Letters
     l_U1050[0] = "A";
     l_U1050[1] = "B";
     l_U1050[2] = "C";
+
     l_U1050[3] = "D";
     l_U1050[4] = "E";
     l_U1050[5] = "F";
+
     l_U1050[6] = "G";
     l_U1050[7] = "H";
     l_U1050[8] = "I";
+
     l_U1050[9] = "J";
     l_U1050[10] = "K";
     l_U1050[11] = "L";
+
     l_U1050[12] = "M";
     l_U1050[13] = "N";
     l_U1050[14] = "O";
+
     l_U1050[15] = "P";
     l_U1050[16] = "Q";
     l_U1050[17] = "R";
+
     l_U1050[18] = "S";
     l_U1050[19] = "T";
     l_U1050[20] = "U";
+
     l_U1050[21] = "V";
     l_U1050[22] = "W";
     l_U1050[23] = "X";
     l_U1050[24] = "Y";
     l_U1050[25] = "Z";
+
     SET_TIMECYCLE_MODIFIER( "police" );
+
+    // Request models, and load objects
     REQUEST_MODEL( 1329485441 );
     REQUEST_MODEL( -1644345434 );
     LOAD_ALL_OBJECTS_NOW();
+
     while ((NOT (HAS_MODEL_LOADED( -1644345434 ))) || (NOT (HAS_MODEL_LOADED( 1329485441 ))))
     {
         WAIT( 0 );
     }
+
     REQUEST_MODEL( l_U783[0] );
     REQUEST_MODEL( l_U783[1] );
     REQUEST_MODEL( l_U783[2] );
@@ -889,10 +1013,12 @@ void sub_5836()
     REQUEST_MODEL( l_U783[4] );
     REQUEST_MODEL( l_U783[5] );
     LOAD_ALL_OBJECTS_NOW();
+
     while ((NOT (HAS_MODEL_LOADED( l_U783[5] ))) || ((NOT (HAS_MODEL_LOADED( l_U783[4] ))) || ((NOT (HAS_MODEL_LOADED( l_U783[3] ))) || ((NOT (HAS_MODEL_LOADED( l_U783[2] ))) || ((NOT (HAS_MODEL_LOADED( l_U783[1] ))) || (NOT (HAS_MODEL_LOADED( l_U783[0] ))))))))
     {
         WAIT( 0 );
     }
+
     REQUEST_MODEL( l_U790[0] );
     REQUEST_MODEL( l_U790[1] );
     REQUEST_MODEL( l_U790[2] );
@@ -900,10 +1026,12 @@ void sub_5836()
     REQUEST_MODEL( l_U790[4] );
     REQUEST_MODEL( l_U790[5] );
     LOAD_ALL_OBJECTS_NOW();
+
     while ((NOT (HAS_MODEL_LOADED( l_U790[5] ))) || ((NOT (HAS_MODEL_LOADED( l_U790[4] ))) || ((NOT (HAS_MODEL_LOADED( l_U790[3] ))) || ((NOT (HAS_MODEL_LOADED( l_U790[2] ))) || ((NOT (HAS_MODEL_LOADED( l_U790[1] ))) || (NOT (HAS_MODEL_LOADED( l_U790[0] ))))))))
     {
         WAIT( 0 );
     }
+
     REQUEST_MODEL( l_U943[0] );
     REQUEST_MODEL( l_U943[1] );
     REQUEST_MODEL( l_U943[2] );
@@ -915,51 +1043,81 @@ void sub_5836()
     REQUEST_MODEL( l_U943[8] );
     REQUEST_MODEL( l_U943[9] );
     LOAD_ALL_OBJECTS_NOW();
+
     while ((NOT (HAS_MODEL_LOADED( l_U943[9] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[8] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[7] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[6] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[5] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[4] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[3] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[2] ))) || ((NOT (HAS_MODEL_LOADED( l_U943[1] ))) || (NOT (HAS_MODEL_LOADED( l_U943[0] ))))))))))))
     {
         WAIT( 0 );
     }
+
     sub_9568( "puzzle" );
+
+    // Create objects
     CREATE_OBJECT_NO_OFFSET( -1644345434, l_U664._fU0, l_U664._fU4, l_U664._fU8, ref l_U656, 1 );
     FREEZE_OBJECT_POSITION( l_U656, 1 );
     SET_OBJECT_COLLISION( l_U656, 0 );
     SET_OBJECT_HEADING( l_U656, 0.00000000 );
+
     CREATE_OBJECT_NO_OFFSET( 1329485441, l_U660._fU0, l_U660._fU4, l_U660._fU8, ref l_U657, 1 );
     FREEZE_OBJECT_POSITION( l_U657, 1 );
     SET_OBJECT_COLLISION( l_U657, 0 );
     SET_OBJECT_HEADING( l_U657, l_U663 );
-    GET_CHAR_COORDINATES( sub_4254(), ref l_U776._fU0, ref l_U776._fU4, ref l_U776._fU8 );
-    GET_CHAR_HEADING( sub_4254(), ref l_U779 );
-    GET_INTERIOR_FROM_CHAR( sub_4254(), ref l_U659 );
-    GET_TIME_OF_DAY( ref l_U780, ref l_U781 );
-    GET_CURRENT_WEATHER( ref l_U782 );
+
+    GET_CHAR_COORDINATES( CurrentPlayerChar(), ref l_U776._fU0, ref l_U776._fU4, ref l_U776._fU8 );
+    GET_CHAR_HEADING( CurrentPlayerChar(), ref l_U779 );
+    GET_INTERIOR_FROM_CHAR( CurrentPlayerChar(), ref l_U659 );
+
+    // Get time of day and weather
+    GET_TIME_OF_DAY( ref currentHour, ref currentMinute );
+    GET_CURRENT_WEATHER( ref currentWeather );
+
     FORCE_WEATHER_NOW( 1 );
-    FREEZE_CHAR_POSITION( sub_4254(), 1 );
-    SET_PLAYER_CONTROL( sub_4332(), 0 );
+    FREEZE_CHAR_POSITION( CurrentPlayerChar(), 1 );
+    SET_PLAYER_CONTROL( CurrentPlayerId(), 0 );
+
     sub_10022();
+
+    // Hide radar, hud, and frontend map blips
     DISPLAY_RADAR( 0 );
     DISPLAY_HUD( 0 );
     DISPLAY_FRONTEND_MAP_BLIPS( 0 );
+
+    // Cam Commands
     BEGIN_CAM_COMMANDS( ref l_U747 );
+
+    // Cam #1
     CREATE_CAM( 14, ref l_U670 );
+    // Cam #2
     CREATE_CAM( 14, ref l_U671 );
+
+    // Cam #1 values
     SET_CAM_POS( l_U670, l_U1354._fU0, l_U1354._fU4, l_U1354._fU8 );
     SET_CAM_ROT( l_U670, l_U1357._fU0, l_U1357._fU4, l_U1357._fU8 );
     SET_CAM_FOV( l_U670, l_U1360 );
+
+    // Cam #2 values
     SET_CAM_POS( l_U671, l_U1361._fU0, l_U1361._fU4, l_U1361._fU8 );
     SET_CAM_ROT( l_U671, l_U1364._fU0, l_U1364._fU4, l_U1364._fU8 );
     SET_CAM_FOV( l_U671, l_U1367 );
+
+    // Activate and propagate Cam #1
     SET_CAM_ACTIVE( l_U670, 1 );
     SET_CAM_PROPAGATE( l_U670, 1 );
+
+    // Activate and propagate Cam #2
     SET_CAM_ACTIVE( l_U671, 1 );
     SET_CAM_PROPAGATE( l_U671, 0 );
+
     ACTIVATE_SCRIPTED_CAMS( 1, 1 );
+
     SET_WIDESCREEN_FORMAT( 1 );
     SWITCH_STREAMING( 0 );
     OVERRIDE_FREEZE_FLAGS( 1 );
+
     CLEAR_HELP();
     CLEAR_PRINTS();
     STOP_STREAM();
+
+    // Fade the screen back in
     DO_SCREEN_FADE_IN( 2000 );
     return;
 }
@@ -968,21 +1126,27 @@ void sub_9568(unknown uParam0)
 {
     string sVar3;
 
+    // TODO What is this global? It gets destroyed in a lot of scripts, also seems to load the value of the script name.
+    // This is possibly g_CurrentLoadedScript? I could be very wrong.
     if (IS_THREAD_ACTIVE( g_U9240 ))
     {
         DESTROY_THREAD( g_U9240 );
     }
+
     StrCopy( ref g_U9232, uParam0, 32 );
     sVar3 = "text_link_mission";
+
     if (IS_NETWORK_SESSION())
     {
         sVar3 = "txtlnkmiss_net";
     }
+
     while (NOT (HAS_SCRIPT_LOADED( sVar3 )))
     {
         REQUEST_SCRIPT( sVar3 );
         WAIT( 0 );
     }
+
     g_U9240 = START_NEW_SCRIPT( sVar3, 1024 );
     MARK_SCRIPT_AS_NO_LONGER_NEEDED( sVar3 );
     return;
@@ -997,11 +1161,11 @@ int sub_10033(boolean bParam0, unknown uParam1)
 {
     if (bParam0)
     {
-        g_U91._fU104 = 1;
+        cellphone3Dstructure.hideCellphone = 1;
     }
     if ((g_U555 != 9) AND (uParam1))
     {
-        g_U91._fU100 = 1;
+        cellphone3Dstructure.disableCellphone = 1;
     }
     return 1;
 }
@@ -4576,7 +4740,7 @@ void sub_43244()
                 sub_36413( 1 );
             }
             CLEAR_HELP();
-            PRINT_HELP_FOREVER( ref l_U861 );
+            PRINT_HELP_FOREVER( ref quitMessage );
             l_U162 = 0;
             l_U170 = 1;
             while (NOT l_U162)

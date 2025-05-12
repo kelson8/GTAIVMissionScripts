@@ -380,3 +380,10 @@ https://gtamods.com/wiki/SET_STATE_OF_CLOSEST_DOOR_OF_TYPE
 1. SET_STATE_OF_CLOSEST_DOOR_OF_TYPE(char doorHash, float doorX, float doorY, float doorZ, int lock, float doorSwing) - Toggle doors locked or unlocked, lock can be 0 for unlocked or 1 for locked, doorSwing can be from -1.0 to 1.0.
 
 </details>
+
+<details>
+<summary> Radar natives: </summary>
+
+1. SET_POLICE_RADAR_BLIPS(int toggle) - Sets if police blips are displayed on the radar, set to 1 for on, 0 for off.
+
+</details>

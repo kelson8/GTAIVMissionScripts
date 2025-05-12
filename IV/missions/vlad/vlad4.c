@@ -1231,22 +1231,22 @@ void sub_6797()
 // sub_7813 = SetIvanCarInvincible
 void SetIvanCarInvincible()
 {
-    int iVar2;
-    unknown uVar3;
+    int carHealth;
+    float engineHealth;
 
     if (DOES_VEHICLE_EXIST( IvanCar ))
     {
         if (NOT (IS_CAR_DEAD( IvanCar )))
         {
-            GET_CAR_HEALTH( IvanCar, ref iVar2 );
-            uVar3 = GET_ENGINE_HEALTH( IvanCar );
+            GET_CAR_HEALTH( IvanCar, ref carHealth );
+            engineHealth = GET_ENGINE_HEALTH( IvanCar );
             PRINTSTRING( "ivans car health: " );
             PRINTINT( sub_7917( IvanCar ) );
             PRINTNL();
             PRINTSTRING( "ivans car E health: " );
-            PRINTFLOAT( uVar3 );
+            PRINTFLOAT( engineHealth );
             PRINTNL();
-            if (iVar2 < 400)
+            if (carHealth < 400)
             {
                 SET_CAR_HEALTH( IvanCar, 400 );
                 SET_ENGINE_HEALTH( IvanCar, 400.00000000 );
@@ -5783,26 +5783,31 @@ void sub_45543()
             }
         }
         sub_17418();
+
         OPEN_SEQUENCE_TASK( ref l_U2492 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1173.55200000, -372.28360000, 26.27060000, 3, 8000, 0.50000000 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1176.73700000, -366.86340000, 26.18130000, 3, 8000, 0.50000000 );
         CLOSE_SEQUENCE_TASK( l_U2492 );
+        
         OPEN_SEQUENCE_TASK( ref l_U2493 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1176.32300000, -365.70360000, 32.91860000, 4, 5000, 0.50000000 );
         TASK_PLAY_ANIM( 0, "EXHAUSTED_INTRO", "missVlad4", 8.00000000, 0, 0, 0, 0, -1 );
         TASK_PLAY_ANIM( 0, "EXHAUSTED_LOOP", "missVlad4", 8.00000000, 1, 0, 0, 0, -1 );
         CLOSE_SEQUENCE_TASK( l_U2493 );
+
         OPEN_SEQUENCE_TASK( ref l_U2494 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1165.13600000, -369.94100000, 33.09260000, 4, 5000, 0.50000000 );
         TASK_ACHIEVE_HEADING( 0, 0.00000000 );
         TASK_PLAY_ANIM( 0, "EXHAUSTED_INTRO", "missVlad4", 8.00000000, 0, 0, 0, 0, -1 );
         TASK_PLAY_ANIM( 0, "EXHAUSTED_LOOP", "missVlad4", 8.00000000, 1, 0, 0, 0, -1 );
         CLOSE_SEQUENCE_TASK( l_U2494 );
+
         OPEN_SEQUENCE_TASK( ref l_U2495 );
         TASK_PLAY_ANIM( 0, "EXHAUSTED_OUTRO", "missVlad4", 8.00000000, 0, 0, 0, 0, -1 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1165.75800000, -362.27010000, 39.02080000, 4, 5000, 0.50000000 );
         TASK_FOLLOW_NAV_MESH_TO_COORD( 0, 1169.11800000, -374.56990000, 39.02080000, 4, 9000, 0.50000000 );
         CLOSE_SEQUENCE_TASK( l_U2495 );
+
         l_U2180[MissionSwitch] = 1;
     }
     if ((l_U2204 == 0) AND (LOCATE_CHAR_ANY_MEANS_2D( PlayerChar, 1175.13900000, -379.40640000, 48.00000000, 48.00000000, 0 )))
@@ -6745,6 +6750,7 @@ void sub_54021()
     return;
 }
 
+// I think this raises the friend like value and trust value
 void sub_54039()
 {
     int I;
@@ -6752,6 +6758,7 @@ void sub_54039()
     I = 0;
     for ( I = 0; I < 5; I++ )
     {
+        // In use here: sub_57324() and here: sub_57058()
         l_U475[I] = 4;
     }
     return;
@@ -7190,11 +7197,13 @@ void sub_55776(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
 void sub_55787(unknown uParam0)
 {
     ADD_SCORE( CurrentPlayerId(), uParam0 );
-    sub_55812( uParam0 );
+    Flow_Achievements_Increase_Cash_From_Missions( uParam0 );
     return;
 }
 
-void sub_55812(int iParam0)
+// sub_55812
+// Obtained name from debug line below
+void Flow_Achievements_Increase_Cash_From_Missions(int iParam0)
 {
     if (g_U0)
     {
@@ -7372,6 +7381,7 @@ int sub_57324()
     return 0;
 }
 
+// Debug line, unused
 void sub_57483(unknown uParam0, unknown uParam1)
 {
     return;

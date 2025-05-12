@@ -209,7 +209,7 @@ void sub_319(unknown uParam0)
 
     sub_18659();
     ToggleRoads();
-    sub_23405();
+    Initialise_Help_Message_Conflicts();
     return;
 }
 
@@ -2135,7 +2135,8 @@ void ToggleRoads()
     return;
 }
 
-void sub_23405()
+// sub_23405
+void Initialise_Help_Message_Conflicts()
 {
     int I;
 

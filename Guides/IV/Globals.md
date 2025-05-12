@@ -9,18 +9,24 @@ This is very incomplete and just based on guessing, sometimes I can find these w
 
 * g_U8220 is possibly a changing room global or something, seems to only really be in use in the clothes stores and ambwardrobe.c
 
+<hr>
+
 * g_U2220 is possibly a mission blip global, found in use under sub_18130 within cia1.c.
 
 * g_U9052 seems to only be used in cablecars.c and startup.c.
 
-* g_U91 seems important and in use in a lot of scripts, I wonder what it is.
-
 * g_U8705 seems to be the bed help text global, if it is displayed this doesn't show up again, changes to 1 under sub_4034 in ambsavebed.c.
+
+* g_U13391 seems to be a global in use a lot in the missions, looking at the debug strings I think it has something to do with "Pass_Stats"
+
+* g_U15 seems to run this native: "GET_EPISODE_INDEX_FROM_SUMMONS", found in spcellphone.c
 
 To find some debug strings, search for "CREATE_WIDGET_GROUP" in VSCode.
 
 Useful globals:
 * g_U813, seems to be something that increments the mission attempts counter, I think this runs if a mission is quit, look into sub_1680 in bell3m.c.
+
+* g_U8708, seems to be mostly set for the default vehicle generators under initial.c. Possibly name g_InitialCarGenerators
 
 * g_U9893 = unknown
 * g_U9893._fU0, seems to be loading the "replayHelp" script.
