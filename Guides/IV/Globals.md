@@ -58,6 +58,10 @@ Phone globals:
 Possible variable names for phone globals:
 * _fU160 = pedVoice - Obtained from spcellphonecalling.c in sub_5794
 
+* _fU424 = multipleChoiceNumber
+
+* _fU176 = Possibly phoneContacts?
+
 * _fU404 = smsStatus
 * _fU104 = hideCellphone - Obtained from brucie1.c within a debug line
 * _fU100 = disableCellphone - Obtained from brucie1.c within a debug line
@@ -65,5 +69,6 @@ Possible variable names for phone globals:
 * _fU376 = overrideCellphoneChecks - Obtained from main.c within a debug line.
 
 * _fU496 = isHighDef - Obtained from spcellphone.c
+* _fU500 = isHighDef2? - Obtained from spcellphone.c, this one seems to do the same thing, possibly a different check?
 
 * _fU568 = getUnacceptedInvites - Obtained from spcellphone.c ``` cellphone3Dstructure._fU568 = NETWORK_GET_NUM_UNACCEPTED_INVITES(); ```

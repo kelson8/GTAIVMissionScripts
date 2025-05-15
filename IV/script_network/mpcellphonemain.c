@@ -27,7 +27,7 @@ void main()
     l_U2167 = -1;
     l_U2168 = -1;
     SETTIMERA( 0 );
-    g_U91._fU380 = 1;
+    cellphone3Dstructure._fU380 = 1;
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
     SCRIPT_IS_MOVING_MOBILE_PHONE_OFFSCREEN( 0 );
     SET_OVERRIDE_NO_SPRINTING_ON_PHONE_IN_MULTIPLAYER( 0 );
@@ -35,19 +35,19 @@ void main()
     switch (g_U826)
     {
         case 0:
-        g_U91._fU496 = GET_IS_HIDEF();
+        cellphone3Dstructure._fU496 = GET_IS_HIDEF();
         break;
         case 1:
-        g_U91._fU496 = 1;
+        cellphone3Dstructure._fU496 = 1;
         break;
         case 2:
-        g_U91._fU496 = 0;
+        cellphone3Dstructure._fU496 = 0;
         break;
     }
     sub_206( ref l_U2044, ref l_U2031 );
     iVar18 = 4;
     sub_1435( ref l_U2044 );
-    if (g_U91._fU0 == 1000)
+    if (cellphone3Dstructure._fU0 == 1000)
     {
         sub_2270( ref l_U2079, 1 );
         sub_2999();
@@ -58,7 +58,7 @@ void main()
     {
         WAIT( 0 );
         sub_3697( ref l_U2044, ref l_U2031 );
-        if ((((NOT IS_PLAYER_ONLINE()) AND (IS_IN_LAN_MODE() == 0)) || ((IS_IN_LAN_MODE() == 1) AND (NOT NETWORK_IS_NETWORK_AVAILABLE()))) AND (g_U91._fU0 != 1001))
+        if ((((NOT IS_PLAYER_ONLINE()) AND (IS_IN_LAN_MODE() == 0)) || ((IS_IN_LAN_MODE() == 1) AND (NOT NETWORK_IS_NETWORK_AVAILABLE()))) AND (cellphone3Dstructure._fU0 != 1001))
         {
             sub_3643( 1001 );
         }
@@ -66,16 +66,16 @@ void main()
         {
             if ((sub_4347( ref l_U2079 )) AND (NOT sub_4381()))
             {
-                g_U91._fU0 = 1001;
-                g_U91._fU100 = 0;
+                cellphone3Dstructure._fU0 = 1001;
+                cellphone3Dstructure._fU100 = 0;
             }
         }
-        else if ((g_U91._fU48) || (g_U91._fU52))
+        else if ((cellphone3Dstructure._fU48) || (cellphone3Dstructure._fU52))
         {
             if ((sub_4347( ref l_U2079 )) AND (NOT sub_4381()))
             {
                 STOP_MOBILE_PHONE_RINGING();
-                if (g_U91._fU48)
+                if (cellphone3Dstructure._fU48)
                 {
                     sub_3643( 1004 );
                 }
@@ -86,19 +86,19 @@ void main()
                 sub_4551( 5 );
             }
         }
-        else if (g_U91._fU632 == 1)
+        else if (cellphone3Dstructure._fU632 == 1)
         {
             sub_3643( 1064 );
         };;;;
         if (sub_5027( iVar18 ))
         {
-            switch (g_U91._fU0)
+            switch (cellphone3Dstructure._fU0)
             {
                 case 1002:
                 sub_5305();
                 if (sub_27549( ref l_U2079, 2 ))
                 {
-                    switch (sub_28583( g_U91._fU524 ))
+                    switch (sub_28583( cellphone3Dstructure._fU524 ))
                     {
                         case 6:
                         l_U2109 = -1;
@@ -120,7 +120,7 @@ void main()
                 case 1078:
                 case 1084:
                 sub_5305();
-                switch (sub_28583( g_U91._fU524 ))
+                switch (sub_28583( cellphone3Dstructure._fU524 ))
                 {
                     case 0:
                     sub_32761( ref l_U3, ref l_U228, ref l_U41 );
@@ -129,7 +129,7 @@ void main()
                     sub_33597( ref l_U3, ref l_U228, ref l_U41 );
                     break;
                     case 7:
-                    switch (g_U91._fU0)
+                    switch (cellphone3Dstructure._fU0)
                     {
                         case 1058:
                         sub_3643( 1002 );
@@ -137,7 +137,7 @@ void main()
                         case 1060:
                         case 1075:
                         case 1084:
-                        l_U2109 = g_U91._fU0;
+                        l_U2109 = cellphone3Dstructure._fU0;
                         sub_3643( 1058 );
                         break;
                         case 1078:
@@ -151,7 +151,7 @@ void main()
                     }
                     break;
                     case 6:
-                    switch (g_U91._fU0)
+                    switch (cellphone3Dstructure._fU0)
                     {
                         case 1058:
                         switch (l_U3._fU60)
@@ -213,15 +213,15 @@ void main()
                             }
                             else
                             {
-                                g_U91._fU636 = l_U2161;
-                                g_U91._fU632 = 2;
-                                StrCopy( ref g_U91._fU584, 8, l_U2137, 16);
+                                cellphone3Dstructure._fU636 = l_U2161;
+                                cellphone3Dstructure._fU632 = 2;
+                                StrCopy( ref cellphone3Dstructure._fU584, 8, l_U2137, 16);
                                 sub_3643( 1064 );
                             };;;
                             break;
                             case 3:
-                            g_U91._fU636 = 33;
-                            g_U91._fU632 = 4;
+                            cellphone3Dstructure._fU636 = 33;
+                            cellphone3Dstructure._fU632 = 4;
                             sub_3643( 1062 );
                             break;
                             case 1:
@@ -252,11 +252,11 @@ void main()
                             {
                                 if (IS_NETWORK_PLAYER_ACTIVE( l_U2161 ))
                                 {
-                                    ProtectedSet(g_U91._fU668, l_U2161);
+                                    ProtectedSet(cellphone3Dstructure._fU668, l_U2161);
                                 }
                                 else
                                 {
-                                    ProtectedSet(g_U91._fU668, -1);
+                                    ProtectedSet(cellphone3Dstructure._fU668, -1);
                                 }
                                 sub_3643( 1062 );
                             }
@@ -266,7 +266,7 @@ void main()
                             }
                             break;
                             case 4:
-                            ProtectedSet(g_U91._fU668, -1);
+                            ProtectedSet(cellphone3Dstructure._fU668, -1);
                             l_U2109 = -1;
                             sub_3643( 1062 );
                             break;
@@ -287,7 +287,7 @@ void main()
                                 break;
                             }
                             default:
-                            ProtectedSet(g_U91._fU660, l_U3._fU60);
+                            ProtectedSet(cellphone3Dstructure._fU660, l_U3._fU60);
                             sub_3643( 1085 );
                             break;
                         }
@@ -305,7 +305,7 @@ void main()
                 sub_5305();
                 if (sub_27549( ref l_U2079, 2 ))
                 {
-                    switch (sub_28583( g_U91._fU524 ))
+                    switch (sub_28583( cellphone3Dstructure._fU524 ))
                     {
                         case 0:
                         sub_35730( ref l_U3._fU52, ref l_U3._fU60, ref l_U2112, ref l_U2113 );
@@ -323,7 +323,7 @@ void main()
                         break;
                     }
                 }
-                if (g_U91._fU0 == 1097)
+                if (cellphone3Dstructure._fU0 == 1097)
                 {
                     if (TIMERA() >= 1500)
                     {
@@ -335,7 +335,7 @@ void main()
                 sub_5305();
                 if (sub_27549( ref l_U2079, 2 ))
                 {
-                    switch (sub_28583( g_U91._fU524 ))
+                    switch (sub_28583( cellphone3Dstructure._fU524 ))
                     {
                         case 0:
                         sub_32761( ref l_U3, ref l_U228, ref l_U41 );
@@ -362,7 +362,7 @@ void main()
                 sub_5305();
                 if (sub_27549( ref l_U2079, 2 ))
                 {
-                    switch (sub_28583( g_U91._fU524 ))
+                    switch (sub_28583( cellphone3Dstructure._fU524 ))
                     {
                         case 0:
                         sub_35730( ref l_U3._fU52, ref l_U3._fU60, ref l_U2112, ref l_U2113 );
@@ -383,7 +383,7 @@ void main()
                 break;
                 case 1079:
                 sub_5305();
-                switch (sub_28583( g_U91._fU524 ))
+                switch (sub_28583( cellphone3Dstructure._fU524 ))
                 {
                     case 0:
                     sub_32761( ref l_U3, ref l_U228, ref l_U41 );
@@ -416,7 +416,7 @@ void main()
                 case 1080:
                 case 1082:
                 sub_5305();
-                switch (sub_28583( g_U91._fU524 ))
+                switch (sub_28583( cellphone3Dstructure._fU524 ))
                 {
                     case 0:
                     sub_35730( ref l_U3._fU52, ref l_U3._fU60, ref l_U2112, ref l_U2113 );
@@ -425,7 +425,7 @@ void main()
                     sub_35818( ref l_U3._fU52, ref l_U3._fU60, ref l_U2116, ref l_U2112, ref l_U2113 );
                     break;
                     case 7:
-                    switch (g_U91._fU0)
+                    switch (cellphone3Dstructure._fU0)
                     {
                         case 1080:
                         l_U2109 = 1079;
@@ -453,7 +453,7 @@ void main()
                 break;
                 case 1081:
                 sub_5305();
-                switch (sub_28583( g_U91._fU524 ))
+                switch (sub_28583( cellphone3Dstructure._fU524 ))
                 {
                     case 0:
                     sub_32761( ref l_U3, ref l_U228, ref l_U41 );
@@ -494,7 +494,7 @@ void main()
                 case 1063:
                 case 1090:
                 sub_5305();
-                switch (sub_28583( g_U91._fU524 ))
+                switch (sub_28583( cellphone3Dstructure._fU524 ))
                 {
                     case 0:
                     sub_35730( ref l_U3._fU52, ref l_U3._fU60, ref l_U2112, ref l_U2113 );
@@ -503,16 +503,16 @@ void main()
                     sub_35818( ref l_U3._fU52, ref l_U3._fU60, ref l_U2116, ref l_U2112, ref l_U2113 );
                     break;
                     case 7:
-                    switch (g_U91._fU0)
+                    switch (cellphone3Dstructure._fU0)
                     {
                         case 1061:
                         case 1086:
-                        l_U2109 = g_U91._fU0;
+                        l_U2109 = cellphone3Dstructure._fU0;
                         sub_3643( 1058 );
                         break;
                         case 1076:
                         case 1077:
-                        l_U2109 = g_U91._fU0;
+                        l_U2109 = cellphone3Dstructure._fU0;
                         sub_3643( 1075 );
                         break;
                         case 1085:
@@ -540,7 +540,7 @@ void main()
                     }
                     break;
                     case 6:
-                    switch (g_U91._fU0)
+                    switch (cellphone3Dstructure._fU0)
                     {
                         case 1086:
                         g_U12 = 1;
@@ -561,18 +561,18 @@ void main()
                 sub_5305();
                 if (sub_27549( ref l_U2079, 2 ))
                 {
-                    sub_6945( "\n The net state is ", g_U91._fU632 );
-                    switch (sub_28583( g_U91._fU524 ))
+                    sub_6945( "\n The net state is ", cellphone3Dstructure._fU632 );
+                    switch (sub_28583( cellphone3Dstructure._fU524 ))
                     {
                         case 7:
                         STOP_MOBILE_PHONE_RINGING();
-                        switch (g_U91._fU632)
+                        switch (cellphone3Dstructure._fU632)
                         {
                             case 2:
                             case 3:
                             case 1:
-                            g_U91._fU636 = 33;
-                            g_U91._fU632 = 4;
+                            cellphone3Dstructure._fU636 = 33;
+                            cellphone3Dstructure._fU632 = 4;
                             break;
                             case 4:
                             case 9:
@@ -588,10 +588,10 @@ void main()
                         }
                         break;
                         case 6:
-                        switch (g_U91._fU632)
+                        switch (cellphone3Dstructure._fU632)
                         {
                             case 1:
-                            g_U91._fU632 = 9;
+                            cellphone3Dstructure._fU632 = 9;
                             sub_3643( 1064 );
                             break;
                             default:
@@ -603,7 +603,7 @@ void main()
                 case 1001:
                 if (sub_27549( ref l_U2079, 1 ))
                 {
-                    g_U91._fU0 = 1000;
+                    cellphone3Dstructure._fU0 = 1000;
                     SET_TEXT_TO_USE_TEXT_FILE_COLOURS( 1 );
                     DESTROY_MOBILE_PHONE();
                     STOP_MOBILE_PHONE_RINGING();
@@ -612,7 +612,7 @@ void main()
                 }
                 break;
                 default:
-                l_U2109 = g_U91._fU0;
+                l_U2109 = cellphone3Dstructure._fU0;
                 sub_3643( 1058 );
                 break;
             }
@@ -632,9 +632,9 @@ void sub_206(int iParam0, int iParam1)
     sub_219( iParam0, iParam1 );
     if ((NOT (# -NULL-0xc27c84())) AND (NOT (# -NULL-0xc27bfa())))
     {
-        g_U91._fU564 = 2;
+        cellphone3Dstructure._fU564 = 2;
     }
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
         sub_326( iParam1 + 0, 90, 110, 110, 255 );
@@ -683,7 +683,7 @@ void sub_206(int iParam0, int iParam1)
 void sub_219(int iParam0, unknown uParam1)
 {
     sub_228();
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
         if ((# -NULL-0xc27c84()) || (# -NULL-0xc27bfa()))
@@ -715,8 +715,8 @@ void sub_219(int iParam0, unknown uParam1)
 
 void sub_228()
 {
-    g_U91._fU560 = 17;
-    g_U91._fU556 = 16;
+    cellphone3Dstructure._fU560 = 17;
+    cellphone3Dstructure._fU556 = 16;
     return;
 }
 
@@ -734,10 +734,10 @@ void sub_1435(int iParam0)
     float fVar3;
 
     fVar3 = 1.85000000;
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
-        if (g_U91._fU500)
+        if (cellphone3Dstructure._fU500)
         {
             fVar3 = 1.55000000;
             sub_1509( ref iParam0->_fU0[3]._fU0, fVar3, fVar3 );
@@ -764,7 +764,7 @@ void sub_1435(int iParam0)
         sub_1509( ref iParam0->_fU0[7]._fU0, fVar3, fVar3 );
         break;
         default:
-        if (g_U91._fU500)
+        if (cellphone3Dstructure._fU500)
         {
             fVar3 = 1.55000000;
             sub_1509( ref iParam0->_fU0[3]._fU0, fVar3, fVar3 );
@@ -805,7 +805,7 @@ void sub_1509(int iParam0, unknown uParam1, unknown uParam2)
 void sub_2270(int iParam0, unknown uParam1)
 {
     iParam0->_fU0 = uParam1;
-    sub_2294( uParam1, ref g_U91._fU8 );
+    sub_2294( uParam1, ref cellphone3Dstructure._fU8 );
     sub_2924();
     return;
 }
@@ -815,43 +815,43 @@ void sub_2294(unknown uParam0, unknown uParam1)
     switch (uParam0)
     {
         case 1:
-        if ((g_U91._fU496) AND (GET_IS_WIDESCREEN()))
+        if ((cellphone3Dstructure._fU496) AND (GET_IS_WIDESCREEN()))
         {
-            sub_2411( uParam1, 11.50000000, -60.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 11.50000000, -60.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         else
         {
-            sub_2411( uParam1, 5.00000000, -60.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 5.00000000, -60.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
         case 2:
-        if ((g_U91._fU496) AND (GET_IS_WIDESCREEN()))
+        if ((cellphone3Dstructure._fU496) AND (GET_IS_WIDESCREEN()))
         {
-            sub_2411( uParam1, 11.50000000, -11.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 11.50000000, -11.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         else
         {
-            sub_2411( uParam1, 5.00000000, -7.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 5.00000000, -7.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
         case 3:
-        if ((g_U91._fU496) AND (GET_IS_WIDESCREEN()))
+        if ((cellphone3Dstructure._fU496) AND (GET_IS_WIDESCREEN()))
         {
-            sub_2411( uParam1, 11.50000000, 4.50000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 11.50000000, 4.50000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         else
         {
-            sub_2411( uParam1, 5.00000000, 8.50000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 5.00000000, 8.50000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
         case 4:
-        if ((g_U91._fU496) AND (GET_IS_WIDESCREEN()))
+        if ((cellphone3Dstructure._fU496) AND (GET_IS_WIDESCREEN()))
         {
-            sub_2411( uParam1, 11.50000000, -5.25000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 11.50000000, -5.25000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         else
         {
-            sub_2411( uParam1, 5.00000000, -0.75000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, g_U91._fU8._fU24 );
+            sub_2411( uParam1, 5.00000000, -0.75000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
     }
@@ -869,24 +869,24 @@ void sub_2411(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
 
 void sub_2924()
 {
-    SET_MOBILE_PHONE_SCALE( g_U91._fU8._fU24 );
-    SET_MOBILE_PHONE_POSITION( g_U91._fU8._fU0 );
-    SET_MOBILE_PHONE_ROTATION( g_U91._fU8._fU12 );
+    SET_MOBILE_PHONE_SCALE( cellphone3Dstructure._fU8._fU24 );
+    SET_MOBILE_PHONE_POSITION( cellphone3Dstructure._fU8._fU0 );
+    SET_MOBILE_PHONE_ROTATION( cellphone3Dstructure._fU8._fU12 );
     return;
 }
 
 void sub_2999()
 {
     sub_3036( "\n == Mobile Phone Created" );
-    GET_MOBILE_PHONE_RENDER_ID( ref g_U91._fU44 );
-    while (g_U91._fU44 == -1)
+    GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure._fU44 );
+    while (cellphone3Dstructure._fU44 == -1)
     {
         WAIT( 0 );
-        GET_MOBILE_PHONE_RENDER_ID( ref g_U91._fU44 );
+        GET_MOBILE_PHONE_RENDER_ID( ref cellphone3Dstructure._fU44 );
         sub_3036( "\n == Getting Render Target" );
     }
     sub_3036( "\n == Mobile Phone Loaded" );
-    g_U91._fU8._fU24 = 324.00000000;
+    cellphone3Dstructure._fU8._fU24 = 324.00000000;
     return;
 }
 
@@ -959,7 +959,7 @@ void sub_3539(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
 void sub_3643(unknown uParam0)
 {
     l_U2029 = 1;
-    g_U91._fU0 = uParam0;
+    cellphone3Dstructure._fU0 = uParam0;
     return;
 }
 
@@ -980,12 +980,12 @@ int sub_3781()
         sub_3036( "\n PHONE SCREEN CHECK - player has been summoned into another session." );
         return 0;
     }
-    if (g_U91._fU376)
+    if (cellphone3Dstructure._fU376)
     {
         sub_3036( "\n PHONE CHECK - .overrideCellphoneChecks is returning TRUE." );
         return 1;
     }
-    if ((g_U91._fU100) || (g_U91._fU104))
+    if ((cellphone3Dstructure._fU100) || (cellphone3Dstructure._fU104))
     {
         sub_3036( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
@@ -1019,7 +1019,7 @@ int sub_4347(int iParam0)
 
 int sub_4381()
 {
-    if ((g_U91._fU0 == 1010) || (g_U91._fU0 == 1001))
+    if ((cellphone3Dstructure._fU0 == 1010) || (cellphone3Dstructure._fU0 == 1001))
     {
         return 1;
     }
@@ -1106,9 +1106,9 @@ void sub_5305()
     char[16] cVar2;
     char[16] cVar6;
 
-    SET_TEXT_RENDER_ID( g_U91._fU44 );
+    SET_TEXT_RENDER_ID( cellphone3Dstructure._fU44 );
     SET_TEXT_TO_USE_TEXT_FILE_COLOURS( 0 );
-    switch (g_U91._fU0)
+    switch (cellphone3Dstructure._fU0)
     {
         case 1058:
         if (sub_5420( ref l_U2168 ))
@@ -1134,17 +1134,17 @@ void sub_5305()
         if (l_U2110 != GET_NUMBER_OF_PLAYERS())
         {
             l_U2110 = GET_NUMBER_OF_PLAYERS();
-            if ((l_U2110 <= 1) AND (NOT g_U91._fU1488))
+            if ((l_U2110 <= 1) AND (NOT cellphone3Dstructure._fU1488))
             {
                 l_U2109 = -1;
-                g_U91._fU0 = 1061;
+                cellphone3Dstructure._fU0 = 1061;
             }
             else
             {
                 l_U2109 = -1;
                 if ((l_U3._fU60 >= 0) AND (l_U3._fU60 < 32))
                 {
-                    if (g_U91._fU0 == 1060)
+                    if (cellphone3Dstructure._fU0 == 1060)
                     {
                         if (IS_NETWORK_PLAYER_ACTIVE( l_U3._fU60 ))
                         {
@@ -1152,7 +1152,7 @@ void sub_5305()
                         }
                     }
                 }
-                g_U91._fU0 = 1060;
+                cellphone3Dstructure._fU0 = 1060;
             }
             l_U2029 = 1;
         }
@@ -1174,21 +1174,21 @@ void sub_5305()
         }
         break;
     }
-    switch (g_U91._fU0)
+    switch (cellphone3Dstructure._fU0)
     {
         case 1064:
         case 1062:
-        if (l_U2164 != g_U91._fU632)
+        if (l_U2164 != cellphone3Dstructure._fU632)
         {
-            if ((l_U2164 != 2) AND (g_U91._fU632 != 3))
+            if ((l_U2164 != 2) AND (cellphone3Dstructure._fU632 != 3))
             {
                 l_U2029 = 1;
             }
-            l_U2164 = g_U91._fU632;
+            l_U2164 = cellphone3Dstructure._fU632;
         }
         break;
     }
-    if ((l_U2029) || (g_U91._fU92))
+    if ((l_U2029) || (cellphone3Dstructure._fU92))
     {
         sub_8685();
     }
@@ -1198,11 +1198,11 @@ void sub_5305()
         l_U2044._fU116 = 1678728908;
         l_U2044._fU128 = 1678728908;
     }
-    switch (g_U91._fU0)
+    switch (cellphone3Dstructure._fU0)
     {
         case 1002:
         sub_17917( 1, l_U2031, 1, 1 );
-        if (g_U91._fU572)
+        if (cellphone3Dstructure._fU572)
         {
             sub_17989( 0, g_U481._fU0[17], 0.84500000, 0.25000000, 0.45000000, 0.20000000 );
         }
@@ -1211,7 +1211,7 @@ void sub_5305()
         break;
         case 1064:
         sub_17917( 1, l_U2031, 1, 0 );
-        switch (g_U91._fU632)
+        switch (cellphone3Dstructure._fU632)
         {
             case 4:
             case 9:
@@ -1236,7 +1236,7 @@ void sub_5305()
                     STOP_MOBILE_PHONE_RINGING();
                     PLAY_SOUND_FRONTEND( l_U2162, "PHONE_ENGAGED_TONES" );
                     sub_8927( ref l_U3, 1, 0, 1 );
-                    sub_9011( ref l_U3, ref l_U228, 0, ref g_U91._fU584, "", 1, 1, 0, 0, 0 );
+                    sub_9011( ref l_U3, ref l_U228, 0, ref cellphone3Dstructure._fU584, "", 1, 1, 0, 0, 0 );
                     sub_9011( ref l_U3, ref l_U228, 1, "CP_BUSY", "", 1, 0, 0, 0, 0 );
                     sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
                 }
@@ -1272,7 +1272,7 @@ void sub_5305()
         case 1084:
         sub_17917( 1, l_U2031, 1, 0 );
         sub_22896( ref l_U3, ref l_U41, ref l_U2044, ref l_U2031, 0 );
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1078:
             StrCopy( ref cVar6, "BLANK", 16 );
@@ -1308,7 +1308,7 @@ void sub_5305()
         sub_17917( 1, l_U2031, 1, 0 );
         sub_26303( ref l_U2044._fU0[0], ref l_U2031, ref l_U2097, ref l_U2117, 0, ref l_U2112, ref l_U2113, l_U2116 );
         sub_25207( ref l_U3, ref l_U2031, l_U3._fU60 );
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1086:
             StrCopy( ref cVar6, "CP_NAV_LEAVE", 16 );
@@ -1330,9 +1330,9 @@ void sub_5305()
 
 int sub_5420(unknown uParam0)
 {
-    if (g_U91._fU568 != (uParam0^))
+    if (cellphone3Dstructure._fU568 != (uParam0^))
     {
-        (uParam0^) = g_U91._fU568;
+        (uParam0^) = cellphone3Dstructure._fU568;
         return 1;
     }
     return 0;
@@ -1348,7 +1348,7 @@ void sub_5482(unknown uParam0, boolean bParam1)
     }
     else
     {
-        ConcatString((uParam0^), g_U91._fU568, 32);
+        ConcatString((uParam0^), cellphone3Dstructure._fU568, 32);
     }
     ConcatString((uParam0^), ")", 32);
     return;
@@ -1409,7 +1409,7 @@ void sub_5771(int iParam0, unknown uParam1, int iParam2)
         iVar6 = iParam2;
         iVar7 = iParam2;
     }
-    if ((g_U91._fU496) AND (g_U91._fU500))
+    if ((cellphone3Dstructure._fU496) AND (cellphone3Dstructure._fU500))
     {
         fVar8 = 1.55000000;
         fVar9 = 1.40000000;
@@ -1545,7 +1545,7 @@ void sub_5932(int iParam0)
     iParam0->_fU112 = 0;
     iParam0->_fU116 = 0;
     iParam0->_fU120 = 0;
-    if ((g_U91._fU496) AND (g_U91._fU500))
+    if ((cellphone3Dstructure._fU496) AND (cellphone3Dstructure._fU500))
     {
         ref iParam0->_fU76->_fU0 = 1.55000000;
         ref iParam0->_fU76->_fU4 = 1.55000000;
@@ -1632,8 +1632,8 @@ void sub_8685()
     unknown uVar14;
     unknown uVar15;
 
-    g_U91._fU528 = 0;
-    switch (g_U91._fU0)
+    cellphone3Dstructure._fU528 = 0;
+    switch (cellphone3Dstructure._fU0)
     {
         case 1058:
         sub_8927( ref l_U3, 1, l_U2109, 0 );
@@ -1650,7 +1650,7 @@ void sub_8685()
             sub_5482( ref l_U2173, 0 );
             sub_9011( ref l_U3, ref l_U228, 1091, ref l_U2173, "", 1, 1, 0, 0, 0 );
         }
-        if ((NOT NETWORK_IS_GAME_RANKED()) AND (g_U91._fU664))
+        if ((NOT NETWORK_IS_GAME_RANKED()) AND (cellphone3Dstructure._fU664))
         {
             sub_9011( ref l_U3, ref l_U228, 1084, "CP_OPT_GVOTE", "", 1, 0, 0, 0, 0 );
         }
@@ -1659,7 +1659,7 @@ void sub_8685()
         break;
         case 1060:
         l_U2110 = GET_NUMBER_OF_PLAYERS();
-        if ((l_U2110 <= 1) AND (NOT g_U91._fU1488))
+        if ((l_U2110 <= 1) AND (NOT cellphone3Dstructure._fU1488))
         {
             ;
         }
@@ -1673,7 +1673,7 @@ void sub_8685()
                     sub_9011( ref l_U3, ref l_U228, I, GET_PLAYER_NAME( sub_8209( I ) ), "", 1, 1, 0, 0, 0 );
                 }
             }
-            if (g_U91._fU1488)
+            if (cellphone3Dstructure._fU1488)
             {
                 sub_9011( ref l_U3, ref l_U228, 100, "CP_ZIT", "", 1, 0, 0, 0, 0 );
             }
@@ -1732,7 +1732,7 @@ void sub_8685()
         break;
         case 1062:
         sub_8927( ref l_U3, 1, l_U2109, 0 );
-        if (g_U91._fU632 != 9)
+        if (cellphone3Dstructure._fU632 != 9)
         {
             sub_9011( ref l_U3, ref l_U228, 0, "CP_NET_CALL", "", 1, 0, 0, 0, 0 );
         }
@@ -1744,7 +1744,7 @@ void sub_8685()
         {
             sub_9011( ref l_U3, ref l_U228, 1, "CP_NET_GAMERC", "", 1, 0, 0, 0, 0 );
         }
-        if (g_U91._fU636 != l_U2161)
+        if (cellphone3Dstructure._fU636 != l_U2161)
         {
             if (NETWORK_IS_PLAYER_MUTED_BY_ME( l_U2161 ))
             {
@@ -1759,7 +1759,7 @@ void sub_8685()
         {
             if (GET_NUMBER_OF_PLAYERS() > 2)
             {
-                if (ProtectedGet(g_U91._fU668) == l_U2161)
+                if (ProtectedGet(cellphone3Dstructure._fU668) == l_U2161)
                 {
                     sub_9011( ref l_U3, ref l_U228, 4, "CP_UNKICKPLAYER", "", 1, 0, 0, 0, 0 );
                 }
@@ -1770,7 +1770,7 @@ void sub_8685()
             }
             else
             {
-                ProtectedSet(g_U91._fU668, -1);
+                ProtectedSet(cellphone3Dstructure._fU668, -1);
             }
         }
         sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
@@ -1778,7 +1778,7 @@ void sub_8685()
         case 1067:
         case 1068:
         case 1069:
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1067:
             if ((# -NULL-0xc27c84()) || (# -NULL-0xc27bfa()))
@@ -1817,26 +1817,26 @@ void sub_8685()
         break;
         case 1064:
         SETTIMERB( 0 );
-        switch (g_U91._fU632)
+        switch (cellphone3Dstructure._fU632)
         {
             case 9:
             STOP_MOBILE_PHONE_RINGING();
-            NETWORK_SET_TALKER_FOCUS( g_U91._fU636 );
+            NETWORK_SET_TALKER_FOCUS( cellphone3Dstructure._fU636 );
             sub_8927( ref l_U3, 1, 0, 1 );
-            sub_9011( ref l_U3, ref l_U228, 0, ref g_U91._fU584, "", 1, 1, 0, 0, 0 );
+            sub_9011( ref l_U3, ref l_U228, 0, ref cellphone3Dstructure._fU584, "", 1, 1, 0, 0, 0 );
             sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
             break;
             case 1:
-            switch (g_U91._fU112)
+            switch (cellphone3Dstructure._fU112)
             {
                 case 0:
                 case 1:
                 case 4:
-                START_CUSTOM_MOBILE_PHONE_RINGING( g_U91._fU108 );
+                START_CUSTOM_MOBILE_PHONE_RINGING( cellphone3Dstructure._fU108 );
                 break;
             }
             sub_8927( ref l_U3, 1, 0, 1 );
-            sub_9011( ref l_U3, ref l_U228, 0, ref g_U91._fU584, "", 1, 1, 0, 0, 0 );
+            sub_9011( ref l_U3, ref l_U228, 0, ref cellphone3Dstructure._fU584, "", 1, 1, 0, 0, 0 );
             sub_9011( ref l_U3, ref l_U228, 1, "CP_INFO_CALLING", "", 1, 0, 0, 0, 0 );
             sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
             break;
@@ -1845,13 +1845,13 @@ void sub_8685()
             START_MOBILE_PHONE_CALLING();
             sub_8927( ref l_U3, 1, 1, 1 );
             sub_9011( ref l_U3, ref l_U228, 0, "CP_INFO_CALLING", "", 1, 0, 0, 0, 0 );
-            sub_9011( ref l_U3, ref l_U228, 1, ref g_U91._fU584, "", 1, 1, 0, 0, 0 );
+            sub_9011( ref l_U3, ref l_U228, 1, ref cellphone3Dstructure._fU584, "", 1, 1, 0, 0, 0 );
             sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
             break;
             case 4:
             STOP_MOBILE_PHONE_RINGING();
             sub_8927( ref l_U3, 1, 0, 1 );
-            sub_9011( ref l_U3, ref l_U228, 0, ref g_U91._fU584, "", 1, 1, 0, 0, 0 );
+            sub_9011( ref l_U3, ref l_U228, 0, ref cellphone3Dstructure._fU584, "", 1, 1, 0, 0, 0 );
             sub_9011( ref l_U3, ref l_U228, 1, "CP_INFO_DISCON", "", 1, 0, 0, 0, 0 );
             sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
             break;
@@ -1861,7 +1861,7 @@ void sub_8685()
             l_U2162 = GET_SOUND_ID();
             sub_8927( ref l_U3, 1, 1, 1 );
             sub_9011( ref l_U3, ref l_U228, 0, "CP_INFO_CALLING", "", 1, 0, 0, 0, 0 );
-            sub_9011( ref l_U3, ref l_U228, 1, ref g_U91._fU584, "", 1, 1, 0, 0, 0 );
+            sub_9011( ref l_U3, ref l_U228, 1, ref cellphone3Dstructure._fU584, "", 1, 1, 0, 0, 0 );
             sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
             break;
         }
@@ -1877,7 +1877,7 @@ void sub_8685()
         StrCopy( ref cVar4, "NTGT_", 16 );
         sub_14862( ref cVar4, "NTGT", NETWORK_GET_GAME_MODE(), -1, -1 );
         sub_9011( ref l_U3, ref l_U228, 1076, ref cVar4, "", 1, 0, 0, 0, 0 );
-        if (NOT (COMPARE_STRING( ref g_U91._fU640, "" )))
+        if (NOT (COMPARE_STRING( ref cellphone3Dstructure._fU640, "" )))
         {
             sub_9011( ref l_U3, ref l_U228, 1077, "CP_NET_CBRIEF", "", 1, 0, 0, 0, 0 );
         }
@@ -1891,22 +1891,22 @@ void sub_8685()
         sub_11633( ref l_U2044._fU0[0], ref l_U2117, 0, ref l_U2116, ref l_U2114, ref l_U2112, ref l_U2113, ref l_U3._fU44, ref l_U3._fU60, ref l_U3._fU56, ref l_U3._fU52 );
         break;
         case 1077:
-        l_U2117[0] = {g_U91._fU640};
+        l_U2117[0] = {cellphone3Dstructure._fU640};
         StrCopy( ref l_U2117[1], "", 16 );
         StrCopy( ref l_U2117[2], "", 16 );
         sub_11633( ref l_U2044._fU0[0], ref l_U2117, 0, ref l_U2116, ref l_U2114, ref l_U2112, ref l_U2113, ref l_U3._fU44, ref l_U3._fU60, ref l_U3._fU56, ref l_U3._fU52 );
         break;
         case 1078:
         sub_8927( ref l_U3, 2, l_U2109, 0 );
-        for ( I = 0; I <= (g_U91._fU676 - 1); I++ )
+        for ( I = 0; I <= (cellphone3Dstructure._fU676 - 1); I++ )
         {
-            if (NOT (COMPARE_STRING( ref g_U91._fU676[I], "" )))
+            if (NOT (COMPARE_STRING( ref cellphone3Dstructure._fU676[I], "" )))
             {
-                sub_9011( ref l_U3, ref l_U228, 1, ref g_U91._fU676[I], ref g_U91._fU1080[I], 1, 0, 0, 0, 0 );
+                sub_9011( ref l_U3, ref l_U228, 1, ref cellphone3Dstructure._fU676[I], ref cellphone3Dstructure._fU1080[I], 1, 0, 0, 0, 0 );
             }
             else
             {
-                I = g_U91._fU676;
+                I = cellphone3Dstructure._fU676;
             }
         }
         sub_9622( ref l_U3, ref l_U228, ref l_U41, 1, 1, 0 );
@@ -1920,7 +1920,7 @@ void sub_8685()
             break;
         }
         case 1080:
-        g_U91._fU0 = 1080;
+        cellphone3Dstructure._fU0 = 1080;
         StrCopy( ref l_U2117[0], "CP_NO_FRIENDS", 16 );
         StrCopy( ref l_U2117[1], "", 16 );
         StrCopy( ref l_U2117[2], "", 16 );
@@ -1942,14 +1942,14 @@ void sub_8685()
         sub_11633( ref l_U2044._fU0[0], ref l_U2117, 0, ref l_U2116, ref l_U2114, ref l_U2112, ref l_U2113, ref l_U3._fU44, ref l_U3._fU60, ref l_U3._fU56, ref l_U3._fU52 );
         break;
         case 1091:
-        l_U2168 = g_U91._fU568;
-        if (g_U91._fU568 != 0)
+        l_U2168 = cellphone3Dstructure._fU568;
+        if (cellphone3Dstructure._fU568 != 0)
         {
             sub_16222( ref l_U3, ref l_U41, ref l_U228, l_U2109 );
             break;
         }
         case 1092:
-        g_U91._fU0 = 1092;
+        cellphone3Dstructure._fU0 = 1092;
         StrCopy( ref l_U2117[0], "NO_INVITES", 16 );
         StrCopy( ref l_U2117[1], "", 16 );
         StrCopy( ref l_U2117[2], "", 16 );
@@ -1962,7 +1962,7 @@ void sub_8685()
         case 1085:
         StrCopy( ref l_U2117[0], "CP_INFO_VOTE", 16 );
         StrCopy( ref l_U2117[1], "NTGT_", 16 );
-        ConcatString(ref l_U2117[1], ProtectedGet(g_U91._fU660), 16);
+        ConcatString(ref l_U2117[1], ProtectedGet(cellphone3Dstructure._fU660), 16);
         StrCopy( ref l_U2117[2], "", 16 );
         sub_11633( ref l_U2044._fU0[0], ref l_U2117, 0, ref l_U2116, ref l_U2114, ref l_U2112, ref l_U2113, ref l_U3._fU44, ref l_U3._fU60, ref l_U3._fU56, ref l_U3._fU52 );
         break;
@@ -1981,7 +1981,7 @@ void sub_8685()
         break;
     }
     l_U2029 = 0;
-    g_U91._fU92 = 0;
+    cellphone3Dstructure._fU92 = 0;
     return;
 }
 
@@ -2035,9 +2035,9 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
 
     fVar10 = 0.49500000;
     fVar11 = 0.93000000;
-    g_U91._fU492 = 1000 / iParam0->_fU4;
-    sub_9679( ref g_U91._fU492, 100, 500 );
-    if (g_U91._fU500)
+    cellphone3Dstructure._fU492 = 1000 / iParam0->_fU4;
+    sub_9679( ref cellphone3Dstructure._fU492, 100, 500 );
+    if (cellphone3Dstructure._fU500)
     {
         iVar9 = 6;
     }
@@ -2100,7 +2100,7 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
     {
         iParam0->_fU48 = iVar9;
         iParam0->_fU52 = 1;
-        if (g_U91._fU40 == 2)
+        if (cellphone3Dstructure._fU40 == 2)
         {
             iParam0->_fU56 = 0.72000000 / (TO_FLOAT( iParam0->_fU4 ));
         }
@@ -2118,7 +2118,7 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
         sub_10472( ref (uParam1^)[iParam0->_fU16[I]], ref (uParam2^)[I] );
     }
     iParam0->_fU60 = (uParam2^)[iParam0->_fU44]._fU4;
-    if (g_U91._fU40 != 2)
+    if (cellphone3Dstructure._fU40 != 2)
     {
         if (iParam0->_fU52)
         {
@@ -2131,12 +2131,12 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
             fVar11 = 1.00000000;
         }
     }
-    if (g_U91._fU500)
+    if (cellphone3Dstructure._fU500)
     {
         if (iParam0->_fU0 == 1)
         {
             sub_1509( iParam0 + 68, fVar10, 0.19000000 );
-            if (g_U91._fU40 == 2)
+            if (cellphone3Dstructure._fU40 == 2)
             {
                 sub_1509( iParam0 + 76, fVar11, 0.12000000 );
             }
@@ -2149,7 +2149,7 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
         else
         {
             sub_1509( iParam0 + 68, fVar10, 0.25000000 );
-            if (g_U91._fU40 == 2)
+            if (cellphone3Dstructure._fU40 == 2)
             {
                 sub_1509( iParam0 + 76, fVar11, 0.24000000 );
             }
@@ -2164,7 +2164,7 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
     else if (iParam0->_fU0 == 1)
     {
         sub_1509( iParam0 + 68, fVar10, 0.22000000 );
-        if (g_U91._fU40 == 2)
+        if (cellphone3Dstructure._fU40 == 2)
         {
             sub_1509( iParam0 + 76, fVar11, 0.18000000 );
         }
@@ -2177,7 +2177,7 @@ void sub_9622(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, un
     else
     {
         sub_1509( iParam0 + 68, fVar10, 0.31000000 );
-        if (g_U91._fU40 == 2)
+        if (cellphone3Dstructure._fU40 == 2)
         {
             sub_1509( iParam0 + 76, fVar11, 0.36000000 );
         }
@@ -2251,7 +2251,7 @@ void sub_11633(unknown uParam0, unknown uParam1, boolean bParam2, unknown uParam
     unknown uVar16;
     int iVar17;
 
-    if (g_U91._fU500)
+    if (cellphone3Dstructure._fU500)
     {
         uVar13._fU0 = 0.08000000;
         uVar13._fU4 = 0.10000000;
@@ -2259,7 +2259,7 @@ void sub_11633(unknown uParam0, unknown uParam1, boolean bParam2, unknown uParam
         uVar15._fU4 = 0.92000000;
         iVar17 = 6;
     }
-    else if (g_U91._fU40 == 2)
+    else if (cellphone3Dstructure._fU40 == 2)
     {
         uVar13._fU0 = 0.10000000;
         uVar15._fU0 = 0.10000000;
@@ -2279,7 +2279,7 @@ void sub_11633(unknown uParam0, unknown uParam1, boolean bParam2, unknown uParam
     (uParam8^) = 0;
     if (bParam2)
     {
-        g_U91._fU528 = 1;
+        cellphone3Dstructure._fU528 = 1;
         (uParam3^) = (uParam4^) + iVar17;
     }
     else
@@ -2449,7 +2449,7 @@ void sub_16222(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
     int I;
 
     sub_8927( uParam0, 1, uParam3, 0 );
-    for ( I = 0; I <= (g_U91._fU568 - 1); I++ )
+    for ( I = 0; I <= (cellphone3Dstructure._fU568 - 1); I++ )
     {
         sub_9011( uParam0, uParam2, I, NETWORK_GET_UNACCEPTED_INVITER_NAME( I ), "", 0, 1, 0, 0, 0 );
     }
@@ -2540,7 +2540,7 @@ int sub_17593(unknown uParam0)
 
 void sub_17917(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9, unknown uParam10, unknown uParam11, unknown uParam12, unknown uParam13, boolean bParam14, boolean bParam15)
 {
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
         if (bParam14)
@@ -2551,7 +2551,7 @@ void sub_17917(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
         sub_18258( uParam0 );
         if (bParam15)
         {
-            if (NOT g_U91._fU540)
+            if (NOT cellphone3Dstructure._fU540)
             {
                 sub_17989( 0, g_U523._fU0[1], 0.50000000, 0.50000000, 0.85000000, 0.41000000 );
             }
@@ -2559,18 +2559,18 @@ void sub_17917(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
         break;
         default:
         sub_18952( 0, 0.50000000, 0.50000000, 1.00000000, 1.00000000, uParam1._fU0 );
-        if ((g_U91._fU0 == 1002) AND (NOT g_U91._fU540))
+        if ((cellphone3Dstructure._fU0 == 1002) AND (NOT cellphone3Dstructure._fU540))
         {
             sub_18678( 0, g_U481._fU0[19], 0.50000000, 0.60000000, 0.80000000, 0.40000000, uParam1._fU12 );
         }
         break;
     }
-    switch (g_U91._fU0)
+    switch (cellphone3Dstructure._fU0)
     {
         case 1003:
         case 1009: break;
         default:
-        if (NOT g_U91._fU528)
+        if (NOT cellphone3Dstructure._fU528)
         {
             sub_19222( 0 );
         }
@@ -2694,7 +2694,7 @@ void sub_19222(int iParam0)
     {
         if (iParam0 != I)
         {
-            if (g_U91._fU496)
+            if (cellphone3Dstructure._fU496)
             {
                 sub_19392( 1, g_U481._fU0[I], 0.25000000 + (((I - 1) mod 3) * 0.25000000), 0.25000000 + (((I - 1) / 3) * 0.20000000), 0.24500000, 0.18500000, 200, 200, 200, 255 );
             }
@@ -2770,10 +2770,10 @@ void sub_20156(int iParam0, unknown uParam1, unknown uParam2, int iParam3)
         sub_20237( iParam0, uParam2, uParam1 );
     }
     uVar8 = sub_20426( uParam1, 0, iParam0->_fU0[2]._fU0._fU0, iParam0->_fU0[2]._fU0._fU4 );
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
-        if (g_U91._fU528)
+        if (cellphone3Dstructure._fU528)
         {
             sub_18147( 0, 0.50000000, 0.94000000, 1.00000000, 0.12000000, 0, 0, 0, 255 );
         }
@@ -2790,11 +2790,11 @@ void sub_20156(int iParam0, unknown uParam1, unknown uParam2, int iParam3)
     }
     if (iParam0->_fU116 != 1678728908)
     {
-        sub_11823( 0, 0, ref iParam0->_fU0[1], uParam2, ref iParam0->_fU100->_fU0, ref iParam0->_fU100->_fU4, 0.00000000, 1.00000000, 0, 0, 0, 0, g_U91._fU564, 1 );
+        sub_11823( 0, 0, ref iParam0->_fU0[1], uParam2, ref iParam0->_fU100->_fU0, ref iParam0->_fU100->_fU4, 0.00000000, 1.00000000, 0, 0, 0, 0, cellphone3Dstructure._fU564, 1 );
     }
     if (iParam0->_fU128 != 1678728908)
     {
-        sub_11823( 0, 0, ref iParam0->_fU0[2], uParam1, (ref iParam0->_fU108->_fU0) - uVar8, ref iParam0->_fU108->_fU4, 0.00000000, ref iParam0->_fU108->_fU0, 0, 0, 0, 0, g_U91._fU564, 1 );
+        sub_11823( 0, 0, ref iParam0->_fU0[2], uParam1, (ref iParam0->_fU108->_fU0) - uVar8, ref iParam0->_fU108->_fU4, 0.00000000, ref iParam0->_fU108->_fU0, 0, 0, 0, 0, cellphone3Dstructure._fU564, 1 );
     }
     return;
 }
@@ -2868,8 +2868,8 @@ void sub_21144(unknown uParam0, int iParam1)
     int iVar6;
     char[16] cVar7;
 
-    iVar5 = GET_BITS_IN_RANGE( g_U91._fU96, 0, 15 );
-    iVar6 = GET_BITS_IN_RANGE( g_U91._fU96, 16, 31 );
+    iVar5 = GET_BITS_IN_RANGE( cellphone3Dstructure._fU96, 0, 15 );
+    iVar6 = GET_BITS_IN_RANGE( cellphone3Dstructure._fU96, 16, 31 );
     iVar6++;
     if (iVar6 >= 120)
     {
@@ -2879,7 +2879,7 @@ void sub_21144(unknown uParam0, int iParam1)
             if (iVar5 > 1)
             {
                 iVar5--;
-                SET_BITS_IN_RANGE( ref g_U91._fU96, 0, 15, iVar5 );
+                SET_BITS_IN_RANGE( ref cellphone3Dstructure._fU96, 0, 15, iVar5 );
             }
         }
         else if (iVar4 > 200)
@@ -2887,20 +2887,20 @@ void sub_21144(unknown uParam0, int iParam1)
             if (iVar5 < 4)
             {
                 iVar5++;
-                SET_BITS_IN_RANGE( ref g_U91._fU96, 0, 15, iVar5 );
+                SET_BITS_IN_RANGE( ref cellphone3Dstructure._fU96, 0, 15, iVar5 );
             }
         }
-        SET_BITS_IN_RANGE( ref g_U91._fU96, 16, 31, 0 );
+        SET_BITS_IN_RANGE( ref cellphone3Dstructure._fU96, 16, 31, 0 );
     }
     else
     {
-        SET_BITS_IN_RANGE( ref g_U91._fU96, 16, 31, iVar6 );
+        SET_BITS_IN_RANGE( ref cellphone3Dstructure._fU96, 16, 31, iVar6 );
     }
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
         sub_18952( 0, 0.50000000, 0.06000000, 1.00000000, 0.12000000, iParam1->_fU12 );
-        if (NOT g_U91._fU540)
+        if (NOT cellphone3Dstructure._fU540)
         {
             switch (iVar5)
             {
@@ -2914,7 +2914,7 @@ void sub_21144(unknown uParam0, int iParam1)
         }
         StrCopy( ref cVar7, "DOW_SHORT_DAY_", 16 );
         ConcatString(ref cVar7, GET_CURRENT_DAY_OF_WEEK(), 16);
-        if (g_U91._fU500)
+        if (cellphone3Dstructure._fU500)
         {
             sub_11823( 0, 0, uParam0, ref cVar7, 0.58000000, 0.01500000, 0.00000000, 0.62500000, 1, 0, 0, 0, 0, 1 );
             sub_21733( uParam0, 0.79000000, 0.01500000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
@@ -2927,7 +2927,7 @@ void sub_21144(unknown uParam0, int iParam1)
         break;
         default:
         sub_18952( 0, 0.50000000, 0.06500000, 1.00000000, 0.13000000, iParam1->_fU12 );
-        if (NOT g_U91._fU540)
+        if (NOT cellphone3Dstructure._fU540)
         {
             switch (iVar5)
             {
@@ -2941,7 +2941,7 @@ void sub_21144(unknown uParam0, int iParam1)
         }
         StrCopy( ref cVar7, "DOW_SHORT_DAY_", 16 );
         ConcatString(ref cVar7, GET_CURRENT_DAY_OF_WEEK(), 16);
-        if (g_U91._fU500)
+        if (cellphone3Dstructure._fU500)
         {
             sub_11823( 0, 0, uParam0, ref cVar7, 0.58000000, 0.01500000, 0.00000000, 0.62500000, 1, 0, 0, 0, 0, 1 );
             sub_21733( uParam0, 0.79000000, 0.01500000, GET_HOURS_OF_DAY(), GET_MINUTES_OF_DAY() );
@@ -2996,7 +2996,7 @@ void sub_22896(int iParam0, unknown uParam1, int iParam2, int iParam3, boolean b
     iVar10 = 0;
     iParam0->_fU112++;
     iParam0->_fU116++;
-    if ((iParam0->_fU64) AND (g_U91._fU40 == 2))
+    if ((iParam0->_fU64) AND (cellphone3Dstructure._fU40 == 2))
     {
         sub_18952( 0, 0.50000000, 0.49000000, 0.90000000, 0.72000000, iParam3->_fU8 );
     }
@@ -3008,7 +3008,7 @@ void sub_22896(int iParam0, unknown uParam1, int iParam2, int iParam3, boolean b
         {
             if ((uParam1^)[I]._fU0)
             {
-                if (g_U91._fU0 == 1083)
+                if (cellphone3Dstructure._fU0 == 1083)
                 {
                     if ((uParam1^)[I]._fU4 != 1000)
                     {
@@ -3189,7 +3189,7 @@ void sub_23924(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam
         {
             SET_TEXT_COLOUR( sub_12178( iParam7 + 8, 0 ), sub_12178( iParam7 + 8, 1 ), sub_12178( iParam7 + 8, 2 ), sub_12178( iParam7 + 8, 3 ) );
         }
-        else if ((g_U91._fU40 == 2) || (uParam12))
+        else if ((cellphone3Dstructure._fU40 == 2) || (uParam12))
         {
             SET_TEXT_COLOUR( 130, 130, 130, sub_12178( iParam7 + 8, 3 ) );
         }
@@ -3231,7 +3231,7 @@ void sub_25207(int iParam0, int iParam1, int iParam2)
     }
     if (iParam0->_fU52)
     {
-        if (g_U91._fU40 == 1)
+        if (cellphone3Dstructure._fU40 == 1)
         {
             sub_18952( 0, 0.95000000, 0.50500000, 0.01000000, 0.75000000, iParam1->_fU28 );
             sub_18952( 0, 0.95000000, (0.13000000 + (iParam0->_fU56 * 0.50000000)) + ((TO_FLOAT( iVar5 )) * iParam0->_fU56), 0.05000000, iParam0->_fU56, iParam1->_fU36 );
@@ -3287,7 +3287,7 @@ void sub_26303(unknown uParam0, int iParam1, int iParam2, unknown uParam3, unkno
     int iVar16;
 
     iVar15 = 5;
-    switch (g_U91._fU40)
+    switch (cellphone3Dstructure._fU40)
     {
         case 2:
         if ((uParam4) AND ((uParam6^) != (iParam7 - 1)))
@@ -3303,7 +3303,7 @@ void sub_26303(unknown uParam0, int iParam1, int iParam2, unknown uParam3, unkno
         sub_18952( 0, 0.50000000, 0.50000000, 1.00000000, 1.00000000, iParam1->_fU0 );
         break;
     }
-    if (g_U91._fU500)
+    if (cellphone3Dstructure._fU500)
     {
         uVar10._fU0 = 0.08000000;
         uVar10._fU4 = 0.10000000;
@@ -3311,7 +3311,7 @@ void sub_26303(unknown uParam0, int iParam1, int iParam2, unknown uParam3, unkno
         uVar12._fU4 = 0.92000000;
         iVar15 = 6;
     }
-    else if (g_U91._fU40 == 2)
+    else if (cellphone3Dstructure._fU40 == 2)
     {
         uVar10._fU0 = 0.10000000;
         uVar12._fU0 = 0.10000000;
@@ -3345,7 +3345,7 @@ void sub_26303(unknown uParam0, int iParam1, int iParam2, unknown uParam3, unkno
         SET_TEXT_LINE_DISPLAY( (uParam5^), (uParam6^) );
     }
     DISPLAY_TEXT_WITH_TWO_STRINGS( uVar10._fU0, uVar10._fU4, ref (uParam3^)[0], ref (uParam3^)[1], ref (uParam3^)[2] );
-    if (g_U91._fU528)
+    if (cellphone3Dstructure._fU528)
     {
         sub_19222( 0 );
     }
@@ -3409,31 +3409,31 @@ void sub_27549(int iParam0, int iParam1)
     boolean Result;
     int iVar5;
 
-    if (g_U91._fU380)
+    if (cellphone3Dstructure._fU380)
     {
         Result = false;
         iVar5 = 0;
-        if (g_U91._fU0 == 1004)
+        if (cellphone3Dstructure._fU0 == 1004)
         {
-            if ((g_U91._fU112 == 3) || (g_U91._fU112 == 4))
+            if ((cellphone3Dstructure._fU112 == 3) || (cellphone3Dstructure._fU112 == 4))
             {
                 iVar5 = 1;
-                if (g_U91._fU116)
+                if (cellphone3Dstructure._fU116)
                 {
                     SHAKE_PAD( 0, 100, 256 );
-                    g_U91._fU8._fU0._fU0 += 0.25000000;
-                    if (g_U91._fU8._fU0._fU0 >= (g_U91._fU8._fU28 + 0.50000000))
+                    cellphone3Dstructure._fU8._fU0._fU0 += 0.25000000;
+                    if (cellphone3Dstructure._fU8._fU0._fU0 >= (cellphone3Dstructure._fU8._fU28 + 0.50000000))
                     {
-                        g_U91._fU116 = 0;
+                        cellphone3Dstructure._fU116 = 0;
                     }
                 }
                 else
                 {
                     SHAKE_PAD( 0, 100, 128 );
-                    g_U91._fU8._fU0._fU0 -= 0.25000000;
-                    if (g_U91._fU8._fU0._fU0 <= (g_U91._fU8._fU28 - 0.50000000))
+                    cellphone3Dstructure._fU8._fU0._fU0 -= 0.25000000;
+                    if (cellphone3Dstructure._fU8._fU0._fU0 <= (cellphone3Dstructure._fU8._fU28 - 0.50000000))
                     {
-                        g_U91._fU116 = 1;
+                        cellphone3Dstructure._fU116 = 1;
                     }
                 }
             }
@@ -3479,8 +3479,8 @@ void sub_27829(int iParam0, boolean bParam1)
     GET_FRAME_TIME( ref uVar4 );
     if (iParam0->_fU0 > 5)
     {
-        sub_27902( ref g_U91._fU8._fU0, (ref ref iParam0->_fU4->_fU0->_fU0) * uVar4, (ref ref iParam0->_fU4->_fU0->_fU4) * uVar4, (ref ref iParam0->_fU4->_fU0->_fU8) * uVar4 );
-        sub_27902( ref g_U91._fU8._fU12, (ref ref iParam0->_fU4->_fU12->_fU0) * uVar4, (ref ref iParam0->_fU4->_fU12->_fU4) * uVar4, (ref ref iParam0->_fU4->_fU12->_fU8) * uVar4 );
+        sub_27902( ref cellphone3Dstructure._fU8._fU0, (ref ref iParam0->_fU4->_fU0->_fU0) * uVar4, (ref ref iParam0->_fU4->_fU0->_fU4) * uVar4, (ref ref iParam0->_fU4->_fU0->_fU8) * uVar4 );
+        sub_27902( ref cellphone3Dstructure._fU8._fU12, (ref ref iParam0->_fU4->_fU12->_fU0) * uVar4, (ref ref iParam0->_fU4->_fU12->_fU4) * uVar4, (ref ref iParam0->_fU4->_fU12->_fU8) * uVar4 );
         if (sub_28009( iParam0 ))
         {
             iParam0->_fU0 = iParam0->_fU0 mod 10;
@@ -3505,15 +3505,15 @@ int sub_28009(int iParam0)
 {
     if ((ref ref iParam0->_fU4->_fU0->_fU4) >= 0.00000000)
     {
-        if (g_U91._fU8._fU0._fU4 <= (ref ref iParam0->_fU36->_fU0->_fU4))
+        if (cellphone3Dstructure._fU8._fU0._fU4 <= (ref ref iParam0->_fU36->_fU0->_fU4))
         {
-            g_U91._fU8._fU0._fU4 = ref ref iParam0->_fU36->_fU0->_fU4;
+            cellphone3Dstructure._fU8._fU0._fU4 = ref ref iParam0->_fU36->_fU0->_fU4;
             return 1;
         }
     }
-    else if (g_U91._fU8._fU0._fU4 >= (ref ref iParam0->_fU36->_fU0->_fU4))
+    else if (cellphone3Dstructure._fU8._fU0._fU4 >= (ref ref iParam0->_fU36->_fU0->_fU4))
     {
-        g_U91._fU8._fU0._fU4 = ref ref iParam0->_fU36->_fU0->_fU4;
+        cellphone3Dstructure._fU8._fU0._fU4 = ref ref iParam0->_fU36->_fU0->_fU4;
         return 1;
     }
     return 0;
@@ -3566,7 +3566,7 @@ void sub_28583(unknown uParam0)
         else
         {
             GET_GAME_TIMER( ref iVar3 );
-            if ((iVar3 >= g_U568) AND (g_U91._fU484))
+            if ((iVar3 >= g_U568) AND (cellphone3Dstructure._fU484))
             {
                 g_U565 = 5;
                 return 19;
@@ -3585,9 +3585,9 @@ void sub_28583(unknown uParam0)
         else
         {
             GET_GAME_TIMER( ref iVar3 );
-            if (iVar3 >= g_U91._fU488)
+            if (iVar3 >= cellphone3Dstructure._fU488)
             {
-                g_U91._fU488 = iVar3 + g_U91._fU492;
+                cellphone3Dstructure._fU488 = iVar3 + cellphone3Dstructure._fU492;
                 return 1;
             }
             else
@@ -3604,7 +3604,7 @@ void sub_28583(unknown uParam0)
         else
         {
             GET_GAME_TIMER( ref iVar3 );
-            if ((iVar3 >= g_U568) AND (g_U91._fU484))
+            if ((iVar3 >= g_U568) AND (cellphone3Dstructure._fU484))
             {
                 g_U565 = 4;
                 return 19;
@@ -3623,9 +3623,9 @@ void sub_28583(unknown uParam0)
         else
         {
             GET_GAME_TIMER( ref iVar3 );
-            if (iVar3 >= g_U91._fU488)
+            if (iVar3 >= cellphone3Dstructure._fU488)
             {
-                g_U91._fU488 = iVar3 + g_U91._fU492;
+                cellphone3Dstructure._fU488 = iVar3 + cellphone3Dstructure._fU492;
                 return 0;
             }
             else
@@ -3864,20 +3864,20 @@ void sub_28749(unknown uParam0)
     {
         bVar6 = true;
     }
-    if (((iVar11 > 0) AND (g_U91._fU0 != 1002)) AND (g_U91._fU0 != 1003))
+    if (((iVar11 > 0) AND (cellphone3Dstructure._fU0 != 1002)) AND (cellphone3Dstructure._fU0 != 1003))
     {
         iVar7 = 1;
     }
-    if ((((IS_GAME_KEYBOARD_NAV_UP_PRESSED( 1 )) AND (g_U91._fU0 != 1000)) AND (g_U91._fU0 != 1002)) || ((((iVar11 < 0) AND (g_U91._fU0 != 1000)) AND (g_U91._fU0 != 1002)) AND (g_U91._fU0 != 1003)))
+    if ((((IS_GAME_KEYBOARD_NAV_UP_PRESSED( 1 )) AND (cellphone3Dstructure._fU0 != 1000)) AND (cellphone3Dstructure._fU0 != 1002)) || ((((iVar11 < 0) AND (cellphone3Dstructure._fU0 != 1000)) AND (cellphone3Dstructure._fU0 != 1002)) AND (cellphone3Dstructure._fU0 != 1003)))
     {
         iVar8 = 1;
     }
-    if ((iVar9) AND ((g_U91._fU0 == 1000) || (g_U91._fU0 == 1002)))
+    if ((iVar9) AND ((cellphone3Dstructure._fU0 == 1000) || (cellphone3Dstructure._fU0 == 1002)))
     {
         GET_GAME_TIMER( ref g_U568 );
         g_U568 += 500;
         g_U565 = 0;
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1005:
             case 1007: break;
@@ -3891,7 +3891,7 @@ void sub_28749(unknown uParam0)
         GET_GAME_TIMER( ref g_U568 );
         g_U568 += 500;
         g_U565 = 18;
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1005: break;
             default:
@@ -3899,12 +3899,12 @@ void sub_28749(unknown uParam0)
             break;
         }
     }
-    else if ((iVar10) AND (g_U91._fU0 == 1002))
+    else if ((iVar10) AND (cellphone3Dstructure._fU0 == 1002))
     {
         GET_GAME_TIMER( ref g_U568 );
         g_U568 += 500;
         g_U565 = 1;
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1005: break;
             default:
@@ -3915,7 +3915,7 @@ void sub_28749(unknown uParam0)
     else if (((bVar3) AND (NOT bVar5)) AND (NOT bVar4))
     {
         g_U565 = 3;
-        if ((g_U91._fU0 == 1003) || (g_U91._fU0 == 1009))
+        if ((cellphone3Dstructure._fU0 == 1003) || (cellphone3Dstructure._fU0 == 1009))
         {
             sub_29150( 7, uParam0 );
         }
@@ -3924,9 +3924,9 @@ void sub_28749(unknown uParam0)
     {
         GET_GAME_TIMER( ref g_U568 );
         g_U568 += 500;
-        g_U91._fU488 = 0;
+        cellphone3Dstructure._fU488 = 0;
         g_U565 = 1;
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1005: break;
             default:
@@ -3938,9 +3938,9 @@ void sub_28749(unknown uParam0)
     {
         GET_GAME_TIMER( ref g_U568 );
         g_U568 += 500;
-        g_U91._fU488 = 0;
+        cellphone3Dstructure._fU488 = 0;
         g_U565 = 0;
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1005:
             case 1007: break;
@@ -3952,7 +3952,7 @@ void sub_28749(unknown uParam0)
     else if (((bVar6) AND (NOT bVar5)) AND (NOT bVar4))
     {
         g_U565 = 2;
-        if ((g_U91._fU0 == 1003) || (g_U91._fU0 == 1009))
+        if ((cellphone3Dstructure._fU0 == 1003) || (cellphone3Dstructure._fU0 == 1009))
         {
             sub_29150( 3, uParam0 );
         }
@@ -3968,10 +3968,10 @@ void sub_29150(unknown uParam0, unknown uParam1)
 {
     unknown uVar4;
 
-    if ((uParam1) AND ((NOT g_U91._fU376) || (g_U91._fU0 == 1005)))
+    if ((uParam1) AND ((NOT cellphone3Dstructure._fU376) || (cellphone3Dstructure._fU0 == 1005)))
     {
         uVar4 = GET_SOUND_ID();
-        if (g_U91._fU0 == 1005)
+        if (cellphone3Dstructure._fU0 == 1005)
         {
             PLAY_SOUND_FRONTEND( uVar4, "PHONE_PRESS_KEY_SPEED" );
         }
@@ -4040,7 +4040,7 @@ void sub_31329(unknown uParam0)
     if ((((IS_USING_CONTROLLER()) AND (IS_CONTROL_PRESSED( 2, 77 ))) || ((NOT IS_USING_CONTROLLER()) AND (IS_CONTROL_PRESSED( 2, 181 )))) || (IS_MOUSE_BUTTON_PRESSED( 1 )))
     {
         g_U566 = 6;
-        switch (g_U91._fU0)
+        switch (cellphone3Dstructure._fU0)
         {
             case 1005:
             case 1007: break;
@@ -4052,7 +4052,7 @@ void sub_31329(unknown uParam0)
     else if ((((IS_USING_CONTROLLER()) AND (IS_CONTROL_PRESSED( 2, 78 ))) || ((NOT IS_USING_CONTROLLER()) AND (IS_CONTROL_PRESSED( 2, 182 )))) || (IS_MOUSE_BUTTON_PRESSED( 2 )))
     {
         g_U566 = 7;
-        if (g_U91._fU0 != 1007)
+        if (cellphone3Dstructure._fU0 != 1007)
         {
             sub_29150( 4, uParam0 );
         }
@@ -4067,7 +4067,7 @@ void sub_31329(unknown uParam0)
 void sub_31791(unknown uParam0)
 {
     g_U567 = 19;
-    if (((g_U91._fU0 == 1003) || (g_U91._fU0 == 1009)) AND (IS_NUMLOCK_ENABLED()))
+    if (((cellphone3Dstructure._fU0 == 1003) || (cellphone3Dstructure._fU0 == 1009)) AND (IS_NUMLOCK_ENABLED()))
     {
         if (IS_GAME_KEYBOARD_KEY_PRESSED( 82 ))
         {

@@ -65,7 +65,7 @@ void main()
             cellphone3Dstructure._fU484 = 1;
             cellphone3Dstructure._fU656 = -1;
             cellphone3Dstructure._fU368 = 0;
-            cellphone3Dstructure._fU372 = 0;
+            cellphone3Dstructure.missionAnsweredPhone = 0;
             g_U815 = 0;
             g_U816 = 0;
             g_U817 = 0;
@@ -1658,6 +1658,7 @@ void sub_12022(unknown uParam0, int iParam1, int iParam2, int iParam3)
     return;
 }
 
+// Possibly play a cell phone sound for MOBILE_PHONE_SMS_RECIEVE
 void sub_12154(int iParam0, unknown uParam1)
 {
     unknown uVar4;
@@ -1674,6 +1675,15 @@ void sub_12154(int iParam0, unknown uParam1)
     return;
 }
 
+// Example usage:
+// sub_12189( ref uVar4, "CP_APMNT_", iParam0, -1, -1 );
+
+// In above example:
+// uParam0 = uVar4
+// uParam1 = "CP_APMNT_"
+// uParam2 = iParam0 of sub_12189
+// iParam3 = -1
+// iParam4 = -1
 void sub_12189(unknown uParam0, unknown uParam1, unknown uParam2, int iParam3, int iParam4)
 {
     StrCopy( (uParam0^), uParam1, 16 );
@@ -1874,7 +1884,7 @@ int sub_13442(int iParam0, boolean bParam1)
     {
         if (bParam1)
         {
-            if ((NOT cellphone3Dstructure._fU372) AND (cellphone3Dstructure._fU508 >= 4))
+            if ((NOT cellphone3Dstructure.missionAnsweredPhone) AND (cellphone3Dstructure._fU508 >= 4))
             {
                 return 1;
             }
@@ -1980,9 +1990,8 @@ int sub_13875(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         // g_U91 = cellphone3Dstructure
         if (cellphone3Dstructure._fU368)
         {
-            if ((NOT bParam8) || (cellphone3Dstructure._fU372))
+            if ((NOT bParam8) || (cellphone3Dstructure.missionAnsweredPhone))
             {
-                // This looks useful for later, I wonder if cellphone3Dstructure is cellphone3Dstructure
                 sub_1814( "\n cellphone3Dstructure.missionAnsweredPhone OR (NOT missionCall)" );
                 return 0;
             }
@@ -1995,7 +2004,7 @@ int sub_13875(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
             }
         }
         cellphone3Dstructure._fU368 = 1;
-        cellphone3Dstructure._fU372 = bParam8;
+        cellphone3Dstructure.missionAnsweredPhone = bParam8;
         uParam0 = cellphone3Dstructure._fU60;
         break;
         case 2:
@@ -2006,7 +2015,7 @@ int sub_13875(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
         cellphone3Dstructure._fU60 = uParam0;
         cellphone3Dstructure._fU52 = 1;
         cellphone3Dstructure._fU56 = 1;
-        cellphone3Dstructure._fU372 = 1;
+        cellphone3Dstructure.missionAnsweredPhone = 1;
         cellphone3Dstructure._fU368 = 1;
         g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
@@ -2015,12 +2024,15 @@ int sub_13875(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3
     {
         ABORT_SCRIPTED_CONVERSATION( 0 );
     }
+
+    // PhoneContacts?
     sub_14931( uParam0, ref cellphone3Dstructure._fU176 );
     sub_16312( ref cellphone3Dstructure._fU160 );
+
     cellphone3Dstructure._fU380 = uParam10;
     cellphone3Dstructure._fU376 = bParam11;
     cellphone3Dstructure._fU420 = uParam12;
-    cellphone3Dstructure._fU424 = -1;
+    cellphone3Dstructure.multipleChoiceNumber = -1;
     cellphone3Dstructure._fU364 = uParam3;
     StrCopy( ref cellphone3Dstructure._fU144, uParam2, 16 );
     for ( I = 0; I <= (g_U8499 - 1); I++ )

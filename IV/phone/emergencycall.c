@@ -365,6 +365,21 @@ int sub_751(unknown uParam0, unknown uParam1, boolean bParam2)
     return 0;
 }
 
+// uParam0 = unknown
+// uParam1 = unknown
+// uParam2 = unknown
+// uParam3 = possibly int
+// uParam4 = unknown
+// uParam5 = unknown
+// uParam6 = possibly string
+// uParam7 = possibly int
+// uParam8 = possibly bool
+// uParam9 = possibly int
+// uParam10 = possibly int
+// uParam11 = possibly int
+// uParam12 = possibly int
+// uParam13 = possibly int
+
 int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, boolean bParam8, unknown uParam9, unknown uParam10, boolean bParam11, unknown uParam12, unknown uParam13)
 {
     int I;
@@ -418,7 +433,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
 
         if (cellphone3Dstructure._fU368)
         {
-            if ((NOT bParam8) || (cellphone3Dstructure._fU372))
+            if ((NOT bParam8) || (cellphone3Dstructure.missionAnsweredPhone))
             {
                 sub_900( "\n cellphone3Dstructure.missionAnsweredPhone OR (NOT missionCall)" );
                 return 0;
@@ -433,7 +448,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
             }
         }
         cellphone3Dstructure._fU368 = 1;
-        cellphone3Dstructure._fU372 = bParam8;
+        cellphone3Dstructure.missionAnsweredPhone = bParam8;
         uParam0 = cellphone3Dstructure._fU60;
         break;
 
@@ -445,7 +460,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
         cellphone3Dstructure._fU60 = uParam0;
         cellphone3Dstructure._fU52 = 1;
         cellphone3Dstructure._fU56 = 1;
-        cellphone3Dstructure._fU372 = 1;
+        cellphone3Dstructure.missionAnsweredPhone = 1;
         cellphone3Dstructure._fU368 = 1;
         g_U15946[cellphone3Dstructure._fU60]._fU132._fU24 = 0;
         break;
@@ -462,7 +477,7 @@ int sub_830(unknown uParam0, unknown uParam1, unknown uParam2, unknown uParam3, 
     cellphone3Dstructure._fU380 = uParam10;
     cellphone3Dstructure._fU376 = bParam11;
     cellphone3Dstructure._fU420 = uParam12;
-    cellphone3Dstructure._fU424 = -1;
+    cellphone3Dstructure.multipleChoiceNumber = -1;
     cellphone3Dstructure._fU364 = uParam3;
 
     StrCopy( ref cellphone3Dstructure._fU144, uParam2, 16 );
@@ -854,7 +869,7 @@ int sub_5237()
 
 void sub_5334()
 {
-    return cellphone3Dstructure._fU424;
+    return cellphone3Dstructure.multipleChoiceNumber;
 }
 
 string sub_5668()

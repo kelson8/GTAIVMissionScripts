@@ -394,7 +394,7 @@ void main()
                 sub_1670( "\n #### network_main.sc - waiting because NETWORK_IS_OPERATION_PENDING() is returning TRUE. " );
             }
             sub_1670( "\n #### network_main.sc - about to call closeAndStartNetworkGame. " );
-            g_U91._fU656 = sub_8640();
+            cellphone3Dstructure._fU656 = sub_8640();
             sub_8689();
             sub_1670( "\n #### network_main.sc - finished closeAndStartNetworkGame. " );
             sub_1670( "\n #### network_main.sc - about to call Start_A_Network_Game_From_A_Network_Game. " );
@@ -421,7 +421,7 @@ void main()
                 {
                     sub_1715( "\n #### network_main.sc - NETWORK_CHANGE_GAME_MODE changing to ", g_U14 );
                     sub_1670( ". " );
-                    g_U91._fU656 = sub_8640();
+                    cellphone3Dstructure._fU656 = sub_8640();
                     sub_9430();
                     while (NETWORK_CHANGE_GAME_MODE_PENDING())
                     {
@@ -491,59 +491,59 @@ void sub_256(unknown uParam0, unknown uParam1)
     ref uVar5;
     if (RESTORE_SCRIPT_VALUES_FOR_NETWORK_GAME( ref uVar5 ))
     {
-        g_U91._fU40 = uVar5._fU0[0];
-        g_U91._fU108 = uVar5._fU0[1];
-        g_U91._fU112 = uVar5._fU0[2];
-        SET_MOBILE_RING_TYPE( g_U91._fU112 );
-        g_U91._fU396 = uVar5._fU0[3];
+        cellphone3Dstructure._fU40 = uVar5._fU0[0];
+        cellphone3Dstructure._fU108 = uVar5._fU0[1];
+        cellphone3Dstructure._fU112 = uVar5._fU0[2];
+        SET_MOBILE_RING_TYPE( cellphone3Dstructure._fU112 );
+        cellphone3Dstructure._fU396 = uVar5._fU0[3];
         if ((iVar4 == 0) AND (uVar5._fU0[3] == 13))
         {
-            g_U91._fU396 = 0;
+            cellphone3Dstructure._fU396 = 0;
         }
         else if ((iVar4 == 1) AND (uVar5._fU0[3] < 13))
         {
-            g_U91._fU396 = 13;
+            cellphone3Dstructure._fU396 = 13;
         }
         if (uVar5._fU0[4] == 1)
         {
-            g_U91._fU500 = 1;
+            cellphone3Dstructure._fU500 = 1;
         }
         else
         {
-            g_U91._fU500 = 0;
+            cellphone3Dstructure._fU500 = 0;
         }
         if (uVar5._fU0[5] == 1)
         {
-            g_U91._fU524 = 1;
+            cellphone3Dstructure._fU524 = 1;
         }
         else
         {
-            g_U91._fU524 = 0;
+            cellphone3Dstructure._fU524 = 0;
         }
         (uParam1^) = uVar5._fU0[5];
-        g_U91._fU656 = uVar5._fU0[6];
+        cellphone3Dstructure._fU656 = uVar5._fU0[6];
         if (uVar5._fU0[7] == 0)
         {
-            g_U91._fU1488 = 0;
+            cellphone3Dstructure._fU1488 = 0;
         }
         else
         {
-            g_U91._fU1488 = 1;
+            cellphone3Dstructure._fU1488 = 1;
         }
     }
     else
     {
-        g_U91._fU40 = 2;
-        g_U91._fU108 = 0;
-        g_U91._fU112 = 0;
-        g_U91._fU396 = 0;
-        g_U91._fU524 = 1;
-        g_U91._fU500 = GET_IS_HIDEF();
-        g_U91._fU656 = -1;
-        g_U91._fU1488 = 0;
+        cellphone3Dstructure._fU40 = 2;
+        cellphone3Dstructure._fU108 = 0;
+        cellphone3Dstructure._fU112 = 0;
+        cellphone3Dstructure._fU396 = 0;
+        cellphone3Dstructure._fU524 = 1;
+        cellphone3Dstructure._fU500 = GET_IS_HIDEF();
+        cellphone3Dstructure._fU656 = -1;
+        cellphone3Dstructure._fU1488 = 0;
         (uParam1^) = 0;
     }
-    SET_MOBILE_RING_TYPE( g_U91._fU112 );
+    SET_MOBILE_RING_TYPE( cellphone3Dstructure._fU112 );
     return;
 }
 
@@ -1231,11 +1231,11 @@ void sub_9430()
 
     array(ref uVar2._fU0, 10);
     ref uVar2;
-    uVar2._fU0[0] = g_U91._fU40;
-    uVar2._fU0[1] = g_U91._fU108;
-    uVar2._fU0[2] = g_U91._fU112;
-    uVar2._fU0[3] = g_U91._fU396;
-    if (g_U91._fU500)
+    uVar2._fU0[0] = cellphone3Dstructure._fU40;
+    uVar2._fU0[1] = cellphone3Dstructure._fU108;
+    uVar2._fU0[2] = cellphone3Dstructure._fU112;
+    uVar2._fU0[3] = cellphone3Dstructure._fU396;
+    if (cellphone3Dstructure._fU500)
     {
         uVar2._fU0[4] = 1;
     }
@@ -1243,7 +1243,7 @@ void sub_9430()
     {
         uVar2._fU0[4] = 0;
     }
-    if (g_U91._fU524)
+    if (cellphone3Dstructure._fU524)
     {
         uVar2._fU0[5] = 1;
     }
@@ -1251,7 +1251,7 @@ void sub_9430()
     {
         uVar2._fU0[5] = 0;
     }
-    uVar2._fU0[6] = g_U91._fU656;
+    uVar2._fU0[6] = cellphone3Dstructure._fU656;
     if (g_U15946[21]._fU132._fU0)
     {
         uVar2._fU0[7] = 1;

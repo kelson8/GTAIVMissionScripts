@@ -69,13 +69,13 @@ void sub_9()
             }
             break;
             case 4:
-            if (NOT (COMPARE_STRING( ref g_U91._fU144, "" )))
+            if (NOT (COMPARE_STRING( ref cellphone3Dstructure._fU144, "" )))
             {
-                if (NOT (HAS_THIS_ADDITIONAL_TEXT_LOADED( ref g_U91._fU144, 6 )))
+                if (NOT (HAS_THIS_ADDITIONAL_TEXT_LOADED( ref cellphone3Dstructure._fU144, 6 )))
                 {
                     if (NOT sub_169())
                     {
-                        REQUEST_ADDITIONAL_TEXT( ref g_U91._fU144, 6 );
+                        REQUEST_ADDITIONAL_TEXT( ref cellphone3Dstructure._fU144, 6 );
                     }
                     break;
                 }

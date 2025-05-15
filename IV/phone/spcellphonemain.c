@@ -21,7 +21,7 @@ void main()
     REGISTER_SCRIPT_WITH_AUDIO( 0 );
     if (HAS_DEATHARREST_EXECUTED())
     {
-        sub_69();
+        DisplayHudAndActivatePhoneCamera();
         sub_108( ref l_U1020, 1 );
         cellphone3Dstructure._fU0 = 1000;
         STOP_MOBILE_PHONE_RINGING();
@@ -82,16 +82,16 @@ void main()
         {
             if ((NOT sub_4914()) AND (sub_4880( ref l_U1020 )))
             {
-                sub_69();
+                DisplayHudAndActivatePhoneCamera();
                 cellphone3Dstructure._fU0 = 1001;
-                cellphone3Dstructure._fU100 = 0;
+                cellphone3Dstructure.disableCellphone = 0;
             }
         }
         else if ((cellphone3Dstructure._fU52) || (cellphone3Dstructure._fU48))
         {
             if ((NOT sub_4914()) AND (sub_4880( ref l_U1020 )))
             {
-                sub_69();
+                DisplayHudAndActivatePhoneCamera();
                 while (NOT (sub_5052( 1 )))
                 {
                     WAIT( 0 );
@@ -294,7 +294,7 @@ void main()
                             break;
                             case -1:
                             cellphone3Dstructure._fU420 = 0;
-                            cellphone3Dstructure._fU424 = -2;
+                            cellphone3Dstructure.multipleChoiceNumber = -2;
                             cellphone3Dstructure._fU124 = 1;
                             cellphone3Dstructure._fU60 = 56;
                             cellphone3Dstructure._fU52 = 1;
@@ -529,7 +529,7 @@ void main()
                             break;
                             case 1:
                             cellphone3Dstructure._fU420 = 0;
-                            cellphone3Dstructure._fU424 = -2;
+                            cellphone3Dstructure.multipleChoiceNumber = -2;
                             cellphone3Dstructure._fU128 = {l_U1049};
                             cellphone3Dstructure._fU60 = 56;
                             cellphone3Dstructure._fU52 = 1;
@@ -1069,7 +1069,7 @@ void main()
                 case 1001:
                 if (sub_37391( ref l_U1020, 1 ))
                 {
-                    sub_69();
+                    DisplayHudAndActivatePhoneCamera();
                     cellphone3Dstructure._fU0 = 1000;
                     ReleaseAndMarkTxdAsNotNeeded( ref l_U960 );
                     DESTROY_MOBILE_PHONE();
@@ -1082,7 +1082,7 @@ void main()
         }
         else
         {
-            sub_69();
+            DisplayHudAndActivatePhoneCamera();
             ReleaseAndMarkTxdAsNotNeeded( ref l_U960 );
             STOP_MOBILE_PHONE_RINGING();
             UNREGISTER_SCRIPT_WITH_AUDIO();
@@ -1092,18 +1092,20 @@ void main()
     return;
 }
 
-void sub_69()
+// sub_69
+void DisplayHudAndActivatePhoneCamera()
 {
     DISPLAY_HUD( 1 );
     CELL_CAM_ACTIVATE( 0, 0 );
     return;
 }
 
+// uParam1 seems to usually be set to 1, at least in this file.
 void sub_108(int iParam0, unknown uParam1)
 {
     iParam0->_fU0 = uParam1;
     sub_132( uParam1, ref cellphone3Dstructure._fU8 );
-    sub_762();
+    SetPhoneScalePosAndRotation();
     return;
 }
 
@@ -1121,6 +1123,7 @@ void sub_132(unknown uParam0, unknown uParam1)
             sub_249( uParam1, 5.00000000, -60.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
+
         case 2:
         if ((GET_IS_WIDESCREEN()) AND (cellphone3Dstructure._fU496))
         {
@@ -1131,6 +1134,7 @@ void sub_132(unknown uParam0, unknown uParam1)
             sub_249( uParam1, 5.00000000, -7.00000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
+
         case 3:
         if ((GET_IS_WIDESCREEN()) AND (cellphone3Dstructure._fU496))
         {
@@ -1141,6 +1145,7 @@ void sub_132(unknown uParam0, unknown uParam1)
             sub_249( uParam1, 5.00000000, 8.50000000, -50.00000000, -92.00000000, -10.50000000, 0.00000000, cellphone3Dstructure._fU8._fU24 );
         }
         break;
+
         case 4:
         if ((GET_IS_WIDESCREEN()) AND (cellphone3Dstructure._fU496))
         {
@@ -1164,7 +1169,8 @@ void sub_249(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3, unk
     return;
 }
 
-void sub_762()
+// sub_762
+void SetPhoneScalePosAndRotation()
 {
     SET_MOBILE_PHONE_SCALE( cellphone3Dstructure._fU8._fU24 );
     SET_MOBILE_PHONE_POSITION( cellphone3Dstructure._fU8._fU0 );
@@ -1200,6 +1206,7 @@ void sub_978(int iParam0, int iParam1)
         sub_1098( ref iParam0->_fU0[6]._fU8, 0, 0, 0, 230 );
         sub_1098( ref iParam0->_fU0[7]._fU8, 255, 255, 255, 230 );
         break;
+
         default:
         sub_1098( iParam1 + 0, 90, 110, 110, 255 );
         sub_1098( iParam1 + 4, 20, 30, 30, 255 );
@@ -1459,35 +1466,40 @@ void sub_3939(unknown uParam0, unknown uParam1)
 
 int sub_3972()
 {
+    // bVar2 is possibly a check for if the player is in water?
     boolean bVar2;
     unknown uVar3;
 
     bVar2 = false;
-    if (NOT (IS_PLAYER_PLAYING( sub_3984() )))
+    if (NOT (IS_PLAYER_PLAYING( CurrentPlayerIdCurrentPlayerId() )))
     {
         sub_3083( "\n PHONE SCREEN CHECK - player is not playing." );
         return 0;
     }
+
     if (NETWORK_HAVE_SUMMONS())
     {
         sub_3083( "\n PHONE SCREEN CHECK - player has been summoned into another session." );
         return 0;
     }
-    if (cellphone3Dstructure._fU376)
+
+    if (cellphone3Dstructure.overrideCellphoneChecks)
     {
         sub_3083( "\n PHONE CHECK - .cellphone3Dstructure.overrideCellphoneChecks is returning TRUE" );
         return 1;
     }
-    if ((cellphone3Dstructure._fU104) || (cellphone3Dstructure._fU100))
+
+    if ((cellphone3Dstructure.hideCellphone) || (cellphone3Dstructure.disableCellphone))
     {
         sub_3083( "\n PHONE CHECK - .hideCellphone OR .disableCellphone are returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( sub_3984() )))
+
+    if (NOT (IS_PLAYER_FREE_FOR_AMBIENT_TASK( CurrentPlayerIdCurrentPlayerId() )))
     {
-        if (NOT (IS_CHAR_IN_ANY_CAR( sub_4408() )))
+        if (NOT (IS_CHAR_IN_ANY_CAR( CurrentPlayerChar() )))
         {
-            GET_SCRIPT_TASK_STATUS( sub_4408(), 53, ref uVar3 );
+            GET_SCRIPT_TASK_STATUS( CurrentPlayerChar(), 53, ref uVar3 );
             switch (uVar3)
             {
                 case 7:
@@ -1495,8 +1507,9 @@ int sub_3972()
                 sub_3083( "\n PHONE CHECK - player is not free for an ambient task and is not in a car)" );
                 return 0;
                 break;
+
                 default:
-                if (NOT (IS_CHAR_IN_WATER( sub_4408() )))
+                if (NOT (IS_CHAR_IN_WATER( CurrentPlayerChar() )))
                 {
                     bVar2 = true;
                 }
@@ -1514,7 +1527,7 @@ int sub_3972()
         sub_3083( "\n PHONE CHECK - CODE_WANTS_MOBILE_PHONE_REMOVED() is returning TRUE." );
         return 0;
     }
-    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( sub_3984() )))
+    if (NOT (IS_PLAYER_SCRIPT_CONTROL_ON( CurrentPlayerIdCurrentPlayerId() )))
     {
         sub_3083( "\n PHONE CHECK - IS_PLAYER_SCRIPT_CONTROL_ON is returning FALSE." );
         return 0;
@@ -1522,12 +1535,14 @@ int sub_3972()
     return 1;
 }
 
-void sub_3984()
+// sub_3984
+void CurrentPlayerIdCurrentPlayerId()
 {
     return CONVERT_INT_TO_PLAYERINDEX( GET_PLAYER_ID() );
 }
 
-void sub_4408()
+// sub_4408
+void CurrentPlayerChar()
 {
     unknown Result;
 
@@ -1553,7 +1568,8 @@ int sub_4914()
     return 0;
 }
 
-int sub_5052(int iParam0)
+// iParam0 = spCellphoneCallingScript
+int sub_5052(int spCellphoneCallingScript)
 {
     unknown uVar3;
     unknown uVar4;
@@ -1564,9 +1580,9 @@ int sub_5052(int iParam0)
     unknown uVar9;
     unknown uVar10;
 
-    if (iParam0 != g_U555)
+    if (spCellphoneCallingScript != g_U555)
     {
-        sub_5077( ref uVar3, iParam0 );
+        sub_5077( ref uVar3, spCellphoneCallingScript );
         REQUEST_SCRIPT( ref uVar3 );
         if (NOT (HAS_SCRIPT_LOADED( ref uVar3 )))
         {
@@ -1574,7 +1590,7 @@ int sub_5052(int iParam0)
         }
         else
         {
-            g_U555 = iParam0;
+            g_U555 = spCellphoneCallingScript;
             g_U556[g_U555] = START_NEW_SCRIPT( ref uVar3, 16888 );
             MARK_SCRIPT_AS_NO_LONGER_NEEDED( ref uVar3 );
             return 1;
@@ -2095,7 +2111,7 @@ void sub_5509()
             sub_24323( 0, g_U481._fU0[19], 0.50000000, 0.49500000, 0.50000000, 0.50000000 );
             if (l_U1078 == 5)
             {
-                sub_69();
+                DisplayHudAndActivatePhoneCamera();
             }
             break;
         }
@@ -2385,30 +2401,42 @@ void sub_8234()
         switch (l_U1038)
         {
             case 1020:
-            sub_69();
+            DisplayHudAndActivatePhoneCamera();
             break;
             default:
         }
         sub_9366( ref l_U1, 1, l_U1038, 0 );
+
+        // CP_OPT_PBOOK = Phonebook
         sub_9450( ref l_U1, ref l_U226, 1012, "CP_OPT_PBOOK", "", 1, 0, 0, 0, 0 );
+        
+        // CP_OPT_MESSAGES = Messages
         sub_9450( ref l_U1, ref l_U226, 1014, "CP_OPT_MESSAGES", "", 1, 0, 0, 0, 0 );
+
+        // CP_OPT_ORGAN = Organizer
         sub_9450( ref l_U1, ref l_U226, 1017, "CP_OPT_ORGAN", "", 1, 0, 0, 0, 0 );
         
         if (cellphone3Dstructure._fU40 == 2)
         {
+            // CP_OPT_CAMERA = Camera
             sub_9450( ref l_U1, ref l_U226, 1020, "CP_OPT_CAMERA", "", 1, 0, 0, 0, 0 );
         }
 
+        // CP_OPT_NETWORK = Multiplayer
         sub_9450( ref l_U1, ref l_U226, 1047, "CP_OPT_NETWORK", "", 1, 0, 0, 0, 0 );
+        
+        // CP_OPT_OPTIONS = Options
         sub_9450( ref l_U1, ref l_U226, 1026, "CP_OPT_OPTIONS", "", 1, 0, 0, 0, 0 );
         
         if ((cellphone3Dstructure._fU40 != 0) AND (# -NULL-0xc27e40()))
         {
+            // CP_OPT_REPMENU = unknown?
             sub_9450( ref l_U1, ref l_U226, 1031, "CP_OPT_REPMENU", "", 1, 0, 0, 0, 0 );
         }
 
         if (ProtectedGet(cellphone3Dstructure._fU536) != 0)
         {
+            // CP_CHEATS = Cheats
             sub_9450( ref l_U1, ref l_U226, 1035, "CP_CHEATS", "", 1, 0, 0, 0, 0 );
         }
 
@@ -2416,6 +2444,7 @@ void sub_8234()
         {
             if ((g_U15654[75]) AND ((NOT IS_MINIGAME_IN_PROGRESS()) AND ((NOT g_U10978) AND (g_U823))))
             {
+                // CP_6AXIS = SIXAXIS? Tutorial
                 sub_9450( ref l_U1, ref l_U226, 65486, "CP_6AXIS", "", 1, 0, 0, 0, 0 );
             }
         }
@@ -2428,6 +2457,7 @@ void sub_8234()
         if (g_U15946[cellphone3Dstructure._fU60]._fU132._fU0)
         {
             sub_9366( ref l_U1, 1, l_U1038, 0 );
+            // CP_NAV_CALL = Call
             sub_9450( ref l_U1, ref l_U226, 14, "CP_NAV_CALL", "", 1, 0, 0, 0, 0 );
            
             iVar3 = 14 - 1;
@@ -2482,6 +2512,7 @@ void sub_8234()
                             sub_12247( ref cVar7, "CALL_EXIT_", ref g_U15946[cellphone3Dstructure._fU60]._fU132._fU8, -1, -1 );
                             if (NOT (DOES_TEXT_LABEL_EXIST( ref cVar7 )))
                             {
+                                // CALL_EXIT_JOB = Exit Job
                                 StrCopy( ref cVar7, "CALL_EXIT_JOB", 16 );
                             }
                             bVar6 = true;
@@ -3087,20 +3118,24 @@ int sub_8937()
     return 0;
 }
 
-int sub_8962(int iParam0)
+// In sub_8937:
+// uVar5 = sub_8962( GET_HOURS_OF_DAY() );
+// I think iParam0 is currentHoursInDay
+// TODO Figure out what exactly this is for and label it.
+int sub_8962(int currentHoursInDay)
 {
-    if (iParam0 < 8)
+    if (currentHoursInDay < 8)
     {
         return 0;
     }
-    else if (iParam0 < 12)
+    else if (currentHoursInDay < 12)
     {
         return 1;
     }
-    else if (iParam0 < 18)
+    else if (currentHoursInDay < 18)
     {
         return 2;
-    };;;
+    }
     return 3;
 }
 
@@ -3126,6 +3161,8 @@ void sub_9366(int iParam0, unknown uParam1, unknown uParam2, unknown uParam3)
     return;
 }
 
+// Example usage for this: sub_9450( ref l_U1, ref l_U226, 14, "CP_NAV_CALL", "", 1, 0, 0, 0, 0 );
+// Seems to possibly show the menu options on the phone? 
 // uParam2 is some type of int
 // uParam3 seems to be a gxt text to display
 void sub_9450(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknown uParam4, unknown uParam5, unknown uParam6, unknown uParam7, unknown uParam8, unknown uParam9)
@@ -3141,7 +3178,10 @@ void sub_9450(int iParam0, unknown uParam1, int iParam2, unknown uParam3, unknow
             }
         }
         (uParam1^)[iParam0->_fU4]._fU0 = iParam2;
+        
+        // Phone GXT string
         StrCopy( ref (uParam1^)[iParam0->_fU4]._fU4, uParam3, 32 );
+        
         (uParam1^)[iParam0->_fU4]._fU36 = uParam6;
         (uParam1^)[iParam0->_fU4]._fU40 = uParam8;
         (uParam1^)[iParam0->_fU4]._fU44 = uParam9;
@@ -3352,7 +3392,7 @@ int sub_10234(unknown uParam0, int iParam1, int iParam2)
     {
         (uParam0^) = iParam2;
         return 1;
-    };;;
+    }
     return 0;
 }
 
@@ -5025,7 +5065,7 @@ void sub_37391(int iParam0, int iParam1)
         }
         if ((iVar5) || (NOT Result))
         {
-            sub_762();
+            SetPhoneScalePosAndRotation();
         }
     }
     else
@@ -5531,7 +5571,7 @@ void sub_38992(unknown uParam0, unknown uParam1)
 {
     unknown uVar4;
 
-    if (((cellphone3Dstructure._fU0 == 1005) || (NOT cellphone3Dstructure._fU376)) AND (uParam1))
+    if (((cellphone3Dstructure._fU0 == 1005) || (NOT cellphone3Dstructure.overrideCellphoneChecks)) AND (uParam1))
     {
         uVar4 = GET_SOUND_ID();
         if (cellphone3Dstructure._fU0 == 1005)
